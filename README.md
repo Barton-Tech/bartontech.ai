@@ -132,6 +132,35 @@ of the page: no pronouns pointing at other answers, no "as described above".
 That is the single highest-leverage AEO tactic on the site, and it doubles as
 the site's own demonstration of it.
 
+## Spend guard
+
+Every run is costed before it makes a single API call, and refuses to start if
+the projection exceeds `budget.max_run_usd` in `config/models.json`.
+
+The ordering is the point. Cost is incurred at submit time, so a guard that
+reads *recorded* spend is blind to the failure that matters most: a run that
+paid for work whose results never persisted. Projection needs no history, so it
+also works on a first run.
+
+```
+1 date     $0.98   allowed     steady state
+3 dates    $2.93   allowed     legitimate backfill after a couple of missed nights
+7 dates    $6.83   REFUSED     a stampede; nothing is submitted
+```
+
+A secondary guard totals recorded usage from `data/raw/` over a trailing seven
+days and blocks if recorded plus projected would exceed
+`budget.max_rolling_7d_usd`. It catches slower problems: token growth, a price
+rise, an estimate that turns out wrong.
+
+Projections start from `token_estimates` and switch to measured averages per
+provider and pass once `data/raw/` holds enough responses, so the guard sharpens
+as the series grows. The log line says which basis it used.
+
+Provider-side caps are still worth setting, but they are monthly and coarse: at
+$7 a night a $50 monthly cap does not trip for a week. This guard trips on the
+first run.
+
 ## Design rules
 
 These are load-bearing. Breaking one silently corrupts the series.

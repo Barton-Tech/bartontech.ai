@@ -50,5 +50,72 @@
     "grounded_samples": 1,
     "prompt_version": "2026-08-18.1",
     "_note": "Three ungrounded samples give a variance band; a single number reported to two decimals from one sample is not credible. The grounded pass runs once because search results move less between samples and it is the expensive tier."
+  },
+  "budget": {
+    "max_run_usd": 3.0,
+    "max_rolling_7d_usd": 15.0,
+    "_note": "Projected cost of a run is computed before any API call and the run refuses to start if it exceeds max_run_usd. This is the primary guard: it needs no history, so it works on a first run, and it catches the failure mode where a run submits far more work than intended. A steady-state night projects around $1.00, so 3.00 leaves headroom for a legitimate two-day backfill while still stopping a seven-day stampede. max_rolling_7d_usd is the secondary guard, computed from recorded usage; it catches gradual drift and price rises but is blind to runs whose results never persisted."
+  },
+  "pricing": {
+    "_note": "USD per million tokens, verified 2026-08-18. batch_discount applies to providers whose daily work goes through a batch API. search_per_call is the built-in web-search tool charge.",
+    "anthropic": {
+      "batch_discount": 0.5,
+      "search_per_call": 0.01,
+      "claude-haiku-4-5": {
+        "in": 1.0,
+        "out": 5.0
+      },
+      "claude-sonnet-5": {
+        "in": 2.0,
+        "out": 10.0
+      },
+      "claude-opus-5": {
+        "in": 5.0,
+        "out": 25.0
+      }
+    },
+    "openai": {
+      "batch_discount": 1.0,
+      "search_per_call": 0.01,
+      "gpt-5.6-luna": {
+        "in": 0.2,
+        "out": 1.2
+      },
+      "gpt-5.6-terra": {
+        "in": 2.0,
+        "out": 12.0
+      },
+      "gpt-5.6-sol": {
+        "in": 3.0,
+        "out": 15.0
+      }
+    },
+    "google": {
+      "batch_discount": 1.0,
+      "search_per_call": 0.0,
+      "gemini-3.5-flash-lite": {
+        "in": 0.3,
+        "out": 2.5
+      },
+      "gemini-3.6-flash": {
+        "in": 0.75,
+        "out": 3.75
+      },
+      "gemini-3.7-flash": {
+        "in": 1.5,
+        "out": 7.5
+      }
+    }
+  },
+  "token_estimates": {
+    "ungrounded": {
+      "in": 700,
+      "out": 500
+    },
+    "grounded": {
+      "in": 10000,
+      "out": 600
+    },
+    "_note": "Fallback only. Once data/raw holds responses, measured averages per provider and pass replace these, so the guard sharpens as the series grows."
   }
 }

@@ -51,6 +51,18 @@ SDK upgrade; the published docs and the SDK have disagreed before.
 - Always merge provider citation metadata into `sources`. Models under-report
   their own citations, so the schema field alone loses most of them.
 
+## Spend guard
+
+- `assertWithinBudget()` runs in `submit-daily.js` **before any request is
+  submitted**, and throws rather than returning a flag. Never move it after the
+  submit loop and never convert it to a boolean a caller can forget to check.
+- Keep `config.pricing` current. A model id with no pricing entry throws, which
+  is deliberate: silently costing an unpriced model at zero is worse than
+  failing.
+- Projection is the primary guard because it needs no history. The rolling
+  recorded-spend guard is secondary and is blind to runs whose results never
+  persisted.
+
 ## Conventions
 
 - ESM, Node 22+, no build step for the scripts.
