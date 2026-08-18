@@ -35,6 +35,22 @@ The site is its own proof of the thing it measures. Do not regress these:
   pronouns pointing at neighbouring answers.
 - `robots.txt` allows AI crawlers by name. Do not "tidy" that list.
 
+## Provider constraints
+
+Verified against the installed SDK types, not from memory. Re-verify after any
+SDK upgrade; the published docs and the SDK have disagreed before.
+
+- OpenAI: `web_search` is a Responses-API tool. Both passes use
+  `client.responses.create` with `text.format.type = 'json_schema'`. Chat
+  Completions cannot do grounding on these models.
+- Google: the tool is `{ googleSearch: {} }` (an SDK `Tool` member), not
+  `{ type: 'google_search' }`. Config uses `responseMimeType` plus
+  `responseSchema`. Grounding combined with a schema requires Gemini 3.x.
+- Google's schema dialect rejects `additionalProperties`; `adaptSchema()`
+  strips it. Do not remove that.
+- Always merge provider citation metadata into `sources`. Models under-report
+  their own citations, so the schema field alone loses most of them.
+
 ## Conventions
 
 - ESM, Node 22+, no build step for the scripts.

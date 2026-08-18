@@ -3,6 +3,11 @@ import OpenAI from 'openai';
 // Runs inline rather than through a batch API. Submitted work is executed at
 // submit time with a small concurrency cap and the results are stored in the
 // pending file, so the collect stage treats every provider the same way.
+//
+// Both passes use the Responses API. The web_search tool is Responses-only:
+// Chat Completions can only reach web search through separate specialised
+// search models, which are not the models configured here. Using one endpoint
+// for both passes keeps a single request shape and a single extraction path.
 
 const CONCURRENCY = 4;
 
@@ -12,40 +17,55 @@ function getClient() {
   return client;
 }
 
-// Fill this in to enable the grounded pass on this provider. Until it returns
-// a tool definition, grounded requests are recorded with grounded:false rather
-// than being silently passed off as web-grounded.
-export function webSearchTool() {
-  return null;
+// Citations arrive as url_citation annotations on the output text rather than
+// inside the schema, so they are merged with whatever the model reported in
+// the schema's own sources array.
+function annotationUrls(response) {
+  const urls = [];
+  for (const item of response.output ?? []) {
+    for (const part of item.content ?? []) {
+      for (const note of part.annotations ?? []) {
+        if (note.type === 'url_citation' && note.url) urls.push(note.url);
+      }
+    }
+  }
+  return urls;
 }
 
 async function runOne(req, providerConfig) {
-  const grounded = req.grounded && webSearchTool() !== null;
   const body = {
     model: providerConfig.models[req.tier],
-    messages: [
+    input: [
       { role: 'system', content: req.system },
       { role: 'user', content: req.user },
     ],
-    response_format: {
-      type: 'json_schema',
-      json_schema: { name: 'extraction', strict: true, schema: req.schema },
+    text: {
+      format: {
+        type: 'json_schema',
+        name: 'extraction',
+        strict: true,
+        schema: req.schema,
+      },
     },
   };
-  if (grounded) body.tools = [webSearchTool()];
+  if (req.grounded) body.tools = [{ type: 'web_search' }];
 
   try {
-    const res = await getClient().chat.completions.create(body);
-    const text = res.choices?.[0]?.message?.content;
+    const res = await getClient().responses.create(body);
+    const text = res.output_text;
     if (!text) return { custom_id: req.custom_id, ok: false, error: 'empty_response' };
+
+    const data = JSON.parse(text);
+    const sources = [...new Set([...(data.sources ?? []), ...annotationUrls(res)])];
+
     return {
       custom_id: req.custom_id,
       ok: true,
-      data: JSON.parse(text),
+      data: { ...data, sources },
       raw: text,
       model: res.model,
       usage: res.usage ?? null,
-      grounded_actual: grounded,
+      grounded_actual: Boolean(req.grounded),
     };
   } catch (err) {
     return { custom_id: req.custom_id, ok: false, error: String(err?.message ?? err) };

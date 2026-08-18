@@ -64,10 +64,26 @@ npm install
 4. Point the domain at Cloudflare Pages, build command `npm run build`, output
    directory `dist`.
 
-To enable the web-grounded pass on OpenAI or Google, implement `webSearchTool()`
-in `src/lib/providers/{openai,google}.js`. Until it returns a tool definition,
-grounded requests from those providers are recorded with `grounded_actual: false`
-rather than being passed off as web-grounded.
+All three providers run a real web-grounded pass. Anthropic uses the
+`web_search_20260209` tool, OpenAI the Responses API `web_search` tool, and
+Google Search grounding. Every response records `grounded_actual`, so a pass
+that silently failed to search is visible in the data rather than being
+averaged in as if it had.
+
+Two provider-specific constraints are load-bearing:
+
+- **OpenAI grounding is Responses-API only.** Chat Completions can only reach
+  web search through separate specialised search models, which are not the
+  models configured here, so both passes use `/v1/responses`.
+- **Google grounding plus a response schema needs Gemini 3.** The two are
+  mutually exclusive on older models. Every id in `config/models.json` is on
+  the 3.x line; moving one back would break the grounded pass.
+
+Citations are merged from two places on every provider: whatever the model
+reported inside the schema, plus the provider's own citation metadata
+(`url_citation` annotations on OpenAI, `groundingMetadata.groundingChunks` on
+Google). Models under-report their own sources, so trusting only the schema
+field loses most of them.
 
 ## Cost
 

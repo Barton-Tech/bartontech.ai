@@ -1,18 +1,16 @@
 import { GoogleGenAI } from '@google/genai';
 
+// The grounded pass enables Google Search grounding. Combining grounding with
+// a response schema is supported on the Gemini 3 series, which every model in
+// config/models.json belongs to; on an older model the two are mutually
+// exclusive and the request would fail.
+
 const CONCURRENCY = 4;
 
 let client;
 function getClient() {
   client ??= new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
   return client;
-}
-
-// Fill this in to enable the grounded pass on this provider. Until it returns
-// a tool definition, grounded requests are recorded with grounded:false rather
-// than being silently passed off as web-grounded.
-export function webSearchTool() {
-  return null;
 }
 
 // This provider's schema dialect is an OpenAPI subset and rejects
@@ -29,14 +27,25 @@ function adaptSchema(node) {
   return out;
 }
 
+// Grounding citations live in groundingMetadata rather than in the schema
+// payload, so they are merged with whatever the model reported itself.
+function groundingUrls(response) {
+  const urls = [];
+  for (const candidate of response.candidates ?? []) {
+    for (const chunk of candidate.groundingMetadata?.groundingChunks ?? []) {
+      if (chunk.web?.uri) urls.push(chunk.web.uri);
+    }
+  }
+  return urls;
+}
+
 async function runOne(req, providerConfig) {
-  const grounded = req.grounded && webSearchTool() !== null;
   const config = {
     systemInstruction: req.system,
     responseMimeType: 'application/json',
     responseSchema: adaptSchema(req.schema),
   };
-  if (grounded) config.tools = [webSearchTool()];
+  if (req.grounded) config.tools = [{ googleSearch: {} }];
 
   try {
     const res = await getClient().models.generateContent({
@@ -46,14 +55,18 @@ async function runOne(req, providerConfig) {
     });
     const text = res.text;
     if (!text) return { custom_id: req.custom_id, ok: false, error: 'empty_response' };
+
+    const data = JSON.parse(text);
+    const sources = [...new Set([...(data.sources ?? []), ...groundingUrls(res)])];
+
     return {
       custom_id: req.custom_id,
       ok: true,
-      data: JSON.parse(text),
+      data: { ...data, sources },
       raw: text,
       model: providerConfig.models[req.tier],
       usage: res.usageMetadata ?? null,
-      grounded_actual: grounded,
+      grounded_actual: Boolean(req.grounded),
     };
   } catch (err) {
     return { custom_id: req.custom_id, ok: false, error: String(err?.message ?? err) };
