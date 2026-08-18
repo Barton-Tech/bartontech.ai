@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  issues: write   # the review-gate step opens an issue for newly proposed problems
 
 jobs:
   index:
