@@ -1,5 +1,5 @@
 {
-  "_note": "Anthropic model IDs are current as of 2026-08. VERIFY the openai and google IDs against each provider's current model list before the first run; they are placeholders.",
+  "_note": "Model ids verified against provider docs on 2026-08-18. Tiers escalate in capability and cost: bulk carries the high-volume daily sampling, grounded needs reliable web-search tool use, reasoning runs the monthly index and the canonical reconciliation. Re-verify when a provider ships a new generation; a retired id fails the whole run rather than degrading.",
   "tiers": {
     "bulk": {
       "purpose": "High-volume ungrounded daily sampling. Cheap tier."
@@ -27,20 +27,22 @@
       "label": "ChatGPT",
       "batch": false,
       "models": {
-        "bulk": "REPLACE_ME",
-        "grounded": "REPLACE_ME",
-        "reasoning": "REPLACE_ME"
-      }
+        "bulk": "gpt-5.6-luna",
+        "grounded": "gpt-5.6-terra",
+        "reasoning": "gpt-5.6-sol"
+      },
+      "_note": "All three ids support v1/chat/completions, structured outputs, and the web_search tool, which is what the provider module uses. They also support v1/batch, an unimplemented 50% cost saving if this provider's volume grows."
     },
     "google": {
       "enabled": true,
       "label": "Gemini",
       "batch": false,
       "models": {
-        "bulk": "REPLACE_ME",
-        "grounded": "REPLACE_ME",
-        "reasoning": "REPLACE_ME"
-      }
+        "bulk": "gemini-3.5-flash-lite",
+        "grounded": "gemini-3.6-flash",
+        "reasoning": "gemini-3.7-flash"
+      },
+      "_note": "gemini-3.7-flash is used for the reasoning tier rather than gemini-3.1-pro-preview: the only Pro-tier model in the 3.x line is still preview, and an unattended cron should not depend on a model that can change or be withdrawn without notice. Revisit when a stable Pro ships."
     }
   },
   "sampling": {
