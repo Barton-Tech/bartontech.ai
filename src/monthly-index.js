@@ -21,33 +21,53 @@ import {
 } from './lib/prompts.js';
 
 async function gatherProposals(config, month) {
+  // The six calls are independent, so they run concurrently. Sequentially this
+  // step took roughly nine minutes, most of it waiting on reasoning-tier models
+  // with grounding enabled.
+  const tasks = enabledProviders(config).flatMap(({ name, cfg, impl }) =>
+    [false, true].map((grounded) => ({
+      provider: name,
+      pass: grounded ? 'grounded' : 'ungrounded',
+      run: () =>
+        impl.once(
+          {
+            custom_id: `index__${name}__${grounded ? 'grounded' : 'ungrounded'}`,
+            tier: 'reasoning',
+            grounded,
+            system: PROBLEM_INDEX_SYSTEM,
+            user: problemIndexUser({ grounded, month }),
+            schema: PROBLEM_PROPOSAL,
+          },
+          { providerConfig: cfg },
+        ),
+    })),
+  );
+
+  log(`asking ${tasks.length} model/pass combinations concurrently`);
+  const settled = await Promise.all(
+    tasks.map(async (task) => {
+      const started = Date.now();
+      try {
+        const res = await task.run();
+        log(`${task.provider} (${task.pass}) done in ${Math.round((Date.now() - started) / 1000)}s`);
+        return { task, res };
+      } catch (err) {
+        return { task, res: { ok: false, error: String(err.message ?? err) } };
+      }
+    }),
+  );
+
+  // Flattened in task order rather than completion order, so a rerun with the
+  // same inputs produces the same proposal ordering.
   const proposals = [];
   const failures = [];
-
-  for (const { name, cfg, impl } of enabledProviders(config)) {
-    for (const grounded of [false, true]) {
-      const pass = grounded ? 'grounded' : 'ungrounded';
-      const req = {
-        custom_id: `index__${name}__${pass}`,
-        tier: 'reasoning',
-        grounded,
-        system: PROBLEM_INDEX_SYSTEM,
-        user: problemIndexUser({ grounded, month }),
-        schema: PROBLEM_PROPOSAL,
-      };
-      log(`asking ${name} (${pass})`);
-      try {
-        const res = await impl.once(req, { providerConfig: cfg });
-        if (!res.ok) {
-          failures.push({ provider: name, pass, error: res.error });
-          continue;
-        }
-        for (const problem of res.data.problems ?? []) {
-          proposals.push({ provider: name, pass, ...problem });
-        }
-      } catch (err) {
-        failures.push({ provider: name, pass, error: String(err.message ?? err) });
-      }
+  for (const { task, res } of settled) {
+    if (!res?.ok) {
+      failures.push({ provider: task.provider, pass: task.pass, error: res?.error ?? 'unknown' });
+      continue;
+    }
+    for (const problem of res.data.problems ?? []) {
+      proposals.push({ provider: task.provider, pass: task.pass, ...problem });
     }
   }
 
