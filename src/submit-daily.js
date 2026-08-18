@@ -53,7 +53,16 @@ async function main() {
   const templates = loadTemplates(readJSON, paths, listJSON);
 
   const done = new Set(listJSON(paths.data('tracker')).map((f) => f.replace('.json', '')));
-  const dates = missingDates(BACKFILL_WINDOW, (d) => done.has(d), today());
+
+  // Backfill exists to recover a night the cron skipped. On a series with no
+  // history every date in the window looks skipped, so an unguarded first run
+  // submits a week of work at once and bills accordingly. Start with today and
+  // let the window fill forward.
+  const dates = done.size === 0
+    ? [today()]
+    : missingDates(BACKFILL_WINDOW, (d) => done.has(d), today());
+
+  if (done.size === 0) log('no history yet: submitting today only, not the backfill window');
 
   if (dates.length === 0) {
     log('nothing to submit; the window is complete');
