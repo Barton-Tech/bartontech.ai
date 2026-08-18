@@ -1,0 +1,40 @@
+name: daily submit
+
+on:
+  schedule:
+    # 02:10 UTC. GitHub cron is best-effort and can be delayed or skipped
+    # entirely; the job backfills any missing date in a 7-day window, so a
+    # skipped night is recovered rather than becoming a permanent hole.
+    - cron: '10 2 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: daily
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run submit:daily
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+      - name: commit pending batches
+        run: |
+          git config user.name  'bartontech-bot'
+          git config user.email 'bot@users.noreply.github.com'
+          git add data/
+          git diff --staged --quiet || git commit -m "submit: $(date -u +%F)"
+          git push

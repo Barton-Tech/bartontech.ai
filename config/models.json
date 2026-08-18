@@ -1,0 +1,52 @@
+{
+  "_note": "Anthropic model IDs are current as of 2026-08. VERIFY the openai and google IDs against each provider's current model list before the first run; they are placeholders.",
+  "tiers": {
+    "bulk": {
+      "purpose": "High-volume ungrounded daily sampling. Cheap tier."
+    },
+    "grounded": {
+      "purpose": "Daily web-grounded pass. Needs a capable model with current-generation web search."
+    },
+    "reasoning": {
+      "purpose": "Monthly Problem Index and canonical reconciliation. Frontier tier."
+    }
+  },
+  "providers": {
+    "anthropic": {
+      "enabled": true,
+      "label": "Claude",
+      "batch": true,
+      "models": {
+        "bulk": "claude-haiku-4-5",
+        "grounded": "claude-sonnet-5",
+        "reasoning": "claude-opus-5"
+      }
+    },
+    "openai": {
+      "enabled": true,
+      "label": "ChatGPT",
+      "batch": false,
+      "models": {
+        "bulk": "REPLACE_ME",
+        "grounded": "REPLACE_ME",
+        "reasoning": "REPLACE_ME"
+      }
+    },
+    "google": {
+      "enabled": true,
+      "label": "Gemini",
+      "batch": false,
+      "models": {
+        "bulk": "REPLACE_ME",
+        "grounded": "REPLACE_ME",
+        "reasoning": "REPLACE_ME"
+      }
+    }
+  },
+  "sampling": {
+    "samples_per_question": 3,
+    "grounded_samples": 1,
+    "prompt_version": "2026-08-18.1",
+    "_note": "Three ungrounded samples give a variance band; a single number reported to two decimals from one sample is not credible. The grounded pass runs once because search results move less between samples and it is the expensive tier."
+  }
+}

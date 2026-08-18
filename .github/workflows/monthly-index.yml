@@ -1,0 +1,43 @@
+name: monthly problem index
+
+on:
+  schedule:
+    - cron: '0 3 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run index:monthly
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+      - name: commit index
+        run: |
+          git config user.name  'bartontech-bot'
+          git config user.email 'bot@users.noreply.github.com'
+          git add data/
+          git diff --staged --quiet || git commit -m "index: $(date -u +%Y-%m)"
+          git push
+      - name: open review issue for new problems
+        run: |
+          COUNT=$(node -e "console.log(require('./data/registry/problems.json').pending_review.filter(p=>p.status==='pending_review').length)")
+          if [ "$COUNT" != "0" ]; then
+            gh issue create \
+              --title "Review $COUNT proposed problem(s) — $(date -u +%Y-%m)" \
+              --body "The monthly index proposed $COUNT problem(s) the registry does not cover. Each one is a claim that the industry's attention moved somewhere new. Review \`data/registry/problems.json\` and either promote the entry into \`problems\` with its aliases, or delete it and add its name as an alias on the entry it actually duplicates."
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

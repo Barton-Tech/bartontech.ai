@@ -1,0 +1,18 @@
+{
+  "id": "anchor",
+  "label": "Anchor metrics",
+  "description": "Fixed question set. Never edit these questions once the series starts: changing them breaks the continuity this layer exists to provide. To ask something new, add a problem template instead.",
+  "frozen_at": "2026-08-18",
+  "entities": [
+    "Adobe", "Salesforce", "HubSpot", "Braze", "Klaviyo", "Segment",
+    "Twilio", "Optimizely", "Contentful", "Sitecore", "Amplitude", "Iterable"
+  ],
+  "questions": [
+    { "id": "anchor.cdp",          "text": "Which customer data platforms would you recommend to a mid-market retail brand, and why?" },
+    { "id": "anchor.marketing-automation", "text": "Which marketing automation platforms are the strongest choices for an enterprise B2C company today?" },
+    { "id": "anchor.cms",          "text": "Which content management systems are best suited to an enterprise running a headless architecture?" },
+    { "id": "anchor.personalization", "text": "Which vendors lead in real-time personalization and experimentation?" },
+    { "id": "anchor.analytics",    "text": "Which product and marketing analytics platforms would you recommend to a digital-first company?" },
+    { "id": "anchor.stack",        "text": "If you were assembling a modern martech stack from scratch in 2026, which vendors would you pick and why?" }
+  ]
+}

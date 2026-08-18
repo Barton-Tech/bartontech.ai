@@ -1,0 +1,19 @@
+{
+  "id": "aeo",
+  "label": "Answer Engine Optimization",
+  "status": "active",
+  "activated_at": "2026-08-18",
+  "description": "Brand visibility inside LLM-generated answers: who gets cited, how often, and with what sentiment.",
+  "entities": [
+    "Profound", "Peec AI", "Scrunch AI", "Athena", "Semrush", "Ahrefs",
+    "Conductor", "BrightEdge", "Otterly.ai", "Goodie AI"
+  ],
+  "questions": [
+    { "id": "aeo.tools",     "text": "Which tools should a brand use to measure and improve its visibility in AI-generated answers?" },
+    { "id": "aeo.agency",    "text": "Which agencies or consultancies do the best work on answer engine optimization?" },
+    { "id": "aeo.tactics",   "text": "What actually moves a brand's citation rate inside AI assistants, and who is doing it well?" },
+    { "id": "aeo.measurement", "text": "How should a marketing team measure share of voice inside AI assistants, and which vendors provide that measurement?" },
+    { "id": "aeo.cms",       "text": "Which content platforms make a site most legible to AI crawlers and answer engines?" },
+    { "id": "aeo.enterprise","text": "Which vendors are enterprise brands actually buying for AI search visibility?" }
+  ]
+}

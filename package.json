@@ -1,0 +1,20 @@
+{
+  "name": "bartontech-ai",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Tracks the martech industry's hottest unsolved problem and brand visibility in AI answers.",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "submit:daily": "node src/submit-daily.js",
+    "collect:daily": "node src/collect-daily.js",
+    "index:monthly": "node src/monthly-index.js",
+    "build": "node src/build-site.js",
+    "check": "node --check src/submit-daily.js && node --check src/collect-daily.js && node --check src/monthly-index.js && node --check src/build-site.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.68.0",
+    "@google/genai": "^1.0.0",
+    "openai": "^6.0.0"
+  }
+}
