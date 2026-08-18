@@ -1,0 +1,1127 @@
+{
+  "date": "2026-08-18",
+  "submitted_at": "2026-08-18T23:13:12.693Z",
+  "collected_at": "2026-08-18T23:19:58.283Z",
+  "provenance": {
+    "prompt_version": "2026-08-18.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "models": {
+      "anthropic": {
+        "bulk": "claude-haiku-4-5",
+        "grounded": "claude-sonnet-5",
+        "reasoning": "claude-opus-5"
+      },
+      "openai": {
+        "bulk": "gpt-5.6-luna",
+        "grounded": "gpt-5.6-terra",
+        "reasoning": "gpt-5.6-sol"
+      },
+      "google": {
+        "bulk": "gemini-3.5-flash-lite",
+        "grounded": "gemini-3.6-flash",
+        "reasoning": "gemini-3.7-flash"
+      }
+    }
+  },
+  "templates": {
+    "anchor": {
+      "template": "anchor",
+      "label": "Anchor metrics",
+      "totals": {
+        "responses": 72,
+        "failed": 0,
+        "mentions": 417,
+        "runs": 12
+      },
+      "entities": {
+        "Klaviyo": {
+          "mentions": 26,
+          "share": 0.0739,
+          "share_low": 0.0333,
+          "share_high": 0.12,
+          "mean_rank": 4.23,
+          "sentiment": {
+            "positive": 26,
+            "neutral": 0,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 12,
+            "openai": 8,
+            "google": 6
+          },
+          "by_pass": {
+            "grounded": 11,
+            "ungrounded": 15
+          }
+        },
+        "Segment": {
+          "mentions": 44,
+          "share": 0.125,
+          "share_low": 0.08,
+          "share_high": 0.1579,
+          "mean_rank": 2.82,
+          "sentiment": {
+            "positive": 38,
+            "neutral": 6,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 19,
+            "openai": 11,
+            "google": 14
+          },
+          "by_pass": {
+            "grounded": 12,
+            "ungrounded": 32
+          }
+        },
+        "HubSpot": {
+          "mentions": 30,
+          "share": 0.0852,
+          "share_low": 0.0345,
+          "share_high": 0.15,
+          "mean_rank": 3.73,
+          "sentiment": {
+            "positive": 25,
+            "neutral": 5,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 16,
+            "openai": 5,
+            "google": 9
+          },
+          "by_pass": {
+            "grounded": 8,
+            "ungrounded": 22
+          }
+        },
+        "Braze": {
+          "mentions": 42,
+          "share": 0.1193,
+          "share_low": 0.0882,
+          "share_high": 0.1429,
+          "mean_rank": 3.95,
+          "sentiment": {
+            "positive": 41,
+            "neutral": 1,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 19,
+            "openai": 14,
+            "google": 9
+          },
+          "by_pass": {
+            "grounded": 11,
+            "ungrounded": 31
+          }
+        },
+        "Iterable": {
+          "mentions": 13,
+          "share": 0.0369,
+          "share_low": 0,
+          "share_high": 0.093,
+          "mean_rank": 5,
+          "sentiment": {
+            "positive": 12,
+            "neutral": 1,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 8,
+            "openai": 4,
+            "google": 1
+          },
+          "by_pass": {
+            "grounded": 6,
+            "ungrounded": 7
+          }
+        },
+        "Amplitude": {
+          "mentions": 37,
+          "share": 0.1051,
+          "share_low": 0.08,
+          "share_high": 0.1515,
+          "mean_rank": 3.65,
+          "sentiment": {
+            "positive": 36,
+            "neutral": 1,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 17,
+            "openai": 11,
+            "google": 9
+          },
+          "by_pass": {
+            "ungrounded": 28,
+            "grounded": 9
+          }
+        },
+        "Adobe": {
+          "mentions": 45,
+          "share": 0.1278,
+          "share_low": 0.0606,
+          "share_high": 0.2,
+          "mean_rank": 3.18,
+          "sentiment": {
+            "positive": 38,
+            "neutral": 7,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 12,
+            "openai": 19,
+            "google": 14
+          },
+          "by_pass": {
+            "ungrounded": 31,
+            "grounded": 14
+          }
+        },
+        "Optimizely": {
+          "mentions": 31,
+          "share": 0.0881,
+          "share_low": 0.0465,
+          "share_high": 0.1429,
+          "mean_rank": 4.13,
+          "sentiment": {
+            "positive": 30,
+            "neutral": 1,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 11,
+            "openai": 12,
+            "google": 8
+          },
+          "by_pass": {
+            "ungrounded": 24,
+            "grounded": 7
+          }
+        },
+        "Salesforce": {
+          "mentions": 33,
+          "share": 0.0938,
+          "share_low": 0.05,
+          "share_high": 0.1429,
+          "mean_rank": 3.06,
+          "sentiment": {
+            "positive": 29,
+            "neutral": 4,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 12,
+            "openai": 14,
+            "google": 7
+          },
+          "by_pass": {
+            "grounded": 9,
+            "ungrounded": 24
+          }
+        },
+        "Twilio": {
+          "mentions": 9,
+          "share": 0.0256,
+          "share_low": 0,
+          "share_high": 0.0667,
+          "mean_rank": 6.89,
+          "sentiment": {
+            "positive": 6,
+            "neutral": 3,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 5,
+            "openai": 2,
+            "google": 2
+          },
+          "by_pass": {
+            "grounded": 4,
+            "ungrounded": 5
+          }
+        },
+        "Contentful": {
+          "mentions": 26,
+          "share": 0.0739,
+          "share_low": 0.0556,
+          "share_high": 0.1053,
+          "mean_rank": 3.92,
+          "sentiment": {
+            "positive": 24,
+            "neutral": 2,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 10,
+            "openai": 8,
+            "google": 8
+          },
+          "by_pass": {
+            "grounded": 7,
+            "ungrounded": 19
+          }
+        },
+        "Sitecore": {
+          "mentions": 16,
+          "share": 0.0455,
+          "share_low": 0.0278,
+          "share_high": 0.1053,
+          "mean_rank": 3.75,
+          "sentiment": {
+            "positive": 13,
+            "neutral": 3,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 6,
+            "openai": 4,
+            "google": 6
+          },
+          "by_pass": {
+            "ungrounded": 12,
+            "grounded": 4
+          }
+        }
+      },
+      "other": [
+        {
+          "name": "Mixpanel",
+          "mentions": 6
+        },
+        {
+          "name": "Sanity",
+          "mentions": 5
+        },
+        {
+          "name": "Snowflake",
+          "mentions": 5
+        },
+        {
+          "name": "Bloomreach",
+          "mentions": 4
+        },
+        {
+          "name": "Google Analytics 4",
+          "mentions": 4
+        },
+        {
+          "name": "Contentstack",
+          "mentions": 4
+        },
+        {
+          "name": "Dynamic Yield",
+          "mentions": 3
+        },
+        {
+          "name": "Adobe Experience Manager",
+          "mentions": 3
+        },
+        {
+          "name": "Strapi",
+          "mentions": 3
+        },
+        {
+          "name": "Storyblok",
+          "mentions": 2
+        },
+        {
+          "name": "PostHog",
+          "mentions": 2
+        },
+        {
+          "name": "Hightouch",
+          "mentions": 1
+        },
+        {
+          "name": "VWO",
+          "mentions": 1
+        },
+        {
+          "name": "Privacy and consent management tool",
+          "mentions": 1
+        },
+        {
+          "name": "Google Analytics",
+          "mentions": 1
+        },
+        {
+          "name": "Adobe Analytics",
+          "mentions": 1
+        },
+        {
+          "name": "dbt",
+          "mentions": 1
+        },
+        {
+          "name": "Reverse ETL tool",
+          "mentions": 1
+        },
+        {
+          "name": "Dynamic Yield (Mastercard)",
+          "mentions": 1
+        },
+        {
+          "name": "Salesforce CMS Cloud",
+          "mentions": 1
+        },
+        {
+          "name": "HubSpot CMS Hub",
+          "mentions": 1
+        },
+        {
+          "name": "Hygraph",
+          "mentions": 1
+        },
+        {
+          "name": "mParticle",
+          "mentions": 1
+        },
+        {
+          "name": "Tealium",
+          "mentions": 1
+        },
+        {
+          "name": "Mastercard Dynamic Yield",
+          "mentions": 1
+        },
+        {
+          "name": "Kameleoon",
+          "mentions": 1
+        },
+        {
+          "name": "Contentsquare",
+          "mentions": 1
+        },
+        {
+          "name": "warehouse-centered architecture",
+          "mentions": 1
+        },
+        {
+          "name": "warehouse-first composable architecture",
+          "mentions": 1
+        },
+        {
+          "name": "OneTrust",
+          "mentions": 1
+        },
+        {
+          "name": "BlueConic",
+          "mentions": 1
+        },
+        {
+          "name": "Composable CDP",
+          "mentions": 1
+        },
+        {
+          "name": "Insider",
+          "mentions": 1
+        },
+        {
+          "name": "CleverTap",
+          "mentions": 1
+        },
+        {
+          "name": "SAP",
+          "mentions": 1
+        }
+      ],
+      "agreement": 0.7222,
+      "sources": [
+        "https://aimerce.ai/blog/top-7-customer-data-platforms-cdp-for-mid-market-shopify-stores",
+        "https://amplitude.com/amplitude-analytics",
+        "https://amplitude.com/analytics",
+        "https://amplitude.com/compare/best-product-analytics-tools",
+        "https://amplitude.com/hub",
+        "https://amplitude.com/solutions/product",
+        "https://amplitude.com/web-analytics",
+        "https://axeno.co/hubfs/Gartner%20Magic%20Quadrant%20Personalization%202025.pdf",
+        "https://branch8.com/posts/braze-vs-klaviyo-vs-iterable-for-apac-brands",
+        "https://business.adobe.com/blog/adobe-named-a-leader-in-gartner-magic-quadrant-for-personalization-engines",
+        "https://business.adobe.com/products/adobe-analytics/customer-journey-analytics.html",
+        "https://business.adobe.com/products/experience-manager/sites/headless-cms.html",
+        "https://business.adobe.com/products/journey-optimizer.html",
+        "https://business.adobe.com/products/journey-optimizer.html?utm_source=openai",
+        "https://business.adobe.com/resources/reports/gartner-mq-personalization-engines-2025.html",
+        "https://cdp.com/articles/cdp-vs-customer-engagement-platform/",
+        "https://cdp.com/articles/what-is-twilio-segment/",
+        "https://cloudtweaks.com/2026/04/the-6-headless-cms-leaders-for-2026/",
+        "https://contentsquare.com/platform/product-analytics/",
+        "https://decentriq.com/blog/best-cdps-top-customer-data-platforms-compared",
+        "https://developer.salesforce.com/docs/marketing/einstein-personalization/guide/overview.html",
+        "https://developers.sitecore.com/products/xm-cloud",
+        "https://documentation.bloomreach.com/engagement/docs/documentation-overview?utm_source=openai",
+        "https://everworker.ai/blog/enterprise_marketing_automation_platforms_ai_comparison",
+        "https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/headless/journeys/developer/getting-started",
+        "https://experienceleague.adobe.com/en/docs/experience-platform/destinations/catalog/personalization/adobe-target-connection",
+        "https://external.pi.gpi.aws.gartner.com/reviews/market/multichannel-marketing-hubs",
+        "https://getdevdone.com/blog/best-headless-cms-for-enterprise.html",
+        "https://maestra.io/blog/comparisons/best-customer-data-platforms",
+        "https://maestra.io/blog/comparisons/braze-vs-klaviyo",
+        "https://maestra.io/blog/comparisons/segment-alternatives",
+        "https://medium.com/@community_md101/9-best-customer-data-platforms-cdps-in-2026-in-depth-look-3983adabf759",
+        "https://mixpanel.com/platform/product-analytics/",
+        "https://pantheon.io/blog/best-headless-cms-platforms-enterprise",
+        "https://pantheon.io/learning-center/headless/best-cms",
+        "https://posthog.com/product-analytics",
+        "https://sacra.com/q/what-is-klaviyos-position-in-relation-to-braze-iterable-and-customerio-for-omnichannel-ecommerce/",
+        "https://saleshive.com/vendors/segment",
+        "https://segment.com/pricing/",
+        "https://sourceforge.net/software/compare/Amplitude-vs-Klaviyo-vs-Segment/",
+        "https://support.google.com/analytics/answer/12923437",
+        "https://tapcxm.com/enterprise-email-automation-adobe-campaign-vs-others/",
+        "https://tealium.com/products/audiencestream-cdp/",
+        "https://tealium.com/resource/datasheet/tealium-audiencestream-customer-data-platform-cdp/",
+        "https://usermaven.com/blog/marketing-analytics-companies",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFXq4P2GqBxIHdHUCH9YePP2D8tWJFjOFbMcnbmcUTisK_36zuWJtojTO1U21QutCPv40aI431hQFCjW_92y6fnID1Vz_T95TLyn_JvyuUabDYJ2DuK8JcRdUYefzvrfsPiYvD20MR4nD-ziquhTXa-l-eWxfAWOkSbgVCKRhs=",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFcjBGagMCNTtV116SQ88PpNYum5HR3REI-Owb3oENUHltydnUUBEPSV0j7XqQdV7fveJZ54kuoFlY_-efBnHPbD_GRJsan3XGR_52dYthfCtHuOfbR1Ndt8fqlI-FfcJ5IWdpKMvs9wAN8C1Cg",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqkxYTm5ENohbRc1sQ4xKjBdunzosndq3N56qddZRkTykUTt6lqOe4bMkH08qRTjkrboBFeB9DSwsSWQhhaXOco1dMUVhBX-PwyyynPifo4VKxxlTdWJgU4ZwwqjKiym3qvrLlzttN89lr1DidPIkxI8w=",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFshQA6f6_cYouDQaD5eYoV8fWpN4lvWJ2l9WXu5eAUyo6TZGKl5XTPyNj7ALAvv1Xq5n2kOigJ_Tz8d078NcD-4XotcV1cQF-8F9VPgoWLSKCfpPjlBfZIatRgAitHAl31iuNaQ_ciWBpxcZMMt_-k",
+        "https://wiserreview.com/blog/bloomreach-alternatives/",
+        "https://world.optimizely.com/contentassets/d5dc2df84b824deb9b093a3d5ff27c0b/services-descriptions-for-the-optimizely-software-service----version-2025-01-published-2025-jan-14.pdf",
+        "https://www.adobe.com/news-room/news-blogs/2026/02/adobe-recognized-by-gartner-for-personalization-engines.html",
+        "https://www.agilitycms.com/blog/best-enterprise-headless-cms-platforms",
+        "https://www.aimerce.ai/blogs/seo/top-7-customer-data-platforms-cdp-for-mid-market-shopify-stores",
+        "https://www.alumio.com/blog/top-10-marketing-automation-platforms-in-2025",
+        "https://www.bloomreach.com/en/blog/best-customer-data-platforms",
+        "https://www.bloomreach.com/en/blog/best-customer-engagement-platforms",
+        "https://www.bloomreach.com/en/blog/salesforce-marketing-cloud-competitors-alternatives",
+        "https://www.bloomreach.com/en/industries/retail-brands",
+        "https://www.bloomreach.com/en/products/data-engine/",
+        "https://www.braze.com/",
+        "https://www.braze.com/product/cross-channel-messaging",
+        "https://www.braze.com/product/cross-channel-messaging?utm_source=openai",
+        "https://www.braze.com/resources/articles/braze-named-leader-2025-gartner-magic-quadrant",
+        "https://www.braze.com/resources/articles/braze-named-leader-2025-gartner-magic-quadrant?utm_source=openai",
+        "https://www.braze.com/resources/articles/braze-vs-adobe-comparison",
+        "https://www.brightspot.com/best-headless-cms-for-enterprise-teams",
+        "https://www.contentful.com/blog/what-enterprise-cms/",
+        "https://www.contentful.com/developers/docs/references/api-basics/",
+        "https://www.contentful.com/headless-cms/",
+        "https://www.contentful.com/solutions/composable-content-platform/",
+        "https://www.contentstack.com/blog/all-about-headless/top-7-contentful-alternatives-for-your-enterprise",
+        "https://www.contentstack.com/blog/strategy/best-enterprise-cms-platforms-for-advanced-global-localization",
+        "https://www.contentstack.com/docs/headless-cms/understanding-contentstack",
+        "https://www.contentstack.com/resources/datasheet/contentstack-headless-cms-features-and-benefits",
+        "https://www.decentriq.com/article/best-cdps",
+        "https://www.digitalapplied.com/blog/marketing-automation-platform-comparison-2026",
+        "https://www.dinmo.com/cdp/solutions/segment-alternatives/",
+        "https://www.dynamicyield.com/blog/2024-gartner-forrester-personalization-engine-leader/",
+        "https://www.dynamicyield.com/wp-content/uploads/2024/12/Magic_Quadrant_for_P_776378_ndx.pdf",
+        "https://www.forrester.com/blogs/from-isolated-tests-to-always-on-optimization-insights-from-the-experience-optimization-solutions-landscape-q1-2026/",
+        "https://www.gartner.com/en/documents/7392530",
+        "https://www.gartner.com/en/documents/7392530?utm_source=openai",
+        "https://www.guideflow.com/blog/cms-tools",
+        "https://www.hockeystack.com/blog-posts/best-marketing-analytics-platforms",
+        "https://www.hubspot.com/products/crm/ai-crm",
+        "https://www.hubspot.com/products/crm/ai-crm?from=groupmessage&isappinstalled=0&utm_source=openai",
+        "https://www.hubspot.com/products/workflow-automation",
+        "https://www.improvado.io/blog/enterprise-marketing-platforms",
+        "https://www.klaviyo.com/blog/best-customer-data-platforms",
+        "https://www.klaviyo.com/blog/best-marketing-automation-platforms",
+        "https://www.klaviyo.com/enterprise",
+        "https://www.klaviyo.com/solutions/customer-data-platform",
+        "https://www.klaviyo.com/solutions/customer-data-platform/unified-customer-profile",
+        "https://www.klaviyo.com/solutions/customer-data-platform?utm_source=openai",
+        "https://www.mastercard.com/content/mccom/global/en/business/consumer-acquisition-and-engagement/personalization.html",
+        "https://www.moengage.com/blog/adobe-marketing-competitors/",
+        "https://www.netsolutions.com/insights/aem-vs-contentful/",
+        "https://www.onetrust.com/products/consent-management/",
+        "https://www.optimizely.com/company/press-releases/optimizely-named-a-leader-and-a-customer-favorite-in-experience-optimization-solutions-by-leading-independent-research-firm/",
+        "https://www.optimizely.com/company/press/forrester-eos-wave/",
+        "https://www.optimizely.com/company/press/personalization-engines-mq-2025/",
+        "https://www.optimizely.com/field-notes/articles/best-headless-cms",
+        "https://www.optimizely.com/insights/forrester-wave-experience-optimization-solutions/",
+        "https://www.optimizely.com/insights/gartner-magic-quadrant-for-personalization-engines/",
+        "https://www.optimizely.com/products/personalization",
+        "https://www.pendo.io/pendo-blog/top-10-product-analytics-tools/",
+        "https://www.prnewswire.com/news-releases/optimizely-named-a-leader-in-the-2025-gartner-magic-quadrant-for-personalization-engines-302371466.html",
+        "https://www.saasworthy.com/compare/braze-vs-iterable-vs-klaviyo?pIds=1861%2C8276%2C8690",
+        "https://www.salesforce.com/marketing/analytics/tools/",
+        "https://www.salesforce.com/marketing/engagement/pricing/?bc=OTH",
+        "https://www.sanity.io/enterprise",
+        "https://www.snowflake.com/en/solutions/departments/marketing/customer-360/",
+        "https://www.snowflake.com/en/solutions/departments/marketing/customer-360/?utm_source=openai",
+        "https://www.twilio.com/docs/segment/engage",
+        "https://www.twilio.com/en-us/segment",
+        "https://www.unimity.com/insights/enterprise-cms-comparison",
+        "https://www.wyng.com/blog/klaviyo-vs-braze/",
+        "https://www.youtube.com/watch?v=Qtlydua448A"
+      ],
+      "providers": [
+        "anthropic",
+        "google",
+        "openai"
+      ]
+    },
+    "aeo": {
+      "template": "aeo",
+      "label": "Answer Engine Optimization",
+      "totals": {
+        "responses": 72,
+        "failed": 0,
+        "mentions": 512,
+        "runs": 12
+      },
+      "entities": {
+        "Semrush": {
+          "mentions": 57,
+          "share": 0.1667,
+          "share_low": 0.0857,
+          "share_high": 0.3,
+          "mean_rank": 3.91,
+          "sentiment": {
+            "positive": 40,
+            "neutral": 17,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 21,
+            "openai": 15,
+            "google": 21
+          },
+          "by_pass": {
+            "ungrounded": 46,
+            "grounded": 11
+          }
+        },
+        "Ahrefs": {
+          "mentions": 55,
+          "share": 0.1608,
+          "share_low": 0.0889,
+          "share_high": 0.3,
+          "mean_rank": 4.85,
+          "sentiment": {
+            "positive": 39,
+            "neutral": 16,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 20,
+            "openai": 14,
+            "google": 21
+          },
+          "by_pass": {
+            "ungrounded": 44,
+            "grounded": 11
+          }
+        },
+        "BrightEdge": {
+          "mentions": 42,
+          "share": 0.1228,
+          "share_low": 0.0606,
+          "share_high": 0.2273,
+          "mean_rank": 5.24,
+          "sentiment": {
+            "positive": 32,
+            "neutral": 10,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 16,
+            "openai": 10,
+            "google": 16
+          },
+          "by_pass": {
+            "ungrounded": 33,
+            "grounded": 9
+          }
+        },
+        "Conductor": {
+          "mentions": 36,
+          "share": 0.1053,
+          "share_low": 0.0606,
+          "share_high": 0.1852,
+          "mean_rank": 5.19,
+          "sentiment": {
+            "positive": 28,
+            "neutral": 7,
+            "negative": 1
+          },
+          "by_provider": {
+            "anthropic": 11,
+            "openai": 10,
+            "google": 15
+          },
+          "by_pass": {
+            "ungrounded": 26,
+            "grounded": 10
+          }
+        },
+        "Scrunch AI": {
+          "mentions": 29,
+          "share": 0.0848,
+          "share_low": 0,
+          "share_high": 0.1333,
+          "mean_rank": 4.97,
+          "sentiment": {
+            "positive": 22,
+            "neutral": 7,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 7,
+            "openai": 16,
+            "google": 6
+          },
+          "by_pass": {
+            "ungrounded": 16,
+            "grounded": 13
+          }
+        },
+        "Peec AI": {
+          "mentions": 28,
+          "share": 0.0819,
+          "share_low": 0,
+          "share_high": 0.1333,
+          "mean_rank": 4.29,
+          "sentiment": {
+            "positive": 19,
+            "neutral": 9,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 7,
+            "openai": 16,
+            "google": 5
+          },
+          "by_pass": {
+            "ungrounded": 16,
+            "grounded": 12
+          }
+        },
+        "Profound": {
+          "mentions": 35,
+          "share": 0.1023,
+          "share_low": 0,
+          "share_high": 0.15,
+          "mean_rank": 2.94,
+          "sentiment": {
+            "positive": 31,
+            "neutral": 4,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 4,
+            "openai": 16,
+            "google": 15
+          },
+          "by_pass": {
+            "grounded": 14,
+            "ungrounded": 21
+          }
+        },
+        "Otterly.ai": {
+          "mentions": 27,
+          "share": 0.0789,
+          "share_low": 0,
+          "share_high": 0.1333,
+          "mean_rank": 6.85,
+          "sentiment": {
+            "positive": 18,
+            "neutral": 9,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 4,
+            "openai": 15,
+            "google": 8
+          },
+          "by_pass": {
+            "grounded": 12,
+            "ungrounded": 15
+          }
+        },
+        "Athena": {
+          "mentions": 18,
+          "share": 0.0526,
+          "share_low": 0,
+          "share_high": 0.1143,
+          "mean_rank": 6.17,
+          "sentiment": {
+            "positive": 12,
+            "neutral": 6,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 6,
+            "openai": 8,
+            "google": 4
+          },
+          "by_pass": {
+            "ungrounded": 7,
+            "grounded": 11
+          }
+        },
+        "Goodie AI": {
+          "mentions": 15,
+          "share": 0.0439,
+          "share_low": 0,
+          "share_high": 0.0909,
+          "mean_rank": 7.27,
+          "sentiment": {
+            "positive": 10,
+            "neutral": 5,
+            "negative": 0
+          },
+          "by_provider": {
+            "anthropic": 3,
+            "openai": 8,
+            "google": 4
+          },
+          "by_pass": {
+            "grounded": 10,
+            "ungrounded": 5
+          }
+        }
+      },
+      "other": [
+        {
+          "name": "Webflow",
+          "mentions": 6
+        },
+        {
+          "name": "WordPress",
+          "mentions": 6
+        },
+        {
+          "name": "iPullRank",
+          "mentions": 6
+        },
+        {
+          "name": "Contentful",
+          "mentions": 4
+        },
+        {
+          "name": "Sanity",
+          "mentions": 3
+        },
+        {
+          "name": "XML sitemaps",
+          "mentions": 3
+        },
+        {
+          "name": "Amsive",
+          "mentions": 3
+        },
+        {
+          "name": "NP Digital",
+          "mentions": 3
+        },
+        {
+          "name": "Seer Interactive",
+          "mentions": 3
+        },
+        {
+          "name": "Drupal",
+          "mentions": 3
+        },
+        {
+          "name": "Strapi",
+          "mentions": 2
+        },
+        {
+          "name": "structured data markup",
+          "mentions": 2
+        },
+        {
+          "name": "NoGood",
+          "mentions": 2
+        },
+        {
+          "name": "Omniscient Digital",
+          "mentions": 2
+        },
+        {
+          "name": "First Page Sage",
+          "mentions": 2
+        },
+        {
+          "name": "Merkle",
+          "mentions": 2
+        },
+        {
+          "name": "Entity consistency and structured data",
+          "mentions": 2
+        },
+        {
+          "name": "Fresh, answer-shaped content",
+          "mentions": 2
+        },
+        {
+          "name": "Shopify",
+          "mentions": 2
+        },
+        {
+          "name": "Specialized independent consultants",
+          "mentions": 1
+        },
+        {
+          "name": "Traditional in-house teams with ChatGPT and Claude integrations",
+          "mentions": 1
+        },
+        {
+          "name": "Google Search Console with AI-powered partners",
+          "mentions": 1
+        },
+        {
+          "name": "structured content optimization",
+          "mentions": 1
+        },
+        {
+          "name": "Kontent.ai",
+          "mentions": 1
+        },
+        {
+          "name": "Contentstack",
+          "mentions": 1
+        },
+        {
+          "name": "Brightspot",
+          "mentions": 1
+        },
+        {
+          "name": "RebelMouse",
+          "mentions": 1
+        },
+        {
+          "name": "llms.txt (standard)",
+          "mentions": 1
+        },
+        {
+          "name": "Content quality and relevance",
+          "mentions": 1
+        },
+        {
+          "name": "Topical authority and E-E-A-T signals",
+          "mentions": 1
+        },
+        {
+          "name": "Citation patterns in training data",
+          "mentions": 1
+        },
+        {
+          "name": "Structured data and semantic markup",
+          "mentions": 1
+        },
+        {
+          "name": "Backlink profile and domain authority",
+          "mentions": 1
+        },
+        {
+          "name": "robots.txt optimization",
+          "mentions": 1
+        },
+        {
+          "name": "plain HTML with semantic tags",
+          "mentions": 1
+        },
+        {
+          "name": "static site generators",
+          "mentions": 1
+        },
+        {
+          "name": "content delivery networks with proper caching",
+          "mentions": 1
+        },
+        {
+          "name": "Custom in-house solutions",
+          "mentions": 1
+        },
+        {
+          "name": "Manual prompt testing / DIY tracking",
+          "mentions": 1
+        },
+        {
+          "name": "structured data optimization",
+          "mentions": 1
+        }
+      ],
+      "agreement": 0.3889,
+      "sources": [
+        "https://ahrefs.com/ai-visibility-checker",
+        "https://ahrefs.com/ai-visibility-checker?utm_source=openai",
+        "https://ahrefs.com/blog/ai-brand-visibility-correlations/",
+        "https://ahrefs.com/blog/ai-search-overlap/",
+        "https://ahrefs.com/brand-radar",
+        "https://aiclicks.io/blog/best-generative-engine-optimization-tools",
+        "https://alexbirkett.com/ai-share-of-voice/",
+        "https://alexbirkett.com/answer-engine-optimization-agencies/",
+        "https://answers.athenahq.ai/athenahq-aeo-ai-visibility-tool-features-reporting",
+        "https://answers.athenahq.ai/compare-peec-ai-hubspot-aeo-rankscale-athenahq-semrush-for-ai-search-visibility",
+        "https://answers.athenahq.ai/compare-peec-ai-hubspot-aeo-rankscale-athenahq-semrush-for-ai-search-visibility?utm_source=openai",
+        "https://arxiv.org/abs/2604.07585",
+        "https://arxiv.org/abs/2605.25517",
+        "https://athenahq.ai/",
+        "https://athenahq.ai/articles/generative-engine-optimization-tools",
+        "https://athenahq.ai/blog/understanding-share-voice-ai-search",
+        "https://athenahq.ai/case-studies",
+        "https://athenahq.ai/reports/Athena-State-of-AI-Search-Report-2026.pdf",
+        "https://authoritytech.io/curated/ai-citation-11-percent-platform-overlap-per-engine-audit-2026",
+        "https://ayzeo.com/comparisons",
+        "https://beomniscient.com/blog/aeo-agency/",
+        "https://beomniscient.com/blog/ai-visibility-tools/",
+        "https://beomniscient.com/blog/answer-engine-optimization/",
+        "https://beomniscient.com/blog/answer-engine-optimization/?utm_source=openai",
+        "https://beomniscient.com/blog/best-ai-marketing-agencies/",
+        "https://beomniscient.com/blog/best-ai-marketing-agencies/?utm_source=openai",
+        "https://blog.hubspot.com/marketing/answer-engine-optimization-case-studies",
+        "https://blog.hubspot.com/marketing/scrunch-vs-peec-ai",
+        "https://blog.timsoulo.com/14-peec-ai-alternatives-for-ai-search-visibility-tracking-2026/",
+        "https://blogs.bing.com/webmaster/February-2026/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview",
+        "https://capgo.ai/use-case/en/The-best-AEO-Answer-Engine-Optimization-Agency",
+        "https://contentpen.ai/blog/ai-visibility-tools",
+        "https://cybernews.com/ai-tools/best-ai-cms/",
+        "https://developers.google.com/search/blog/2026/06/gen-ai-performance-reports",
+        "https://developers.google.com/search/docs/essentials/technical?hl=en",
+        "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide",
+        "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide?utm_source=openai",
+        "https://directiveconsulting.com/blog/a-guide-to-generative-engine-optimization-geo-best-practices/",
+        "https://docs.peec.ai/metrics/brand-metrics/share-of-voice",
+        "https://duaneforresterdecodes.substack.com/p/llmstxt-was-step-one-heres-the-architecture",
+        "https://enterprise.semrush.com/customer-stories/bitget/",
+        "https://enterprise.semrush.com/customer-stories/bitget/?utm_source=openai",
+        "https://evilmartians.com/chronicles/how-to-make-your-website-visible-to-llms",
+        "https://explodingtopics.com/blog/ai-visibility-vs-brand-radar",
+        "https://finance.yahoo.com/news/wordify-partners-otterly-ai-enhance-144100605.html",
+        "https://fritz.ai/semrush-vs-brightedge/",
+        "https://getspike.ai/blog/conductor-alternatives/",
+        "https://help.ahrefs.com/en/articles/15501968-ai-visibility-metrics",
+        "https://help.openai.com/en/articles/12627856-publishers-and-developers-faq",
+        "https://help.openai.com/en/articles/9237897-chatgpt-search/",
+        "https://help.otterly.ai/brand-report-kpi-definition",
+        "https://help.shopify.com/en/manual/markets/seo",
+        "https://help.shopify.com/en/manual/promoting-marketing/seo/find-site-map?inf_contact_key=3d392e83ba9b80d97dcf39e68f356c0f",
+        "https://help.shopify.com/en/manual/promoting-marketing/seo/find-site-map?inf_contact_key=3d392e83ba9b80d97dcf39e68f356c0f&utm_source=openai",
+        "https://help.tryprofound.com/articles/3443229936-answer-engine-insights-overview",
+        "https://help.webflow.com/hc/en-us/articles/33961355371667-Create-a-sitemap-in-Webflow",
+        "https://help.webflow.com/hc/en-us/articles/45766917223955-Add-schema-markup-in-Webflow-to-improve-SEO-and-AEO",
+        "https://higoodie.com/case-studies/?utm_source=openai",
+        "https://higoodie.com/case-studies/dermalogica",
+        "https://higoodie.com/features/ai-visibility-monitoring/",
+        "https://indexly.ai/blog/top-ai-share-of-voice-tracking-tools-compared-for-content-marketing-teams/",
+        "https://ipullrank.com/",
+        "https://ipullrank.com/?utm_source=openai",
+        "https://ipullrank.com/ai-search-agency",
+        "https://lift.comcast.com/from-seo-to-geo-how-profound-helps-companies-stay-visible-in-ai-search/",
+        "https://mentionagent.ai/blog/athena-vs-goodie/",
+        "https://minuttia.com/best-aeo-agencies/",
+        "https://nogood.io/blog/ai-search-social-search/",
+        "https://nogood.io/blog/best-answer-engine-optimization-agencies",
+        "https://omnisciencedigital.com/best-ai-visibility-tools/",
+        "https://onenine.com/cms-comparison/",
+        "https://optimizegeo.com/blog/ai-share-of-voice/",
+        "https://otterly.ai/case-studies",
+        "https://otterly.ai/case-studies?utm_source=openai",
+        "https://otterly.ai/enterprise-ai-search-visibility-tool",
+        "https://otterly.ai/features",
+        "https://peec.ai/ai-instructions",
+        "https://peec.ai/blog/how-momentum-boosted-ai-search-visibility-by-10x-with-peec-ai",
+        "https://peec.ai/blog/how-momentum-boosted-ai-search-visibility-by-10x-with-peec-ai?utm_source=openai",
+        "https://peec.ai/for-agencies",
+        "https://peec.ai/product/ai-visibility",
+        "https://prismic.io/blog/best-cms-for-ai-search",
+        "https://programminginsider.com/7-best-geo-tools-for-ai-search-visibility-in-2026/",
+        "https://reverbico.com/blog/best-answer-engine-optimization-agencies-in-2025/",
+        "https://sanbi.ai/blog/ai-visibility-platform-comparison-peec-profound-scrunch",
+        "https://scrunch.com/",
+        "https://scrunch.com/case-studies/akamai-5x-brand-presence-in-ai-search-results/",
+        "https://scrunch.com/case-studies/akamai-5x-brand-presence-in-ai-search-results/?utm_source=openai",
+        "https://scrunch.com/faqs/",
+        "https://scrunch.com/how-tos/how-to-measure-ai-share-of-voice/",
+        "https://scrunchai.com/platform/monitoring/",
+        "https://slatehq.com/blog/best-ai-share-of-voice-tools",
+        "https://techcrunch.com/2025/11/17/as-consumers-ditch-google-for-chatgpt-peec-ai-raises-21m-to-help-brands-adapt/",
+        "https://trustmary.com/ai-visibility/best-ai-search-visibility-tools/",
+        "https://vanguardmedia.ca/blog/llms-txt-and-schema-for-ai-search",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2_4A4rJMcn82RB_qPbb0WId9ISVHfzOmnS4emshxNiSOur2FbZqf9xDYZTNCFhixefF26i7C-8xsB82DFXP5ny-Au0PzkBp4QbfFKPCWRwrgkHx5mhoT43moUPBgcP4vloMS9rDQcSiMyKsTllLW4",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE8N4s7v1xvIFApBCzqkWWuwMUQCD0TU9au2ZrDqqnXHaWc-NYyH-OYE4zHyYNkSr76OZC0NqDU-nFsJ7pxI7vq9n9wgkya__06eavZzpRJRRO8WVFOr2ChWUJE1NT2yNHgQ9Y5oiWrgsccBM_f4A==",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEObvCVyjxe7c_17wMaHcMovI2okbfrzFEniKwu48JynzNWTsMhqurwqFuP9tSjj8wE_8POl4Yj6yz8YAPGvW-us7AAGUwFbVOb69lpoLV2rrz9UPUzY9AT7jqjsStgTvgUJLQWp6kdOKcQeZlwxC0HGjDb4L4e",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFgsjnMQOiFTzsxdCjOgKkzLnjUTSBYv-RzlzCNVp7JswxFoQttQx26A07N1JOMs_ohDuJZa5cklPz54WXqZV8kFLaPN7-wvItohEY4yMTNYDaJcmU2PTQ75ODyJaJpwzN8a8ifj5I=",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG1UN2uHNtbswqWBu5iFvy4qyITADC2rA1oQO-O3ivoNnCYboWSmOJxPTe6cxD3R1jvQyYOXi0dsbIbDrZYmnvOTwpDSF4C-lTlBeNdgWzWblbGtvcAqHbGE53O58TUobM=",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8W--G394vu3BdBz2uWQLFjSNWNNCCaQ_YCRgLJ0EnRhv82UzotX47xz463a8ZtPAo3fcqAidFDgr2IRF9hZYeMk6YU6ayd0gNCZJMoRYM_NDzN38j9kJQ3wiNHXfJEYZBE1PQ8LmIcJHQ5BvPccau048=",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGfmcF2UhJf9NVjsjsk72a7Zibd5tFoDiEpbInCkmeZMYIUYPwHBHttKQW2GZ4LOUsm82llfSH0lyBR8hQpxwtv2xcUL5ZyJrlgK7hp3p6gAlz28IyVrejgYd72eFnOFBVeoKJ5NDR5bNjyHvQPFz0JVwdzzi9eTp4jyk458rIv5RZa9L6sdz_aMi0sC_HFvPMmBr2RpcBMjR8GA==",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGiG6K4bKp1A8Hn3HfMi4qlCg0abHILoU7Qnzx0CarrcjD3E7c7VDjA35aqqe6XFsOzKOZkE5POLq6nEW8rnDsmdUSJr7u5cr86NCzOQ56bn5MKw-KnoLy5PMQ731zIrDy78dsE-58yoR00ZXIdevx8uvSGrnh_LIoNGp21eg1t",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH1mUMFppEkmFFlp9P0dcr76H25282V2uvIy8cV6PWCWWdO9ux39RaqPMjVXjgoC9lz2CsdpZFeLCOphS_hsDJh0MENRHit_ahxsO2tMBFEAiIEg8CETzwWCqfUiJtoxz6k19CseKR8SsSgS8FN_C41aQ==",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdq7Hz-BuwKmSP2vXoyZKCTmKN7bKDVVxoOK2R8bwzObeAPVh_c8yPR7zCw8powcGxXGXeYwO34YNeKHuHYEk8mPX_TGS1mdhMcOmDSTwJB-ZlvTDzqPXvY_zyS63Nv_TppRQ=",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHo8QRGWTsNjfxBwZjMxsZhFelEHKbblqBVnYPx7uGcgzkv7MNKwfy8e-qQs6y3l5rE80ZeOGbMK9i77rGzX-N8iD8XvgPBhE57QQYBvEaWkuBZoFb-LmvGyiNV7ZUSRxNjsoRbUcWu9_FBdTGmOVyQ5Ilm57SKI3hBIFUr",
+        "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHtG0T73ept9lvAs3wXftuWpfxpCPid1XgzJhxT2k1ztpnfMPSRVmpQFMocrcOZE1_1WvjnKZgK1hXIdkqhhs7kMgaUkPdgnTluytwbXM3dcizGZhkJPAVzoTjp48WlZuDat0TcfYW2Cjz2bImSZUnn7LHNFvPJ",
+        "https://visibl.us/compare",
+        "https://visible.seranking.com/blog/best-ai-visibility-tools/",
+        "https://wordpress.org/plugins/indexnow/",
+        "https://www.1digitalagency.com/blog/best-ai-cms-platforms-seo-content-optimization-2026/",
+        "https://www.airops.com/blog/peec-alternatives",
+        "https://www.animalz.co/services/answer-engine-optimization",
+        "https://www.animalz.co/services/answer-engine-optimization?utm_source=openai",
+        "https://www.averi.ai/blog/ai-citation-tracking-chatgpt-perplexity-claude",
+        "https://www.averi.ai/blog/the-complete-guide-to-ai-visibility-for-b2b-saas",
+        "https://www.averi.ai/how-to/chatgpt-vs.-perplexity-vs.-google-ai-mode-the-b2b-saas-citation-benchmarks-report-(2026)",
+        "https://www.bing.com/webmasters/help/url-submission-62f2860b",
+        "https://www.brightedge.com/",
+        "https://www.brightedge.com/ai-catalyst?utm_source=openai",
+        "https://www.brightedge.com/glossary/generative-engine-optimization",
+        "https://www.brightedge.com/resource-type/research-report",
+        "https://www.brightspot.com/cms-resources/cms-selection-guide/best-cms-for-llm-seo",
+        "https://www.conductor.com/",
+        "https://www.conductor.com/academy/brands-winning-aeo-with-conductor/",
+        "https://www.conductor.com/academy/brands-winning-aeo-with-conductor/?utm_source=openai",
+        "https://www.conductor.com/customer-stories/sonos/",
+        "https://www.conductor.com/lp/enterprise-ai-visibility-optimization/",
+        "https://www.conductor.com/platform/features/ai-search-performance/competitive-ai-share-of-voice/",
+        "https://www.conductor.com/platform/intelligence/",
+        "https://www.conductor.com/products/conductor-intelligence/ai-search/ai-share-of-voice/",
+        "https://www.contentful.com/seo-guide/technical-seo/",
+        "https://www.contentstack.com/blog/ai/how-to-optimize-content-for-ai-answer-engines-aeo",
+        "https://www.datadab.com/research/profound-vs-hubspot-aeo-vs-scrunch-vs-otterly-vs-peec-vs-athenahq",
+        "https://www.datocms.com/blog/headless-cms-for-llms",
+        "https://www.digitalapplied.com/blog/ai-share-of-voice-tracking-brand-citations-framework-2026",
+        "https://www.drupal.org/docs/contributed-modules/schemaorg-metatag",
+        "https://www.drupal.org/project/simple_sitemap",
+        "https://www.firebrand.marketing/2025/12/geo-best-practices-2026/",
+        "https://www.get-ryze.ai/blog/how-to-track-your-brand-s-share-of-voice-across-chatgpt-and-perplexity",
+        "https://www.honeyb.ai/blog/ai-share-of-voice-tools",
+        "https://www.lennysnewsletter.com/p/the-ultimate-guide-to-aeo-ethan-smith",
+        "https://www.miniloop.ai/blog/best-cms-platforms",
+        "https://www.netsolutions.com/insights/contentful-vs-sanity/",
+        "https://www.primacy.com/blog/best-generative-engine-optimization-geo-tools/",
+        "https://www.prnewswire.com/news-releases/profound-raises-35m-series-b-as-ai-search-becomes-the-next-platform-shift-302527764.html",
+        "https://www.rankability.com/blog/best-ai-search-visibility-tracking-tools/",
+        "https://www.rebelmouse.com/best-cms-for-seo",
+        "https://www.riffanalytics.ai/blog/branding-and-visibility",
+        "https://www.saffronedge.com/blog/ai-visibility-tools/",
+        "https://www.sanity.io/top-5-headless-cms-platforms-2026",
+        "https://www.scalenut.com/blogs/athena-hq-replacement-tools",
+        "https://www.seerinteractive.com/generative-engine-optimization",
+        "https://www.seerinteractive.com/generative-engine-optimization?utm_source=openai",
+        "https://www.semrush.com/blog/how-to-measure-ai-share-of-voice/",
+        "https://www.semrush.com/kb/1496-getting-started-with-ai-visibility-toolkit",
+        "https://www.semrush.com/kb/1594-ai-seo-metrics",
+        "https://www.shadow.inc/resources/how-to-measure-ai-share-of-voice",
+        "https://www.srnaseo.com/novax-vs-semrush-ahrefs-conductor-brightedge/",
+        "https://www.stackmatix.com/blog/aeo-marketing-examples",
+        "https://www.stackmatix.com/blog/best-cms-for-aeo",
+        "https://www.stackmatix.com/blog/enterprise-ai-seo-platforms",
+        "https://www.surmado.com/blog/best-ai-visibility-tools-2026",
+        "https://www.tryaivo.com/blog/best-answer-engine-optimization-agencies-2025-complete-comparison",
+        "https://www.tryprofound.com/articles/generative-engine-optimization-geo-guide-2025",
+        "https://www.tryprofound.com/blog/athenahq-review-not-the-best-for-enterprises",
+        "https://www.tryprofound.com/customers",
+        "https://www.tryprofound.com/customers?utm_source=openai",
+        "https://www.tryprofound.com/features",
+        "https://www.wix.com/studio/blog/tools-to-track-llm-visibility",
+        "https://www.workduo.ai/blog/profound-vs-athena-ai-for-aeo",
+        "https://www.yotpo.com/blog/what-is-llms-txt/"
+      ],
+      "providers": [
+        "anthropic",
+        "google",
+        "openai"
+      ]
+    }
+  },
+  "failures": []
+}
