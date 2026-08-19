@@ -197,6 +197,14 @@ function build() {
     ? `We collect ${dailyAnswers} answers a day. ${days.length} ${days.length === 1 ? 'day' : 'days'} so far, starting ${days[0].date}.`
     : 'The first day of answers lands with the next run.';
 
+  // Every model answers twice (once from memory, once after searching) and
+  // rates its own confidence high/medium/low, worth 3/2/1. So the ceiling is
+  // passes x 3. Showing it turns a bare 14 into 14 of 18.
+  const proposalPasses = latestMonth
+    ? new Set((latestMonth.proposals ?? []).map((x) => `${x.provider}|${x.pass}`)).size
+    : 0;
+  const scoreMax = proposalPasses > 0 ? proposalPasses * 3 : null;
+
   const boardRows = (latestMonth?.board ?? [])
     .slice(0, 8)
     .map((b) => ({ name: b.canonical_name, value: b.score, providers: b.providers }));
@@ -276,9 +284,11 @@ function build() {
   </div>
   ${rankedBoard({
     rows: boardRows,
+    scoreMax,
     title: latestMonth ? `Current board \u2014 ${latestMonth.month}` : 'Current board',
-    subtitle:
-      'Where the panel puts each problem this month. Rank is the consensus ordering; the score is confidence-weighted across every model that named it.',
+    subtitle: scoreMax
+      ? `Rank is what the models agreed on together. The score is separate: each model rates how sure it is, worth 3 for high, 2 for medium, 1 for low. We ask three models twice each, so ${scoreMax} is the most any problem can get. Rank and score can disagree.`
+      : 'Rank is what the models agreed on together. The score adds up how sure each model was.',
   })}
   ${
     // The board answers "what is the standing now", the trend answers "how did

@@ -88,6 +88,7 @@ main { padding-bottom:96px; }
 .board__track { flex:1 1 160px; min-width:120px; height:6px; background:var(--grid); border-radius:999px; overflow:hidden; }
 .board__fill { display:block; height:100%; border-radius:999px; background:var(--series-1); }
 .board__score { font-variant-numeric:tabular-nums; color:var(--text-secondary); font-weight:600; }
+.board__of { font-weight:400; color:var(--text-muted); }
 .board__by { color:var(--text-muted); }
 
 /* ---------- charts ---------- */
