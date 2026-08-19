@@ -130,6 +130,7 @@ a { color:var(--link); }
 footer { margin-top:88px; padding:32px 0 40px; border-top:1px solid var(--rule); color:var(--text-muted); font-size:.88rem; }
 footer a { color:var(--text-secondary); }
 footer p { max-width:66ch; }
+footer s { color:var(--text-muted); }
 
 @media (forced-colors: active) {
   .answer,.board li { border:1px solid CanvasText; }
