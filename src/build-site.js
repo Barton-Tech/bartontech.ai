@@ -176,9 +176,12 @@ function build() {
           label: 'And on well-known martech tools',
           note: 'The same test, on a fixed list of big vendors that never changes.' }
       : { value: '--', label: 'And on well-known martech tools', note: 'Waiting on the first daily run.' },
+    // Counts the registry, which is every problem the panel named this month.
+    // Only the top one gets a daily vendor question set, so 'problems we track'
+    // overstated this by the size of the board.
     { value: String(registry.problems.length),
-      label: 'Problems we track',
-      note: 'Named unsolved by the models, then checked by a person.' },
+      label: 'Problems the models call unsolved',
+      note: 'Named this month, then checked by a person. We follow the top one every day.' },
   ];
 
   const figureRow = figures.map((f) => `<div class="figure">
@@ -187,8 +190,11 @@ function build() {
       <div class="figure__note">${esc(f.note)}</div>
     </div>`).join('');
 
+  const dailyAnswers = latestDay
+    ? Object.values(latestDay.templates).reduce((n, t) => n + (t.totals?.responses ?? 0), 0)
+    : 0;
   const heroFoot = days.length
-    ? `${days.length} ${days.length === 1 ? 'day' : 'days'} of answers so far, starting ${days[0].date}.`
+    ? `We collect ${dailyAnswers} answers a day. ${days.length} ${days.length === 1 ? 'day' : 'days'} so far, starting ${days[0].date}.`
     : 'The first day of answers lands with the next run.';
 
   const boardRows = (latestMonth?.board ?? [])
