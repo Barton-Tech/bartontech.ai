@@ -1,0 +1,54 @@
+{
+  "date": "2026-08-19",
+  "month": "2026-08",
+  "board_month": "2026-08",
+  "board_rank": 3,
+  "generated_at": "2026-08-19T01:15:53.833Z",
+  "provenance": {
+    "prompt_version": "2026-08-18.1",
+    "samples_per_question": 3,
+    "harness_version": 1
+  },
+  "problem": {
+    "canonical_id": "agent-traffic-identification",
+    "canonical_name": "Distinguishing and Governing Agentic Traffic",
+    "plain": "telling AI agents apart from real people"
+  },
+  "format": {
+    "id": "three-moves",
+    "label": "Three moves",
+    "instruction": "Give exactly three moves, in order. One sentence each, then one sentence on what makes that move hard. Nothing else."
+  },
+  "answers": [
+    {
+      "provider": "anthropic",
+      "label": "Claude",
+      "model": "claude-opus-5",
+      "approach": "Move 1 — Build ground truth from the traffic you already own rather than buying a detection vendor: label sessions where delegated authority is unambiguous (AP2/ACP payment mandates, API keys, signed requests, agent-operator partnerships) and use that seed set to characterize behavioral signatures — request cadence, page-order entropy, absence of scroll/dwell, JSON-LD affinity — then score the unlabeled remainder. What makes it hard: the seed set is drawn entirely from cooperative agents, so the model learns to recognize honesty, not agency, and every adversarial or scraping agent sits outside the distribution you trained on.\n\nMove 2 — Stop asking agents to identify themselves out of good citizenship and make declaration the cheaper path: stand up an agent-facing gateway where signed requests (HTTP Message Signatures over a published key, Web Bot Auth-style) get a clean structured feed of price, stock, policy, and return terms plus generous rate limits, while unsigned traffic gets the slow, JS-heavy, CAPTCHA-gated human path. What makes it hard: this only bites if a small number of agent operators carry most of the volume, and it forces you to commit to agent-specific pricing and disclosure policy before you have the data to know what that should be.\n\nMove 3 — Treat agent sessions as their own channel with their own consent and attribution logic instead of forcing them into human metrics: capture consent as a signed delegation claim asserted by the operator, and attribute on decision provenance — which facts, feeds, and reviews the agent actually retrieved before the mandate fired — rather than on impressions no eyeball saw. What makes it hard: delegated consent has no clean standing under TCF or US state opt-out regimes, and finance will not accept a channel whose conversions cannot be reconciled against the existing last-touch ledger.",
+      "first_move": "Pull every session where we already know an agent was acting — signed API traffic, delegated payment mandates, partner integrations — and turn it into a labeled dataset.",
+      "hardest_part": "Any signal an agent volunteers is only trustworthy when the agent has something to lose, so the whole problem reduces to manufacturing that stake for operators who currently have none.",
+      "confidence": "medium"
+    },
+    {
+      "provider": "openai",
+      "label": "ChatGPT",
+      "model": "gpt-5.6-sol",
+      "approach": "Move 1: Instrument owned properties in shadow mode, combining voluntary signed agent declarations, server-side telemetry, controlled agent test traffic, and human review to build a provisional labeled benchmark before enforcing anything. What makes this hard is that undeclared agents create circular ground truth, while declared agents are a biased sample and behavior changes quickly. Move 2: Prototype a privacy-preserving, signed delegation envelope carrying agent identity, pseudonymous user authorization, permitted purposes, consent references, provenance, expiry, and revocation, then test it with a small coalition of agent vendors, CMPs, publishers, and commerce platforms. What makes this hard is not the token design but aligning incentives, legal meaning, trust roots, and adoption without creating a universal tracking identifier. Move 3: Put a policy gateway behind the signal that defaults unknown automation to least privilege, separates access from personalization, pricing, attribution, and impression counting, and evaluates decisions through logged experiments rather than one bot-versus-human rule. What makes this hard is that mixed human-agent journeys defeat clean attribution, and differentiated treatment can create consumer-protection, competition, and discrimination risks.",
+      "first_move": "Measure in shadow mode before using agent classification to change treatment.",
+      "hardest_part": "The hardest part is establishing trustworthy delegation and consent without creating another spoofable or privacy-invasive identity layer.",
+      "confidence": "medium",
+      "sources": []
+    },
+    {
+      "provider": "google",
+      "label": "Gemini",
+      "model": "gemini-3.7-flash",
+      "approach": "1. Offer dedicated, machine-readable endpoints that provide faster fulfillment and guaranteed inventory in exchange for cryptographically signed delegation tokens. What makes this hard is that agents will still masquerade as humans whenever consumer-facing storefronts offer cheaper pricing, exclusive promotions, or fewer access restrictions.\n\n2. Build internal baseline datasets by fingerprinting non-human interaction physics, such as non-rendered asset patterns and programmatic navigation graph traversal. What makes this hard is that agent builders will engage in an endless adversarial cycle of adding artificial jitter, fake mouse paths, and synthetic rendering artifacts to look human.\n\n3. Split tracking and attribution at the edge into parallel ledgers for human attention versus delegated programmatic execution. What makes this hard is that the entire adtech and regulatory ecosystem remains fundamentally anchored to the legal fiction that every conversion is downstream of a human viewing an ad banner.",
+      "first_move": "Give AI agents their own dedicated, fast API endpoints that require identity tokens instead of trying to catch them on the human website.",
+      "hardest_part": "Agents will always choose to pretend to be human whenever human interfaces offer better prices or access.",
+      "confidence": "low",
+      "sources": []
+    }
+  ],
+  "failures": []
+}
