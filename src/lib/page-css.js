@@ -148,7 +148,7 @@ main { padding-bottom:0; }
 .answer__foot dt { font-size:.74rem; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted); font-weight:600; margin-top:10px; }
 .answer__foot dt:first-child { margin-top:0; }
 .answer__foot dd { margin:3px 0 0; color:var(--text-secondary); }
-.answer__conf { font-size:.78rem; color:var(--text-muted); margin:12px 0 0; }
+.answer__conf { font-size:.78rem; color:var(--text-muted); margin:12px 0 0; overflow-wrap:anywhere; }
 
 /* ---------- ranked board ---------- */
 .board__title { font-size:1.02rem; font-weight:640; letter-spacing:-.01em; margin:34px 0 8px; }

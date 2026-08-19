@@ -328,7 +328,10 @@ export function recognitionCards(rec, { sources = false } = {}) {
       </dl>
       ${
         sources && r.sources?.length
-          ? `<p class="answer__conf">Sources: ${r.sources.slice(0, 4).map(esc).join('; ')}${r.sources.length > 4 ? ` and ${r.sources.length - 4} more` : ''}</p>`
+          ? `<p class="answer__conf">Sources: ${r.sources
+              .slice(0, 4)
+              .map((u) => esc(u.length > 80 ? `${u.slice(0, 77)}...` : u))
+              .join('; ')}${r.sources.length > 4 ? ` and ${r.sources.length - 4} more` : ''}</p>`
           : ''
       }
     </li>`,
