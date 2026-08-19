@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated_at": "2026-08-19T00:47:19.730993+00:00",
+  "updated_at": "2026-08-19T01:08:17.299Z",
   "problems": [
     {
       "id": "aeo",
@@ -123,8 +123,8 @@
     {
       "id": "semantic-context-layer",
       "canonical_name": "Governed Semantic Context Layer for Agents and Activation",
-      "definition": "AI agents can now call marketing systems, but nobody has a reliable way to give them correct, permissioned, semantically unambiguous context \u2014 so agent output is confidently wrong in ways that look plausible.",
-      "why_unsolved": "MCP standardized transport and tool discovery, not meaning or entitlements. There is still no shared semantic layer defining what 'active customer,' 'qualified lead' or 'revenue' means across CRM, CDP, warehouse and ad platforms, and no field-level permission or row-level security model that follows an agent across tools \u2014 so teams either over-scope agent access (leak and compliance risk) or under-scope it (useless agent). The spec surface is also still moving: the July 2026 stateless MCP revision invalidated architectures built a year earlier, so integration work does not compound.",
+      "definition": "AI agents can now call marketing systems, but nobody has a reliable way to give them correct, permissioned, semantically unambiguous context — so agent output is confidently wrong in ways that look plausible.",
+      "why_unsolved": "MCP standardized transport and tool discovery, not meaning or entitlements. There is still no shared semantic layer defining what 'active customer,' 'qualified lead' or 'revenue' means across CRM, CDP, warehouse and ad platforms, and no field-level permission or row-level security model that follows an agent across tools — so teams either over-scope agent access (leak and compliance risk) or under-scope it (useless agent). The spec surface is also still moving: the July 2026 stateless MCP revision invalidated architectures built a year earlier, so integration work does not compound.",
       "category": "data",
       "aliases": [
         "A trustworthy customer-data semantic and activation layer",
@@ -149,7 +149,7 @@
     {
       "id": "agent-safe-execution",
       "canonical_name": "Safe, Auditable Agent Execution in Martech Systems",
-      "definition": "Teams want agents that actually act \u2014 change budgets, send campaigns, edit audiences, update CRM records \u2014 but current SaaS permissioning, audit, and rollback models were built for humans and cannot contain an autonomous actor.",
+      "definition": "Teams want agents that actually act — change budgets, send campaigns, edit audiences, update CRM records — but current SaaS permissioning, audit, and rollback models were built for humans and cannot contain an autonomous actor.",
       "why_unsolved": "Martech tools authenticate agents as a human seat or a broad OAuth scope, so there is no per-agent identity, least-privilege scope, or spend/blast-radius cap; audit logs record the borrowed human. MCP connectors proliferated faster than any authorization or provenance model, and prompt injection through the marketing data an agent reads (inbound emails, reviews, web pages, ticket text) remains unmitigated. Most systems of engagement have no transactional rollback for a sent send or a spent budget, so approval gates degrade to a human rubber-stamping every action, which erases the gain.",
       "category": "automation",
       "aliases": [
@@ -252,7 +252,23 @@
       "plain": "coordinating messages across every channel"
     }
   ],
-  "pending_review": [],
+  "pending_review": [
+    {
+      "id": "agentic-commerce-interoperability",
+      "canonical_name": "Machine-Readable Commerce Layer and Agent Protocol Interoperability",
+      "definition": "Brands have no canonical, real-time, structured representation of catalog, price, availability, delivery and policy that agents can consume — and no way to receive customer or performance data back when a transaction is agent-brokered.",
+      "why_unsolved": "Product truth is scattered across PIM, ERP, CMS and storefront with conflicting values, and the emerging protocol layer is fragmented across competing specs (ACP, UCP, AP2, card-network agent schemes) with no settled analytics or identity semantics, so merchants integrate multiple times and still receive thin, non-joinable order context. The commercial terms of the data exchange are also unsettled, as the crawler-payment fights show.",
+      "category": "data",
+      "aliases": [],
+      "proposed_in": "2026-08",
+      "proposed_by": [
+        "anthropic",
+        "openai"
+      ],
+      "reason": "Supply-side readiness — canonical structured catalog/price/policy data and fragmented agent commerce protocols — is a distinct friction from identifying agent traffic or containing internal agents.",
+      "status": "pending_review"
+    }
+  ],
   "review_log": [
     {
       "month": "2026-08",
