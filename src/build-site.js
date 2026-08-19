@@ -11,10 +11,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { paths, readJSON, listJSON, log } from './lib/io.js';
 import { rankedBoard, esc } from './lib/charts.js';
-import { CSS } from './lib/page-css.js';
+
 import {
   FAVICON,
+  PAGE_CSS,
   noEmDash,
+  normalizeSolution,
   renderAnswers,
   siteFooter,
   subShell,
@@ -68,12 +70,16 @@ function latestSnapshot({ months, solutions, registry, latestMonth, solution, th
       : null,
     board: latestMonth?.board ?? [],
     latest_answers: solution
-      ? {
-          date: solution.date,
-          problem: solution.problem.canonical_name,
-          format: solution.format.label,
-          models: solution.answers.map((a) => a.model),
-        }
+      ? (() => {
+          const norm = normalizeSolution(solution);
+          return {
+            date: norm.date,
+            problem: norm.problem.canonical_name,
+            formats: norm.formats.map((f) => f.format.label),
+            default_format: norm.defaultId,
+            models: [...new Set(norm.formats.flatMap((f) => f.answers.map((a) => a.model)))],
+          };
+        })()
       : null,
     themes: themesToday
       ? { date: themesToday.date, names: themesToday.themes.map((t) => t.name) }
@@ -220,7 +226,7 @@ function build() {
     topProblem,
     board: latestMonth?.board ?? [],
   })}</script>
-<style>${CSS}</style>
+<style>${PAGE_CSS}</style>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -245,7 +251,7 @@ function build() {
   <div class="section__head">
     <div class="section__num">01</div>
     <h2 id="solutions">How would the models attack it?</h2>
-    <p class="section__note">We rotate through this month's board, one problem each day. ChatGPT, Claude and Gemini all get the same question (how would you attack this?) and answer in the same format, which changes monthly. We never ask for a solution: everything here is unsolved, and a model asked to solve it will invent a plan. So any difference between the answers is substance, not style.</p>
+    <p class="section__note">We rotate through this month's board, one problem each day. ChatGPT, Claude and Gemini all get the same question (how would you attack this?) and answer it in every format on the list, from a memo to a haiku. Pick the format you want to read; a different one leads each day. We never ask for a solution: everything here is unsolved, and a model asked to solve it will invent a plan. So any difference between the answers is substance, not style.</p>
   </div>
   ${answersHtml}
 </section>
@@ -327,7 +333,7 @@ ${siteFooter()}
       `/days/${sol.date}/`,
       subShell({
         title: `${cap(plain)}: three AI answers · ${sol.date}`,
-        description: `On ${sol.date}, ChatGPT, Claude and Gemini were each asked how they would attack ${plain}. Format: ${sol.format.label.toLowerCase()}. Their full answers, side by side.`,
+        description: `On ${sol.date}, ChatGPT, Claude and Gemini were each asked how they would attack ${plain}, in ${(sol.formats ?? [sol]).length > 1 ? 'six formats, from a memo to a haiku' : `the format: ${(sol.formats?.[0]?.format ?? sol.format).label.toLowerCase()}`}. Their full answers, side by side.`,
         path: `/days/${sol.date}/`,
         eyebrow: `${esc(sol.date)} &middot; <a href="/problems/${esc(sol.problem.canonical_id)}/">${esc(sol.problem.canonical_name)}</a>`,
         heading: `How would you attack <em>${esc(plain)}</em>?`,
@@ -360,14 +366,16 @@ ${siteFooter()}
     const timeline = sols.length
       ? `<ul class="meta-list">${sols
           .map((x) => {
-            const firsts = [...x.answers]
+            const norm = normalizeSolution(x);
+            const panel = norm.formats.find((f) => f.format.id === norm.defaultId) ?? norm.formats[0];
+            const firsts = [...panel.answers]
               .sort((a, b) => a.label.localeCompare(b.label))
               .map((a) => `<strong>${esc(a.label)}:</strong> ${esc(a.first_move)}`)
               .join(' ');
             return `<li>
               <div class="meta-list__top">
                 <a class="meta-list__title" href="/days/${esc(x.date)}/">${esc(x.date)}</a>
-                <span class="meta-list__note">format: ${esc(x.format.label.toLowerCase())}</span>
+                <span class="meta-list__note">${norm.formats.length > 1 ? `${norm.formats.length} formats` : `format: ${esc(panel.format.label.toLowerCase())}`}</span>
               </div>
               <p class="meta-list__body">${firsts}</p>
             </li>`;
@@ -472,7 +480,7 @@ ${feedEntries
     <id>${SITE}/days/${x.date}/</id>
     <link href="${SITE}/days/${x.date}/"/>
     <updated>${x.date}T06:30:00Z</updated>
-    <summary>${esc(`ChatGPT, Claude and Gemini each answer in the format: ${x.format.label.toLowerCase()}. ${x.problem.canonical_name}, from the ${x.board_month} board.`)}</summary>
+    <summary>${esc(`ChatGPT, Claude and Gemini each answer${x.formats ? ' in six formats, from a memo to a haiku' : ` in the format: ${x.format.label.toLowerCase()}`}. ${x.problem.canonical_name}, from the ${x.board_month} board.`)}</summary>
   </entry>`;
   })
   .join('\n')}

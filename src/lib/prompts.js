@@ -138,9 +138,15 @@ export function themesUser({ date, boards, solutions, previous }) {
     )
     .join('\n');
 
+  // One panel per day feeds the synthesis. New files carry every format, but
+  // six restatements of the same position add cost, not signal, and would
+  // multiply the input roughly sixfold as the window fills.
   const solutionLines = solutions
     .map((s) => {
-      const per = s.answers
+      const formats = s.formats ?? [{ format: s.format, answers: s.answers }];
+      const chosen =
+        formats.find((f) => f.format.id === s.default_format) ?? formats[0];
+      const per = (chosen.answers ?? [])
         .map((a) => `${a.label}: first move: ${a.first_move} hardest part: ${a.hardest_part} (confidence ${a.confidence})`)
         .join(' | ');
       return `${s.date} · ${s.problem.canonical_name} (id ${s.problem.canonical_id}): ${per}`;

@@ -60,9 +60,9 @@ body {
 /* ---------- subpages ---------- */
 .subhead { background:#0b0b0b; border-bottom:1px solid rgba(255,255,255,.14); padding:18px 0; }
 .subhead__row { display:flex; justify-content:space-between; align-items:baseline; gap:16px; flex-wrap:wrap; }
-.subhead__mark { font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; color:#8d8b84; font-weight:600; text-decoration:none; }
+.subhead__mark { font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; color:#8d8b84; font-weight:600; text-decoration:none; display:inline-block; padding:8px 0; margin:-8px 0; }
 .subhead__mark b { color:#fff; font-weight:600; }
-.subhead__site { font-size:.85rem; color:#b9b7ae; text-decoration:none; }
+.subhead__site { font-size:.85rem; color:#b9b7ae; text-decoration:none; display:inline-block; padding:8px 0; margin:-8px 0; }
 .subhead__site:hover, .subhead__mark:hover b { text-decoration:underline; }
 .subhead a:focus-visible { outline-color:#7fb2f5; }
 .subpage__head { padding:56px 0 26px; border-bottom:1px solid var(--rule); margin-bottom:30px; }
@@ -93,6 +93,19 @@ main { padding-bottom:96px; }
 
 .empty { padding:44px 20px; text-align:center; color:var(--text-muted);
   border:1px dashed var(--baseline); border-radius:12px; font-size:.92rem; }
+
+/* ---------- format switcher (CSS-only, no script) ---------- */
+/* Radios are visually hidden but keyboard-focusable; panels are hidden by
+   default and shown by per-format :checked rules that render.js generates
+   from config/formats.json at build time, so config and CSS cannot drift.
+   With CSS absent (readers, crawlers), every panel renders: all content is in
+   the document, the switcher is progressive enhancement in reverse. */
+.fmt-radio { position:absolute; width:1px; height:1px; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); }
+.fmt-bar { border:0; margin:0 0 20px; padding:0; display:flex; flex-wrap:wrap; gap:8px; }
+.fmt-legend { font-size:.74rem; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted); font-weight:600; width:100%; margin-bottom:10px; }
+.fmt-pill { border:1px solid var(--border); border-radius:999px; padding:6px 14px; font-size:.86rem; color:var(--text-secondary); cursor:pointer; background:var(--surface-1); }
+.fmt-pill:hover { border-color:var(--text-muted); }
+.fmt-panel { display:none; }
 
 /* ---------- daily answers ---------- */
 .solutions__meta { color:var(--text-secondary); margin:0 0 22px; max-width:66ch; }

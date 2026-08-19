@@ -1,5 +1,5 @@
 {
-  "_note": "One format per month, shared by all three models. Per-model choice was considered and rejected: if one model answers in prose and another in code, style differences swamp substance and the comparison stops meaning anything. Rotating monthly keeps variety across time while holding the format constant within a month, so the format is a controlled variable rather than a confound. Selection is deterministic from the month string so a rerun of the same month reproduces the same format.",
+  "_note": "Every format is asked every day, of all three models, and the site displays one by default with a visitor-facing switcher for the rest. The default is seeded from the date: it varies day to day but a rebuild within a day cannot re-roll it. Comparability holds within each format panel, since all three models share the format there. The switcher CSS is generated from this file at build time, so adding or removing a format needs no other change.",
   "formats": [
     {
       "id": "cmo-memo",

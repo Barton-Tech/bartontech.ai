@@ -45,8 +45,11 @@ Sitemap: ${SITE}/sitemap.xml
 // llms.txt: the emerging convention for pointing an assistant at the parts of
 // a site worth reading, in the order worth reading them.
 export function llmsTxt({ month, topProblem, topPlain, days, months, solution, archive = '' }) {
+  const solutionFormats = solution
+    ? (solution.formats ?? [{ format: solution.format, answers: solution.answers }])
+    : [];
   const solutionLine = solution
-    ? `- Today's question (${solution.date}): how would you attack "${solution.problem.canonical_name}"? Answered by ${solution.answers.map((a) => a.label).join(', ')} in the format "${solution.format.label}".`
+    ? `- Today's question (${solution.date}): how would you attack "${solution.problem.canonical_name}"? Answered by ${[...new Set(solutionFormats.flatMap((f) => f.answers.map((a) => a.label)))].join(', ')}${solutionFormats.length > 1 ? ` in ${solutionFormats.length} formats` : ` in the format "${solutionFormats[0]?.format.label}"`}.`
     : '- The first daily answers land with the next run.';
   return `# ${TITLE}
 
@@ -75,7 +78,7 @@ Every file is plain JSON, append-only, and served without authentication.
 
 - The monthly panel runs each model twice: once answering from its own knowledge, once after searching the web. Proposals are reconciled against the registry by canonical id, so "AEO", "GEO" and "LLM visibility" stay one problem rather than three.
 - The daily question asks how a model would attack the problem, not how to solve it. Every problem on the board is selected for being unsolved; a model asked to solve one invents a confident plan.
-- All three models answer in the same format, which rotates monthly. Holding format constant within a month keeps answers comparable across models and across problems.
+- All three models answer in every format on the list, and each panel holds one shared format, so any difference inside a panel is substance rather than style. The site shows one format by default, chosen by a date seed so it varies day to day, and the visitor switches to the rest.
 - Every stored run records its prompt version and the exact model ids that produced it, and raw responses are kept so history can be re-derived rather than lost.
 
 ${archive ? `## Archive\n\nEvery problem and every day has its own page.\n\n${archive}\n\n` : ''}## Author
@@ -248,8 +251,8 @@ export function faqItems({ topProblem, topPlain, days, months }) {
       a: 'Every problem on the board is there because the industry has not solved it. A language model asked to solve an unsolved problem will produce a confident plan anyway, which is worse than useless. Asking how it would attack the problem, where it would start, and what it expects to be hard produces honest answers, and makes the real differences between the models visible.',
     },
     {
-      q: 'Why do all three models answer in the same format?',
-      a: 'If one model answers in prose and another in code, the difference in style hides whether they actually disagree. All three answer in one shared format, which changes monthly. Holding the format constant within a month means any difference between the answers is substance, not presentation.',
+      q: 'Why do all three models answer in the same formats?',
+      a: 'If one model answers in prose and another in code, the difference in style hides whether they actually disagree. So every answer panel holds one shared format: all three models write a memo, or all three write a haiku. The models answer in every format each day, the site opens on one chosen by a date seed, and the reader switches between the rest. Within any panel, difference is substance, not presentation.',
     },
     {
       q: 'How is the monthly board ranked?',
