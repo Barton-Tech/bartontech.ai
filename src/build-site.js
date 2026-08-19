@@ -126,7 +126,12 @@ function latestSnapshot(days, months, registry) {
 
 function build() {
   const days = loadSeries('tracker');
-  const solutionDays = loadSeries('solutions');
+  // Filter to date-shaped filenames. A YYYY-MM file sorts AFTER YYYY-MM-DD
+  // lexically ('-' < '.'), so a stray month-shaped artifact would be picked as
+  // the newest and render with a missing date. One already did.
+  const solutionDays = listJSON(paths.data('solutions'))
+    .filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
+    .map((f) => readJSON(paths.data('solutions', f)));
   const months = loadSeries('index');
   const registry = readJSON(paths.registry());
   const anchor = readJSON(paths.config('anchor.json'));
