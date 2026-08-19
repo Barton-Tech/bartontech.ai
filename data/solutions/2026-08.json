@@ -1,0 +1,51 @@
+{
+  "month": "2026-08",
+  "generated_at": "2026-08-19T01:13:15.208Z",
+  "provenance": {
+    "prompt_version": "2026-08-18.1",
+    "samples_per_question": 3,
+    "harness_version": 1
+  },
+  "problem": {
+    "canonical_id": "aeo",
+    "canonical_name": "Answer Engine Optimization",
+    "plain": "getting named by AI"
+  },
+  "format": {
+    "id": "three-moves",
+    "label": "Three moves",
+    "instruction": "Give exactly three moves, in order. One sentence each, then one sentence on what makes that move hard. Nothing else."
+  },
+  "answers": [
+    {
+      "provider": "anthropic",
+      "label": "Claude",
+      "model": "claude-opus-5",
+      "approach": "Move 1: Build the prompt panel from observed demand — mine your own site search, support tickets, sales call transcripts and win/loss notes for the questions buyers actually ask in natural language — and log the full answer with its citations on every run, not a binary mentioned/not-mentioned. What makes it hard: there is no denominator, since nobody outside the model vendors can see the real distribution of prompts, so you are estimating a population you will never get to validate.\n\nMove 2: Stop treating this as ranking and treat it as corpus control — the unit of analysis is which source the model retrieved and what claim that source carried about you, which redirects the work toward Reddit threads, comparison listicles, review platforms, docs and analyst pages rather than your own site. What makes it hard: the highest-leverage surfaces are third-party, structurally resistant to being manipulated, and model updates will move your numbers more than your edits do, so you can rarely prove your intervention caused anything.\n\nMove 3: Instrument the downstream before you scale the upstream — add free-text \"how did you hear about us,\" segment assistant referrers where the header exists, and run geo or category holdouts so you have some causal estimate of whether being named converts into pipeline. What makes it hard: assistant referral traffic arrives largely dark and at low volume, so detecting lift requires long windows during which the models themselves change, quietly breaking your control group.\n\nWhere I disagree with the obvious answer: the industry default is to build an LLM rank tracker and sell a share-of-voice number, and I think that number is mostly noise dressed as a metric — nondeterminism, personalization, and an unknowable prompt denominator mean the score moves for reasons that have nothing to do with you.",
+      "first_move": "Pull the real questions customers ask out of support tickets and sales calls and use those as the test prompts.",
+      "hardest_part": "You are trying to measure and influence a non-stationary system whose inputs, prompt distribution, and retrieval behavior are all unobservable from the outside, which makes causal claims nearly impossible to support.",
+      "confidence": "medium"
+    },
+    {
+      "provider": "openai",
+      "label": "ChatGPT",
+      "model": "gpt-5.6-sol",
+      "approach": "Move 1: Build a versioned benchmark that repeatedly asks representative, intent-weighted questions across major answer engines and records mentions, claims, sentiment, citations, competitors, and answer variance rather than pretending there is one stable “AI ranking.”\nWhat makes this hard: Outputs change with model versions, retrieval, geography, personalization, and randomness, while query-volume data and ground truth are weak.\nMove 2: Run controlled experiments that vary brand-owned facts, structured data, third-party corroboration, publisher coverage, and community sources to estimate which interventions causally change representation, rather than jumping straight to an AEO score or content factory.\nWhat makes this hard: The systems are opaque and update continuously, so separating intervention effects from model drift requires holdouts, repeated trials, and considerable patience.\nMove 3: Turn the evidence into a representation-management loop that flags harmful or missing claims, traces likely source provenance, recommends defensible corrections or distribution, and ties measured changes to brand and commercial outcomes.\nWhat makes this hard: Even if mention lift is measurable, proving durable influence—and separating it from mere citation gaming or downstream demand—is still unsolved.",
+      "first_move": "Build a repeatable benchmark of how answer engines represent the brand across real customer questions.",
+      "hardest_part": "The hardest part is establishing causality on stochastic, personalized, opaque systems that change underneath the measurement.",
+      "confidence": "medium",
+      "sources": []
+    },
+    {
+      "provider": "google",
+      "label": "Gemini",
+      "model": "gemini-3.7-flash",
+      "approach": "1. Run high-volume synthetic query sweeps across major LLMs to build a probabilistic map of where your brand is cited and where it disappears. What makes this hard is that non-deterministic sampling and dynamic retrieval make a stable baseline impossible to pin down. 2. Seed structured, highly citable factual claims across the independent third-party sources and open datasets that RAG pipelines crawl most heavily. What makes this hard is that you cannot verify which specific source the model retrieved or weighted during synthesis. 3. Track mention shifts against known model releases to isolate algorithmic changes from your own content efforts. What makes this hard is that platform vendors continuously alter retrieval logic, system prompts, and training data without changelogs.",
+      "first_move": "Run thousands of automated queries across every major AI engine to see where your brand is currently mentioned or omitted.",
+      "hardest_part": "You cannot isolate cause and effect because you have no visibility into the real-time retrieval mechanisms, training data mixtures, or internal prompt rewrites of third-party foundation models.",
+      "confidence": "low",
+      "sources": []
+    }
+  ],
+  "failures": []
+}
