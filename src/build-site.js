@@ -382,6 +382,10 @@ ${faqHtml}
 </body>
 </html>`;
 
+  // Clear dist/ first. cpSync copies over the top of what is already there
+  // and never removes, so a locally-deleted day would keep being served from a
+  // stale copy. CI clones fresh and never saw this; a local deploy would have.
+  fs.rmSync(paths.dist(), { recursive: true, force: true });
   fs.mkdirSync(paths.dist(), { recursive: true });
   fs.writeFileSync(paths.dist('index.html'), html);
   fs.cpSync(paths.data(), paths.dist('data'), { recursive: true });
