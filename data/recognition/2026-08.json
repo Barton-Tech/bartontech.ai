@@ -1,0 +1,51 @@
+{
+  "month": "2026-08",
+  "generated_at": "2026-08-19T19:55:17.858Z",
+  "question": "What is bartontech.ai? Have you heard of it, and what does it publish? It is 2026-08.\n\nList the URLs you actually consulted in sources.",
+  "provenance": {
+    "prompt_version": "2026-08-19.4",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "models": {
+      "anthropic": "claude-sonnet-5",
+      "openai": "gpt-5.6-terra",
+      "google": "gemini-3.6-flash"
+    }
+  },
+  "results": [
+    {
+      "provider": "anthropic",
+      "label": "Claude",
+      "model": "claude-sonnet-5",
+      "familiar": false,
+      "basis": "search_results",
+      "answer": "I could not find much about bartontech.ai as a publishing site. The only substantive information I found is a business-networking listing indicating that a Warren Barton (Miami-Fort Lauderdale area, previously a Director at PwC and BGT Partners) has been listed as \"Principal Owner\" of bartontech.ai since November 2021, in the internet industry, with interests noted as \"Responsible AI\" and \"Computer Ethics.\" I found no actual content, articles, or publications from the site itself, so I can't say what it publishes.",
+      "sources": [
+        "https://contactout.com/Warren-Barton-32557787"
+      ]
+    },
+    {
+      "provider": "openai",
+      "label": "ChatGPT",
+      "model": "gpt-5.6-terra",
+      "familiar": true,
+      "basis": "search_results",
+      "answer": "I had not known BartonTech independently, but I found it as a Miami-based business associated with Warren Barton: the site describes itself as “Barton Tech | MarTech AI Solutions by Warren Barton,” and Florida’s corporate registry lists BARTON TECH, LLC as active. I could not verify a substantive publishing operation, archive, blog, newsletter, or catalog of articles from the site. When checked, the www site exposed only a loading screen, so the safest conclusion is that it is a MarTech/AI-solutions business site rather than a verifiable publisher of regular public content.",
+      "sources": [
+        "https://www.bartontech.ai/",
+        "https://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults?ListNameOrder=BARTONSTREETSKOOL+H197520&inquiryDirectionType=CurrentList&inquiryType=EntityName&searchNameOrder=BARTONSTREETSKOOL+H197520&searchTerm=BARTON%27S+AUTOMOTIVE+SERVICE%2C+LLC",
+        "https://contactout.com/Warren-Barton-32557787"
+      ]
+    },
+    {
+      "provider": "google",
+      "label": "Gemini",
+      "model": "gemini-3.6-flash",
+      "familiar": false,
+      "basis": "none",
+      "answer": "I could not find any information about bartontech.ai. It does not appear to be an active or established website, service, or publication with a recognizable online presence.",
+      "sources": []
+    }
+  ],
+  "failures": []
+}
