@@ -110,7 +110,7 @@ main { padding-bottom:96px; }
   border:1px solid var(--border); border-radius:999px; padding:2px 10px; color:var(--text-muted); }
 .theme__trend--new, .theme__trend--rising { color:var(--link); border-color:var(--link); }
 .theme__plain { margin:8px 0 0; color:var(--text-secondary); max-width:66ch; }
-.theme__evidence { margin:6px 0 0; font-size:.86rem; color:var(--text-muted); max-width:66ch; }
+.theme__evidence { margin:6px 0 0; font-size:.86rem; color:var(--text-secondary); max-width:66ch; }
 
 /* ---------- table view (board fallback) ---------- */
 .table { margin-top:16px; font-size:.86rem; }

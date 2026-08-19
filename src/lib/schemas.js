@@ -227,7 +227,7 @@ export const THEMES = {
           evidence: {
             type: 'string',
             description:
-              'One sentence naming the specific problems or answers in the supplied record that support this theme. Only what is in the record.',
+              'One sentence naming the specific problems or answers in the supplied record that support this theme. Use plain problem names, never ids like agent-safe-execution: this sentence is read aloud by screen readers. Only what is in the record.',
           },
           problem_ids: {
             type: 'array',
