@@ -252,7 +252,6 @@ export function rankedBoard({
   rows,
   title = '',
   subtitle = '',
-  scoreMax = null,
   emptyNote = 'Collecting. The first board appears after the monthly index run.',
 }) {
   const head =
@@ -271,7 +270,7 @@ export function rankedBoard({
       <div>
         <div class="board__name"><span class="visually-hidden">Rank ${i + 1}. </span>${esc(r.name)}</div>
         <div class="board__meta">
-          <span class="board__score">${r.value}${scoreMax ? `<span class="board__of"> of ${scoreMax}</span>` : ''}</span>
+          <span class="board__score">${r.value}</span>
           <span class="board__track"><span class="board__fill" style="width:${pct}%"></span></span>
           ${by ? `<span class="board__by">${esc(by)}</span>` : ''}
         </div>
@@ -280,8 +279,8 @@ export function rankedBoard({
     })
     .join('');
   const table = dataTable(
-    [scoreMax ? `Score (out of ${scoreMax})` : 'Score'],
-    rows.map((r) => ({ name: r.name, values: [scoreMax ? `${r.value} of ${scoreMax}` : String(r.value)] })),
+    ['Score'],
+    rows.map((r) => ({ name: r.name, values: [String(r.value)] })),
     { rowHeader: 'Problem', caption: 'Problem index board' },
   );
   return `${head}<ol class="board">${items}</ol>${table}`;

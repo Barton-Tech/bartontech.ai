@@ -1,16 +1,20 @@
 #!/usr/bin/env node
-// Asks each model how it would attack the month's top problem, all three in the
-// same format, and stores the answers side by side.
+// Asks each model how it would attack one problem from the board, all three in
+// the same format, and stores the answers side by side. Runs daily.
 //
-// One shared format per month rather than letting each model choose. Per-model
-// choice was the original idea and it does not survive contact with the point
-// of the site: if one answers in prose and another in code, style differences
-// swamp substance and you cannot tell whether the models actually disagree.
-// Rotating monthly keeps variety across time while holding format constant
-// within a month, which makes the format a controlled variable.
+// Two rotations at different speeds, deliberately. The PROBLEM rotates daily
+// down the board, so a full pass covers every problem before repeating and each
+// day is genuinely new content rather than a re-ask of the same question. The
+// FORMAT rotates monthly, so within a month it is constant and answers stay
+// comparable across problems as well as across models.
+//
+// One shared format rather than letting each model choose. Per-model choice was
+// the original idea and it does not survive contact with the point of the site:
+// if one answers in prose and another in code, style differences swamp substance
+// and you cannot tell whether the models actually disagree.
 
-import { paths, readJSON, writeJSON, listJSON, provenance, log } from './lib/io.js';
-import { thisMonth } from './lib/dates.js';
+import { paths, readJSON, writeJSON, exists, listJSON, provenance, log } from './lib/io.js';
+import { thisMonth, today } from './lib/dates.js';
 import { enabledProviders, assertConfigured } from './lib/providers/index.js';
 import { SOLUTION } from './lib/schemas.js';
 import { solutionSystem, solutionUser } from './lib/prompts.js';
@@ -22,21 +26,39 @@ export function formatForMonth(month, formats) {
   return formats[(y * 12 + (m - 1)) % formats.length];
 }
 
+// Days since epoch, so the walk down the board is continuous across month
+// boundaries and a given date always resolves to the same position.
+export function problemForDate(date, board) {
+  const day = Math.floor(Date.parse(`${date}T00:00:00Z`) / 86400000);
+  return board[day % board.length];
+}
+
 async function main() {
   const config = readJSON(paths.config('models.json'));
   assertConfigured(config);
-  const month = process.argv[2] ?? thisMonth();
+  const date = process.argv[2] ?? today();
+  const month = date.slice(0, 7);
 
-  const index = readJSON(paths.index(month), null);
-  if (!index?.board?.length) {
-    throw new Error(`no board for ${month}; run the monthly index first`);
+  if (exists(paths.data('solutions', `${date}.json`))) {
+    log(`${date}: already answered, nothing to do`);
+    return;
   }
+
+  // Use the most recent published board, which may be an earlier month than
+  // today if the monthly run has not fired yet.
+  const months = listJSON(paths.data('index'));
+  const latest = months.length ? readJSON(paths.data('index', months[months.length - 1])) : null;
+  if (!latest?.board?.length) {
+    log('no board published yet; skipping until the monthly index has run');
+    return;
+  }
+
   const registry = readJSON(paths.registry());
-  const top = index.board[0];
+  const top = problemForDate(date, latest.board);
   const entry = registry.problems.find((p) => p.id === top.canonical_id);
   const format = formatForMonth(month, readJSON(paths.config('formats.json')).formats);
 
-  log(`${month}: asking about "${top.canonical_name}" in format "${format.id}"`);
+  log(`${date}: asking about "${top.canonical_name}" in format "${format.id}"`);
 
   const system = solutionSystem(format);
   const user = solutionUser({
@@ -73,8 +95,11 @@ async function main() {
   const order = enabledProviders(config).map((p) => p.name);
   answers.sort((a, b) => order.indexOf(a.provider) - order.indexOf(b.provider));
 
-  writeJSON(paths.data('solutions', `${month}.json`), {
+  writeJSON(paths.data('solutions', `${date}.json`), {
+    date,
     month,
+    board_month: latest.month,
+    board_rank: latest.board.indexOf(top) + 1,
     generated_at: new Date().toISOString(),
     provenance: provenance(config),
     problem: {
@@ -89,7 +114,11 @@ async function main() {
   log(`wrote ${answers.length} answers, ${failures.length} failures`);
 }
 
-main().catch((err) => {
-  console.error(err.message ?? err);
-  process.exit(1);
-});
+// Only run when invoked directly. The rotation helpers are exported for tests
+// and for the site build, and importing them should not fire a paid run.
+if (process.argv[1] && import.meta.url === `file://${process.argv[1]}`) {
+  main().catch((err) => {
+    console.error(err.message ?? err);
+    process.exit(1);
+  });
+}

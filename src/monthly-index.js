@@ -9,7 +9,7 @@
 // pending_review rather than the registry: a new entry claims the industry's
 // attention moved somewhere new, and that claim gets a person's sign-off.
 
-import { paths, readJSON, writeJSON, provenance, log } from './lib/io.js';
+import { paths, readJSON, writeJSON, exists, listJSON, provenance, log } from './lib/io.js';
 import { thisMonth } from './lib/dates.js';
 import { enabledProviders, assertConfigured } from './lib/providers/index.js';
 import { PROBLEM_PROPOSAL, RECONCILIATION } from './lib/schemas.js';
@@ -140,8 +140,22 @@ function scoreProblems(proposals, resolutions, ranking) {
 async function main() {
   const config = readJSON(paths.config('models.json'));
   assertConfigured(config);
-  const month = process.argv[2] ?? thisMonth();
+  const args = process.argv.slice(2).filter((a) => a !== '--force');
+  const force = process.argv.includes('--force');
+  const month = args[0] ?? thisMonth();
   const registry = readJSON(paths.registry());
+
+  // The site tells readers the record is append-only and cannot be backfilled.
+  // Re-running a month silently replaced a published board once already, moving
+  // the top problem and changing every score, so a rerun now has to be asked
+  // for. When forced, the previous version is archived rather than discarded.
+  if (exists(paths.index(month)) && !force) {
+    throw new Error(
+      `${month} already has a published board. Re-running would replace it, and the ` +
+        'panel is not deterministic: the same month can return a different ordering. ' +
+        'Pass --force to archive the current version and regenerate.',
+    );
+  }
 
   const { proposals, failures } = await gatherProposals(config, month);
   if (proposals.length === 0) {
@@ -151,6 +165,13 @@ async function main() {
 
   const { resolutions, ranking } = await reconcile(proposals, registry, config);
   const board = scoreProblems(proposals, resolutions, ranking);
+
+  if (force && exists(paths.index(month))) {
+    const prior = readJSON(paths.index(month));
+    const n = listJSON(paths.data('index/archive')).filter((f) => f.startsWith(month)).length + 1;
+    writeJSON(paths.data('index/archive', `${month}.v${n}.json`), prior);
+    log(`archived the previous ${month} board as v${n}`);
+  }
 
   writeJSON(paths.index(month), {
     month,

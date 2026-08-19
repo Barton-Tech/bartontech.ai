@@ -88,7 +88,6 @@ main { padding-bottom:96px; }
 .board__track { flex:1 1 160px; min-width:120px; height:6px; background:var(--grid); border-radius:999px; overflow:hidden; }
 .board__fill { display:block; height:100%; border-radius:999px; background:var(--series-1); }
 .board__score { font-variant-numeric:tabular-nums; color:var(--text-secondary); font-weight:600; }
-.board__of { font-weight:400; color:var(--text-muted); }
 .board__by { color:var(--text-muted); }
 
 /* ---------- charts ---------- */
@@ -126,6 +125,21 @@ main { padding-bottom:96px; }
 .table td { color:var(--text-secondary); }
 
 /* ---------- prose + faq ---------- */
+.answers { display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); margin:0; padding:0; list-style:none; }
+.answer { background:var(--surface-1); border:1px solid var(--border); border-radius:14px; padding:20px; display:flex; flex-direction:column; }
+.answer__who { display:flex; align-items:baseline; gap:10px; margin-bottom:14px; }
+.answer__model { font-weight:660; letter-spacing:-.01em; }
+.answer__id { font-size:.78rem; color:var(--text-muted); font-variant-numeric:tabular-nums; }
+.answer__body { white-space:pre-wrap; margin:0 0 16px; font-size:.95rem; line-height:1.55; }
+.answer__body--verse { font-style:italic; }
+.answer__foot { margin-top:auto; padding-top:14px; border-top:1px solid var(--grid); font-size:.86rem; }
+.answer__foot dt { font-size:.74rem; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted); font-weight:600; margin-top:10px; }
+.answer__foot dt:first-child { margin-top:0; }
+.answer__foot dd { margin:3px 0 0; color:var(--text-secondary); }
+.answer__conf { font-size:.78rem; color:var(--text-muted); }
+.solutions__meta { color:var(--text-secondary); margin:0 0 22px; max-width:66ch; }
+.solutions__format { display:inline-block; background:var(--surface-2); border:1px solid var(--border);
+  border-radius:999px; padding:3px 11px; font-size:.8rem; color:var(--text-secondary); }
 .prose { max-width:66ch; }
 .prose p { color:var(--text-secondary); margin:0 0 16px; }
 .prose h3 { font-size:1.05rem; margin:30px 0 8px; font-weight:640; }

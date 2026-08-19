@@ -30,6 +30,15 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+      # Rotates one problem off the board each day and asks all three models
+      # how they would attack it. Cheap (~$0.08/day) and independent of the
+      # day's tracker data, so a batch that is not ready does not block it.
+      - run: npm run solutions:daily
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+
       - name: commit results
         run: |
           git config user.name  'bartontech-bot'

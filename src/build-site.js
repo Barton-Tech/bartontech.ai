@@ -126,6 +126,7 @@ function latestSnapshot(days, months, registry) {
 
 function build() {
   const days = loadSeries('tracker');
+  const solutionDays = loadSeries('solutions');
   const months = loadSeries('index');
   const registry = readJSON(paths.registry());
   const anchor = readJSON(paths.config('anchor.json'));
@@ -197,13 +198,12 @@ function build() {
     ? `We collect ${dailyAnswers} answers a day. ${days.length} ${days.length === 1 ? 'day' : 'days'} so far, starting ${days[0].date}.`
     : 'The first day of answers lands with the next run.';
 
-  // Every model answers twice (once from memory, once after searching) and
-  // rates its own confidence high/medium/low, worth 3/2/1. So the ceiling is
-  // passes x 3. Showing it turns a bare 14 into 14 of 18.
-  const proposalPasses = latestMonth
-    ? new Set((latestMonth.proposals ?? []).map((x) => `${x.provider}|${x.pass}`)).size
-    : 0;
-  const scoreMax = proposalPasses > 0 ? proposalPasses * 3 : null;
+  // There is no fixed ceiling. A single pass often names several things that
+  // reconcile to one canonical entry, so a score can exceed passes x 3 and a
+  // printed denominator would be wrong. The month's own top score is the anchor.
+  const topScore = latestMonth?.board?.length
+    ? Math.max(...latestMonth.board.map((b) => b.score))
+    : null;
 
   const boardRows = (latestMonth?.board ?? [])
     .slice(0, 8)
@@ -219,6 +219,36 @@ function build() {
       }),
     )
     .join('');
+
+  // Latest day's answers. Three models, one problem, one shared format, so the
+  // reader is comparing substance rather than style.
+  const solution = solutionDays[solutionDays.length - 1] ?? null;
+  const verse = solution?.format?.id === 'haiku';
+  const answersHtml = solution
+    ? `<p class="solutions__meta">
+        On ${esc(solution.date)} we asked all three the same question about
+        <strong>${esc(solution.problem.plain || solution.problem.canonical_name)}</strong>,
+        ranked ${solution.board_rank} on this month's board.
+        Same problem, same format, so any difference is substance rather than style.
+        <span class="solutions__format">Format: ${esc(solution.format.label)}</span>
+       </p>
+       <ul class="answers">${solution.answers
+         .map(
+           (a) => `<li class="answer">
+           <div class="answer__who">
+             <span class="answer__model">${esc(a.label)}</span>
+             <span class="answer__id">${esc(a.model)}</span>
+           </div>
+           <p class="answer__body${verse ? ' answer__body--verse' : ''}">${esc(a.approach)}</p>
+           <dl class="answer__foot">
+             <dt>First move</dt><dd>${esc(a.first_move)}</dd>
+             <dt>Hardest part</dt><dd>${esc(a.hardest_part)}</dd>
+           </dl>
+           <p class="answer__conf">Its own confidence: ${esc(a.confidence)}</p>
+         </li>`,
+         )
+         .join('')}</ul>`
+    : '<div class="chart chart--empty"><div class="chart__empty">Collecting. The first answers land with the next daily run.</div></div>';
 
   const faqHtml = `<dl class="faq">${faq
     .map((item) => `<dt>${esc(item.q)}</dt><dd>${esc(item.a)}</dd>`)
@@ -284,11 +314,10 @@ function build() {
   </div>
   ${rankedBoard({
     rows: boardRows,
-    scoreMax,
     title: latestMonth ? `Current board \u2014 ${latestMonth.month}` : 'Current board',
-    subtitle: scoreMax
-      ? `Rank is what the models agreed on together. The score is separate: each model rates how sure it is, worth 3 for high, 2 for medium, 1 for low. We ask three models twice each, so ${scoreMax} is the most any problem can get. Rank and score can disagree.`
-      : 'Rank is what the models agreed on together. The score adds up how sure each model was.',
+    subtitle: topScore
+      ? `Rank is what the models agreed on together. The score is separate: it counts every time a model named the problem, weighted by how sure it said it was. Higher means named more often and more confidently. The highest score this month was ${topScore}. Rank and score can disagree.`
+      : 'Rank is what the models agreed on together. The score counts how often and how confidently they named it.',
   })}
   ${
     // The board answers "what is the standing now", the trend answers "how did
@@ -336,9 +365,18 @@ function build() {
   })}
 </section>
 
-<section class="section" aria-labelledby="method">
+<section class="section" aria-labelledby="solutions">
   <div class="section__head">
     <div class="section__num">03</div>
+    <h2 id="solutions">What they would do about it</h2>
+    <p class="section__note">Each day we take one problem off the board and ask all three models how they would attack it. Not how to solve it: everything here is unsolved by definition, and a model asked to solve one will invent a confident plan. The format changes monthly and is the same for all three.</p>
+  </div>
+  ${answersHtml}
+</section>
+
+<section class="section" aria-labelledby="method">
+  <div class="section__head">
+    <div class="section__num">04</div>
     <h2 id="method">How it is measured</h2>
   </div>
 <div class="prose">
@@ -355,7 +393,7 @@ function build() {
 
 <section class="section" aria-labelledby="faq">
   <div class="section__head">
-    <div class="section__num">04</div>
+    <div class="section__num">05</div>
     <h2 id="faq">Questions</h2>
   </div>
   ${faqHtml}
