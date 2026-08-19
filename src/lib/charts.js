@@ -268,7 +268,7 @@ export function rankedBoard({
       return `<li>
       <div class="board__rank" aria-hidden="true">${i + 1}</div>
       <div>
-        <div class="board__name"><span class="visually-hidden">Rank ${i + 1}. </span>${esc(r.name)}</div>
+        <div class="board__name"><span class="visually-hidden">Rank ${i + 1}. </span>${r.href ? `<a class="board__link" href="${esc(r.href)}">${esc(r.name)}</a>` : esc(r.name)}</div>
         <div class="board__meta">
           <span class="board__score">${r.value}</span>
           <span class="board__track"><span class="board__fill" style="width:${pct}%"></span></span>

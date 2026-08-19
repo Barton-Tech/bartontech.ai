@@ -8,9 +8,18 @@
 // build those answers, and nothing on the page needs a script.
 
 import fs from 'node:fs';
+import path from 'node:path';
 import { paths, readJSON, listJSON, log } from './lib/io.js';
 import { rankedBoard, esc } from './lib/charts.js';
 import { CSS } from './lib/page-css.js';
+import {
+  FAVICON,
+  noEmDash,
+  renderAnswers,
+  siteFooter,
+  subShell,
+  breadcrumbLd,
+} from './lib/render.js';
 import {
   SITE,
   TITLE,
@@ -22,24 +31,6 @@ import {
   faqItems,
 } from './lib/seo.js';
 
-
-const noEmDash = (text) => {
-  if (!text || !text.includes('\u2014')) return text ?? '';
-  return text
-    .split(/(?<=[.!?])\s+/)
-    .map((sentence) => {
-      let first = true;
-      return sentence.replace(/\s*\u2014\s*/g, () => {
-        const sep = first ? ': ' : ', ';
-        first = false;
-        return sep;
-      });
-    })
-    .join(' ');
-};
-
-const FAVICON =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232a78d6'/%3E%3Cpath d='M6 22 L13 14 L19 18 L26 8' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E";
 
 function loadMonths() {
   return listJSON(paths.data('index')).map((f) => readJSON(paths.data('index', f)));
@@ -152,37 +143,20 @@ function build() {
     ? `One problem with three answers, every day. ${solutions.length} ${solutions.length === 1 ? 'day' : 'days'} so far.`
     : 'The first answers land with the next daily run.';
 
-  // The day's three answers, alphabetical by model name so the order is fixed
-  // and carries no implied ranking.
-  const verse = solution?.format?.id === 'haiku';
-  const answersHtml = solution
-    ? `<p class="solutions__meta">
-        On ${esc(solution.date)} the question was: how would you attack
-        <strong>${esc(solution.problem.plain || solution.problem.canonical_name)}</strong>?
-        <span class="solutions__format">Format: ${esc(solution.format.label)}</span>
-       </p>
-       <ul class="answers">${[...solution.answers]
-         .sort((a, b) => a.label.localeCompare(b.label))
-         .map(
-           (a) => `<li class="answer">
-           <div class="answer__who">
-             <span class="answer__model">${esc(a.label)}</span>
-             <span class="answer__id">${esc(a.model)}</span>
-           </div>
-           <p class="answer__body${verse ? ' answer__body--verse' : ''}">${esc(a.approach)}</p>
-           <dl class="answer__foot">
-             <dt>First move</dt><dd>${esc(a.first_move)}</dd>
-             <dt>Hardest part</dt><dd>${esc(a.hardest_part)}</dd>
-           </dl>
-           <p class="answer__conf">Its own confidence: ${esc(a.confidence)}</p>
-         </li>`,
-         )
-         .join('')}</ul>`
-    : '<div class="empty">Collecting. The first answers land with the next daily run.</div>';
+  const answersHtml =
+    renderAnswers(solution, { linkDate: true }) +
+    (solution
+      ? `<p class="archive-link">Every day is archived: <a href="/archive/">browse all days and all problems</a>.</p>`
+      : '');
 
   const boardRows = (latestMonth?.board ?? [])
     .slice(0, 10)
-    .map((b) => ({ name: b.canonical_name, value: b.score, providers: b.providers }));
+    .map((b) => ({
+      name: b.canonical_name,
+      value: b.score,
+      providers: b.providers,
+      href: `/problems/${b.canonical_id}/`,
+    }));
   const topScore = boardRows.length ? Math.max(...boardRows.map((r) => r.value)) : null;
 
   const themesHtml = themesToday
@@ -307,12 +281,7 @@ function build() {
 </div>
 </main>
 
-<footer>
-  <div class="wrap">
-  <p>Built from an open harness. Reproducibility is the point: prompt versions, model identifiers and raw responses are all stored with the answers they produced. The data is append-only and <a href="${SITE}/data/latest.json">machine-readable</a>.</p>
-  <p><s aria-hidden="true">Developed</s> Orchestrated by <a href="mailto:warren@bartontech.ai">warren@bartontech.ai</a>.</p>
-  </div>
-</footer>
+${siteFooter()}
 </body>
 </html>`;
 
@@ -326,8 +295,160 @@ function build() {
     paths.dist('data/latest.json'),
     `${JSON.stringify(latestSnapshot({ months, solutions, registry, latestMonth, solution, themesToday }), null, 2)}\n`,
   );
+  // ---------- archive pages ----------
+  // Yesterday's answers used to vanish from the site every morning: preserved
+  // in data/, shown nowhere. Each day and each problem now has its own page,
+  // which is also where the record's depth becomes visible and citable.
+  const cap = (t) => (t ? t.charAt(0).toUpperCase() + t.slice(1) : t);
+  const writePage = (relPath, html) => {
+    const file = paths.dist(...relPath.split('/').filter(Boolean), 'index.html');
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, html);
+  };
+  const subUrls = [];
+
+  for (let i = 0; i < solutions.length; i += 1) {
+    const sol = solutions[i];
+    const older = solutions[i - 1] ?? null;
+    const newer = solutions[i + 1] ?? null;
+    const entry = registry.problems.find((x) => x.id === sol.problem.canonical_id) ?? null;
+    const plain = sol.problem.plain || sol.problem.canonical_name;
+    const pager =
+      older || newer
+        ? `<nav class="pager" aria-label="Adjacent days">
+            <span>${older ? `<a href="/days/${esc(older.date)}/">Previous day: ${esc(older.date)}</a>` : ''}</span>
+            <span>${newer ? `<a href="/days/${esc(newer.date)}/">Next day: ${esc(newer.date)}</a>` : ''}</span>
+          </nav>`
+        : '';
+    writePage(
+      `/days/${sol.date}/`,
+      subShell({
+        title: `${cap(plain)}: three AI answers · ${sol.date}`,
+        description: `On ${sol.date}, ChatGPT, Claude and Gemini were each asked how they would attack ${plain}. Format: ${sol.format.label.toLowerCase()}. Their full answers, side by side.`,
+        path: `/days/${sol.date}/`,
+        eyebrow: `${esc(sol.date)} &middot; <a href="/problems/${esc(sol.problem.canonical_id)}/">${esc(sol.problem.canonical_name)}</a>`,
+        heading: `How would you attack <em>${esc(plain)}</em>?`,
+        deck: entry?.plain_summary ? esc(entry.plain_summary) : '',
+        body: renderAnswers(sol) + pager,
+        jsonLd: breadcrumbLd([
+          { name: 'The Martech problem index', path: '/' },
+          { name: 'Archive', path: '/archive/' },
+          { name: sol.date, path: `/days/${sol.date}/` },
+        ]),
+      }),
+    );
+    subUrls.push({ loc: `${SITE}/days/${sol.date}/`, changefreq: 'monthly', priority: '0.6' });
+  }
+
+  for (const entry of registry.problems) {
+    const sols = solutions.filter((x) => x.problem.canonical_id === entry.id);
+    const history = months
+      .map((m) => {
+        const idx = (m.board ?? []).findIndex((b) => b.canonical_id === entry.id);
+        return idx === -1
+          ? null
+          : `<li>${esc(m.month)}: rank ${idx + 1} of ${m.board.length}, score ${m.board[idx].score}</li>`;
+      })
+      .filter(Boolean)
+      .join('');
+    const timeline = sols.length
+      ? `<ul class="meta-list">${sols
+          .map((x) => {
+            const firsts = [...x.answers]
+              .sort((a, b) => a.label.localeCompare(b.label))
+              .map((a) => `<strong>${esc(a.label)}:</strong> ${esc(a.first_move)}`)
+              .join(' ');
+            return `<li>
+              <div class="meta-list__top">
+                <a class="meta-list__title" href="/days/${esc(x.date)}/">${esc(x.date)}</a>
+                <span class="meta-list__note">format: ${esc(x.format.label.toLowerCase())}</span>
+              </div>
+              <p class="meta-list__body">${firsts}</p>
+            </li>`;
+          })
+          .join('')}</ul>`
+      : `<div class="empty">No daily answers yet. This problem's turn comes around in the rotation.</div>`;
+    writePage(
+      `/problems/${entry.id}/`,
+      subShell({
+        title: `${entry.canonical_name} · The Martech problem index`,
+        description:
+          entry.plain_summary ||
+          noEmDash(entry.definition) ||
+          `${entry.canonical_name}, one of the unsolved problems tracked by the Martech problem index.`,
+        path: `/problems/${entry.id}/`,
+        eyebrow: `Unsolved problem &middot; first seen ${esc(entry.first_seen ?? '')}`,
+        heading: esc(entry.canonical_name),
+        deck: esc(entry.plain_summary || noEmDash(entry.definition) || ''),
+        body: `
+          ${entry.why_unsolved ? `<h2 class="board__title">What has blocked it</h2><p class="meta-list__body">${esc(noEmDash(entry.why_unsolved))}</p>` : ''}
+          <h2 class="board__title">On the board</h2>
+          ${history ? `<ul class="meta-list">${history}</ul>` : '<div class="empty">Not on a published board yet.</div>'}
+          <h2 class="board__title">The daily answers so far</h2>
+          <p class="board__sub">First moves only. Each date links to the full answers.</p>
+          ${timeline}
+          ${entry.aliases?.length ? `<p class="aka">Also called: ${entry.aliases.map(esc).join('; ')}.</p>` : ''}
+        `,
+        jsonLd: breadcrumbLd([
+          { name: 'The Martech problem index', path: '/' },
+          { name: 'Archive', path: '/archive/' },
+          { name: entry.canonical_name, path: `/problems/${entry.id}/` },
+        ]),
+      }),
+    );
+    subUrls.push({ loc: `${SITE}/problems/${entry.id}/`, changefreq: 'weekly', priority: '0.8' });
+  }
+
+  const archiveBody = `
+    <h2 class="board__title">Problems</h2>
+    <ul class="meta-list">${registry.problems
+      .map(
+        (e) => `<li>
+        <div class="meta-list__top"><a class="meta-list__title" href="/problems/${esc(e.id)}/">${esc(e.canonical_name)}</a></div>
+        <p class="meta-list__body">${esc(e.plain_summary || noEmDash(e.definition) || '')}</p>
+      </li>`,
+      )
+      .join('')}</ul>
+    <h2 class="board__title">Days</h2>
+    ${
+      solutions.length
+        ? `<ul class="meta-list">${[...solutions]
+            .reverse()
+            .map(
+              (x) => `<li><div class="meta-list__top">
+              <a class="meta-list__title" href="/days/${esc(x.date)}/">${esc(x.date)}</a>
+              <span class="meta-list__note">${esc(x.problem.plain || x.problem.canonical_name)}</span>
+            </div></li>`,
+            )
+            .join('')}</ul>`
+        : '<div class="empty">The first day lands with the next daily run.</div>'
+    }`;
+  writePage(
+    '/archive/',
+    subShell({
+      title: 'Archive · The Martech problem index',
+      description:
+        'Every day of answers and every unsolved problem tracked by the Martech problem index, each with its own page.',
+      path: '/archive/',
+      eyebrow: 'The full record',
+      heading: 'Every day, every problem',
+      deck: 'The record is append-only and cannot be backfilled. Each day links three full answers; each problem collects everything the models have said about it.',
+      body: archiveBody,
+      jsonLd: breadcrumbLd([
+        { name: 'The Martech problem index', path: '/' },
+        { name: 'Archive', path: '/archive/' },
+      ]),
+    }),
+  );
+  subUrls.push({ loc: `${SITE}/archive/`, changefreq: 'daily', priority: '0.7' });
+
+  const llmsArchive = [
+    ...registry.problems.map((e) => `- [${e.canonical_name}](${SITE}/problems/${e.id}/): ${e.plain || ''}`),
+    ...[...solutions].reverse().slice(0, 7).map((x) => `- [${x.date}](${SITE}/days/${x.date}/): ${x.problem.canonical_name}`),
+  ].join('\n');
+
   fs.writeFileSync(paths.dist('robots.txt'), ROBOTS);
-  fs.writeFileSync(paths.dist('sitemap.xml'), sitemap({ lastmod }));
+  fs.writeFileSync(paths.dist('sitemap.xml'), sitemap({ lastmod, extra: subUrls }));
   fs.writeFileSync(
     paths.dist('llms.txt'),
     llmsTxt({
@@ -337,10 +458,11 @@ function build() {
       days: solutions.length,
       months: months.length,
       solution,
+      archive: llmsArchive,
     }),
   );
 
-  log(`built dist/ (${solutions.length} solution days, ${months.length} months)`);
+  log(`built dist/ (${solutions.length} solution days, ${months.length} months, ${subUrls.length} archive pages)`);
 }
 
 build();
