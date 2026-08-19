@@ -9,7 +9,7 @@
 
 import fs from 'node:fs';
 import { paths, readJSON, listJSON, log } from './lib/io.js';
-import { lineChart, barChart, statTile, esc, fmtPct } from './lib/charts.js';
+import { lineChart, barChart, rankedBoard, esc, fmtPct } from './lib/charts.js';
 import { CSS } from './lib/page-css.js';
 import {
   SITE,
@@ -140,39 +140,45 @@ function build() {
   const lastmod = now.toISOString().slice(0, 10);
   const faq = faqItems({ topProblem, days: days.length, months: months.length });
 
-  const tiles = [
-    statTile({
-      label: 'Hottest unsolved problem',
-      value: topProblem ?? 'Pending first index',
-      note: latestMonth
-        ? `Panel consensus, ${latestMonth.month}`
-        : 'Runs on the 1st of each month',
-    }),
-    statTile({
-      label: 'Days tracked',
-      value: String(days.length),
-      note: days.length ? `Since ${days[0].date}` : 'Starts with the first daily run',
-    }),
-    statTile({
-      label: 'Problems in registry',
-      value: String(registry.problems.length),
-      note: registry.pending_review.length
-        ? `${registry.pending_review.length} awaiting review`
-        : 'No entries pending review',
-    }),
-    statTile({
-      label: 'Cross-model agreement',
-      value:
-        latestDay?.templates?.anchor?.agreement != null
-          ? fmtPct(latestDay.templates.anchor.agreement)
-          : 'Pending',
-      note: 'How often the three models name the same leading vendor',
-    }),
-  ].join('');
+  // The hook is the disagreement, not the roster. When three models answer the
+  // same question about the same category and name different leaders, the
+  // number a buyer sees depends on which assistant they happened to open.
+  const topTemplate = topProblem ? latestDay?.templates?.[latestMonth.board[0].canonical_id] : null;
+  const topAgreement = topTemplate?.agreement ?? null;
+  const anchorAgreement = latestDay?.templates?.anchor?.agreement ?? null;
+
+  const heroHeadline = topProblem
+    ? `This month the industry's hardest unsolved problem is <em>${esc(topProblem)}</em>.`
+    : 'Three frontier models, asked every month what the industry cannot solve.';
+
+  const heroDeck = topAgreement != null
+    ? `Three frontier models were asked independently. Then asked who leads in it. They named the same vendor ${fmtPct(topAgreement)} of the time.`
+    : 'Every month they name the hardest unsolved problem. Every day they name who leads in it. Both answers are recorded, and neither can be backfilled.';
+
+  const figures = [
+    topAgreement != null
+      ? { value: fmtPct(topAgreement), accent: true, label: 'Agreement on the top problem',
+          note: `How often two models name the same leading vendor for ${topProblem}.` }
+      : { value: '--', accent: true, label: 'Agreement on the top problem', note: 'Pending the first daily run.' },
+    anchorAgreement != null
+      ? { value: fmtPct(anchorAgreement), label: 'Agreement on established vendors',
+          note: 'The same measurement across a frozen question set of incumbent martech.' }
+      : { value: '--', label: 'Agreement on established vendors', note: 'Pending the first daily run.' },
+    { value: String(registry.problems.length), label: 'Problems tracked',
+      note: registry.pending_review.length ? `${registry.pending_review.length} awaiting review.` : 'Reconciled against a canonical registry.' },
+    { value: String(days.length), label: days.length === 1 ? 'Day recorded' : 'Days recorded',
+      note: days.length ? `Daily since ${days[0].date}.` : 'Starts with the first daily run.' },
+  ];
+
+  const figureRow = figures.map((f) => `<div class="figure">
+      <div class="figure__value${f.accent ? ' figure__value--accent' : ''}">${esc(f.value)}</div>
+      <div class="figure__label">${esc(f.label)}</div>
+      <div class="figure__note">${esc(f.note)}</div>
+    </div>`).join('');
 
   const boardRows = (latestMonth?.board ?? [])
     .slice(0, 8)
-    .map((b) => ({ name: b.canonical_name, value: b.score }));
+    .map((b) => ({ name: b.canonical_name, value: b.score, providers: b.providers }));
 
   const problemCharts = activeProblems
     .map((template) =>
@@ -224,71 +230,78 @@ function build() {
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<div class="wrap">
-<header>
-  <div>
-    <h1>${esc(TITLE)}</h1>
-    <p class="tagline">Every month, three frontier models are asked what the martech industry's hardest unsolved problem is. Every day, they are asked who leads in it. Both answers are recorded, and neither can be backfilled.</p>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero__bar">
+      <div class="hero__mark"><b>bartontech</b>.ai</div>
+      <button class="theme-toggle" type="button" data-toggle-theme aria-pressed="false">
+        <span class="visually-hidden">Switch to </span>Dark theme
+      </button>
+    </div>
+    <p class="hero__eyebrow">Martech problem index${latestMonth ? ` &middot; ${esc(latestMonth.month)}` : ''}</p>
+    <h1>${heroHeadline}</h1>
+    <p class="hero__deck">${esc(heroDeck)}</p>
+    <div class="figure-row">${figureRow}</div>
   </div>
-  <button class="theme-toggle" type="button" data-toggle-theme aria-pressed="false">
-    <span class="visually-hidden">Switch to </span>Dark theme
-  </button>
 </header>
 
 <main id="main">
+<div class="wrap">
 
-<h2 id="current">Where things stand</h2>
-<p class="section-note">A snapshot of the most recent daily and monthly runs.</p>
-<div class="stats">${tiles}</div>
+<section class="section" aria-labelledby="problems">
+  <div class="section__head">
+    <div class="section__num">01</div>
+    <h2 id="problems">What the industry can't solve</h2>
+    <p class="section__note">A monthly panel across three models, reconciled against a canonical registry so one problem under three names does not become three entries. Rank is the panel's consensus ordering; the score is confidence-weighted across every model that named it, so the two can disagree.</p>
+  </div>
+  ${
+    months.length >= 2
+      ? lineChart({
+          id: 'problem-index',
+          title: 'Problem index over time',
+          subtitle: 'Panel score by month. A rising line means more models, with higher confidence, named that problem.',
+          series: indexSeries(months),
+          yFormat: (n) => n.toFixed(0),
+        })
+      : rankedBoard({ rows: boardRows })
+  }
+</section>
 
-<h2 id="problems">What the industry can't solve</h2>
-<p class="section-note">A monthly panel across three models, reconciled against a canonical registry so the same problem under a different name does not fragment the series. New entries queue for human review before they enter the registry.</p>
-${
-  months.length >= 2
-    ? lineChart({
-        id: 'problem-index',
-        title: 'Problem Index over time',
-        subtitle:
-          'Panel score by month. A rising line means more models, with higher confidence, named that problem.',
-        series: indexSeries(months),
-        yFormat: (n) => n.toFixed(0),
-      })
-    : barChart({
-        id: 'problem-board',
-        title: `Current board${latestMonth ? ` — ${latestMonth.month}` : ''}`,
-        subtitle:
-          'Panel score: confidence-weighted across every model that named the problem. The time series replaces this chart once a second month lands.',
-        rows: boardRows,
-        format: (n) => n.toFixed(0),
-        emptyNote: 'Collecting. The first board appears after the monthly index run.',
-      })
-}
+<section class="section" aria-labelledby="vendors">
+  <div class="section__head">
+    <div class="section__num">02</div>
+    <h2 id="vendors">Who the models name</h2>
+    <p class="section__note">The anchor question set never changes, which is what lets this series accumulate across years. Problem-specific sets rotate as the board moves; retired ones keep running in the background.</p>
+  </div>
+  ${lineChart({
+    id: 'share-anchor',
+    title: 'Anchor: vendor share of voice',
+    subtitle: `Mention share across ${anchor.questions.length} fixed questions, sampled three times per model per day. The shaded band is the spread across samples: a single sample reported to two decimals would not be credible.`,
+    series: shareSeries(days, 'anchor'),
+  })}
+  ${problemCharts}
+  ${lineChart({
+    id: 'agreement',
+    title: 'Cross-model agreement over time',
+    subtitle: 'How often two models independently name the same leading vendor. Low agreement means the answer a buyer gets depends on which assistant they opened.',
+    series: [
+      {
+        name: 'Agreement',
+        points: days
+          .filter((d) => d.templates?.anchor?.agreement != null)
+          .map((d) => ({ x: d.date, y: d.templates.anchor.agreement })),
+      },
+    ],
+    yMax: 1,
+  })}
+</section>
 
-<h2 id="vendors">Who the models name</h2>
-<p class="section-note">The anchor question set never changes, which is what lets this series accumulate across years. Problem-specific sets rotate as the board moves; retired ones keep running in the background.</p>
-${lineChart({
-  id: 'share-anchor',
-  title: 'Anchor: vendor share of voice',
-  subtitle: `Mention share across ${anchor.questions.length} fixed questions, sampled three times per model per day. The shaded band is the spread across samples: a single sample reported to two decimals would not be credible.`,
-  series: shareSeries(days, 'anchor'),
-})}
-${problemCharts}
-${lineChart({
-  id: 'agreement',
-  title: 'Cross-model agreement',
-  subtitle:
-    'How often two models independently name the same leading vendor. Low agreement means the answer a buyer gets depends on which assistant they opened.',
-  series: [
-    {
-      name: 'Agreement',
-      points: days
-        .filter((d) => d.templates?.anchor?.agreement != null)
-        .map((d) => ({ x: d.date, y: d.templates.anchor.agreement })),
-    },
-  ],
-  yMax: 1,
-})}
-
+<section class="section" aria-labelledby="method">
+  <div class="section__head">
+    <div class="section__num">03</div>
+    <h2 id="method">How it is measured</h2>
+  </div>
 <h2 id="method">Method</h2>
 <div class="prose">
   <p>Each question is put to Claude, ChatGPT and Gemini three times per model per day. Language models do not return identical answers to identical prompts, so every reported share carries the spread across those samples rather than a single figure dressed up with decimal places.</p>
@@ -300,14 +313,25 @@ ${lineChart({
   <p>Every run is plain JSON, append-only, and served without authentication: <a href="${SITE}/data/latest.json"><code>/data/latest.json</code></a> for the current snapshot, <a href="${SITE}/data/registry/problems.json"><code>/data/registry/problems.json</code></a> for the canonical registry, <code>/data/tracker/YYYY-MM-DD.json</code> for each tracked day, and <code>/data/index/YYYY-MM.json</code> for each monthly run including every model's raw proposals and the reconciliation decisions.</p>
 </div>
 
-<h2 id="faq">Questions</h2>
-${faqHtml}
+</section>
+
+<section class="section" aria-labelledby="faq">
+  <div class="section__head">
+    <div class="section__num">04</div>
+    <h2 id="faq">Questions</h2>
+  </div>
+  ${faqHtml}
+</section>
+
+</div>
 
 </main>
 
 <footer>
+  <div class="wrap">
   <p>Built from an open harness. Reproducibility is the point: prompt versions, model identifiers and raw responses are all stored with the numbers they produced.</p>
   <p>Last built <time datetime="${now.toISOString()}">${esc(lastmod)}</time>. Warren Barton, independent consultant. <a href="mailto:warren@bartontech.ai">warren@bartontech.ai</a></p>
+  </div>
 </footer>
 </div>
 <script>

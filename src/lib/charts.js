@@ -245,6 +245,39 @@ export function dataTable(columns, rows, { rowHeader = 'Series', caption = '' } 
 </details>`;
 }
 
+// Ranked board. Rank is stated as a numeral rather than implied by bar length,
+// which is what lets the panel's ordering and the confidence-weighted score
+// disagree without the chart looking wrong.
+export function rankedBoard({ rows, emptyNote = 'Collecting. The first board appears after the monthly index run.' }) {
+  if (!rows || rows.length === 0) {
+    return `<div class="chart chart--empty"><div class="chart__empty">${esc(emptyNote)}</div></div>`;
+  }
+  const max = Math.max(...rows.map((r) => r.value), 1);
+  const items = rows
+    .map((r, i) => {
+      const pct = ((r.value / max) * 100).toFixed(1);
+      const by = r.providers?.length ? `named by ${r.providers.length} of 3 models` : '';
+      return `<li>
+      <div class="board__rank" aria-hidden="true">${i + 1}</div>
+      <div>
+        <div class="board__name"><span class="visually-hidden">Rank ${i + 1}. </span>${esc(r.name)}</div>
+        <div class="board__meta">
+          <span class="board__score">${r.value}</span>
+          <span class="board__track"><span class="board__fill" style="width:${pct}%"></span></span>
+          ${by ? `<span class="board__by">${esc(by)}</span>` : ''}
+        </div>
+      </div>
+    </li>`;
+    })
+    .join('');
+  const table = dataTable(
+    ['Panel score'],
+    rows.map((r) => ({ name: r.name, values: [String(r.value)] })),
+    { rowHeader: 'Problem', caption: 'Problem index board' },
+  );
+  return `<ol class="board">${items}</ol>${table}`;
+}
+
 export function statTile({ label, value, note = '' }) {
   return `<div class="stat">
   <div class="stat__label">${esc(label)}</div>
