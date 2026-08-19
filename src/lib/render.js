@@ -4,7 +4,7 @@
 
 import { esc } from './charts.js';
 import { CSS } from './page-css.js';
-import { SITE } from './seo.js';
+import { SITE, NAV_ITEMS } from './seo.js';
 import { paths, readJSON } from './io.js';
 
 // Per-format switcher rules, generated from the same config the runner asks
@@ -71,10 +71,38 @@ ${jsonLd ? `<script type="application/ld+json">${jsonLd}</script>` : ''}
 <style>${PAGE_CSS}</style>`;
 }
 
+// The global navigation. One list, rendered identically in the homepage hero
+// bar and every subpage masthead, so orientation never depends on which page
+// the visitor landed on. aria-current marks the exact page; day and problem
+// pages mark Archive as the current section instead, since that is where
+// they live in the hierarchy. The item list lives in seo.js so the visible
+// nav and the SiteNavigationElement structured data cannot drift apart.
+export function siteNav(currentPath) {
+  const items = NAV_ITEMS.map((item) => {
+    const exact = currentPath === item.href;
+    const section =
+      item.href === '/archive/' &&
+      (currentPath.startsWith('/days/') || currentPath.startsWith('/problems/'));
+    const current = exact ? ' aria-current="page"' : section ? ' aria-current="true"' : '';
+    return `<li><a href="${item.href}"${current}>${item.label}</a></li>`;
+  }).join('');
+  // A details/summary disclosure, so the menu opens and closes with zero
+  // JavaScript and the summary reports its expanded state to assistive tech
+  // natively. The links stay in the document for crawlers whether or not the
+  // menu is open.
+  return `<details class="menu">
+    <summary>
+      <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true" focusable="false"><path d="M1 1h16M1 7h16M1 13h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span class="visually-hidden">Menu</span>
+    </summary>
+    <nav class="nav" aria-label="Site"><ul>${items}</ul></nav>
+  </details>`;
+}
+
 export function siteFooter() {
   return `<footer>
   <div class="wrap">
-  <p>Built from an open harness. Reproducibility is the point: prompt versions, model identifiers and raw responses are all stored with the answers they produced. The data is append-only and <a href="${SITE}/data/latest.json">machine-readable</a>.</p>
+  <p>Built from an open harness. Reproducibility is the point: prompt versions, model identifiers and raw responses are all stored with the answers they produced. The data is append-only and <a href="${SITE}/data/latest.json">machine-readable</a>. The whole machine is on one page: <a href="/how-it-works/">how this site works</a>.</p>
   <p><s aria-hidden="true">Developed</s> Orchestrated by <a href="mailto:warren@bartontech.ai">warren@bartontech.ai</a>.</p>
   </div>
 </footer>`;
@@ -252,8 +280,11 @@ ${headBlock({ title, description, path, jsonLd })}
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="subhead">
   <div class="wrap subhead__row">
-    <a class="subhead__mark" href="/"><b>bartontech</b>.ai</a>
-    <a class="subhead__site" href="/">The Martech problem index</a>
+    <div class="subhead__ident">
+      <a class="subhead__mark" href="/"><b>bartontech</b>.ai</a>
+      <a class="subhead__site" href="/">The Martech problem index</a>
+    </div>
+    ${siteNav(path)}
   </div>
 </header>
 <main id="main">
@@ -269,4 +300,38 @@ ${headBlock({ title, description, path, jsonLd })}
 ${siteFooter()}
 </body>
 </html>`;
+}
+
+// The recognition log reuses the answer-card markup: its entries are
+// quotations too, and the shared classes keep the two lists one visual
+// family with no new CSS. Model text renders raw, same as the daily answers.
+const RECOGNITION_BASIS = {
+  search_results: 'what it found searching',
+  prior_knowledge: 'what it already knew',
+  name_inference: 'a guess from the name alone',
+  none: 'nothing: it found no information',
+};
+
+export function recognitionCards(rec, { sources = false } = {}) {
+  return `<ul class="answers">${[...rec.results]
+    .sort((a, b) => a.label.localeCompare(b.label))
+    .map(
+      (r) => `<li class="answer">
+      <div class="answer__who">
+        <span class="answer__model">${esc(r.label)}</span>
+        <span class="answer__id">${esc(r.model)}</span>
+      </div>
+      <p class="answer__body">${esc(r.answer)}</p>
+      <dl class="answer__foot">
+        <dt>Recognized the site</dt><dd>${r.familiar ? 'Yes' : 'No'}</dd>
+        <dt>Answer based on</dt><dd>${esc(RECOGNITION_BASIS[r.basis] ?? r.basis)}</dd>
+      </dl>
+      ${
+        sources && r.sources?.length
+          ? `<p class="answer__conf">Sources: ${r.sources.slice(0, 4).map(esc).join('; ')}${r.sources.length > 4 ? ` and ${r.sources.length - 4} more` : ''}</p>`
+          : ''
+      }
+    </li>`,
+    )
+    .join('')}</ul>`;
 }

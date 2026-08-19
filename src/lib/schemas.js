@@ -308,3 +308,36 @@ export const MODEL_REFRESH = {
   required: ['changed', 'summary', 'providers'],
   additionalProperties: false,
 };
+
+// The recognition log's answer shape. `basis` exists because a model can
+// return a plausible description of "the Martech problem index" reasoned from
+// the words in the domain alone; that is not recognition, and the log needs
+// to tell the two apart.
+export const RECOGNITION = {
+  type: 'object',
+  properties: {
+    familiar: {
+      type: 'boolean',
+      description:
+        'True only if you found or already had real information about this specific site. False when you found little or nothing, even if you can guess from the name.',
+    },
+    basis: {
+      type: 'string',
+      enum: ['search_results', 'prior_knowledge', 'name_inference', 'none'],
+      description:
+        'Where your answer actually comes from: pages you found searching, knowledge you already had, a guess from the domain name alone, or nothing at all.',
+    },
+    answer: {
+      type: 'string',
+      description:
+        'Your answer to the question, two to four sentences, exactly as you would give it to the person asking. "I could not find much about this site" is a complete and correct answer.',
+    },
+    sources: {
+      type: 'array',
+      description: 'URLs you actually consulted. Empty array when none.',
+      items: { type: 'string' },
+    },
+  },
+  required: ['familiar', 'basis', 'answer', 'sources'],
+  additionalProperties: false,
+};

@@ -41,11 +41,10 @@ body {
 .wrap { max-width:1080px; margin:0 auto; padding:0 24px; }
 
 /* ---------- hero ---------- */
-.hero { background:#0b0b0b; color:#fff; padding:26px 0 58px; border-bottom:1px solid rgba(255,255,255,.14); }
+.hero { background:#0b0b0b; color:#fff; padding:18px 0 58px; border-bottom:1px solid rgba(255,255,255,.14); }
 .hero__bar { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:56px; }
 .hero__mark { font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; color:#8d8b84; font-weight:600; }
 .hero__mark b { color:#fff; font-weight:600; }
-.hero__updated { font-size:.8rem; color:#8d8b84; }
 .hero__eyebrow { font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; color:#8d8b84; margin:0 0 20px; font-weight:600; }
 .hero__eyebrow time { color:inherit; }
 .hero h1 {
@@ -57,9 +56,31 @@ body {
 .hero__term-name { font-style:italic; }
 .hero__foot { margin-top:30px; font-size:.88rem; color:#8d8b84; }
 
+/* ---------- global nav (menu-icon disclosure, zero JS) ---------- */
+/* details/summary toggles natively; the panel is a light card dropped below
+   the dark band, right-aligned. Links stay in the DOM either way, so crawlers
+   and no-CSS readers see a plain list. aria-current carries location in the
+   accessibility tree; the blue accent carries it visually. */
+.menu { position:relative; }
+.menu summary { list-style:none; display:flex; align-items:center; justify-content:center; cursor:pointer;
+  color:#b9b7ae; padding:10px; border:1px solid rgba(255,255,255,.28); border-radius:8px; }
+.menu summary::-webkit-details-marker { display:none; }
+.menu summary:hover { color:#fff; border-color:rgba(255,255,255,.6); }
+.menu[open] summary { color:#0b0b0b; background:#fff; border-color:#fff; }
+.menu summary:focus-visible { outline:2px solid #7fb2f5; outline-offset:3px; }
+.nav { position:absolute; right:0; top:calc(100% + 10px); z-index:20; min-width:230px;
+  background:var(--surface-1); border:1px solid var(--border); border-radius:12px; padding:8px;
+  box-shadow:0 14px 36px rgba(11,11,11,.22); }
+.nav ul { list-style:none; margin:0; padding:0; }
+.nav a { display:block; white-space:nowrap; color:var(--text-primary); text-decoration:none;
+  font-size:.92rem; padding:11px 12px; border-radius:8px; }
+.nav a:hover { background:var(--surface-2); }
+.nav a[aria-current] { color:var(--link); font-weight:600; background:var(--surface-2); }
+
 /* ---------- subpages ---------- */
 .subhead { background:#0b0b0b; border-bottom:1px solid rgba(255,255,255,.14); padding:18px 0; }
-.subhead__row { display:flex; justify-content:space-between; align-items:baseline; gap:16px; flex-wrap:wrap; }
+.subhead__row { display:flex; justify-content:space-between; align-items:center; gap:8px 16px; flex-wrap:wrap; }
+.subhead__ident { display:flex; gap:16px; align-items:baseline; flex-wrap:wrap; }
 .subhead__mark { font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; color:#8d8b84; font-weight:600; text-decoration:none; display:inline-block; padding:8px 0; margin:-8px 0; }
 .subhead__mark b { color:#fff; font-weight:600; }
 .subhead__site { font-size:.85rem; color:#b9b7ae; text-decoration:none; display:inline-block; padding:8px 0; margin:-8px 0; }
@@ -84,8 +105,13 @@ body {
 .aka { margin:18px 0 0; font-size:.88rem; color:var(--text-muted); max-width:70ch; }
 
 /* ---------- sections ---------- */
-main { padding-bottom:96px; }
-.section { padding-top:76px; }
+main { padding-bottom:0; }
+.section { padding:64px 0 72px; }
+/* Alternating full-bleed bands delineate sections on the long single column.
+   Measured on the band surface #f2f1ec: primary 17.40, secondary 7.02,
+   muted 4.57, link 4.77 (all AA at text size); accent 3.90, used only for
+   the 25px rank digits and the score bar (large-text/graphics, needs 3:1). */
+.section--band { background:var(--surface-2); border-top:1px solid var(--grid); border-bottom:1px solid var(--grid); }
 .section__num { font-size:.78rem; letter-spacing:.16em; color:var(--text-muted); font-weight:700; }
 .section h2 { font-size:clamp(1.5rem,2.6vw,2.1rem); line-height:1.15; letter-spacing:-.022em; margin:10px 0 0; font-weight:640; max-width:24ch; }
 .section__note { color:var(--text-secondary); margin:14px 0 0; max-width:64ch; }
@@ -152,6 +178,19 @@ main { padding-bottom:96px; }
 .theme__plain { margin:8px 0 0; color:var(--text-secondary); max-width:66ch; }
 .theme__evidence { margin:6px 0 0; font-size:.86rem; color:var(--text-secondary); max-width:66ch; }
 
+/* ---------- how-it-works ---------- */
+.diagram { margin:6px 0 10px; padding:18px 14px 14px; overflow-x:auto; background:var(--surface-1);
+  border:1px solid var(--border); border-radius:14px; }
+.diagram svg { display:block; min-width:940px; width:100%; height:auto; }
+.diagram figcaption { margin:12px 4px 0; font-size:.86rem; color:var(--text-muted); max-width:70ch; }
+.prose { max-width:70ch; }
+.prose p { margin:12px 0 0; color:var(--text-secondary); }
+.metrics { list-style:none; margin:22px 0 0; padding:0; display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; }
+.metric { background:var(--surface-1); border:1px solid var(--border); border-radius:12px; padding:16px; }
+.metric__value { display:block; font-size:1.65rem; font-weight:660; letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
+.metric__label { display:block; margin-top:5px; font-size:.82rem; color:var(--text-muted); }
+
 /* ---------- table view (board fallback) ---------- */
 .table { margin-top:16px; font-size:.86rem; }
 .table summary { cursor:pointer; color:var(--text-secondary); }
@@ -177,6 +216,6 @@ footer s { color:var(--text-muted); }
   .board__fill { forced-color-adjust:none; }
 }
 @media (max-width:640px) {
-  .section { padding-top:56px; }
+  .section { padding:44px 0 52px; }
 }
 `;

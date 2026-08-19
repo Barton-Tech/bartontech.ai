@@ -5,6 +5,16 @@
 // self-contained chunks.
 
 export const SITE = 'https://bartontech.ai';
+
+// One source for the global navigation: render.js draws the visible nav from
+// this list and structuredData() emits it as SiteNavigationElement entries,
+// so the markup and the schema cannot disagree.
+export const NAV_ITEMS = [
+  { href: '/', label: 'Today' },
+  { href: '/archive/', label: 'Archive' },
+  { href: '/recognition/', label: 'Recognition log' },
+  { href: '/how-it-works/', label: 'How it works' },
+];
 export const TITLE = 'The martech problem index';
 export const DESCRIPTION =
   'Each month, ChatGPT, Claude and Gemini name the hardest unsolved problems in marketing technology. Each day, all three explain how they would attack one of them, in the same format, side by side. Open data, open harness.';
@@ -73,6 +83,7 @@ Every file is plain JSON, append-only, and served without authentication.
 - [Monthly index](${SITE}/data/index/): one file per month, named \`YYYY-MM.json\`, including every model's raw proposals and the reconciliation decisions. Forced reruns are archived under \`archive/\`, never overwritten silently.
 - [Daily themes](${SITE}/data/themes/): one file per day. Claude reads the whole six-month record and names the cross-cutting themes; a single-model synthesis, labeled as such.
 - [Daily answers](${SITE}/data/solutions/): one file per day, named \`YYYY-MM-DD.json\`, with each model's approach, first move, hardest part, and self-rated confidence.
+- [Recognition log](${SITE}/data/recognition/): one file per month, named \`YYYY-MM.json\`. Each model is asked, with web search on and no hints, what bartontech.ai is; the verbatim answers are logged, including the months where the honest answer is "not found".
 
 ## Method
 
@@ -80,6 +91,7 @@ Every file is plain JSON, append-only, and served without authentication.
 - The daily question asks how a model would attack the problem, not how to solve it. Every problem on the board is selected for being unsolved; a model asked to solve one invents a confident plan.
 - All three models answer in every format on the list, and each panel holds one shared format, so any difference inside a panel is substance rather than style. The site shows one format by default, chosen by a date seed so it varies day to day, and the visitor switches to the rest.
 - Every stored run records its prompt version and the exact model ids that produced it, and raw responses are kept so history can be re-derived rather than lost.
+- Full method write-up, with a process diagram: ${SITE}/how-it-works/
 
 ${archive ? `## Archive\n\nEvery problem and every day has its own page.\n\n${archive}\n\n` : ''}## Author
 
@@ -228,9 +240,21 @@ export function structuredData({ lastmod, days, months, faq, topProblem, board =
       ]
     : [];
 
+  const nav = {
+    '@type': 'ItemList',
+    '@id': `${SITE}/#nav`,
+    name: 'Site navigation',
+    itemListElement: NAV_ITEMS.map((n, i) => ({
+      '@type': 'SiteNavigationElement',
+      position: i + 1,
+      name: n.label,
+      url: `${SITE}${n.href}`,
+    })),
+  };
+
   return JSON.stringify({
     '@context': 'https://schema.org',
-    '@graph': [website, webPage, person, dataset, faqPage, ...itemList, ...observation],
+    '@graph': [website, webPage, person, dataset, faqPage, nav, ...itemList, ...observation],
   });
 }
 
@@ -265,6 +289,10 @@ export function faqItems({ topProblem, topPlain, days, months }) {
     {
       q: 'Who writes the themes?',
       a: 'Claude does, once a day, by reading the whole record from the last six months: every monthly board and every day of answers. The themes are a single-model synthesis and the page labels them that way, unlike the board, which is what all three models produced together. Theme names are kept stable day to day, and movement is recorded as a trend (new, rising, steady, or fading) rather than by renaming.',
+    },
+    {
+      q: 'Do the AI models know this site exists?',
+      a: 'Once a month, ChatGPT, Claude and Gemini are each asked one neutral question, with web search on and no hints: what is bartontech.ai? Their verbatim answers go into a public, append-only recognition log, including the months where the honest answer is that they found nothing. Getting named by AI answers is itself one of the unsolved problems the index tracks, so the log is the site running that experiment on itself, and it records the date each model first gives a correct answer.',
     },
     {
       q: 'Is the underlying data available?',

@@ -9,7 +9,8 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { paths, readJSON, listJSON, log } from './lib/io.js';
+import { spawnSync } from 'node:child_process';
+import { ROOT, paths, readJSON, listJSON, log } from './lib/io.js';
 import { rankedBoard, esc } from './lib/charts.js';
 
 import {
@@ -17,13 +18,16 @@ import {
   PAGE_CSS,
   noEmDash,
   normalizeSolution,
+  recognitionCards,
   renderAnswers,
+  siteNav,
   siteFooter,
   subShell,
   breadcrumbLd,
   questionLd,
   problemLd,
 } from './lib/render.js';
+import { swimlaneSvg, stackSvg } from './lib/diagram.js';
 import {
   SITE,
   TITLE,
@@ -54,7 +58,43 @@ function loadSolutions() {
     .map((f) => readJSON(paths.data('solutions', f)));
 }
 
-function latestSnapshot({ months, solutions, registry, latestMonth, solution, themesToday }) {
+// Month-shaped filenames only, so the archive/ subdirectory of forced reruns
+// never leaks into the log.
+// Practical code metrics for the method page, computed from the source tree
+// at build time so the page cannot claim numbers the repo no longer has.
+function codeMetrics() {
+  const walk = (dir) =>
+    fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
+      e.isDirectory() ? walk(path.join(dir, e.name)) : [path.join(dir, e.name)],
+    );
+  const read = (f) => fs.readFileSync(f, 'utf8');
+  const srcFiles = walk(path.join(ROOT, 'src')).filter((f) => f.endsWith('.js'));
+  const srcLines = srcFiles.reduce((n, f) => n + read(f).split('\n').filter((l) => l.trim()).length, 0);
+  const testFiles = walk(path.join(ROOT, 'test')).filter((f) => f.endsWith('.test.js'));
+  // The count comes from actually running the suite, not from grepping call
+  // sites (loops generate tests a grep cannot see). A red suite refuses to
+  // build: the page must never publish a test count that is not passing.
+  const tap = spawnSync(process.execPath, ['--test', '--test-reporter=tap'], { cwd: ROOT, encoding: 'utf8' });
+  const pass = Number(tap.stdout.match(/^# pass (\d+)$/m)?.[1] ?? 0);
+  const fail = Number(tap.stdout.match(/^# fail (\d+)$/m)?.[1] ?? 1);
+  if (!pass || fail > 0) {
+    throw new Error(`test suite not green (pass ${pass}, fail ${fail}); refusing to publish metrics`);
+  }
+  const testCount = pass;
+  const schemaCount = (read(path.join(ROOT, 'src/lib/schemas.js')).match(/^export const /gm) ?? []).length;
+  const workflowCount = fs.readdirSync(path.join(ROOT, '.github/workflows')).filter((f) => f.endsWith('.yml')).length;
+  const deps = Object.keys(readJSON(path.join(ROOT, 'package.json')).dependencies ?? {}).length;
+  const maxRun = readJSON(paths.config('models.json')).budget.max_run_usd;
+  return { srcFiles: srcFiles.length, srcLines, testFiles: testFiles.length, testCount, schemaCount, workflowCount, deps, maxRun };
+}
+
+function loadRecognition() {
+  return listJSON(paths.data('recognition'))
+    .filter((f) => /^\d{4}-\d{2}\.json$/.test(f))
+    .map((f) => readJSON(paths.data('recognition', f)));
+}
+
+function latestSnapshot({ months, solutions, registry, latestMonth, solution, themesToday, latestRec }) {
   return {
     generated_at: new Date().toISOString(),
     site: SITE,
@@ -84,6 +124,12 @@ function latestSnapshot({ months, solutions, registry, latestMonth, solution, th
     themes: themesToday
       ? { date: themesToday.date, names: themesToday.themes.map((t) => t.name) }
       : null,
+    recognition: latestRec
+      ? {
+          month: latestRec.month,
+          results: latestRec.results.map((r) => ({ label: r.label, familiar: r.familiar, basis: r.basis })),
+        }
+      : null,
     registry: {
       problems: registry.problems.map((p) => ({ id: p.id, name: p.canonical_name })),
       pending_review: registry.pending_review.length,
@@ -96,6 +142,8 @@ function build() {
   const solutions = loadSolutions();
   const themeDays = loadThemes();
   const themesToday = themeDays[themeDays.length - 1] ?? null;
+  const recognitions = loadRecognition();
+  const latestRec = recognitions[recognitions.length - 1] ?? null;
   const registry = readJSON(paths.registry());
 
   const latestMonth = months[months.length - 1] ?? null;
@@ -183,6 +231,12 @@ function build() {
          .join('')}</ol>`
     : '<div class="empty">Collecting. The first themes land with the next daily run.</div>';
 
+  const recognitionHtml = latestRec
+    ? `<p class="solutions__meta">Checked ${esc(latestRec.month)}. The question, verbatim: what is bartontech.ai?</p>
+       ${recognitionCards(latestRec)}
+       <p class="archive-link">Every month is kept: <a href="/recognition/">browse the recognition log</a>.</p>`
+    : '<div class="empty">The first check runs with the next monthly index.</div>';
+
   const faqHtml = `<dl class="faq">${faq
     .map((item) => `<dt>${esc(item.q)}</dt><dd>${esc(item.a)}</dd>`)
     .join('')}</dl>`;
@@ -235,7 +289,7 @@ function build() {
   <div class="wrap">
     <div class="hero__bar">
       <div class="hero__mark"><b>bartontech</b>.ai</div>
-      <div class="hero__updated">Updated every day</div>
+      ${siteNav('/')}
     </div>
     <p class="hero__eyebrow">The Martech problem index${latestMonth ? ` &middot; ${esc(latestMonth.month)}` : ''} &middot; <time datetime="${now.toISOString()}">updated ${esc(lastmod)}</time></p>
     <h1>${heroHeadline}</h1>
@@ -245,18 +299,20 @@ function build() {
 </header>
 
 <main id="main">
-<div class="wrap">
 
 <section class="section" aria-labelledby="solutions">
+  <div class="wrap">
   <div class="section__head">
     <div class="section__num">01</div>
     <h2 id="solutions">How would the models attack it?</h2>
     <p class="section__note">We rotate through this month's board, one problem each day. ChatGPT, Claude and Gemini all get the same question (how would you attack this?) and answer it in every format on the list, from a memo to a haiku. Pick the format you want to read; a different one leads each day. We never ask for a solution: everything here is unsolved, and a model asked to solve it will invent a plan. So any difference between the answers is substance, not style.</p>
   </div>
   ${answersHtml}
+  </div>
 </section>
 
-<section class="section" aria-labelledby="board">
+<section class="section section--band" aria-labelledby="board">
+  <div class="wrap">
   <div class="section__head">
     <div class="section__num">02</div>
     <h2 id="board">What else can't martech solve right now?</h2>
@@ -268,26 +324,41 @@ function build() {
       ? `Rank is what the models agreed on together. The score counts every time a model named the problem, weighted by how sure it said it was. The highest score this month was ${topScore}. Rank and score can disagree.`
       : '',
   })}
+  </div>
 </section>
 
 <section class="section" aria-labelledby="themes">
+  <div class="wrap">
   <div class="section__head">
     <div class="section__num">03</div>
     <h2 id="themes">What themes keep coming up?</h2>
     <p class="section__note">Every day, Claude reads the whole record from the last six months, every board and every answer, and names the patterns that cut across problems. This is one model's synthesis, labeled as such; the board above is what all three produced together.</p>
   </div>
   ${themesHtml}
+  </div>
+</section>
+
+<section class="section section--band" aria-labelledby="recognition">
+  <div class="wrap">
+  <div class="section__head">
+    <div class="section__num">04</div>
+    <h2 id="recognition">Do the models know this site exists?</h2>
+    <p class="section__note">Getting named by AI answers is one of the unsolved problems this index tracks, so the site runs that experiment on itself. Once a month, each model gets one neutral question with web search on and no hints: what is bartontech.ai? The answers are logged verbatim, including every "found nothing". A log like this starts out embarrassing on purpose. What it records, per model, is the date "found nothing" turns into a correct answer.</p>
+  </div>
+  ${recognitionHtml}
+  </div>
 </section>
 
 <section class="section" aria-labelledby="faq">
+  <div class="wrap">
   <div class="section__head">
-    <div class="section__num">04</div>
+    <div class="section__num">05</div>
     <h2 id="faq">Questions</h2>
   </div>
   ${faqHtml}
+  </div>
 </section>
 
-</div>
 </main>
 
 ${siteFooter()}
@@ -302,7 +373,7 @@ ${siteFooter()}
 
   fs.writeFileSync(
     paths.dist('data/latest.json'),
-    `${JSON.stringify(latestSnapshot({ months, solutions, registry, latestMonth, solution, themesToday }), null, 2)}\n`,
+    `${JSON.stringify(latestSnapshot({ months, solutions, registry, latestMonth, solution, themesToday, latestRec }), null, 2)}\n`,
   );
   // ---------- archive pages ----------
   // Yesterday's answers used to vanish from the site every morning: preserved
@@ -461,6 +532,109 @@ ${siteFooter()}
     }),
   );
   subUrls.push({ loc: `${SITE}/archive/`, changefreq: 'daily', priority: '0.7' });
+
+  // The recognition log, every month on one page, newest first. Each month's
+  // cards carry their sources here; the homepage shows only the latest month.
+  const recognitionBody = recognitions.length
+    ? [...recognitions]
+        .reverse()
+        .map((r) => `<h2 class="board__title">${esc(r.month)}</h2>${recognitionCards(r, { sources: true })}`)
+        .join('')
+    : '<div class="empty">The first check runs with the next monthly index.</div>';
+  writePage(
+    '/recognition/',
+    subShell({
+      title: 'The recognition log · The Martech problem index',
+      description:
+        'Once a month, ChatGPT, Claude and Gemini are each asked one neutral question with web search on and no hints: what is bartontech.ai? Their verbatim answers, logged append-only, including the months where the honest answer is "not found".',
+      path: '/recognition/',
+      eyebrow: 'The site running its own experiment',
+      heading: 'Do the models know this site exists?',
+      deck: 'Getting named by AI answers is one of the unsolved problems this index tracks. So once a month, each model gets the same neutral question, with web search on and no hints: what is bartontech.ai? The answers below are verbatim and append-only. The log records, per model, the date "found nothing" turns into a correct answer.',
+      body: recognitionBody,
+      jsonLd: breadcrumbLd([
+        { name: 'The Martech problem index', path: '/' },
+        { name: 'The recognition log', path: '/recognition/' },
+      ]),
+    }),
+  );
+  subUrls.push({
+    loc: `${SITE}/recognition/`,
+    changefreq: 'monthly',
+    priority: '0.6',
+    lastmod: latestRec ? (latestRec.generated_at ?? '').slice(0, 10) || lastmod : lastmod,
+  });
+
+  // The method page: the whole machine on one swimlane, then each process in
+  // prose. The prose repeats the diagram's content deliberately; the SVG has
+  // a full text alternative in its desc, and the page works without either.
+  const m = codeMetrics();
+  const howBody = `
+    <figure class="diagram">
+      ${swimlaneSvg()}
+      <figcaption>The four scheduled processes. Follow the numbered steps within each column; the blue boxes are the two points where a person decides. Every column ends in the same place: a commit to the append-only record, which redeploys the site.</figcaption>
+    </figure>
+    <h2 class="board__title">The monthly board</h2>
+    <div class="prose">
+      <p>On the first of each month, ChatGPT, Claude and Gemini are each asked the same question twice, once from their own knowledge and once with web search on: what are the hardest unsolved problems in marketing technology? Claude then acts as editor, reconciling every proposal against a canonical registry, because models name the same problem differently and "AEO", "GEO" and "LLM visibility" must stay one entry rather than three.</p>
+      <p>Anything the registry has never seen queues for human review before it counts. A new problem is a claim that the industry's attention moved somewhere new, and that claim gets a person's sign-off. The result is one ranked board per month.</p>
+    </div>
+    <h2 class="board__title">The daily answers</h2>
+    <div class="prose">
+      <p>Every day at 06:10 UTC, the date deterministically picks one problem off the board, and all three models answer the same question about it: how would you attack this? Never "solve this". Everything on the board is there because it is unsolved, and a model asked to solve it invents a confident plan. Each model answers in every format on the list, from a memo to a haiku. The page opens on one format chosen by a date seed and the reader switches to the rest. Within any panel all three models share the format, so differences between their answers are substance, not style.</p>
+      <p>After the answers land, Claude rereads the whole six-month record and refreshes a small set of cross-cutting themes. That layer is a single-model synthesis, and the page labels it that way.</p>
+    </div>
+    <h2 class="board__title">The recognition check</h2>
+    <div class="prose">
+      <p>Once a month, in the same run as the board, each model gets one neutral question with web search on and no hints: what is bartontech.ai? The verbatim answers go into an append-only <a href="/recognition/">recognition log</a>. Getting named by AI answers is one of the problems the index tracks, so this is the site running that experiment on itself. The log records the date each model's "found nothing" turns into a correct answer.</p>
+    </div>
+    <h2 class="board__title">The model refresh</h2>
+    <div class="prose">
+      <p>Every Monday, the pipeline fetches the live model lists from all three providers and asks Claude whether the configured lineup is still the most applicable, with pricing verified by search. Any change ships as a pull request that a person reviews; a retired model raises an urgent issue instead. Models never change silently, because every stored run is priced and stamped with the exact model ids that produced it.</p>
+    </div>
+    <h2 class="board__title">The guardrails</h2>
+    <div class="prose">
+      <p>Nothing runs before a spend guard projects what the run is about to cost and refuses to start if it exceeds the ceiling. The record is append-only: no stored run is ever edited, and a forced rerun archives the prior version in public rather than replacing it. Every run records its prompt version and exact model ids, and raw responses are kept, so any number on the site can be traced back to what produced it.</p>
+    </div>
+    <h2 class="board__title">The stack</h2>
+    <div class="prose">
+      <p>GitHub Actions runs the schedules; Cloudflare serves the result. The page is fully server-rendered and ships zero JavaScript (the only script tag is structured data), including the format switcher and the site menu, which are CSS and native HTML only. All data is plain JSON, served without authentication, and the harness that produces it is <a href="https://github.com/Barton-Tech/bartontech.ai">open source</a>.</p>
+    </div>
+    <figure class="diagram">
+      ${stackSvg()}
+      <figcaption>The stack, end to end. The model APIs are the only external calls, guarded by a projected-cost check; everything downstream of them is a git commit, a static build and an edge cache.</figcaption>
+    </figure>
+    <h2 class="board__title">The code</h2>
+    <div class="prose">
+      <p>Everything above is one public repository: <a href="https://github.com/Barton-Tech/bartontech.ai">github.com/Barton-Tech/bartontech.ai</a>. The numbers below are computed from the source tree at build time, so they cannot drift from the code they describe.</p>
+    </div>
+    <ul class="metrics">
+      <li class="metric"><span class="metric__value">0</span><span class="metric__label">bytes of JavaScript shipped to the browser</span></li>
+      <li class="metric"><span class="metric__value">${m.testCount}</span><span class="metric__label">unit tests across ${m.testFiles} files, run in CI on every push</span></li>
+      <li class="metric"><span class="metric__value">${m.srcLines.toLocaleString('en-US')}</span><span class="metric__label">lines of source in ${m.srcFiles} JavaScript files</span></li>
+      <li class="metric"><span class="metric__value">${m.deps}</span><span class="metric__label">runtime dependencies, one SDK per model provider</span></li>
+      <li class="metric"><span class="metric__value">${m.schemaCount}</span><span class="metric__label">JSON schemas constraining every model response</span></li>
+      <li class="metric"><span class="metric__value">$${m.maxRun}</span><span class="metric__label">spend ceiling per run, enforced before any call</span></li>
+      <li class="metric"><span class="metric__value">${m.workflowCount}</span><span class="metric__label">GitHub Actions workflows, scheduled and reviewed</span></li>
+    </ul>`;
+  writePage(
+    '/how-it-works/',
+    subShell({
+      title: 'How this site works · The Martech problem index',
+      description:
+        'How the Martech problem index runs itself: a monthly three-model panel with human review, daily multi-format answers, a monthly recognition check, and a weekly model refresh, all committing to an append-only record.',
+      path: '/how-it-works/',
+      eyebrow: 'The method',
+      heading: 'How this site works',
+      deck: 'One page, produced by an unattended pipeline: a three-model panel, one editor model, one human gate, and a record that only grows. Everything below runs on a schedule; nothing is manual except the two review steps.',
+      body: howBody,
+      jsonLd: breadcrumbLd([
+        { name: 'The Martech problem index', path: '/' },
+        { name: 'How this site works', path: '/how-it-works/' },
+      ]),
+    }),
+  );
+  subUrls.push({ loc: `${SITE}/how-it-works/`, changefreq: 'monthly', priority: '0.7' });
 
   const feedEntries = [...solutions].reverse().slice(0, 30);
   const atom = `<?xml version="1.0" encoding="utf-8"?>

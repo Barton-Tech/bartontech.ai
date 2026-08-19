@@ -217,3 +217,27 @@ export function modelRefreshUser({ config, available, missing }) {
     'Review the configuration against what is available and propose the most applicable model per tier per provider, with verified pricing.',
   ].join('\n');
 }
+
+// The recognition question. Deliberately says nothing about what the site is:
+// the log measures whether the models can find out, and a prompt that
+// describes the site would hand them the answer. Asking about the domain
+// alone, rather than "the Martech problem index", is part of the same rule;
+// the descriptive name would let a model reconstruct a plausible answer from
+// the words in it.
+export function recognitionSystem() {
+  return [
+    'You are answering a question from someone who came across a website and wants to know what it is.',
+    '',
+    'Search the web before answering. Answer only from what you find and from what you already know. If you find little or nothing, say so plainly: that is a complete and correct answer, and it is more useful than a guess.',
+    '',
+    'Do not infer what the site probably is from its domain name. If any part of your answer is reasoned from the name rather than from sources or prior knowledge, say so in the answer and set basis accordingly.',
+  ].join('\n');
+}
+
+export function recognitionUser({ month }) {
+  return [
+    `What is bartontech.ai? Have you heard of it, and what does it publish? It is ${month}.`,
+    '',
+    'List the URLs you actually consulted in sources.',
+  ].join('\n');
+}

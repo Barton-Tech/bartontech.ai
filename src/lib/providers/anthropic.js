@@ -100,6 +100,20 @@ export async function collect(handle) {
   return { ready: true, results };
 }
 
+// Web-search citations arrive as citation entries on the content blocks, not
+// inside the schema payload, and models under-report their own sources. The
+// other two providers already merge; this keeps the three source lists
+// comparable.
+function citationUrls(message) {
+  const urls = [];
+  for (const block of message.content ?? []) {
+    for (const c of block.citations ?? []) {
+      if (c.url) urls.push(c.url);
+    }
+  }
+  return urls;
+}
+
 // Single synchronous call, used by the monthly job where there is nothing to
 // batch and the result is needed immediately.
 export async function once(req, { providerConfig }) {
@@ -113,7 +127,12 @@ export async function once(req, { providerConfig }) {
   if (!text) return { ok: false, error: 'empty_response' };
 
   try {
-    return { ok: true, data: JSON.parse(text), model: message.model, usage: message.usage };
+    const data = JSON.parse(text);
+    const urls = citationUrls(message);
+    if (urls.length) {
+      data.sources = [...new Set([...(Array.isArray(data.sources) ? data.sources : []), ...urls])];
+    }
+    return { ok: true, data, model: message.model, usage: message.usage };
   } catch {
     return { ok: false, error: 'parse_error', raw: text };
   }

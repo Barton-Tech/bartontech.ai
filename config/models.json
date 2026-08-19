@@ -48,7 +48,7 @@
   "sampling": {
     "samples_per_question": 3,
     "grounded_samples": 1,
-    "prompt_version": "2026-08-19.3",
+    "prompt_version": "2026-08-19.4",
     "_note": "Three ungrounded samples give a variance band; a single number reported to two decimals from one sample is not credible. The grounded pass runs once because search results move less between samples and it is the expensive tier."
   },
   "budget": {
