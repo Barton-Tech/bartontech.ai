@@ -255,16 +255,26 @@ function build() {
     <h2 id="problems">What the industry can't solve</h2>
     <p class="section__note">A monthly panel across three models, reconciled against a canonical registry so one problem under three names does not become three entries. Rank is the panel's consensus ordering; the score is confidence-weighted across every model that named it, so the two can disagree.</p>
   </div>
+  ${rankedBoard({
+    rows: boardRows,
+    title: latestMonth ? `Current board \u2014 ${latestMonth.month}` : 'Current board',
+    subtitle:
+      'Where the panel puts each problem this month. Rank is the consensus ordering; the score is confidence-weighted across every model that named it.',
+  })}
   ${
+    // The board answers "what is the standing now", the trend answers "how did
+    // it get there". Both are shown once there is more than one month, because
+    // a league table and its movement are different questions.
     months.length >= 2
       ? lineChart({
           id: 'problem-index',
-          title: 'Problem index over time',
-          subtitle: 'Panel score by month. A rising line means more models, with higher confidence, named that problem.',
+          title: 'How the board has moved',
+          subtitle:
+            'Panel score by month. A rising line means more models, with higher confidence, named that problem. Lines start when a problem first enters the registry.',
           series: indexSeries(months),
           yFormat: (n) => n.toFixed(0),
         })
-      : rankedBoard({ rows: boardRows })
+      : ''
   }
 </section>
 
@@ -302,7 +312,6 @@ function build() {
     <div class="section__num">03</div>
     <h2 id="method">How it is measured</h2>
   </div>
-<h2 id="method">Method</h2>
 <div class="prose">
   <p>Each question is put to Claude, ChatGPT and Gemini three times per model per day. Language models do not return identical answers to identical prompts, so every reported share carries the spread across those samples rather than a single figure dressed up with decimal places.</p>
   <p>Two passes run separately and are never merged. In the ungrounded pass the model answers from its training data, which reflects the web as of its cutoff and can lag current reality by months. In the web-grounded pass the model searches first. The gap between the two is treated as a measurement in its own right.</p>

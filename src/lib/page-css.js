@@ -122,7 +122,9 @@ main { padding-bottom:96px; }
 .section__head { padding-bottom:26px; border-bottom:1px solid var(--rule); margin-bottom:30px; }
 
 /* ---------- ranked board ---------- */
-.board { list-style:none; margin:0; padding:0; }
+.board__title { font-size:1.02rem; font-weight:640; letter-spacing:-.01em; margin:0 0 6px; }
+.board__sub { color:var(--text-secondary); font-size:.9rem; margin:0 0 20px; max-width:66ch; }
+.board { list-style:none; margin:0 0 30px; padding:0; }
 .board li { display:grid; grid-template-columns:2.4rem 1fr; gap:18px; padding:20px 0; border-bottom:1px solid var(--grid); align-items:start; }
 .board li:first-child { border-top:1px solid var(--grid); }
 .board__rank { font-size:1.5rem; font-weight:660; color:var(--text-muted); font-variant-numeric:tabular-nums; line-height:1.2; }

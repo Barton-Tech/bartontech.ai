@@ -248,9 +248,17 @@ export function dataTable(columns, rows, { rowHeader = 'Series', caption = '' } 
 // Ranked board. Rank is stated as a numeral rather than implied by bar length,
 // which is what lets the panel's ordering and the confidence-weighted score
 // disagree without the chart looking wrong.
-export function rankedBoard({ rows, emptyNote = 'Collecting. The first board appears after the monthly index run.' }) {
+export function rankedBoard({
+  rows,
+  title = '',
+  subtitle = '',
+  emptyNote = 'Collecting. The first board appears after the monthly index run.',
+}) {
+  const head =
+    (title ? `<h3 class="board__title">${esc(title)}</h3>` : '') +
+    (subtitle ? `<p class="board__sub">${esc(subtitle)}</p>` : '');
   if (!rows || rows.length === 0) {
-    return `<div class="chart chart--empty"><div class="chart__empty">${esc(emptyNote)}</div></div>`;
+    return `${head}<div class="chart chart--empty"><div class="chart__empty">${esc(emptyNote)}</div></div>`;
   }
   const max = Math.max(...rows.map((r) => r.value), 1);
   const items = rows
@@ -275,7 +283,7 @@ export function rankedBoard({ rows, emptyNote = 'Collecting. The first board app
     rows.map((r) => ({ name: r.name, values: [String(r.value)] })),
     { rowHeader: 'Problem', caption: 'Problem index board' },
   );
-  return `<ol class="board">${items}</ol>${table}`;
+  return `${head}<ol class="board">${items}</ol>${table}`;
 }
 
 export function statTile({ label, value, note = '' }) {
