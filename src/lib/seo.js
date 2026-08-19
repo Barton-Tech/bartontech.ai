@@ -96,7 +96,7 @@ export function sitemap({ lastmod, extra = [] }) {
 ${urls
   .map(
     (u) =>
-      `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`,
+      `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${u.lastmod ?? lastmod}</lastmod>\n    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`,
   )
   .join('\n')}
 </urlset>

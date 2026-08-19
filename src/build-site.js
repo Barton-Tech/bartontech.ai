@@ -19,6 +19,8 @@ import {
   siteFooter,
   subShell,
   breadcrumbLd,
+  questionLd,
+  problemLd,
 } from './lib/render.js';
 import {
   SITE,
@@ -209,6 +211,7 @@ function build() {
 <meta name="twitter:image" content="${SITE}/og.png">
 <meta name="twitter:image:alt" content="The Martech problem index: one unsolved problem, three AI answers, every day.">
 <link rel="alternate" type="application/json" href="${SITE}/data/latest.json" title="Latest snapshot">
+<link rel="alternate" type="application/atom+xml" href="${SITE}/feed.xml" title="The Martech problem index, daily">
 <script type="application/ld+json">${structuredData({
     lastmod,
     days: solutions.length,
@@ -330,14 +333,17 @@ ${siteFooter()}
         heading: `How would you attack <em>${esc(plain)}</em>?`,
         deck: entry?.plain_summary ? esc(entry.plain_summary) : '',
         body: renderAnswers(sol) + pager,
-        jsonLd: breadcrumbLd([
-          { name: 'The Martech problem index', path: '/' },
-          { name: 'Archive', path: '/archive/' },
-          { name: sol.date, path: `/days/${sol.date}/` },
-        ]),
+        jsonLd: breadcrumbLd(
+          [
+            { name: 'The Martech problem index', path: '/' },
+            { name: 'Archive', path: '/archive/' },
+            { name: sol.date, path: `/days/${sol.date}/` },
+          ],
+          [questionLd(sol)],
+        ),
       }),
     );
-    subUrls.push({ loc: `${SITE}/days/${sol.date}/`, changefreq: 'monthly', priority: '0.6' });
+    subUrls.push({ loc: `${SITE}/days/${sol.date}/`, changefreq: 'monthly', priority: '0.6', lastmod: sol.date });
   }
 
   for (const entry of registry.problems) {
@@ -389,14 +395,20 @@ ${siteFooter()}
           ${timeline}
           ${entry.aliases?.length ? `<p class="aka">Also called: ${entry.aliases.map(esc).join('; ')}.</p>` : ''}
         `,
-        jsonLd: breadcrumbLd([
-          { name: 'The Martech problem index', path: '/' },
-          { name: 'Archive', path: '/archive/' },
-          { name: entry.canonical_name, path: `/problems/${entry.id}/` },
-        ]),
+        jsonLd: breadcrumbLd(
+          [
+            { name: 'The Martech problem index', path: '/' },
+            { name: 'Archive', path: '/archive/' },
+            { name: entry.canonical_name, path: `/problems/${entry.id}/` },
+          ],
+          [problemLd(entry, `/problems/${entry.id}/`)],
+        ),
       }),
     );
-    subUrls.push({ loc: `${SITE}/problems/${entry.id}/`, changefreq: 'weekly', priority: '0.8' });
+    const problemLastmod = sols.length
+      ? sols[sols.length - 1].date
+      : (latestMonth?.generated_at ?? '').slice(0, 10) || lastmod;
+    subUrls.push({ loc: `${SITE}/problems/${entry.id}/`, changefreq: 'weekly', priority: '0.8', lastmod: problemLastmod });
   }
 
   const archiveBody = `
@@ -442,10 +454,50 @@ ${siteFooter()}
   );
   subUrls.push({ loc: `${SITE}/archive/`, changefreq: 'daily', priority: '0.7' });
 
+  const feedEntries = [...solutions].reverse().slice(0, 30);
+  const atom = `<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>The Martech problem index</title>
+  <subtitle>One unsolved problem, three AI answers, every day.</subtitle>
+  <id>${SITE}/</id>
+  <link href="${SITE}/"/>
+  <link rel="self" href="${SITE}/feed.xml"/>
+  <updated>${feedEntries[0] ? `${feedEntries[0].date}T06:30:00Z` : now.toISOString()}</updated>
+  <author><name>Warren Barton</name><email>warren@bartontech.ai</email></author>
+${feedEntries
+  .map((x) => {
+    const plain = x.problem.plain || x.problem.canonical_name;
+    return `  <entry>
+    <title>${esc(`How would you attack ${plain}?`)}</title>
+    <id>${SITE}/days/${x.date}/</id>
+    <link href="${SITE}/days/${x.date}/"/>
+    <updated>${x.date}T06:30:00Z</updated>
+    <summary>${esc(`ChatGPT, Claude and Gemini each answer in the format: ${x.format.label.toLowerCase()}. ${x.problem.canonical_name}, from the ${x.board_month} board.`)}</summary>
+  </entry>`;
+  })
+  .join('\n')}
+</feed>
+`;
+  fs.writeFileSync(paths.dist('feed.xml'), atom);
+
   const llmsArchive = [
     ...registry.problems.map((e) => `- [${e.canonical_name}](${SITE}/problems/${e.id}/): ${e.plain || ''}`),
     ...[...solutions].reverse().slice(0, 7).map((x) => `- [${x.date}](${SITE}/days/${x.date}/): ${x.problem.canonical_name}`),
   ].join('\n');
+
+  fs.writeFileSync(
+    paths.dist('404.html'),
+    subShell({
+      title: 'Page not found · The Martech problem index',
+      description: 'That page does not exist. The archive lists every day and every problem.',
+      path: '/404',
+      eyebrow: '404',
+      heading: 'That page does not exist.',
+      deck: 'The record is append-only, so pages appear but never move. Whatever you were looking for is either in the archive or not yet written.',
+      body: `<p class="archive-link"><a href="/">Back to today</a> or <a href="/archive/">browse the archive</a>.</p>`,
+      jsonLd: null,
+    }),
+  );
 
   fs.writeFileSync(paths.dist('robots.txt'), ROBOTS);
   fs.writeFileSync(paths.dist('sitemap.xml'), sitemap({ lastmod, extra: subUrls }));

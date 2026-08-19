@@ -6,6 +6,7 @@
   "name": "bartontech-ai",
   "compatibility_date": "2026-08-18",
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    "not_found_handling": "404-page"
   }
 }

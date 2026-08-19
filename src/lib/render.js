@@ -52,6 +52,7 @@ export function headBlock({ title, description, path, jsonLd }) {
 <meta name="twitter:description" content="${esc(description)}">
 <meta name="twitter:image" content="${SITE}/og.png">
 <meta name="twitter:image:alt" content="The Martech problem index: one unsolved problem, three AI answers, every day.">
+<link rel="alternate" type="application/atom+xml" href="${SITE}/feed.xml" title="The Martech problem index, daily">
 ${jsonLd ? `<script type="application/ld+json">${jsonLd}</script>` : ''}
 <style>${CSS}</style>`;
 }
@@ -100,7 +101,10 @@ export function renderAnswers(solution, { linkDate = false } = {}) {
          .join('')}</ul>`;
 }
 
-export function breadcrumbLd(trail) {
+// extraNodes lets a page add its own typed content next to the breadcrumb:
+// a Question with its three answers on day pages, the problem entity with its
+// aliases on problem pages.
+export function breadcrumbLd(trail, extraNodes = []) {
   return JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [
@@ -120,8 +124,43 @@ export function breadcrumbLd(trail) {
         isPartOf: { '@id': `${SITE}/#website` },
         speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.answer__body', '.subpage__deck'] },
       },
+      ...extraNodes,
     ],
   });
+}
+
+// The day page is literally one question answered three ways, so it says so
+// in schema: a Question whose suggestedAnswers are authored by the models,
+// typed as software rather than people.
+export function questionLd(solution) {
+  return {
+    '@type': 'Question',
+    name: `How would you attack ${solution.problem.plain || solution.problem.canonical_name}?`,
+    answerCount: solution.answers.length,
+    dateCreated: solution.date,
+    about: { '@type': 'Thing', name: solution.problem.canonical_name },
+    suggestedAnswer: [...solution.answers]
+      .sort((a, b) => a.label.localeCompare(b.label))
+      .map((a) => ({
+        '@type': 'Answer',
+        text: a.approach,
+        dateCreated: solution.date,
+        author: { '@type': 'SoftwareApplication', name: `${a.label} (${a.model})` },
+      })),
+  };
+}
+
+// The problem entity with every name the models use for it, so a query in any
+// of those vocabularies can resolve to this page.
+export function problemLd(entry, path) {
+  return {
+    '@type': 'Thing',
+    '@id': `${SITE}${path}#problem`,
+    name: entry.canonical_name,
+    alternateName: entry.aliases ?? [],
+    description: entry.plain_summary || entry.definition || '',
+    url: `${SITE}${path}`,
+  };
 }
 
 // Every page below the homepage: slim dark masthead linking home, a light
