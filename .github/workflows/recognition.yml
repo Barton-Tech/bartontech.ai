@@ -1,0 +1,43 @@
+name: recognition check
+
+# Dispatch-only. The scheduled path runs inside the monthly index workflow;
+# this exists so a recognition entry can be gathered on demand, without
+# touching the board or its overwrite guard.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  recognition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run recognition:monthly
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+
+      - name: commit log entry
+        run: |
+          git config user.name  'bartontech-bot'
+          git config user.email 'bot@users.noreply.github.com'
+          git add data/
+          git diff --staged --quiet && exit 0
+          git commit -m "recognition: $(date -u +%Y-%m)"
+          for attempt in 1 2 3 4 5; do
+            if git push; then exit 0; fi
+            echo "push rejected (attempt $attempt), rebasing onto origin/main"
+            git pull --rebase --autostash origin main || exit 1
+            sleep $((attempt * 3))
+          done
+          echo "::error::could not push after 5 attempts"
+          exit 1
