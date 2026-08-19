@@ -310,7 +310,7 @@ function build() {
 <footer>
   <div class="wrap">
   <p>Built from an open harness. Reproducibility is the point: prompt versions, model identifiers and raw responses are all stored with the answers they produced. The data is append-only and <a href="${SITE}/data/latest.json">machine-readable</a>.</p>
-  <p><s aria-hidden="true">Developed</s> Orchestrated by Warren Barton. <a href="mailto:warren@bartontech.ai">warren@bartontech.ai</a></p>
+  <p><s aria-hidden="true">Developed</s> Orchestrated by <a href="mailto:warren@bartontech.ai">warren@bartontech.ai</a>.</p>
   </div>
 </footer>
 </body>

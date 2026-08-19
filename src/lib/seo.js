@@ -44,7 +44,7 @@ Sitemap: ${SITE}/sitemap.xml
 
 // llms.txt: the emerging convention for pointing an assistant at the parts of
 // a site worth reading, in the order worth reading them.
-export function llmsTxt({ month, topProblem, topPlain, days, months, solution }) {
+export function llmsTxt({ month, topProblem, topPlain, days, months, solution, archive = '' }) {
   const solutionLine = solution
     ? `- Today's question (${solution.date}): how would you attack "${solution.problem.canonical_name}"? Answered by ${solution.answers.map((a) => a.label).join(', ')} in the format "${solution.format.label}".`
     : '- The first daily answers land with the next run.';
@@ -78,15 +78,16 @@ Every file is plain JSON, append-only, and served without authentication.
 - All three models answer in the same format, which rotates monthly. Holding format constant within a month keeps answers comparable across models and across problems.
 - Every stored run records its prompt version and the exact model ids that produced it, and raw responses are kept so history can be re-derived rather than lost.
 
-## Author
+${archive ? `## Archive\n\nEvery problem and every day has its own page.\n\n${archive}\n\n` : ''}## Author
 
 Warren Barton is an independent consultant working on martech, content architecture, and agentic systems. Contact: warren@bartontech.ai
 `;
 }
 
-export function sitemap({ lastmod }) {
+export function sitemap({ lastmod, extra = [] }) {
   const urls = [
     { loc: `${SITE}/`, priority: '1.0', changefreq: 'daily' },
+    ...extra,
     { loc: `${SITE}/data/latest.json`, priority: '0.8', changefreq: 'daily' },
     { loc: `${SITE}/llms.txt`, priority: '0.5', changefreq: 'daily' },
   ];
@@ -157,6 +158,10 @@ export function structuredData({ lastmod, days, months, faq, topProblem, board =
     '@type': 'Person',
     '@id': `${SITE}/#person`,
     name: 'Warren Barton',
+    alternateName: ['Warren Jay Barton', 'Warren J. Barton'],
+    givenName: 'Warren',
+    additionalName: 'Jay',
+    familyName: 'Barton',
     email: 'warren@bartontech.ai',
     url: SITE,
     jobTitle: 'Independent consultant',
