@@ -1,11 +1,10 @@
 name: daily submit
 
+# STOPPED 2026-08-19. The vendor tracker no longer feeds the site, so the
+# nightly submit is off. The collected series in data/tracker and data/raw is
+# preserved and append-only; note the gap begins 2026-08-19 if this resumes.
+# To resume: restore the cron below and the collect step in daily-answers.yml.
 on:
-  schedule:
-    # 02:10 UTC. GitHub cron is best-effort and can be delayed or skipped
-    # entirely; the job backfills any missing date in a 7-day window, so a
-    # skipped night is recovered rather than becoming a permanent hole.
-    - cron: '10 2 * * *'
   workflow_dispatch:
 
 concurrency:
