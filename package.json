@@ -12,8 +12,10 @@
     "collect:daily": "node src/collect-daily.js",
     "index:monthly": "node src/monthly-index.js",
     "build": "node src/build-site.js",
-    "check": "node --check src/submit-daily.js && node --check src/collect-daily.js && node --check src/monthly-index.js && node --check src/daily-solutions.js && node --check src/build-site.js",
-    "solutions:daily": "node src/daily-solutions.js"
+    "check": "node --check src/submit-daily.js && node --check src/collect-daily.js && node --check src/monthly-index.js && node --check src/daily-solutions.js && node --check src/daily-themes.js && node --check src/model-refresh.js && node --check src/build-site.js",
+    "solutions:daily": "node src/daily-solutions.js",
+    "themes:daily": "node src/daily-themes.js",
+    "models:refresh": "node src/model-refresh.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.68.0",

@@ -200,3 +200,111 @@ export const SOLUTION = {
   required: ['approach', 'first_move', 'hardest_part', 'confidence'],
   additionalProperties: false,
 };
+
+// Cross-cutting themes synthesized from the accumulated record. A theme is a
+// pattern that recurs across problems or across models' answers, not a
+// restatement of one problem. Names should stay stable day to day; `trend` is
+// where movement gets recorded.
+export const THEMES = {
+  type: 'object',
+  properties: {
+    themes: {
+      type: 'array',
+      description: 'Three to five themes, strongest evidence first.',
+      items: {
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string',
+            description:
+              'Short stable name, two to five words. Reuse yesterday\'s name for a continuing theme; rename only when the data genuinely moved.',
+          },
+          plain: {
+            type: 'string',
+            description:
+              'One or two sentences a smart non-specialist follows on first read. Plain words, no industry jargon.',
+          },
+          evidence: {
+            type: 'string',
+            description:
+              'One sentence naming the specific problems or answers in the supplied record that support this theme. Only what is in the record.',
+          },
+          problem_ids: {
+            type: 'array',
+            description: 'Canonical ids of the problems this theme draws on.',
+            items: { type: 'string' },
+          },
+          trend: {
+            type: 'string',
+            enum: ['new', 'rising', 'steady', 'fading'],
+            description:
+              'Relative to the previous themes you were shown. "new" when there were none, or the theme was not present yesterday.',
+          },
+        },
+        required: ['name', 'plain', 'evidence', 'problem_ids', 'trend'],
+        additionalProperties: false,
+      },
+    },
+  },
+  required: ['themes'],
+  additionalProperties: false,
+};
+
+// Weekly model refresh. The proposal is validated hard before it touches
+// config: every proposed id must appear in the provider's live model list
+// fetched moments earlier, which keeps a hallucinated id out of the pipeline.
+export const MODEL_REFRESH = {
+  type: 'object',
+  properties: {
+    changed: {
+      type: 'boolean',
+      description:
+        'True only when at least one tier should move to a different model. Stability is preferred: do not churn for marginal gains.',
+    },
+    summary: {
+      type: 'string',
+      description:
+        'Two or three sentences for a human reviewer: what changed, what did not, and why.',
+    },
+    providers: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          provider: { type: 'string', enum: ['anthropic', 'openai', 'google'] },
+          batch_discount: {
+            type: 'number',
+            description: 'Multiplier applied to daily-work pricing. 0.5 when a batch API discount applies, 1 otherwise.',
+          },
+          search_per_call: {
+            type: 'number',
+            description: 'USD per web search call on this provider. 0 when included free.',
+          },
+          tiers: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                tier: { type: 'string', enum: ['bulk', 'grounded', 'reasoning'] },
+                model_id: {
+                  type: 'string',
+                  description: 'Must be copied exactly from the available-model list supplied in the prompt.',
+                },
+                price_in: { type: 'number', description: 'USD per million input tokens.' },
+                price_out: { type: 'number', description: 'USD per million output tokens.' },
+                rationale: { type: 'string', description: 'One sentence: why this model for this tier.' },
+                source_url: { type: 'string', description: 'Where the pricing was verified.' },
+              },
+              required: ['tier', 'model_id', 'price_in', 'price_out', 'rationale', 'source_url'],
+              additionalProperties: false,
+            },
+          },
+        },
+        required: ['provider', 'batch_discount', 'search_per_call', 'tiers'],
+        additionalProperties: false,
+      },
+    },
+  },
+  required: ['changed', 'summary', 'providers'],
+  additionalProperties: false,
+};

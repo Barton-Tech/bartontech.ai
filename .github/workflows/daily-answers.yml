@@ -34,6 +34,12 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
 
+      # Claude reads the whole six-month record and refreshes the themes.
+      # Single-model synthesis, labeled as such on the page.
+      - run: npm run themes:daily
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
       - name: commit results
         run: |
           git config user.name  'bartontech-bot'

@@ -1,5 +1,5 @@
 {
-  "_note": "Model ids verified against provider docs on 2026-08-18. Tiers escalate in capability and cost: bulk carries the high-volume daily sampling, grounded needs reliable web-search tool use, reasoning runs the monthly index and the canonical reconciliation. Re-verify when a provider ships a new generation; a retired id fails the whole run rather than degrading.",
+  "_note": "Model ids verified against provider docs on 2026-08-18. Tiers escalate in capability and cost: bulk carries the high-volume daily sampling, grounded needs reliable web-search tool use, reasoning runs the monthly index and the canonical reconciliation. A weekly workflow (model-refresh) verifies these ids against each provider's live model list and opens a PR when a more applicable model ships; a retired id fails the whole run rather than degrading, and triggers an urgent issue.",
   "tiers": {
     "bulk": {
       "purpose": "High-volume ungrounded daily sampling. Cheap tier."
@@ -48,7 +48,7 @@
   "sampling": {
     "samples_per_question": 3,
     "grounded_samples": 1,
-    "prompt_version": "2026-08-18.1",
+    "prompt_version": "2026-08-19.2",
     "_note": "Three ungrounded samples give a variance band; a single number reported to two decimals from one sample is not credible. The grounded pass runs once because search results move less between samples and it is the expensive tier."
   },
   "budget": {

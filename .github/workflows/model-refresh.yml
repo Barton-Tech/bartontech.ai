@@ -1,0 +1,67 @@
+name: weekly model refresh
+
+# Keeps configured model ids from going stale. The script verifies every
+# configured id against each provider's live model list, has Claude research
+# replacements with web search, and rewrites config/models.json only when a
+# validated proposal changes something. The change ships as a PR, never a
+# direct commit: model pricing feeds the spend guard, so a human verifies
+# prices before they take effect.
+on:
+  schedule:
+    - cron: '0 5 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run models:refresh
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          REPORT_PATH: ${{ runner.temp }}/model-refresh-report.md
+
+      - name: open a PR when the config changed
+        run: |
+          git diff --quiet config/models.json && { echo "no changes"; exit 0; }
+          if gh pr list --state open --search "weekly model refresh in:title" --json number --jq length | grep -qv '^0$'; then
+            echo "a refresh PR is already open; leaving the diff for it"
+            exit 0
+          fi
+          BRANCH="model-refresh/$(date -u +%F)"
+          git config user.name 'bartontech-bot'
+          git config user.email 'bot@users.noreply.github.com'
+          git checkout -b "$BRANCH"
+          git add config/models.json
+          git commit -m "weekly model refresh: $(date -u +%F)"
+          git push origin "$BRANCH"
+          gh pr create \
+            --title "Weekly model refresh: $(date -u +%F)" \
+            --body-file "$REPORT_PATH" \
+            --head "$BRANCH"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPORT_PATH: ${{ runner.temp }}/model-refresh-report.md
+
+      - name: open an issue when a configured model has been retired
+        run: |
+          grep -q "URGENT" "$REPORT_PATH" || exit 0
+          gh issue create \
+            --title "URGENT: a configured model is no longer served ($(date -u +%F))" \
+            --body-file "$REPORT_PATH"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPORT_PATH: ${{ runner.temp }}/model-refresh-report.md

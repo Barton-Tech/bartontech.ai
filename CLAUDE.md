@@ -1,76 +1,55 @@
 # bartontech.ai
 
-Daily and monthly measurement of AI-answer brand visibility. See README.md for
-architecture.
+The Martech problem index. See README.md for architecture and workflows.
 
 ## Rules that are load-bearing
 
-- `config/anchor.json` questions are **frozen**. Never edit them. They are the
-  continuity spine for a multi-year series; changing one silently invalidates
-  every prior data point. New questions go in a `config/problems/*.json`
-  template.
-- Data files under `data/` are **append-only**. Never rewrite a stored run.
-  If a parser bug is found, fix the parser and re-derive from `data/raw/`.
-- Bump `sampling.prompt_version` in `config/models.json` whenever prompt text in
-  `src/lib/prompts.js` changes. Charts annotate the changeover.
+- Data under `data/` is **append-only**. Never rewrite a stored run. Forced
+  monthly reruns (`--force`) archive the prior version automatically.
 - New canonical problems go to `registry.pending_review`, never straight into
-  `registry.problems`. Promotion is a human decision.
+  `registry.problems`. Promotion is a human decision; record it in review_log.
+- Every problem needs `plain` (short gloss for the hero headline) and
+  `plain_summary` (2-3 sentences, ~8th grade, for the hero deck). The build
+  falls back to canonical_name/definition, but the fallbacks read worse.
+- Bump `sampling.prompt_version` in config/models.json when prompt text in
+  src/lib/prompts.js changes.
+- `config/models.json` pricing must cover every model id in use; an unpriced
+  model throws deliberately. Never delete old pricing entries: recorded spend
+  is priced by the model that produced it.
+- Model id changes ship as PRs via the weekly model-refresh workflow. Do not
+  hand-edit ids without checking the provider still serves them.
 
-## Accessibility and AEO invariants
+## Site invariants
 
-The site is its own proof of the thing it measures. Do not regress these:
+- Single theme; no dark mode, no toggle. The dark hero band is a design
+  element with fixed 19:1 contrast, not a mode.
+- The page ships **zero JavaScript**. Never move content into a client render
+  path; the only script tag is JSON-LD.
+- Zero axe violations in the built page, and re-measure contrast if any color
+  token or surface changes; the measured pairs are listed in page-css.js.
+- Hero copy targets 8th-grade reading level or below. Measure, don't eyeball
+  (Flesch-Kincaid; the hero currently sits around grade 6).
+- **No em dashes in anything the site authors** (page copy, llms.txt, FAQ,
+  themes). The three model answers are quotations and render raw.
+- FAQ content lives in `faqItems()` in src/lib/seo.js and feeds both the
+  visible dl and the FAQPage JSON-LD; edit one place only. Answers must stand
+  alone out of context.
+- The JSON-LD ItemList must mirror the visible board; don't change one
+  without the other.
+- robots.txt allows AI crawlers by name. Do not "tidy" the list. After any
+  Cloudflare settings change, re-check the LIVE robots.txt: the CDN once
+  injected a managed block that disallowed the crawlers this site exists for.
 
-- Zero axe-core violations in **both** themes. Re-run axe after any visual
-  change; do not eyeball contrast.
-- Text colors: `--text-muted` is `#6f6d69` in light mode (not the palette's
-  `#898781`, which fails AA at 3.50:1). Links use `--link`, never `--series-1`.
-- Every chart keeps its legend, its table view, and arrow-key navigation. The
-  table view is load-bearing, not decoration: it is what discharges the relief
-  rule for light-mode series colors below 3:1.
-- The page must render completely without JavaScript. Never move content into
-  a client-side render path.
-- FAQ content lives in `faqItems()` in `src/lib/seo.js` and feeds both the
-  JSON-LD and the visible `<dl>`. Edit it in one place so the two cannot drift.
-- Write FAQ answers to stand alone out of context: no "as described above", no
-  pronouns pointing at neighbouring answers.
-- `robots.txt` allows AI crawlers by name. Do not "tidy" that list.
+## Provider constraints (verified against installed SDKs)
 
-## Provider constraints
+- OpenAI: both passes use the Responses API; web_search is Responses-only.
+- Google: the search tool is `{ googleSearch: {} }`; grounding + response
+  schema requires Gemini 3.x; adaptSchema strips additionalProperties.
+- Anthropic: daily bulk work uses the Message Batches API when the tracker is
+  active; web_search_20260209 needs Sonnet 5 or above.
+- Always merge provider citation metadata into sources; models under-report.
 
-Verified against the installed SDK types, not from memory. Re-verify after any
-SDK upgrade; the published docs and the SDK have disagreed before.
+## Analytics
 
-- OpenAI: `web_search` is a Responses-API tool. Both passes use
-  `client.responses.create` with `text.format.type = 'json_schema'`. Chat
-  Completions cannot do grounding on these models.
-- Google: the tool is `{ googleSearch: {} }` (an SDK `Tool` member), not
-  `{ type: 'google_search' }`. Config uses `responseMimeType` plus
-  `responseSchema`. Grounding combined with a schema requires Gemini 3.x.
-- Google's schema dialect rejects `additionalProperties`; `adaptSchema()`
-  strips it. Do not remove that.
-- Always merge provider citation metadata into `sources`. Models under-report
-  their own citations, so the schema field alone loses most of them.
-
-## Spend guard
-
-- `assertWithinBudget()` runs in `submit-daily.js` **before any request is
-  submitted**, and throws rather than returning a flag. Never move it after the
-  submit loop and never convert it to a boolean a caller can forget to check.
-- Keep `config.pricing` current. A model id with no pricing entry throws, which
-  is deliberate: silently costing an unpriced model at zero is worse than
-  failing.
-- Projection is the primary guard because it needs no history. The rolling
-  recorded-spend guard is secondary and is blind to runs whose results never
-  persisted.
-
-## Conventions
-
-- ESM, Node 22+, no build step for the scripts.
-- Zero runtime dependencies in the site build; charts are server-rendered
-  inline SVG in `src/lib/charts.js`.
-- Chart colors come from the validated categorical palette in
-  `src/lib/page-css.js` (slots 1-6, fixed order, never cycled). Light-mode
-  slots 3-5 are below 3:1 against the surface, so every chart ships a legend
-  and a table view.
-- Anthropic calls go through the official SDK. Daily work uses the Message
-  Batches API for the 50% discount.
+Deliberately dashboard-side (Cloudflare Web Analytics, auto-injected).
+No analytics script belongs in the repo; its absence is not an oversight.
