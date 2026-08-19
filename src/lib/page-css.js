@@ -1,10 +1,9 @@
-// Light values on bare :root; dark redefined under both the OS media query and
-// the explicit [data-theme] stamp, so the toggle wins in both directions.
+// Single theme. There is no dark mode and no toggle.
 //
-// The hero band is inverted in BOTH themes. That is a deliberate contrast
-// simplification as much as a stylistic one: white on near-black measures
-// 19.4:1 regardless of which theme the reader is in, so the most typographically
-// aggressive part of the page can never fail a contrast check.
+// The dark hero band is a design element, not a mode: white on near-black
+// measures 19.4:1, so the most typographically aggressive part of the page
+// cannot fail a contrast check. Everything below it sits on the light plane,
+// where every text token was measured to clear 4.5:1.
 export const CSS = `
 :root {
   color-scheme: light;
@@ -24,48 +23,6 @@ export const CSS = `
   --series-3: #1baf7a;
   --series-4: #eda100;
   --series-5: #e87ba4;
-  --series-6: #008300;
-}
-@media (prefers-color-scheme: dark) {
-  :root:where(:not([data-theme="light"])) {
-    color-scheme: dark;
-    --plane: #0b0b0b;
-    --surface-1: #161615;
-    --surface-2: #1f1f1d;
-    --text-primary: #ffffff;
-    --text-secondary: #c3c2b7;
-    --text-muted: #96948c;
-    --grid: #2c2c2a;
-    --baseline: #383835;
-    --border: rgba(255,255,255,0.12);
-    --rule: rgba(255,255,255,0.16);
-    --link: #3987e5;
-    --series-1: #3987e5;
-    --series-2: #d95926;
-    --series-3: #199e70;
-    --series-4: #c98500;
-    --series-5: #d55181;
-    --series-6: #008300;
-  }
-}
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --plane: #0b0b0b;
-  --surface-1: #161615;
-  --surface-2: #1f1f1d;
-  --text-primary: #ffffff;
-  --text-secondary: #c3c2b7;
-  --text-muted: #96948c;
-  --grid: #2c2c2a;
-  --baseline: #383835;
-  --border: rgba(255,255,255,0.12);
-  --rule: rgba(255,255,255,0.16);
-  --link: #3987e5;
-  --series-1: #3987e5;
-  --series-2: #d95926;
-  --series-3: #199e70;
-  --series-4: #c98500;
-  --series-5: #d55181;
   --series-6: #008300;
 }
 
@@ -90,13 +47,9 @@ body {
 /* ---------- hero: inverted in both themes ---------- */
 .hero { background:#0b0b0b; color:#fff; padding:26px 0 64px; border-bottom:1px solid rgba(255,255,255,.14); }
 .hero__bar { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:56px; }
+.hero__updated { font-size:.8rem; color:#8d8b84; }
 .hero__mark { font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; color:#8d8b84; font-weight:600; }
 .hero__mark b { color:#fff; font-weight:600; }
-.theme-toggle {
-  background:transparent; color:#c9c7bf; border:1px solid rgba(255,255,255,.22);
-  border-radius:999px; padding:7px 15px; font:inherit; font-size:.82rem; cursor:pointer;
-}
-.theme-toggle:hover { color:#fff; border-color:rgba(255,255,255,.45); }
 
 .hero__eyebrow { font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; color:#8d8b84; margin:0 0 20px; font-weight:600; }
 .hero h1 {
@@ -111,7 +64,8 @@ body {
 .figure__value { font-size:clamp(2.4rem,6vw,3.6rem); line-height:1; font-weight:660; letter-spacing:-.035em; }
 .figure__value--accent { color:#5fa0f0; }
 .figure__label { margin-top:12px; font-size:.83rem; letter-spacing:.1em; text-transform:uppercase; color:#8d8b84; font-weight:600; }
-.figure__note { margin-top:7px; font-size:.9rem; color:#b9b7ae; max-width:30ch; }
+.figure__note { margin-top:7px; font-size:.9rem; color:#b9b7ae; max-width:32ch; }
+.hero__foot { margin-top:34px; font-size:.88rem; color:#8d8b84; }
 
 /* ---------- sections ---------- */
 main { padding-bottom:96px; }

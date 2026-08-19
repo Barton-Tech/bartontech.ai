@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated_at": "2026-08-18T23:35:28.461345+00:00",
+  "updated_at": "2026-08-19T00:47:19.730993+00:00",
   "problems": [
     {
       "id": "aeo",
@@ -22,7 +22,8 @@
       ],
       "category": "measurement",
       "first_seen": "2026-08",
-      "status": "active"
+      "status": "active",
+      "plain": "getting named by AI"
     },
     {
       "id": "cross-channel-incrementality",
@@ -57,7 +58,8 @@
           "clean-room-interoperability"
         ],
         "reviewed_by": "human"
-      }
+      },
+      "plain": "proving which ads actually worked"
     },
     {
       "id": "consent-enforcement-downstream",
@@ -83,7 +85,8 @@
         "promoted_in": "2026-08",
         "merged_from": [],
         "reviewed_by": "human"
-      }
+      },
+      "plain": "proving opt-outs are honored everywhere"
     },
     {
       "id": "genai-content-governance",
@@ -114,7 +117,8 @@
           "creative-provenance-rights"
         ],
         "reviewed_by": "human"
-      }
+      },
+      "plain": "checking AI-written marketing before it ships"
     },
     {
       "id": "semantic-context-layer",
@@ -139,7 +143,8 @@
         "promoted_in": "2026-08",
         "merged_from": [],
         "reviewed_by": "human"
-      }
+      },
+      "plain": "agreeing on what basic terms like \"customer\" mean"
     },
     {
       "id": "agent-safe-execution",
@@ -167,7 +172,8 @@
           "multi-agent-interoperability"
         ],
         "reviewed_by": "human"
-      }
+      },
+      "plain": "letting AI agents act without breaking things"
     },
     {
       "id": "agent-traffic-identification",
@@ -195,7 +201,8 @@
           "ai-intermediated-owned-channels"
         ],
         "reviewed_by": "human"
-      }
+      },
+      "plain": "telling AI agents apart from real people"
     },
     {
       "id": "identity-resolution-decay",
@@ -218,7 +225,8 @@
         "promoted_in": "2026-08",
         "merged_from": [],
         "reviewed_by": "human"
-      }
+      },
+      "plain": "recognizing the same person across devices"
     },
     {
       "id": "cross-channel-journey-orchestration",
@@ -240,7 +248,8 @@
         "promoted_in": "2026-08",
         "merged_from": [],
         "reviewed_by": "human"
-      }
+      },
+      "plain": "coordinating messages across every channel"
     }
   ],
   "pending_review": [],
@@ -269,6 +278,10 @@
         "marketing-data-ops-stalemate"
       ],
       "note": "Dropped entries were each proposed by a single model and are not recorded as aliases, so an independent recurrence next month is proposed fresh rather than silently absorbed. Their original proposals remain in data/index/2026-08.json."
+    },
+    {
+      "month": "2026-08",
+      "note": "Added a plain-language gloss to each entry. The hero headline uses it so a reader meets the idea in plain words before the industry term. Falls back to canonical_name when absent, so a newly promoted problem still renders."
     }
   ]
 }

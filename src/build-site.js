@@ -141,33 +141,44 @@ function build() {
   const faq = faqItems({ topProblem, days: days.length, months: months.length });
 
   // The hook is the disagreement, not the roster. When three models answer the
-  // same question about the same category and name different leaders, the
-  // number a buyer sees depends on which assistant they happened to open.
+  // same question about the same category and name different leaders, the brand
+  // a buyer hears about depends on which assistant they happened to open.
+  //
+  // The headline uses each problem's plain-language gloss from the registry, so
+  // a reader meets the idea in ordinary words and the industry term arrives in
+  // the next sentence rather than the first.
+  const topEntry = topProblem
+    ? registry.problems.find((x) => x.id === latestMonth.board[0].canonical_id)
+    : null;
+  const topPlain = topEntry?.plain || topProblem;
   const topTemplate = topProblem ? latestDay?.templates?.[latestMonth.board[0].canonical_id] : null;
   const topAgreement = topTemplate?.agreement ?? null;
   const anchorAgreement = latestDay?.templates?.anchor?.agreement ?? null;
 
   const heroHeadline = topProblem
-    ? `This month the industry's hardest unsolved problem is <em>${esc(topProblem)}</em>.`
-    : 'Three frontier models, asked every month what the industry cannot solve.';
+    ? `The hardest problem in martech right now is <em>${esc(topPlain)}</em>.`
+    : 'Three AI models, asked each month what the industry cannot solve.';
 
   const heroDeck = topAgreement != null
-    ? `Three frontier models were asked independently. Then asked who leads in it. They named the same vendor ${fmtPct(topAgreement)} of the time.`
-    : 'Every month they name the hardest unsolved problem. Every day they name who leads in it. Both answers are recorded, and neither can be backfilled.';
+    ? `Every day we ask ChatGPT, Claude, and Gemini who leads. They name the same company just ${fmtPct(topAgreement)} of the time. The industry calls this ${topProblem}.`
+    : 'Every month they name the hardest unsolved problem. Every day they name who leads in it. We keep every answer, and we cannot go back and fill gaps in.';
 
+  // These measure agreement about VENDORS, not about problems: for each
+  // question, whether two models name the same leading company.
   const figures = [
     topAgreement != null
-      ? { value: fmtPct(topAgreement), accent: true, label: 'Agreement on the top problem',
-          note: `How often two models name the same leading vendor for ${topProblem}.` }
-      : { value: '--', accent: true, label: 'Agreement on the top problem', note: 'Pending the first daily run.' },
+      ? { value: fmtPct(topAgreement), accent: true,
+          label: 'They pick the same top company',
+          note: `How often two of the three name the same leader for ${topPlain}.` }
+      : { value: '--', accent: true, label: 'They pick the same top company', note: 'Waiting on the first daily run.' },
     anchorAgreement != null
-      ? { value: fmtPct(anchorAgreement), label: 'Agreement on established vendors',
-          note: 'The same measurement across a frozen question set of incumbent martech.' }
-      : { value: '--', label: 'Agreement on established vendors', note: 'Pending the first daily run.' },
-    { value: String(registry.problems.length), label: 'Problems tracked',
-      note: registry.pending_review.length ? `${registry.pending_review.length} awaiting review.` : 'Reconciled against a canonical registry.' },
-    { value: String(days.length), label: days.length === 1 ? 'Day recorded' : 'Days recorded',
-      note: days.length ? `Daily since ${days[0].date}.` : 'Starts with the first daily run.' },
+      ? { value: fmtPct(anchorAgreement),
+          label: 'And on well-known martech tools',
+          note: 'The same test, on a fixed list of big vendors that never changes.' }
+      : { value: '--', label: 'And on well-known martech tools', note: 'Waiting on the first daily run.' },
+    { value: String(registry.problems.length),
+      label: 'Problems we track',
+      note: 'Named unsolved by the models, then checked by a person.' },
   ];
 
   const figureRow = figures.map((f) => `<div class="figure">
@@ -175,6 +186,10 @@ function build() {
       <div class="figure__label">${esc(f.label)}</div>
       <div class="figure__note">${esc(f.note)}</div>
     </div>`).join('');
+
+  const heroFoot = days.length
+    ? `${days.length} ${days.length === 1 ? 'day' : 'days'} of answers so far, starting ${days[0].date}.`
+    : 'The first day of answers lands with the next run.';
 
   const boardRows = (latestMonth?.board ?? [])
     .slice(0, 8)
@@ -204,9 +219,8 @@ function build() {
 <meta name="description" content="${esc(DESCRIPTION)}">
 <link rel="canonical" href="${SITE}/">
 <link rel="icon" href="${FAVICON}">
-<meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#fcfcfb" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1a1a19" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#0b0b0b">
 <meta name="author" content="Warren Barton">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta property="og:type" content="website">
@@ -235,14 +249,13 @@ function build() {
   <div class="wrap">
     <div class="hero__bar">
       <div class="hero__mark"><b>bartontech</b>.ai</div>
-      <button class="theme-toggle" type="button" data-toggle-theme aria-pressed="false">
-        <span class="visually-hidden">Switch to </span>Dark theme
-      </button>
+      <div class="hero__updated">Updated every day</div>
     </div>
     <p class="hero__eyebrow">Martech problem index${latestMonth ? ` &middot; ${esc(latestMonth.month)}` : ''}</p>
     <h1>${heroHeadline}</h1>
     <p class="hero__deck">${esc(heroDeck)}</p>
     <div class="figure-row">${figureRow}</div>
+    <p class="hero__foot">${esc(heroFoot)}</p>
   </div>
 </header>
 
@@ -345,24 +358,6 @@ function build() {
 </div>
 <script>
 (() => {
-  const root = document.documentElement;
-  const btn = document.querySelector('[data-toggle-theme]');
-  const sync = () => {
-    const dark = getComputedStyle(root).colorScheme === 'dark';
-    btn.setAttribute('aria-pressed', String(dark));
-    btn.innerHTML = '<span class="visually-hidden">Switch to </span>' + (dark ? 'Light theme' : 'Dark theme');
-  };
-  const saved = localStorage.getItem('theme');
-  if (saved) root.dataset.theme = saved;
-  if (btn) {
-    sync();
-    btn.addEventListener('click', () => {
-      root.dataset.theme = getComputedStyle(root).colorScheme === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('theme', root.dataset.theme);
-      sync();
-    });
-  }
-
   for (const plot of document.querySelectorAll('.chart__plot[data-chart]')) {
     const spec = JSON.parse(plot.dataset.chart);
     const svg = plot.querySelector('svg');
