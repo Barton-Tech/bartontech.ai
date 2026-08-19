@@ -78,3 +78,31 @@ export function reconciliationUser(proposals) {
     ...lines,
   ].join('\n');
 }
+
+// Deliberately asks how a model would attack the problem, not how to solve it.
+// Every problem on this board is selected for being unsolved, so a model asked
+// to solve one produces confident nonsense. Asking for an approach and for what
+// makes it hard gets the honest answer, and sharpens the differences between
+// models rather than flattening them into three versions of the same pitch.
+export function solutionSystem(format) {
+  return [
+    'You work on marketing technology and you are talking to someone who does too.',
+    '',
+    'You are being asked how you would attack a problem the industry has not solved. Do not claim to solve it. A confident plan for something genuinely unsolved is worse than an honest account of where you would start and what you would expect to run into.',
+    '',
+    'Say what you actually think. Where you disagree with the obvious answer, say so.',
+    '',
+    `Format: ${format.instruction}`,
+  ].join('\n');
+}
+
+export function solutionUser({ problem, plain, definition, why_unsolved, format }) {
+  return [
+    `The problem: ${problem}${plain ? ` (in plain terms: ${plain})` : ''}.`,
+    '',
+    definition,
+    why_unsolved ? `\nWhat has blocked it so far: ${why_unsolved}` : '',
+    '',
+    `How would you attack this? Answer in the required format: ${format.label.toLowerCase()}.`,
+  ].join('\n');
+}

@@ -168,3 +168,35 @@ export const RECONCILIATION = {
   required: ['resolutions', 'ranking'],
   additionalProperties: false,
 };
+
+// Each model answers the same question about the same problem in the same
+// format. `first_move` and `hardest_part` are held constant regardless of the
+// month's format, so there is always something comparable across models even
+// when the formatted answer is a haiku.
+export const SOLUTION = {
+  type: 'object',
+  properties: {
+    approach: {
+      type: 'string',
+      description:
+        'Your answer, in exactly the format requested. Do not restate the question or add a preamble.',
+    },
+    first_move: {
+      type: 'string',
+      description:
+        'One short sentence: the single thing you would do first. Plain language, no jargon.',
+    },
+    hardest_part: {
+      type: 'string',
+      description:
+        'One sentence on what genuinely makes this hard, not what makes it tedious.',
+    },
+    confidence: {
+      type: 'string',
+      enum: ['low', 'medium', 'high'],
+      description: 'How confident you are that this approach would actually work.',
+    },
+  },
+  required: ['approach', 'first_move', 'hardest_part', 'confidence'],
+  additionalProperties: false,
+};

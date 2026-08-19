@@ -1,0 +1,35 @@
+{
+  "_note": "One format per month, shared by all three models. Per-model choice was considered and rejected: if one model answers in prose and another in code, style differences swamp substance and the comparison stops meaning anything. Rotating monthly keeps variety across time while holding the format constant within a month, so the format is a controlled variable rather than a confound. Selection is deterministic from the month string so a rerun of the same month reproduces the same format.",
+  "formats": [
+    {
+      "id": "cmo-memo",
+      "label": "A memo to a CMO",
+      "instruction": "Write it as a short internal memo to a chief marketing officer. Plain language, no jargon they would have to look up. Around 120 words."
+    },
+    {
+      "id": "three-moves",
+      "label": "Three moves",
+      "instruction": "Give exactly three moves, in order. One sentence each, then one sentence on what makes that move hard. Nothing else."
+    },
+    {
+      "id": "pseudocode",
+      "label": "Pseudocode",
+      "instruction": "Express the approach as short annotated pseudocode. The comments should carry the reasoning; the code should carry the structure. Around 15 lines."
+    },
+    {
+      "id": "checklist",
+      "label": "A checklist",
+      "instruction": "Give a checklist someone could actually run next quarter. Each item concrete enough to be marked done or not done. Six items at most."
+    },
+    {
+      "id": "fifty-words",
+      "label": "Fifty words",
+      "instruction": "Fifty words or fewer. No preamble, no caveats. The compression is the point: keep only what you would keep if you could keep one thing."
+    },
+    {
+      "id": "haiku",
+      "label": "A haiku",
+      "instruction": "Three lines, 5-7-5 syllables. A severe constraint on a serious problem: what survives the compression is what you actually think matters most."
+    }
+  ]
+}
