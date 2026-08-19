@@ -1,0 +1,68 @@
+{
+  "date": "2026-08-19",
+  "generated_at": "2026-08-19T02:27:16.114Z",
+  "provenance": {
+    "prompt_version": "2026-08-19.2",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-02-19",
+    "to": "2026-08-19",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08"
+    ],
+    "solution_days": 1
+  },
+  "themes": [
+    {
+      "name": "Agents Break Web Assumptions",
+      "plain": "Software agents now browse, buy, and act on behalf of people, and the old web was built for humans clicking pages. Several of the hardest problems on the board exist because the stack cannot tell who or what is on the other end.",
+      "evidence": "Four board entries center on agents (agent-traffic-identification, agent-safe-execution, semantic-context-layer, aeo), and today's answers all treat the human-facing website as the wrong place to meet an agent, with Gemini proposing dedicated agent endpoints instead.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "agent-safe-execution",
+        "semantic-context-layer",
+        "aeo"
+      ],
+      "trend": "new"
+    },
+    {
+      "name": "Self-Reported Signals Need Stakes",
+      "plain": "An agent can simply claim to be an agent, or claim it has permission, and nothing forces it to tell the truth. The models agree that declarations only become trustworthy when the party declaring has something real to lose.",
+      "evidence": "Claude frames the whole agent-traffic problem as manufacturing a stake for operators who have none, Gemini says agents will impersonate humans whenever that gets better prices, and ChatGPT names trustworthy delegation and consent as the hardest part.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "agent-safe-execution",
+        "consent-enforcement-downstream"
+      ],
+      "trend": "new"
+    },
+    {
+      "name": "Measure Before You Enforce",
+      "plain": "Teams keep being told to prove a signal works before letting it change what customers see or pay. Watch quietly first, then act.",
+      "evidence": "ChatGPT's first move on agent traffic is shadow mode measurement before classification changes treatment, and Claude starts by building a labeled dataset from traffic already known to be agentic; the top-scoring board item is cross-channel-incrementality, the same demand for proof applied to spend.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "cross-channel-incrementality"
+      ],
+      "trend": "new"
+    },
+    {
+      "name": "Governance At Machine Speed",
+      "plain": "Content, consent, and actions are now generated and executed faster than any human review process can keep up. Much of the board is about proving control after the fact rather than approving things in advance.",
+      "evidence": "The board carries genai-content-governance, consent-enforcement-downstream, and agent-safe-execution as separate entries, and today's answers warn against solving agent identity by building another spoofable or privacy-invasive identity layer.",
+      "problem_ids": [
+        "genai-content-governance",
+        "consent-enforcement-downstream",
+        "agent-safe-execution",
+        "agent-traffic-identification"
+      ],
+      "trend": "new"
+    }
+  ]
+}
