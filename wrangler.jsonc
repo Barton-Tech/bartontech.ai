@@ -1,0 +1,11 @@
+{
+  // Assets-only Worker: no script entry point, Cloudflare serves dist/ directly.
+  // `npm run build` regenerates dist/ on every deploy, so the directory is
+  // gitignored and never committed.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "bartontech-ai",
+  "compatibility_date": "2026-08-18",
+  "assets": {
+    "directory": "./dist"
+  }
+}

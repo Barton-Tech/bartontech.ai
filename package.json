@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "description": "Tracks the martech industry's hottest unsolved problem and brand visibility in AI answers.",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "submit:daily": "node src/submit-daily.js",
     "collect:daily": "node src/collect-daily.js",
@@ -16,5 +18,8 @@
     "@anthropic-ai/sdk": "^0.68.0",
     "@google/genai": "^1.0.0",
     "openai": "^6.0.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.124.0"
   }
 }
