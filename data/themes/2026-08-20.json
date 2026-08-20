@@ -1,0 +1,75 @@
+{
+  "date": "2026-08-20",
+  "generated_at": "2026-08-20T07:02:26.713Z",
+  "provenance": {
+    "prompt_version": "2026-08-19.4",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-02-20",
+    "to": "2026-08-20",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08"
+    ],
+    "solution_days": 2
+  },
+  "themes": [
+    {
+      "name": "Agents Break Web Assumptions",
+      "plain": "Software agents now browse, buy, and act on people's behalf, but the tools were built for humans clicking pages. Several of the hardest problems on the board exist because the stack cannot tell who or what is on the other end, or what it is allowed to do.",
+      "evidence": "Both recent rotations are agent problems: distinguishing and governing agentic traffic, and safe, auditable agent execution, and all three models describe building new agent-only paths rather than adapting human ones.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "agent-safe-execution",
+        "semantic-context-layer"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust an agent, they route everything through one door they own. Put a proxy or gateway in front of every write, then log it, cap it, and keep a kill switch.",
+      "evidence": "On safe, auditable agent execution all three models opened with the same move: a proxy or single gateway in front of agent writes, with logging, hard rate, budget and audience limits, and a kill switch.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "agent-traffic-identification"
+      ],
+      "trend": "new"
+    },
+    {
+      "name": "Irreversible Actions Have No Undo",
+      "plain": "Marketing actions spend real money and send real messages, and those cannot be taken back. The hard part is not catching a bad decision, it is that third-party systems offer no way to roll one back.",
+      "evidence": "On safe, auditable agent execution, all three models named irreversibility as the hardest part: distributed vendor APIs with no two-phase commit or rollback, no transactional execution semantics, and no clean way to decide when outside data can be trusted again.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "consent-enforcement-downstream"
+      ],
+      "trend": "new"
+    },
+    {
+      "name": "Self-Reported Signals Need Stakes",
+      "plain": "An agent can simply claim to be an agent, or claim it has permission, and nothing forces it to tell the truth. Declarations only become trustworthy when the party declaring has something real to lose.",
+      "evidence": "On distinguishing and governing agentic traffic, one model said trust requires manufacturing a stake for operators who have none, another warned against a new spoofable identity layer, and a third expected agents to pose as humans whenever that gets better prices.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "agent-safe-execution"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Governance At Machine Speed",
+      "plain": "Content, consent, and actions are now produced faster than any human review can keep up. Much of the board is about proving control after the fact instead of approving each thing in advance.",
+      "evidence": "The board carries generative content governance at volume and provable downstream consent and deletion, and today's answers lean on logs, inventories of irreversible actions, and hard limits enforced regardless of what the agent asks for.",
+      "problem_ids": [
+        "genai-content-governance",
+        "consent-enforcement-downstream",
+        "agent-safe-execution"
+      ],
+      "trend": "steady"
+    }
+  ]
+}
