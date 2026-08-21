@@ -126,7 +126,11 @@ export function normalizeSolution(sol) {
   return { ...sol, formats, defaultId };
 }
 
-function answerList(answers, verse) {
+// Per-format body treatment: haiku reads as verse, pseudocode reads as code
+// (monospace, slightly smaller). Everything else is prose.
+const BODY_CLASS = { haiku: ' answer__body--verse', pseudocode: ' answer__body--code' };
+
+function answerList(answers, formatId) {
   return `<ul class="answers">${[...answers]
     .sort((a, b) => a.label.localeCompare(b.label))
     .map(
@@ -135,7 +139,7 @@ function answerList(answers, verse) {
         <span class="answer__model">${esc(a.label)}</span>
         <span class="answer__id">${esc(a.model)}</span>
       </div>
-      <p class="answer__body${verse ? ' answer__body--verse' : ''}">${esc(a.approach)}</p>
+      <p class="answer__body${BODY_CLASS[formatId] ?? ''}">${esc(a.approach)}</p>
       <dl class="answer__foot">
         <dt>First move</dt><dd>${esc(a.first_move)}</dd>
         <dt>Hardest part</dt><dd>${esc(a.hardest_part)}</dd>
@@ -172,11 +176,11 @@ export function renderAnswers(sol, { linkDate = false } = {}) {
   // display:none is only ever lifted by a checked radio, and single mode has
   // no radios, so wrapping would hide the answers with no way to show them.
   const panels = single
-    ? answerList(solution.formats[0].answers, solution.formats[0].format.id === 'haiku')
+    ? answerList(solution.formats[0].answers, solution.formats[0].format.id)
     : solution.formats
         .map(
           (f) =>
-            `<div class="fmt-panel fmt-panel--${esc(f.format.id)}">${answerList(f.answers, f.format.id === 'haiku')}</div>`,
+            `<div class="fmt-panel fmt-panel--${esc(f.format.id)}">${answerList(f.answers, f.format.id)}</div>`,
         )
         .join('');
 

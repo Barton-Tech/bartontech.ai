@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { noEmDash, normalizeSolution, siteNav, recognitionCards } from '../src/lib/render.js';
+import { noEmDash, normalizeSolution, siteNav, recognitionCards, renderAnswers } from '../src/lib/render.js';
 
 test('noEmDash: first dash becomes a colon, later ones commas', () => {
   assert.equal(noEmDash('One — two — three.'), 'One: two, three.');
@@ -51,4 +51,12 @@ test('recognitionCards escapes model-supplied text', () => {
   });
   assert.ok(!html.includes('<script>'));
   assert.ok(html.includes('&lt;script&gt;'));
+});
+
+test('pseudocode panels render as code, haiku as verse, prose as neither', () => {
+  const ans = [{ label: 'M', model: 'm', approach: 'x', first_move: 'f', hardest_part: 'h', confidence: 'low' }];
+  const sol = (id) => ({ date: 'd', problem: { canonical_name: 'p' }, formats: [{ format: { id, label: id }, answers: ans }] });
+  assert.match(renderAnswers(sol('pseudocode')), /answer__body answer__body--code/);
+  assert.match(renderAnswers(sol('haiku')), /answer__body answer__body--verse/);
+  assert.doesNotMatch(renderAnswers(sol('cmo-memo')), /answer__body--/);
 });
