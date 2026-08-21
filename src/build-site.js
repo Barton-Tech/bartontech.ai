@@ -75,18 +75,40 @@ function codeMetrics() {
   // The count comes from actually running the suite, not from grepping call
   // sites (loops generate tests a grep cannot see). A red suite refuses to
   // build: the page must never publish a test count that is not passing.
-  const tap = spawnSync(process.execPath, ['--test', '--test-reporter=tap'], { cwd: ROOT, encoding: 'utf8' });
+  const tap = spawnSync(
+    process.execPath,
+    ['--test', '--test-reporter=tap', '--experimental-test-coverage',
+      '--test-coverage-include=src/lib/**',
+      '--test-coverage-exclude=src/lib/providers/**',
+      '--test-coverage-exclude=src/lib/aggregate.js'],
+    { cwd: ROOT, encoding: 'utf8' },
+  );
   const pass = Number(tap.stdout.match(/^# pass (\d+)$/m)?.[1] ?? 0);
   const fail = Number(tap.stdout.match(/^# fail (\d+)$/m)?.[1] ?? 1);
   if (!pass || fail > 0) {
     throw new Error(`test suite not green (pass ${pass}, fail ${fail}); refusing to publish metrics`);
   }
   const testCount = pass;
+  const lineCoverage = tap.stdout.match(/^# all files[^|]*\|\s*([\d.]+)/m)?.[1] ?? null;
+  // Lint runs against eslint:recommended when the dev dependency is present
+  // (it is in CI and local builds; a production-only install skips the card
+  // rather than failing the build). Errors refuse to publish, same as tests.
+  let lintErrors = null;
+  const eslintBin = path.join(ROOT, 'node_modules/.bin/eslint');
+  if (fs.existsSync(eslintBin)) {
+    const lint = spawnSync(eslintBin, ['.', '--format', 'json'], { cwd: ROOT, encoding: 'utf8' });
+    try {
+      lintErrors = JSON.parse(lint.stdout).reduce((n, f) => n + f.errorCount, 0);
+    } catch {
+      lintErrors = null;
+    }
+    if (lintErrors > 0) throw new Error(`${lintErrors} lint errors; refusing to publish metrics`);
+  }
   const schemaCount = (read(path.join(ROOT, 'src/lib/schemas.js')).match(/^export const /gm) ?? []).length;
   const workflowCount = fs.readdirSync(path.join(ROOT, '.github/workflows')).filter((f) => f.endsWith('.yml')).length;
   const deps = Object.keys(readJSON(path.join(ROOT, 'package.json')).dependencies ?? {}).length;
   const maxRun = readJSON(paths.config('models.json')).budget.max_run_usd;
-  return { srcFiles: srcFiles.length, srcLines, testFiles: testFiles.length, testCount, schemaCount, workflowCount, deps, maxRun };
+  return { srcFiles: srcFiles.length, srcLines, testFiles: testFiles.length, testCount, lineCoverage, lintErrors, schemaCount, workflowCount, deps, maxRun };
 }
 
 function loadRecognition() {
@@ -158,7 +180,7 @@ function build() {
 
   const now = new Date();
   const lastmod = now.toISOString().slice(0, 10);
-  const faq = faqItems({ topProblem, topPlain, days: solutions.length, months: months.length });
+  const faq = faqItems({ topProblem, topPlain });
 
   // The hero features the same problem the day's answers are about. Nine
   // problems cannot all be "the most challenging", so the claim is "one of the
@@ -275,8 +297,6 @@ function build() {
 <link rel="alternate" type="application/atom+xml" href="${SITE}/feed.xml" title="The Martech problem index, daily">
 <script type="application/ld+json">${structuredData({
     lastmod,
-    days: solutions.length,
-    months: months.length,
     faq,
     topProblem,
     board: latestMonth?.board ?? [],
@@ -593,24 +613,48 @@ ${siteFooter()}
     { provider: 'anthropic', requests: [{ tier: 'reasoning', grounded: false }] },
   ]);
   const costRec = per(provs.map((p) => ({ provider: p, requests: [{ tier: 'grounded', grounded: true }] })));
-  const costMonthly = (costDaily.total + costThemes.total) * 30 + costBoard.total + costRec.total;
+  const costExp = per([{ provider: 'anthropic', requests: [{ tier: 'reasoning', grounded: false }] }]);
+  const costMonthly =
+    (costDaily.total + costThemes.total) * 30 + costBoard.total + costRec.total + costExp.total;
   const costRows = [
     ['Daily answers', `${provs.length * nFormats}`, 'daily', costDaily.total, costDaily.total * 30],
     ['Daily themes', '1', 'daily', costThemes.total, costThemes.total * 30],
     ['Monthly board', '7', 'monthly', costBoard.total, costBoard.total],
     ['Recognition check', `${provs.length}`, 'monthly', costRec.total, costRec.total],
+    ['Monthly experiment', '1', 'monthly', costExp.total, costExp.total],
   ];
   const spendRows = spendByMonth(modelsCfg);
+  const experiments = listJSON(paths.data('experiments'))
+    .filter((f) => /^\d{4}-\d{2}\.json$/.test(f))
+    .map((f) => readJSON(paths.data('experiments', f)));
+  const experimentsHtml = experiments.length
+    ? `<ul class="meta-list">${[...experiments]
+        .reverse()
+        .map((e) => {
+          const p = e.proposal;
+          return `<li>
+            <div class="meta-list__top">
+              <span class="meta-list__title">${esc(e.month)}</span>
+              <span class="meta-list__note">${p.no_change ? 'no change proposed' : `${esc(p.change.surface)} change proposed`} &middot; prior: ${esc(p.prior_result.verdict.replace('_', ' '))}</span>
+            </div>
+            <p class="meta-list__body"><strong>Hypothesis:</strong> ${esc(p.hypothesis)}</p>
+            ${p.no_change ? '' : `<p class="meta-list__body"><strong>Change:</strong> ${esc(p.change.proposed_text)}</p>`}
+            <p class="meta-list__body"><strong>Expected signal:</strong> ${esc(p.expected_signal)}</p>
+          </li>`;
+        })
+        .join('')}</ul>`
+    : '<div class="empty">The first proposal lands with the next monthly run.</div>';
 
   const howBody = `
     <figure class="diagram">
       ${swimlaneSvg()}
-      <figcaption>The four scheduled processes. Follow the numbered steps within each column; the blue boxes are the two points where a person decides. Every column ends in the same place: a commit to the append-only record, which redeploys the site.</figcaption>
+      <figcaption>The four scheduled processes. Follow the numbered steps within each column; the blue boxes are the points where a person decides. Every column ends in the same place: a commit to the append-only record, which redeploys the site.</figcaption>
     </figure>
     <h2 class="board__title">The monthly board</h2>
     <div class="prose">
       <p>On the first of each month, ChatGPT, Claude and Gemini are each asked the same question twice, once from their own knowledge and once with web search on: what are the hardest unsolved problems in marketing technology? Claude then acts as editor, reconciling every proposal against a canonical registry, because models name the same problem differently and "AEO", "GEO" and "LLM visibility" must stay one entry rather than three.</p>
       <p>Anything the registry has never seen queues for human review before it counts. A new problem is a claim that the industry's attention moved somewhere new, and that claim gets a person's sign-off. The result is one ranked board per month.</p>
+      <p>The reconciliation also compounds. When a proposal matches an existing problem under a new name, that name queues as a proposed alias for the same review, so each month's editorial decisions sharpen the next month's matching instead of being made twice.</p>
     </div>
     <h2 class="board__title">The daily answers</h2>
     <div class="prose">
@@ -619,7 +663,7 @@ ${siteFooter()}
     </div>
     <h2 class="board__title">The recognition check</h2>
     <div class="prose">
-      <p>Once a month, in the same run as the board, each model gets one neutral question with web search on and no hints: what is bartontech.ai? The verbatim answers go into an append-only <a href="/recognition/">recognition log</a>. Getting named by AI answers is one of the problems the index tracks, so this is the site running that experiment on itself. The log records the date each model's "found nothing" turns into a correct answer.</p>
+      <p>Once a month, in the same run as the board, each model gets one neutral question with web search on and no hints: what is bartontech.ai? The verbatim answers go into an append-only <a href="/recognition/">recognition log</a>. Getting named by AI answers is one of the problems the index tracks, so this is the site running that experiment on itself. The log records the date each model's "found nothing" turns into a correct answer, and it drives the <a href="#learning">experiment loop</a> below.</p>
     </div>
     <h2 class="board__title">The model refresh</h2>
     <div class="prose">
@@ -662,6 +706,16 @@ ${siteFooter()}
     </table></div></div>`
         : '<div class="empty">The first recorded calls land with the next run.</div>'
     }
+    <h2 class="board__title" id="learning">What learns, and what deliberately doesn't</h2>
+    <div class="prose">
+      <p>Four feedback loops run with a human gate on each. The spend projections learn from every recorded call, replacing configured estimates with measured token averages. The registry learns names: when reconciliation matches a proposal to an existing problem under a new name, the name queues as an alias, and one review click makes that month's editorial decision permanent. The model lineup adapts weekly against the live provider lists, by pull request. And the recognition log drives an experiment loop: once a month, Claude judges the previous experiment against the newest recognition results, then proposes at most one falsifiable change to a crawler-facing surface, as a review issue a person applies or declines. The proposal, hypothesis and expected signal are logged below before the result exists, so the loop cannot quietly rewrite its own history.</p>
+      <p>Just as deliberately, the measurements never learn. The daily rotation, the shared formats, and the question wording are held fixed so the record stays comparable across time; prompt changes are versioned and stamped onto every run rather than adapted silently. Nothing learns from visitor behavior: analytics stay outside the repo, and the pages carry no tracking of their own.</p>
+    </div>
+    <h2 class="board__title">The experiment log</h2>
+    <div class="prose">
+      <p>Every monthly proposal, judged in public. Each entry records its hypothesis and expected signal before the outcome exists; the following month's entry judges it as supported, refuted, or inconclusive against the fresh recognition answers.</p>
+    </div>
+    ${experimentsHtml}
     <h2 class="board__title">The stack</h2>
     <div class="prose">
       <p>GitHub Actions runs the schedules; Cloudflare serves the result. The page is fully server-rendered and ships zero JavaScript (the only script tag is structured data), including the format switcher and the site menu, which are CSS and native HTML only. All data is plain JSON, served without authentication, and the harness that produces it is <a href="https://github.com/Barton-Tech/bartontech.ai">open source</a>.</p>
@@ -672,11 +726,13 @@ ${siteFooter()}
     </figure>
     <h2 class="board__title">The code</h2>
     <div class="prose">
-      <p>Everything above is one public repository: <a href="https://github.com/Barton-Tech/bartontech.ai">github.com/Barton-Tech/bartontech.ai</a>. The numbers below are computed from the source tree at build time, so they cannot drift from the code they describe.</p>
+      <p>Everything above is one public repository: <a href="https://github.com/Barton-Tech/bartontech.ai">github.com/Barton-Tech/bartontech.ai</a>. The code is held to two widely adopted standards, enforced in CI on every push: the eslint:recommended ruleset with zero tolerated errors, and test coverage thresholds requiring 100 percent line and function coverage of the library code (the provider network shims and the paid entry points are exercised by the scheduled runs themselves, which is the honest place to test code whose job is to spend money). The numbers below are computed from the source tree at build time, and the build refuses to publish them if the suite is red or the linter objects, so they cannot drift from the code they describe.</p>
     </div>
     <ul class="metrics">
       <li class="metric"><span class="metric__value">0</span><span class="metric__label">bytes of JavaScript shipped to the browser</span></li>
       <li class="metric"><span class="metric__value">${m.testCount}</span><span class="metric__label">unit tests across ${m.testFiles} files, run in CI on every push</span></li>
+      ${m.lineCoverage ? `<li class="metric"><span class="metric__value">${m.lineCoverage}%</span><span class="metric__label">line coverage of the library code, measured at build</span></li>` : ''}
+      ${m.lintErrors === 0 ? `<li class="metric"><span class="metric__value">0</span><span class="metric__label">errors against eslint:recommended, checked at build</span></li>` : ''}
       <li class="metric"><span class="metric__value">${m.srcLines.toLocaleString('en-US')}</span><span class="metric__label">lines of source in ${m.srcFiles} JavaScript files</span></li>
       <li class="metric"><span class="metric__value">${m.deps}</span><span class="metric__label">runtime dependencies, one SDK per model provider</span></li>
       <li class="metric"><span class="metric__value">${m.schemaCount}</span><span class="metric__label">JSON schemas constraining every model response</span></li>

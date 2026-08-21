@@ -84,6 +84,7 @@ Every file is plain JSON, append-only, and served without authentication.
 - [Daily themes](${SITE}/data/themes/): one file per day. Claude reads the whole six-month record and names the cross-cutting themes; a single-model synthesis, labeled as such.
 - [Daily answers](${SITE}/data/solutions/): one file per day, named \`YYYY-MM-DD.json\`, with each model's approach, first move, hardest part, and self-rated confidence.
 - [Recognition log](${SITE}/data/recognition/): one file per month, named \`YYYY-MM.json\`. Each model is asked, with web search on and no hints, what bartontech.ai is; the verbatim answers are logged, including the months where the honest answer is "not found".
+- [Experiment log](${SITE}/data/experiments/): one file per month. Claude judges the previous month's crawler-facing change against the fresh recognition answers, then proposes at most one new change, which a person applies or declines. Hypotheses are logged before outcomes exist.
 
 ## Method
 
@@ -91,6 +92,7 @@ Every file is plain JSON, append-only, and served without authentication.
 - The daily question asks how a model would attack the problem, not how to solve it. Every problem on the board is selected for being unsolved; a model asked to solve one invents a confident plan.
 - All three models answer in every format on the list, and each panel holds one shared format, so any difference inside a panel is substance rather than style. The site shows one format by default, chosen by a date seed so it varies day to day, and the visitor switches to the rest.
 - Every stored run records its prompt version and the exact model ids that produced it, and raw responses are kept so history can be re-derived rather than lost.
+- Four feedback loops run with human gates (cost averages, registry aliases, the model lineup, and a monthly recognition-driven experiment); the measurements themselves are held fixed so the record stays comparable.
 - Full method write-up, with a process diagram: ${SITE}/how-it-works/
 
 ${archive ? `## Archive\n\nEvery problem and every day has its own page.\n\n${archive}\n\n` : ''}## Author
@@ -118,7 +120,7 @@ ${urls
 `;
 }
 
-export function structuredData({ lastmod, days, months, faq, topProblem, board = [] }) {
+export function structuredData({ lastmod, faq, topProblem, board = [] }) {
   const dataset = {
     '@type': 'Dataset',
     '@id': `${SITE}/#dataset`,
@@ -260,7 +262,7 @@ export function structuredData({ lastmod, days, months, faq, topProblem, board =
 
 // Written so each answer stands alone when an answer engine lifts it out of
 // the page. No "as described above", no pronouns pointing at other questions.
-export function faqItems({ topProblem, topPlain, days, months }) {
+export function faqItems({ topProblem, topPlain }) {
   return [
     {
       q: 'What is the martech problem index?',
@@ -284,7 +286,7 @@ export function faqItems({ topProblem, topPlain, days, months }) {
     },
     {
       q: 'How are duplicate problem names handled?',
-      a: 'Language models name the same problem differently on different runs, so "answer engine optimization", "GEO" and "LLM brand visibility" would otherwise become three separate entries and fragment the record. Every monthly proposal is reconciled against a canonical registry that decides whether the proposal names an existing problem or a genuinely new one. New entries queue for human review before they enter the registry.',
+      a: 'Language models name the same problem differently on different runs, so "answer engine optimization", "GEO" and "LLM brand visibility" would otherwise become three separate entries and fragment the record. Every monthly proposal is reconciled against a canonical registry that decides whether the proposal names an existing problem or a genuinely new one. New entries queue for human review before they enter the registry, and when a proposal matches an existing problem under a new name, that name queues as an alias for the same review, so the matching sharpens month over month.',
     },
     {
       q: 'Who writes the themes?',
@@ -293,6 +295,10 @@ export function faqItems({ topProblem, topPlain, days, months }) {
     {
       q: 'Do the AI models know this site exists?',
       a: 'Once a month, ChatGPT, Claude and Gemini are each asked one neutral question, with web search on and no hints: what is bartontech.ai? Their verbatim answers go into a public, append-only recognition log, including the months where the honest answer is that they found nothing. Getting named by AI answers is itself one of the unsolved problems the index tracks, so the log is the site running that experiment on itself, and it records the date each model first gives a correct answer.',
+    },
+    {
+      q: 'Does the site improve itself?',
+      a: 'Within limits, and always with a person in the loop. Cost projections learn from every recorded call. The problem registry accumulates aliases from each month\'s reconciliation decisions. The model lineup is checked weekly against live provider lists, with changes shipped as reviewed pull requests. And a monthly experiment loop reads the public recognition log, judges the previous month\'s change, and proposes at most one new change to a crawler-facing surface, which a person applies or declines. The measurements themselves never adapt: the daily rotation, the shared answer formats, and the question wording are held fixed so the record stays comparable, and prompt changes are versioned rather than learned.',
     },
     {
       q: 'Is the underlying data available?',

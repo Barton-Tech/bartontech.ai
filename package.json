@@ -12,12 +12,15 @@
     "collect:daily": "node src/collect-daily.js",
     "index:monthly": "node src/monthly-index.js",
     "build": "node src/build-site.js",
-    "check": "node --check src/submit-daily.js && node --check src/collect-daily.js && node --check src/monthly-index.js && node --check src/daily-solutions.js && node --check src/daily-themes.js && node --check src/model-refresh.js && node --check src/build-site.js && node --check src/monthly-recognition.js",
+    "check": "node --check src/submit-daily.js && node --check src/collect-daily.js && node --check src/monthly-index.js && node --check src/daily-solutions.js && node --check src/daily-themes.js && node --check src/model-refresh.js && node --check src/build-site.js && node --check src/monthly-recognition.js && node --check src/monthly-experiment.js",
     "solutions:daily": "node src/daily-solutions.js",
     "themes:daily": "node src/daily-themes.js",
     "models:refresh": "node src/model-refresh.js",
     "recognition:monthly": "node src/monthly-recognition.js",
-    "test": "node --test"
+    "test": "node --test",
+    "experiment:monthly": "node src/monthly-experiment.js",
+    "test:coverage": "node --test --experimental-test-coverage --test-coverage-include='src/lib/**' --test-coverage-exclude='src/lib/providers/**' --test-coverage-exclude='src/lib/aggregate.js' --test-coverage-lines=100 --test-coverage-functions=100 --test-coverage-branches=90",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.68.0",
@@ -25,6 +28,8 @@
     "openai": "^6.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.1",
     "wrangler": "^4.124.0"
   }
 }

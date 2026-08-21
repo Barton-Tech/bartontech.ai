@@ -36,7 +36,7 @@ const bandY = HEADER_H + LANE_H * LANES + BAND_GAP;
 
 const COLUMNS = [
   { title: 'The monthly board', sub: '1st of the month' },
-  { title: 'The recognition check', sub: 'same monthly run' },
+  { title: 'The recognition loop', sub: 'same monthly run' },
   { title: 'The daily answers', sub: 'every day, 06:10 UTC' },
   { title: 'The model refresh', sub: 'every Monday' },
 ];
@@ -54,11 +54,13 @@ const BOXES = [
   // The monthly board
   { id: 'a1', col: 0, lane: 0, lines: ['Each model proposes', 'the hardest unsolved', 'problems, with and', 'without web search'] },
   { id: 'a2', col: 0, lane: 1, lines: ['Claude merges every', 'name against the', 'canonical registry'] },
-  { id: 'a3', col: 0, lane: 2, person: true, lines: ['Anything new waits for', 'review before it counts'] },
+  { id: 'a3', col: 0, lane: 2, person: true, lines: ['New problems and', 'aliases wait for review'] },
   { id: 'a4', col: 0, lane: 3, lines: ["The month's ranked", 'board is published'] },
-  // The recognition check
+  // The recognition loop
   { id: 'b1', col: 1, lane: 0, lines: ['Search on, no hints:', 'what is bartontech.ai?'] },
-  { id: 'b2', col: 1, lane: 3, lines: ['The verbatim answers', 'are appended to the log'] },
+  { id: 'b2', col: 1, lane: 1, lines: ['Claude judges the last', 'bet, proposes one change'] },
+  { id: 'b3', col: 1, lane: 2, person: true, lines: ['A person applies the', 'change, or declines'] },
+  { id: 'b4', col: 1, lane: 3, lines: ['Answers and proposal', 'logged, append-only'] },
   // The daily answers
   { id: 'c1', col: 2, lane: 3, lines: ['The date picks one', 'problem off the board'] },
   { id: 'c2', col: 2, lane: 0, lines: ['All three answer it,', 'in every format'] },
@@ -77,7 +79,9 @@ const FLOWS = [
   { from: 'a3', to: 'a4' },
   { from: 'a4', to: 'band' },
   { from: 'b1', to: 'b2' },
-  { from: 'b2', to: 'band' },
+  { from: 'b2', to: 'b3' },
+  { from: 'b3', to: 'b4' },
+  { from: 'b4', to: 'band' },
   { from: 'c1', to: 'c2', side: 'left' },
   { from: 'c2', to: 'c3' },
   { from: 'c3', to: 'band', side: 'right' },
@@ -176,7 +180,7 @@ export function swimlaneSvg() {
 
   return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="swimlane-title swimlane-desc" font-family="system-ui,-apple-system,'Segoe UI',sans-serif">
   <title id="swimlane-title">How this site works: four scheduled processes across four actors</title>
-  <desc id="swimlane-desc">A swimlane diagram. Four lanes: the three-model panel, Claude as editor, a person as review gate, and the pipeline. Four columns cross them. Monthly board: the panel proposes problems, Claude merges names against the registry, new problems wait for human review, the ranked board is published. Recognition check: the panel answers a neutral question about bartontech.ai and the verbatim answers are logged. Daily answers: the date picks a problem, all three models answer in every format, Claude refreshes the themes. Model refresh: live model lists are fetched, Claude proposes the lineup, a person merges the pull request. Every column ends at the site: each run commits to the append-only record and each commit redeploys the page and its open data.</desc>
+  <desc id="swimlane-desc">A swimlane diagram. Four lanes: the three-model panel, Claude as editor, a person as review gate, and the pipeline. Four columns cross them. Monthly board: the panel proposes problems, Claude merges names against the registry, new problems and aliases wait for human review, the ranked board is published. Recognition loop: the panel answers a neutral question about bartontech.ai, Claude judges the previous experiment and proposes one change, a person applies or declines it, and the answers and proposal are logged append-only. Daily answers: the date picks a problem, all three models answer in every format, Claude refreshes the themes. Model refresh: live model lists are fetched, Claude proposes the lineup, a person merges the pull request. Every column ends at the site: each run commits to the append-only record and each commit redeploys the page and its open data.</desc>
   <defs>
     <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">
       <path d="M 1 1 L 7 4 L 1 7 Z" fill="${SECONDARY}"/>

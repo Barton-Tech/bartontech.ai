@@ -18,7 +18,7 @@ import { assertWithinBudget, usd } from './lib/cost.js';
 
 const BACKFILL_WINDOW = 7;
 
-function plannedDates(config) {
+function plannedDates() {
   const done = new Set(listJSON(paths.data('tracker')).map((f) => f.replace('.json', '')));
 
   // Backfill exists to recover a night the cron skipped. On a series with no
@@ -86,7 +86,7 @@ async function main() {
   assertConfigured(config);
   const templates = loadTemplates(readJSON, paths, listJSON);
 
-  const dates = plannedDates(config);
+  const dates = plannedDates();
   if (dates.length === 0) {
     log('nothing to submit; the window is complete');
     return;

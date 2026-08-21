@@ -148,7 +148,7 @@ async function main() {
   const missing = findMissing(config, available);
   if (missing.length) log(`URGENT: missing from provider lists: ${missing.join(', ')}`);
 
-  let proposal = null;
+  let proposal;
   try {
     const anthropic = enabledProviders(config).find((p) => p.name === 'anthropic');
     const res = await anthropic.impl.once(

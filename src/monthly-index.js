@@ -102,6 +102,38 @@ async function reconcile(proposals, registry, config) {
   return res;
 }
 
+// Each month's reconciliation decides that some proposed name is really an
+// existing problem, then historically threw that mapping away. Queue it as a
+// proposed alias instead, so one review click makes the naming permanent and
+// next month's matching starts from everything already decided. Human-gated
+// like every registry change; low-confidence matches are not queued.
+export function proposedAliases(registry, resolutions, month) {
+  const known = new Set();
+  for (const p of registry.problems) {
+    known.add(p.canonical_name.toLowerCase());
+    for (const a of p.aliases ?? []) known.add(a.toLowerCase());
+  }
+  for (const q of registry.pending_aliases ?? []) known.add(q.alias.toLowerCase());
+  const ids = new Set(registry.problems.map((p) => p.id));
+
+  const out = [];
+  for (const r of resolutions) {
+    if (r.decision !== 'match' || r.confidence === 'low') continue;
+    if (!ids.has(r.canonical_id)) continue;
+    const key = r.proposed_name.toLowerCase();
+    if (known.has(key)) continue;
+    known.add(key);
+    out.push({
+      canonical_id: r.canonical_id,
+      alias: r.proposed_name,
+      proposed_in: month,
+      reason: r.reason,
+      status: 'pending_review',
+    });
+  }
+  return out;
+}
+
 function scoreProblems(proposals, resolutions, ranking) {
   const weight = { low: 1, medium: 2, high: 3 };
   const byName = new Map(resolutions.map((r) => [r.proposed_name, r]));
@@ -223,16 +255,26 @@ async function main() {
     added += 1;
   }
 
-  if (added > 0) {
+  const aliases = proposedAliases(registry, resolutions, month);
+  if (aliases.length > 0) {
+    registry.pending_aliases = [...(registry.pending_aliases ?? []), ...aliases];
+  }
+
+  if (added > 0 || aliases.length > 0) {
     registry.updated_at = new Date().toISOString();
     writeJSON(paths.registry(), registry);
   }
 
   log(`board: ${board.map((b) => b.canonical_name).join(' > ')}`);
-  log(`${added} new problems queued for review; ${failures.length} provider failures`);
+  log(
+    `${added} new problems and ${aliases.length} aliases queued for review; ` +
+      `${failures.length} provider failures`,
+  );
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+if (process.argv[1] && import.meta.url === `file://${process.argv[1]}`) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}

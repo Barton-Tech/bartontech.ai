@@ -36,6 +36,14 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
 
+      # The experiment loop reads the recognition log and proposes at most one
+      # crawler-facing change, as a log entry plus a review issue. Also never
+      # blocks the board.
+      - run: npm run experiment:monthly
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
       - name: commit index
         run: |
           git config user.name  'bartontech-bot'
@@ -51,13 +59,48 @@ jobs:
           done
           echo "::error::could not push after 5 attempts"
           exit 1
-      - name: open review issue for new problems
+      - name: open review issue for new problems and aliases
         run: |
           COUNT=$(node -e "console.log(require('./data/registry/problems.json').pending_review.filter(p=>p.status==='pending_review').length)")
-          if [ "$COUNT" != "0" ]; then
+          ALIASES=$(node -e "console.log((require('./data/registry/problems.json').pending_aliases||[]).filter(p=>p.status==='pending_review').length)")
+          if [ "$COUNT" != "0" ] || [ "$ALIASES" != "0" ]; then
             gh issue create \
-              --title "Review $COUNT proposed problem(s) — $(date -u +%Y-%m)" \
-              --body "The monthly index proposed $COUNT problem(s) the registry does not cover. Each one is a claim that the industry's attention moved somewhere new. Review \`data/registry/problems.json\` and either promote the entry into \`problems\` with its aliases, or delete it and add its name as an alias on the entry it actually duplicates."
+              --title "Review $COUNT proposed problem(s), $ALIASES alias(es) — $(date -u +%Y-%m)" \
+              --body "The monthly index proposed $COUNT problem(s) the registry does not cover and queued $ALIASES alias(es) from this month's reconciliation. Review \`data/registry/problems.json\`: promote pending_review entries into \`problems\` or fold them into an existing entry as an alias; move pending_aliases onto their problem's \`aliases\` list or delete them. Promoted aliases sharpen next month's reconciliation."
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: open experiment issue
+        run: |
+          MONTH=$(date -u +%Y-%m)
+          FILE="data/experiments/$MONTH.json"
+          if [ -f "$FILE" ]; then
+            node -e "
+              const e = require('./$FILE');
+              const p = e.proposal;
+              const lines = ['## Experiment proposal, ' + e.month, ''];
+              lines.push('**Prior result:** ' + p.prior_result.verdict + (p.prior_result.explanation ? '. ' + p.prior_result.explanation : ''));
+              lines.push('', '**Observation:** ' + p.observation);
+              lines.push('', '**Hypothesis:** ' + p.hypothesis);
+              if (p.no_change) {
+                lines.push('', '**Proposed change:** none this month.');
+              } else {
+                lines.push('', '**Proposed change** (' + p.change.surface + '):');
+                lines.push('', 'Current:', '> ' + p.change.current_text);
+                lines.push('', 'Proposed:', '> ' + p.change.proposed_text);
+                lines.push('', p.change.rationale);
+              }
+              lines.push('', '**Expected signal:** ' + p.expected_signal);
+              lines.push('', 'Confidence: ' + p.confidence + '. Apply it, edit it, or close as declined; the log entry stands either way.');
+              require('fs').writeFileSync('/tmp/experiment-issue.md', lines.join('\n'));
+            "
+            NC=$(node -e "console.log(require('./$FILE').proposal.no_change)")
+            if [ "$NC" = "false" ]; then
+              gh issue create \
+                --title "Experiment proposal $MONTH" \
+                --body-file /tmp/experiment-issue.md
+            fi
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

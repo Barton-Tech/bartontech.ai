@@ -241,3 +241,61 @@ export function recognitionUser({ month }) {
     'List the URLs you actually consulted in sources.',
   ].join('\n');
 }
+
+// The experiment loop. Unlike the recognition prompt, this one may know
+// everything about the site: it is the optimizer, not the measurement. The
+// discipline is elsewhere: at most one change per month, stated exactly, so
+// next month's recognition entry can support or refute it.
+export function experimentSystem() {
+  return [
+    'You run a monthly optimization experiment for bartontech.ai, a public site whose subject is being legible to AI answer engines. Once a month, each of three models is asked, blind and with web search, what bartontech.ai is; their verbatim answers are logged append-only. That log is the outcome metric.',
+    '',
+    'Your job each month: judge the most recent prior experiment against the newest recognition results, then propose at most one concrete change to a crawler-facing surface for the coming month.',
+    '',
+    'Rules. Propose the smallest change with the clearest expected signal, and never more than one, so results stay attributable. Quote the current text exactly and give the exact replacement. A change must never misrepresent the site or anyone behind it. "No change" is a respectable outcome: prefer it while a prior change has not yet been observed by a fresh crawl, and say so.',
+    '',
+    'Write without em dashes. Use commas, colons, parentheses, or separate sentences instead.',
+  ].join('\n');
+}
+
+export function experimentUser({ month, recognitions, surfaces, previous }) {
+  const history = recognitions
+    .map((r) => {
+      const per = r.results
+        .map((x) => `${x.label}: familiar=${x.familiar} basis=${x.basis}`)
+        .join(' | ');
+      return `${r.month}: ${per}`;
+    })
+    .join('\n');
+  const latest = recognitions[recognitions.length - 1];
+  const verbatim = latest
+    ? latest.results
+        .map((x) => `${x.label} (${x.model}): ${x.answer}`)
+        .join('\n')
+    : '(none yet)';
+  const prior = previous.length
+    ? previous
+        .map(
+          (e) =>
+            `${e.month}: ${e.proposal.no_change ? 'no change' : `${e.proposal.change.surface}: "${e.proposal.change.proposed_text}"`} | hypothesis: ${e.proposal.hypothesis}`,
+        )
+        .join('\n')
+    : '(no prior experiments)';
+  return [
+    `It is ${month}.`,
+    '',
+    'RECOGNITION HISTORY (familiar/basis per model per month)',
+    history || '(none yet)',
+    '',
+    `LATEST RECOGNITION ANSWERS, VERBATIM (${latest?.month ?? 'none'})`,
+    verbatim,
+    '',
+    'CURRENT CRAWLER-FACING SURFACES',
+    surfaces,
+    '',
+    'PRIOR EXPERIMENTS',
+    prior,
+    '',
+    'Judge the most recent prior experiment, then propose this month\'s change or no change.',
+  ].join('\n');
+}

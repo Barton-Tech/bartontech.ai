@@ -341,3 +341,64 @@ export const RECOGNITION = {
   required: ['familiar', 'basis', 'answer', 'sources'],
   additionalProperties: false,
 };
+
+// The monthly experiment proposal. One change at most, stated precisely
+// enough to apply and falsify; no_change is a first-class outcome so the
+// model is never pushed to invent churn.
+export const EXPERIMENT = {
+  type: 'object',
+  properties: {
+    prior_result: {
+      type: 'object',
+      properties: {
+        verdict: {
+          type: 'string',
+          enum: ['supported', 'refuted', 'inconclusive', 'no_prior'],
+          description:
+            'Judge the most recent prior experiment against the newest recognition results. "no_prior" when there is no earlier experiment to judge.',
+        },
+        explanation: {
+          type: 'string',
+          description: 'One or two sentences citing what in the recognition log supports the verdict. Empty string when no_prior.',
+        },
+      },
+      required: ['verdict', 'explanation'],
+      additionalProperties: false,
+    },
+    observation: {
+      type: 'string',
+      description: 'What the recognition log currently shows, in one or two sentences.',
+    },
+    hypothesis: {
+      type: 'string',
+      description: 'The falsifiable claim this month tests, e.g. "if X changes, model Y stops citing Z".',
+    },
+    no_change: {
+      type: 'boolean',
+      description:
+        'True when the right move is to change nothing, for example while a prior change has not yet been observed by a fresh crawl.',
+    },
+    change: {
+      type: 'object',
+      properties: {
+        surface: {
+          type: 'string',
+          enum: ['title', 'meta_description', 'faq', 'llms_txt', 'hero', 'other'],
+          description: 'Which crawler-facing surface to change. "other" only with a precise location in rationale.',
+        },
+        current_text: { type: 'string', description: 'The exact current text. Empty string when no_change.' },
+        proposed_text: { type: 'string', description: 'The exact replacement text. Empty string when no_change.' },
+        rationale: { type: 'string', description: 'Why this change, in one or two sentences. Empty string when no_change.' },
+      },
+      required: ['surface', 'current_text', 'proposed_text', 'rationale'],
+      additionalProperties: false,
+    },
+    expected_signal: {
+      type: 'string',
+      description: 'What next month\'s recognition log should show if the hypothesis holds.',
+    },
+    confidence: { type: 'string', enum: ['low', 'medium', 'high'] },
+  },
+  required: ['prior_result', 'observation', 'hypothesis', 'no_change', 'change', 'expected_signal', 'confidence'],
+  additionalProperties: false,
+};

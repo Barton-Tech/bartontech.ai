@@ -27,12 +27,16 @@ so differences are substance, not style.
 set of cross-cutting themes. A single-model synthesis, labeled as such, with
 names held stable day to day and movement recorded as a trend.
 
-**Monthly, on itself:** the recognition log. Each model gets one neutral
-question with web search on and no hints: what is bartontech.ai? Verbatim
-answers are stored append-only, including every "found nothing". Getting
-named by AI answers is one of the problems on the board, so this is the site
-running that experiment on itself; the log records the date each model's
-"found nothing" turns into a correct answer.
+**Monthly, on itself:** the recognition log and the experiment loop. Each
+model gets one neutral question with web search on and no hints: what is
+bartontech.ai? Verbatim answers are stored append-only, including every
+"found nothing". Then Claude judges the previous month's experiment against
+the fresh answers and proposes at most one falsifiable change to a
+crawler-facing surface, as a review issue a person applies or declines.
+Hypotheses are logged before outcomes exist, so the loop cannot rewrite its
+own history. Alongside it, each month's reconciliation queues its
+name-matching decisions as proposed registry aliases for the same human
+review, so the matching sharpens month over month.
 
 ## How the pieces connect
 
@@ -40,9 +44,11 @@ running that experiment on itself; the log records the date each model's
 flowchart TB
   subgraph monthly["Monthly (1st, 03:00 UTC)"]
     P["Panel: 3 models propose problems<br/>(grounded + ungrounded)"] --> R["Claude reconciles vs registry"]
-    R --> G["Human review gate<br/>(pending_review + issue)"]
+    R --> G["Human review gate<br/>(new problems + aliases)"]
     G --> B["Ranked board published"]
-    REC["Recognition check:<br/>'what is bartontech.ai?'"] --> LOG["Recognition log appended"]
+    REC["Recognition check:<br/>'what is bartontech.ai?'"] --> EXP["Claude judges last experiment,<br/>proposes at most one change"]
+    EXP --> HUM["Human applies or declines"]
+    HUM --> LOG["Recognition + experiment<br/>logs appended"]
   end
   subgraph daily["Daily (06:10 UTC)"]
     ROT["Date picks a problem<br/>off the board"] --> ANS["3 models answer<br/>in every format"]
@@ -99,10 +105,12 @@ data/
   solutions/YYYY-MM-DD.json  the day's answers, all formats + seeded default
   themes/YYYY-MM-DD.json     Claude's daily theme synthesis
   recognition/YYYY-MM.json   the monthly recognition log
+  experiments/YYYY-MM.json   the monthly experiment proposals, judged in public
   tracker/, raw/, batches/   the stopped vendor tracker's series, preserved
 src/
   monthly-index.js       panel + reconciliation (overwrite needs --force)
   monthly-recognition.js the recognition check (overwrite needs --force)
+  monthly-experiment.js  judges last month's change, proposes the next one
   daily-solutions.js     all formats daily; problem and default format seeded
                          by date, so a rerun reproduces the record
   daily-themes.js        six-month synthesis, name-stable day to day
@@ -117,9 +125,9 @@ src/
 | Workflow | Schedule | Does |
 |---|---|---|
 | daily answers | 06:10 UTC | all-format answers + themes, commits results |
-| monthly problem index | 1st, 03:00 UTC | panel, reconciliation, review issue, recognition log |
+| monthly problem index | 1st, 03:00 UTC | panel, reconciliation, review issue (problems + aliases), recognition log, experiment proposal |
 | weekly model refresh | Mon 05:00 UTC | verifies model ids against live provider lists; opens a PR when the lineup should change; urgent issue if a configured model was retired |
-| checks | every push and PR | syntax check, unit tests, full site build |
+| checks | every push and PR | eslint:recommended, syntax check, unit tests with enforced coverage, full site build |
 | keepalive | monthly | keeps schedules from being auto-disabled |
 | daily submit | manual only | stopped 2026-08-19; resuming restores the cron |
 
@@ -136,7 +144,10 @@ before anything is submitted.
 ```
 npm ci
 npm run check                # syntax-check every entry point
+npm run lint                 # eslint:recommended over src/ and test/
 npm test                     # unit tests (node --test, no test dependencies)
+npm run test:coverage        # same, with enforced coverage on src/lib
+npm run experiment:monthly   # needs API keys; refuses to overwrite a month
 npm run build                # render dist/ from data/ (no API calls)
 npm run index:monthly        # needs API keys; refuses to overwrite a month
 npm run solutions:daily      # needs API keys; skips if the day exists
@@ -166,4 +177,13 @@ These are load-bearing. Breaking one silently corrupts the record.
   merges. Pricing feeds the spend guard, so unverified prices never land.
 - **The recognition prompt stays blind.** It must never describe the site or
   name the index; the moment the question leaks the answer, the log measures
-  prompt-following instead of recognition.
+  prompt-following instead of recognition. The experiment prompt is the
+  opposite: it may know everything, because it optimizes rather than measures.
+- **One experiment at a time.** The monthly loop proposes at most one
+  crawler-facing change, logged with its hypothesis before the outcome
+  exists, and a person applies or declines it. The measurements themselves
+  (rotation, formats, question wording) never adapt.
+- **Coverage is enforced where it is honest.** CI requires 100% line and
+  function coverage on src/lib (excluding the provider network shims and the
+  dormant tracker's aggregation); runner entry points make paid API calls
+  and are exercised by the scheduled runs themselves, not by tests.

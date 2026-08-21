@@ -25,7 +25,7 @@ function modelPrice(config, provider, model) {
 // Average observed tokens per (provider, pass), from stored raw responses.
 // Only used where there is enough signal; otherwise the configured estimate
 // stands in.
-export function measuredAverages(minSamples = 20) {
+export function measuredAverages(minSamples = 20, dataDir = paths.data) {
   const acc = new Map();
   walkRecordedCalls((month, provider, model, usage, { grounded }) => {
     if (!usage || !model) return;
@@ -35,7 +35,7 @@ export function measuredAverages(minSamples = 20) {
     if (!acc.has(key)) acc.set(key, { in: 0, out: 0, n: 0 });
     const a = acc.get(key);
     a.in += inTok; a.out += outTok; a.n += 1;
-  });
+  }, dataDir);
   const out = new Map();
   for (const [key, a] of acc) {
     if (a.n >= minSamples) out.set(key, { in: a.in / a.n, out: a.out / a.n, n: a.n });
@@ -144,10 +144,11 @@ export function priceUsage(config, provider, model, usage, { grounded = false, b
 // Walk every stored artifact that can carry usage, calling back once per
 // call site: cb(month, provider, model, usage|null, {grounded, batch}).
 // Usage may be null; the callback decides what an unrecorded call means.
-function walkRecordedCalls(cb) {
+// dataDir is injectable so the walk is testable against a synthetic tree.
+function walkRecordedCalls(cb, dataDir = paths.data) {
   // The tracker era: raw batch responses, batch-discounted, pass in the id.
-  for (const file of listJSON(paths.data('raw'))) {
-    const day = readJSON(paths.data('raw', file), null);
+  for (const file of listJSON(dataDir('raw'))) {
+    const day = readJSON(dataDir('raw', file), null);
     const m = file.slice(0, 7);
     for (const r of day?.responses ?? []) {
       if (!r.ok) continue;
@@ -156,9 +157,9 @@ function walkRecordedCalls(cb) {
     }
   }
   // Daily answers, old single-format and new multi-format shapes alike.
-  for (const file of listJSON(paths.data('solutions'))) {
+  for (const file of listJSON(dataDir('solutions'))) {
     if (!/^\d{4}-\d{2}-\d{2}\.json$/.test(file)) continue;
-    const day = readJSON(paths.data('solutions', file), null);
+    const day = readJSON(dataDir('solutions', file), null);
     const m = file.slice(0, 7);
     const panels = day?.formats ?? [{ answers: day?.answers ?? [] }];
     for (const panel of panels) {
@@ -166,16 +167,16 @@ function walkRecordedCalls(cb) {
     }
   }
   // Daily themes: one anthropic call per file.
-  for (const file of listJSON(paths.data('themes'))) {
+  for (const file of listJSON(dataDir('themes'))) {
     if (!/^\d{4}-\d{2}-\d{2}\.json$/.test(file)) continue;
-    const t = readJSON(paths.data('themes', file), null);
+    const t = readJSON(dataDir('themes', file), null);
     cb(file.slice(0, 7), 'anthropic', t?.model ?? null, t?.usage ?? null, {});
   }
   // Monthly boards: the calls array, where a file has one; older files
   // predate it and report their known seven call sites as unrecorded.
-  for (const file of listJSON(paths.data('index'))) {
+  for (const file of listJSON(dataDir('index'))) {
     if (!/^\d{4}-\d{2}\.json$/.test(file)) continue;
-    const idx = readJSON(paths.data('index', file), null);
+    const idx = readJSON(dataDir('index', file), null);
     const m = file.slice(0, 7);
     if (idx?.calls) {
       for (const c of idx.calls) {
@@ -185,10 +186,16 @@ function walkRecordedCalls(cb) {
       for (let i = 0; i < 7; i += 1) cb(m, 'unknown', null, null, {});
     }
   }
-  // Recognition checks: three grounded calls per file.
-  for (const file of listJSON(paths.data('recognition'))) {
+  // Experiment proposals: one anthropic call per file.
+  for (const file of listJSON(dataDir('experiments'))) {
     if (!/^\d{4}-\d{2}\.json$/.test(file)) continue;
-    const rec = readJSON(paths.data('recognition', file), null);
+    const e = readJSON(dataDir('experiments', file), null);
+    cb(file.slice(0, 7), 'anthropic', e?.model ?? null, e?.usage ?? null, {});
+  }
+  // Recognition checks: three grounded calls per file.
+  for (const file of listJSON(dataDir('recognition'))) {
+    if (!/^\d{4}-\d{2}\.json$/.test(file)) continue;
+    const rec = readJSON(dataDir('recognition', file), null);
     for (const r of rec?.results ?? []) {
       cb(file.slice(0, 7), r.provider, r.model, r.usage ?? null, { grounded: true });
     }
@@ -199,7 +206,7 @@ function walkRecordedCalls(cb) {
 // usage. Calls without stored usage are counted as unrecorded, never guessed:
 // the runners began persisting usage on 2026-08-20, and the retired vendor
 // tracker's raw responses cover the era before that.
-export function spendByMonth(config) {
+export function spendByMonth(config, dataDir = paths.data) {
   const months = new Map();
   const bucket = (m) => {
     if (!months.has(m)) months.set(m, { month: m, usd: 0, priced: 0, unrecorded: 0 });
@@ -214,6 +221,6 @@ export function spendByMonth(config) {
     } catch {
       b.unrecorded += 1;
     }
-  });
+  }, dataDir);
   return [...months.values()].sort((a, b) => a.month.localeCompare(b.month));
 }
