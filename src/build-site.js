@@ -305,7 +305,7 @@ function build() {
   <div class="section__head">
     <div class="section__num">01</div>
     <h2 id="solutions">How would the models attack it?</h2>
-    <p class="section__note">We rotate through this month's board, one problem each day. ChatGPT, Claude and Gemini all get the same question (how would you attack this?) and answer it in every format on the list, from a memo to a haiku. Pick the format you want to read; a different one leads each day. We never ask for a solution: everything here is unsolved, and a model asked to solve it will invent a plan. So any difference between the answers is substance, not style.</p>
+    <p class="section__note">We rotate through this month's board, one problem each day. ChatGPT, Claude and Gemini all get the same question (how would you attack this?) and answer it in every format on the list, from a memo to a lullaby. Pick the format you want to read; a different one leads each day. We never ask for a solution: everything here is unsolved, and a model asked to solve it will invent a plan. So any difference between the answers is substance, not style.</p>
   </div>
   ${answersHtml}
   </div>
@@ -380,6 +380,9 @@ ${siteFooter()}
   // in data/, shown nowhere. Each day and each problem now has its own page,
   // which is also where the record's depth becomes visible and citable.
   const cap = (t) => (t ? t.charAt(0).toUpperCase() + t.slice(1) : t);
+  // Day descriptions state their own format count; the list can grow.
+  const countWord = (n) =>
+    ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'][n] ?? String(n);
   const writePage = (relPath, html) => {
     const file = paths.dist(...relPath.split('/').filter(Boolean), 'index.html');
     fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -404,7 +407,7 @@ ${siteFooter()}
       `/days/${sol.date}/`,
       subShell({
         title: `${cap(plain)}: three AI answers · ${sol.date}`,
-        description: `On ${sol.date}, ChatGPT, Claude and Gemini were each asked how they would attack ${plain}, in ${(sol.formats ?? [sol]).length > 1 ? 'six formats, from a memo to a haiku' : `the format: ${(sol.formats?.[0]?.format ?? sol.format).label.toLowerCase()}`}. Their full answers, side by side.`,
+        description: `On ${sol.date}, ChatGPT, Claude and Gemini were each asked how they would attack ${plain}, in ${(sol.formats ?? [sol]).length > 1 ? `${countWord((sol.formats ?? []).length)} formats` : `the format: ${(sol.formats?.[0]?.format ?? sol.format).label.toLowerCase()}`}. Their full answers, side by side.`,
         path: `/days/${sol.date}/`,
         eyebrow: `${esc(sol.date)} &middot; <a href="/problems/${esc(sol.problem.canonical_id)}/">${esc(sol.problem.canonical_name)}</a>`,
         heading: `How would you attack <em>${esc(plain)}</em>?`,
@@ -581,7 +584,7 @@ ${siteFooter()}
     </div>
     <h2 class="board__title">The daily answers</h2>
     <div class="prose">
-      <p>Every day at 06:10 UTC, the date deterministically picks one problem off the board, and all three models answer the same question about it: how would you attack this? Never "solve this". Everything on the board is there because it is unsolved, and a model asked to solve it invents a confident plan. Each model answers in every format on the list, from a memo to a haiku. The page opens on one format chosen by a date seed and the reader switches to the rest. Within any panel all three models share the format, so differences between their answers are substance, not style.</p>
+      <p>Every day at 06:10 UTC, the date deterministically picks one problem off the board, and all three models answer the same question about it: how would you attack this? Never "solve this". Everything on the board is there because it is unsolved, and a model asked to solve it invents a confident plan. Each model answers in every format on the list, from a memo to a lullaby. The page opens on one format chosen by a date seed and the reader switches to the rest. Within any panel all three models share the format, so differences between their answers are substance, not style.</p>
       <p>After the answers land, Claude rereads the whole six-month record and refreshes a small set of cross-cutting themes. That layer is a single-model synthesis, and the page labels it that way.</p>
     </div>
     <h2 class="board__title">The recognition check</h2>
@@ -654,7 +657,7 @@ ${feedEntries
     <id>${SITE}/days/${x.date}/</id>
     <link href="${SITE}/days/${x.date}/"/>
     <updated>${x.date}T06:30:00Z</updated>
-    <summary>${esc(`ChatGPT, Claude and Gemini each answer${x.formats ? ' in six formats, from a memo to a haiku' : ` in the format: ${x.format.label.toLowerCase()}`}. ${x.problem.canonical_name}, from the ${x.board_month} board.`)}</summary>
+    <summary>${esc(`ChatGPT, Claude and Gemini each answer${x.formats ? ` in ${countWord(x.formats.length)} formats` : ` in the format: ${x.format.label.toLowerCase()}`}. ${x.problem.canonical_name}, from the ${x.board_month} board.`)}</summary>
   </entry>`;
   })
   .join('\n')}

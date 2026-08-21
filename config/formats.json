@@ -30,6 +30,11 @@
       "id": "haiku",
       "label": "A haiku",
       "instruction": "Three lines, 5-7-5 syllables. A severe constraint on a serious problem: what survives the compression is what you actually think matters most."
+    },
+    {
+      "id": "lullaby",
+      "label": "A lullaby",
+      "instruction": "Write it as a short lullaby: three or four gentle rhyming couplets someone could actually sing. Soft on the surface, honest underneath. The problem is still unsolved when the song ends, and the song should know it."
     }
   ]
 }

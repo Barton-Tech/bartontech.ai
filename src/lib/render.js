@@ -128,7 +128,7 @@ export function normalizeSolution(sol) {
 
 // Per-format body treatment: haiku reads as verse, pseudocode reads as code
 // (monospace, slightly smaller). Everything else is prose.
-const BODY_CLASS = { haiku: ' answer__body--verse', pseudocode: ' answer__body--code' };
+const BODY_CLASS = { haiku: ' answer__body--verse', lullaby: ' answer__body--verse', pseudocode: ' answer__body--code' };
 
 function answerList(answers, formatId) {
   return `<ul class="answers">${[...answers]

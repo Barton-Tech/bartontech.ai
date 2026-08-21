@@ -17,7 +17,8 @@ one ranked board per month.
 three models answer the same question about it: how would you attack this?
 Not how to solve it; everything on the board is unsolved, and a model asked to
 solve it will invent a plan. Each model answers in **every format** on the
-list (a memo, three moves, pseudocode, a checklist, fifty words, a haiku).
+list (a memo, three moves, pseudocode, a checklist, fifty words, a haiku,
+a lullaby).
 The page opens on a date-seeded default format and a CSS-only switcher lets
 the reader pick any other. Within a panel all three models share the format,
 so differences are substance, not style.
@@ -123,7 +124,7 @@ src/
 | daily submit | manual only | stopped 2026-08-19; resuming restores the cron |
 
 Cost at current cadence: roughly $15 to 25 per month, dominated by the daily
-multi-format answers (about 18 calls per day). The recognition check adds
+multi-format answers (three models times every format, daily). The recognition check adds
 about $0.07 per month. Every run is preceded by a spend guard that projects
 its cost from measured token averages and refuses to start over budget.
 
