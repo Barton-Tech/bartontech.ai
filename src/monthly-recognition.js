@@ -65,6 +65,7 @@ async function main() {
           label: cfg.label,
           model: res.model ?? cfg.models.grounded,
           ...res.data,
+          usage: res.usage ?? null,
           sources: (res.data.sources ?? []).filter((u) => !INFRASTRUCTURE.test(u)),
         });
         log(`${name}: familiar=${res.data.familiar} (basis: ${res.data.basis})`);

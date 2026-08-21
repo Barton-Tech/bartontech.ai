@@ -85,6 +85,8 @@ async function main() {
     provenance: provenance(config, { model: res.model ?? anthropic.cfg.models.reasoning }),
     window: { from, to: date, months: WINDOW_MONTHS },
     based_on: { boards: boards.map((b) => b.month), solution_days: solutions.length },
+    model: res.model ?? anthropic.cfg.models.reasoning,
+    usage: res.usage ?? null,
     themes: res.data.themes,
   });
   log(`wrote ${res.data.themes.length} themes`);

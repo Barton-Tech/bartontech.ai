@@ -31,3 +31,15 @@ test('projectCost throws on an unpriced model rather than guessing zero', () => 
     /no pricing/,
   );
 });
+
+test('priceUsage prices by stored usage with search fee and batch discount', async () => {
+  const { priceUsage } = await import('../src/lib/cost.js');
+  const cfg = {
+    pricing: { p: { m: { in: 10, out: 20 }, batch_discount: 0.5, search_per_call: 0.01 } },
+  };
+  const usage = { input_tokens: 1_000_000, output_tokens: 500_000 };
+  assert.equal(priceUsage(cfg, 'p', 'm', usage), 20);
+  assert.equal(priceUsage(cfg, 'p', 'm', usage, { batch: true }), 10);
+  assert.equal(priceUsage(cfg, 'p', 'm', usage, { grounded: true }), 20.01);
+  assert.throws(() => priceUsage(cfg, 'p', 'ghost', usage), /no pricing/);
+});

@@ -28,6 +28,7 @@ import {
   problemLd,
 } from './lib/render.js';
 import { swimlaneSvg, stackSvg } from './lib/diagram.js';
+import { projectCost, measuredAverages, spendByMonth, usd } from './lib/cost.js';
 import {
   SITE,
   TITLE,
@@ -572,6 +573,35 @@ ${siteFooter()}
   // prose. The prose repeats the diagram's content deliberately; the SVG has
   // a full text alternative in its desc, and the page works without either.
   const m = codeMetrics();
+
+  // The cost model, projected from today's configured models and prices with
+  // the same machinery the spend guard runs before every paid call.
+  const modelsCfg = readJSON(paths.config('models.json'));
+  const provs = Object.entries(modelsCfg.providers)
+    .filter(([, p]) => p.enabled)
+    .map(([n]) => n);
+  const nFormats = readJSON(paths.config('formats.json')).formats.length;
+  const measured = measuredAverages();
+  const per = (plan) => projectCost(plan, modelsCfg, measured);
+  const costDaily = per(provs.map((p) => ({
+    provider: p,
+    requests: Array.from({ length: nFormats }, () => ({ tier: 'reasoning', grounded: false })),
+  })));
+  const costThemes = per([{ provider: 'anthropic', requests: [{ tier: 'reasoning', grounded: false }] }]);
+  const costBoard = per([
+    ...provs.map((p) => ({ provider: p, requests: [{ tier: 'reasoning', grounded: false }, { tier: 'reasoning', grounded: true }] })),
+    { provider: 'anthropic', requests: [{ tier: 'reasoning', grounded: false }] },
+  ]);
+  const costRec = per(provs.map((p) => ({ provider: p, requests: [{ tier: 'grounded', grounded: true }] })));
+  const costMonthly = (costDaily.total + costThemes.total) * 30 + costBoard.total + costRec.total;
+  const costRows = [
+    ['Daily answers', `${provs.length * nFormats}`, 'daily', costDaily.total, costDaily.total * 30],
+    ['Daily themes', '1', 'daily', costThemes.total, costThemes.total * 30],
+    ['Monthly board', '7', 'monthly', costBoard.total, costBoard.total],
+    ['Recognition check', `${provs.length}`, 'monthly', costRec.total, costRec.total],
+  ];
+  const spendRows = spendByMonth(modelsCfg);
+
   const howBody = `
     <figure class="diagram">
       ${swimlaneSvg()}
@@ -599,6 +629,39 @@ ${siteFooter()}
     <div class="prose">
       <p>Nothing runs before a spend guard projects what the run is about to cost and refuses to start if it exceeds the ceiling. The record is append-only: no stored run is ever edited, and a forced rerun archives the prior version in public rather than replacing it. Every run records its prompt version and exact model ids, and raw responses are kept, so any number on the site can be traced back to what produced it.</p>
     </div>
+    <h2 class="board__title">The cost model</h2>
+    <div class="prose">
+      <p>Every price the site pays lives in the public config, and the weekly model refresh verifies prices against provider pages before they can change. Before any paid call, the spend guard projects the run's cost from ${measured.size > 0 ? 'measured token averages' : 'configured token estimates'} and refuses to start above ${usd(modelsCfg.budget.max_run_usd)} per run or ${usd(modelsCfg.budget.max_rolling_7d_usd)} over a rolling seven days. The projections below come from the same machinery, at today's configured models and prices; the whole site runs on roughly ${usd(costMonthly)} a month.</p>
+    </div>
+    <div class="table"><div class="table__scroll"><table>
+      <caption class="visually-hidden">Projected cost per scheduled process</caption>
+      <thead><tr><th scope="col">Process</th><th scope="col">Model calls per run</th><th scope="col">Cadence</th><th scope="col">Projected per run</th><th scope="col">Per month, about</th></tr></thead>
+      <tbody>${costRows
+        .map(
+          ([name, calls, cadence, run, month]) =>
+            `<tr><th scope="row">${name}</th><td>${calls}</td><td>${cadence}</td><td>${usd(run)}</td><td>${usd(month)}</td></tr>`,
+        )
+        .join('')}
+      <tr><th scope="row">Everything</th><td></td><td></td><td></td><td>${usd(costMonthly)}</td></tr></tbody>
+    </table></div></div>
+    <h2 class="board__title">Recorded spend</h2>
+    <div class="prose">
+      <p>What the site has actually spent, computed from stored token usage and priced by the exact model that produced each call. Calls whose usage was not stored are counted as unrecorded, never estimated: the runners began persisting usage on 2026-08-20, so the early record is mostly unrecorded, and the share shrinks from here. The retired vendor tracker's calls are priced from its raw responses.</p>
+    </div>
+    ${
+      spendRows.length
+        ? `<div class="table"><div class="table__scroll"><table>
+      <caption class="visually-hidden">Recorded spend by month</caption>
+      <thead><tr><th scope="col">Month</th><th scope="col">Priced calls</th><th scope="col">Unrecorded calls</th><th scope="col">Recorded spend</th></tr></thead>
+      <tbody>${spendRows
+        .map(
+          (r) =>
+            `<tr><th scope="row">${esc(r.month)}</th><td>${r.priced}</td><td>${r.unrecorded}</td><td>${usd(r.usd)}</td></tr>`,
+        )
+        .join('')}</tbody>
+    </table></div></div>`
+        : '<div class="empty">The first recorded calls land with the next run.</div>'
+    }
     <h2 class="board__title">The stack</h2>
     <div class="prose">
       <p>GitHub Actions runs the schedules; Cloudflare serves the result. The page is fully server-rendered and ships zero JavaScript (the only script tag is structured data), including the format switcher and the site menu, which are CSS and native HTML only. All data is plain JSON, served without authentication, and the harness that produces it is <a href="https://github.com/Barton-Tech/bartontech.ai">open source</a>.</p>

@@ -63,7 +63,9 @@ async function askFormat({ format, top, entry, config }) {
           { providerConfig: cfg },
         );
         if (!res.ok) return failures.push({ provider: name, error: res.error });
-        answers.push({ provider: name, label: cfg.label, model: res.model ?? cfg.models.reasoning, ...res.data });
+        // Usage is stored so recorded spend stays computable from the file
+        // alone; the display prices it by the model that produced it.
+        answers.push({ provider: name, label: cfg.label, model: res.model ?? cfg.models.reasoning, ...res.data, usage: res.usage ?? null });
         log(`${format.id}/${name} done in ${Math.round((Date.now() - started) / 1000)}s`);
       } catch (err) {
         failures.push({ provider: name, error: String(err.message ?? err) });

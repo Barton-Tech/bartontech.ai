@@ -61,7 +61,15 @@ async function gatherProposals(config, month) {
   // same inputs produces the same proposal ordering.
   const proposals = [];
   const failures = [];
+  const calls = [];
   for (const { task, res } of settled) {
+    calls.push({
+      provider: task.provider,
+      pass: task.pass,
+      ok: Boolean(res?.ok),
+      model: res?.model ?? null,
+      usage: res?.usage ?? null,
+    });
     if (!res?.ok) {
       failures.push({ provider: task.provider, pass: task.pass, error: res?.error ?? 'unknown' });
       continue;
@@ -71,7 +79,7 @@ async function gatherProposals(config, month) {
     }
   }
 
-  return { proposals, failures };
+  return { proposals, failures, calls };
 }
 
 async function reconcile(proposals, registry, config) {
@@ -91,7 +99,7 @@ async function reconcile(proposals, registry, config) {
   );
 
   if (!res.ok) throw new Error(`reconciliation failed: ${res.error}`);
-  return res.data;
+  return res;
 }
 
 function scoreProblems(proposals, resolutions, ranking) {
@@ -157,13 +165,15 @@ async function main() {
     );
   }
 
-  const { proposals, failures } = await gatherProposals(config, month);
+  const { proposals, failures, calls } = await gatherProposals(config, month);
   if (proposals.length === 0) {
     throw new Error(`no proposals gathered: ${JSON.stringify(failures)}`);
   }
   log(`gathered ${proposals.length} proposals`);
 
-  const { resolutions, ranking } = await reconcile(proposals, registry, config);
+  const reconciled = await reconcile(proposals, registry, config);
+  const { resolutions, ranking } = reconciled.data;
+  calls.push({ provider: 'anthropic', pass: 'reconcile', ok: true, model: reconciled.model ?? null, usage: reconciled.usage ?? null });
   const board = scoreProblems(proposals, resolutions, ranking);
 
   if (force && exists(paths.index(month))) {
@@ -185,6 +195,7 @@ async function main() {
     proposals,
     resolutions,
     failures,
+    calls,
   });
 
   // New canonical entries queue for review instead of entering the registry.

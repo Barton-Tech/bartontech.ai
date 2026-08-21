@@ -123,10 +123,13 @@ src/
 | keepalive | monthly | keeps schedules from being auto-disabled |
 | daily submit | manual only | stopped 2026-08-19; resuming restores the cron |
 
-Cost at current cadence: roughly $15 to 25 per month, dominated by the daily
-multi-format answers (three models times every format, daily). The recognition check adds
-about $0.07 per month. Every run is preceded by a spend guard that projects
-its cost from measured token averages and refuses to start over budget.
+Cost: the method page publishes a live cost model and recorded spend at
+[bartontech.ai/how-it-works](https://bartontech.ai/how-it-works/). The
+projection comes from the same machinery the spend guard runs before every
+paid call; recorded spend is computed from stored token usage, priced by the
+model that produced each call, with unrecorded calls counted rather than
+guessed. Ceilings: $3 per run, $15 over a rolling seven days, enforced
+before anything is submitted.
 
 ## Local
 
