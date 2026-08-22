@@ -1,0 +1,92 @@
+{
+  "date": "2026-08-22",
+  "generated_at": "2026-08-22T06:56:24.907Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-02-22",
+    "to": "2026-08-22",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08"
+    ],
+    "solution_days": 4
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 3222,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1686,
+    "output_tokens_details": {
+      "thinking_tokens": 683
+    },
+    "service_tier": "standard",
+    "inference_geo": "global"
+  },
+  "themes": [
+    {
+      "name": "Agents Break Web Assumptions",
+      "plain": "Software agents now browse, buy, and act on people's behalf, but the systems underneath were built for humans clicking pages. Several of the board's hardest problems exist because the stack cannot tell who is on the other end, what they may do, or what a term in a request even means.",
+      "evidence": "Three of the last four rotations are agent problems: telling agent traffic from human traffic, making agent actions safe and auditable, and giving agents a governed layer of shared definitions, alongside answer engine optimization on the board.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "agent-safe-execution",
+        "semantic-context-layer",
+        "aeo"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "Start From What Already Failed",
+      "plain": "Every model opens the same way: go dig up the cases your organization already decided, and turn them into labels, rules, or code. Nobody starts by designing the ideal system.",
+      "evidence": "On agent traffic the models start from sessions already known to be agents, on generative content governance from the last rejected pieces and legal rejections, and on the semantic context layer from the actual SQL behind every existing definition of customer.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "genai-content-governance",
+        "semantic-context-layer"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Machines Cannot Judge Meaning",
+      "plain": "The hardest checks depend on context and implied meaning, and software cannot reliably do that. So the models retreat to a narrower move: limit what the system is allowed to say or do, rather than try to judge each case.",
+      "evidence": "On generative content governance all three say claims and brand risk turn on implied meaning that tools cannot interpret, and on the semantic context layer they say contextual meanings cannot be collapsed into one global definition.",
+      "problem_ids": [
+        "genai-content-governance",
+        "semantic-context-layer"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Incentives, Not Architecture",
+      "plain": "Some of these problems are not really engineering problems. Different teams and outside operators want different answers, so no schema or protocol can settle the dispute for them.",
+      "evidence": "On the semantic context layer all three models call the disagreement organizational or political, about who owns the number, and on agent traffic they say agents will keep posing as humans and operators have no stake in telling the truth.",
+      "problem_ids": [
+        "semantic-context-layer",
+        "agent-traffic-identification"
+      ],
+      "trend": "new"
+    },
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust what is acting, they route everything through one door they own. Put a proxy or gateway in front of every write, log it, cap it, and keep a kill switch, because a sent message or a spent budget cannot be taken back.",
+      "evidence": "On safe agent execution all three open with a proxy or gateway over every write with limits and a kill switch, and on agent traffic Gemini would force agents onto dedicated endpoints that require identity tokens.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "agent-traffic-identification"
+      ],
+      "trend": "steady"
+    }
+  ]
+}

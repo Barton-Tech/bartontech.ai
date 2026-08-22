@@ -1,0 +1,573 @@
+{
+  "date": "2026-08-22",
+  "month": "2026-08",
+  "board_month": "2026-08",
+  "board_rank": 6,
+  "generated_at": "2026-08-22T06:55:58.399Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1
+  },
+  "problem": {
+    "canonical_id": "semantic-context-layer",
+    "canonical_name": "Governed Semantic Context Layer for Agents and Activation",
+    "plain": "agreeing on what basic terms like \"customer\" mean"
+  },
+  "default_format": "three-moves",
+  "formats": [
+    {
+      "format": {
+        "id": "cmo-memo",
+        "label": "A memo to a CMO",
+        "instruction": "Write it as a short internal memo to a chief marketing officer. Plain language, no jargon they would have to look up. Around 120 words."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Memo — Agent context\n\nThe obvious move is an enterprise-wide dictionary of every term. I'd skip it. Those projects die in committee, and the ambiguity is political, not technical.\n\nInstead: pick the five terms that actually move money — active customer, qualified lead, revenue among them. Force one named owner per term to sign a definition, expressed as real query logic in the warehouse, not a slide.\n\nPermissions belong in the warehouse too, enforced at query time, so they hold no matter which agent asks. Treat MCP as a disposable adapter; rewriting it every year is fine if the meaning underneath doesn't move.\n\nAgents must cite which definition they used and refuse when none exists. Silence beats plausible fiction.\n\nExpect fights over ownership, and ad platforms that won't honor our definitions at all.",
+          "first_move": "Get one named person to own the definition of \"active customer\" and write it as actual query logic.",
+          "hardest_part": "The disagreement about what \"customer\" means is a real disagreement between teams with different incentives, so no technical layer can settle it.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 916,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 600,
+            "output_tokens_details": {
+              "thinking_tokens": 218
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "To: CMO\nSubject: Start narrow; prove governance before scale\n\nI would not begin with a universal marketing dictionary. That becomes a long governance program with no proof it protects decisions. Pick one valuable, reversible workflow—such as lead routing—and define only the terms it needs. For each term, name an owner, calculation, source, freshness limit, permitted uses, and version. Give the agent approved views rather than direct system access. Check permissions at every query and action using the person, purpose, fields, and records involved; deny by default. Log the definitions, data, permissions, and tool calls behind every output so mistakes can be reproduced. Put changing MCP details behind replaceable adapters. Then test conflicting definitions, stale data, and attempted access before expanding. The unresolved issue is whether these controls remain usable across vendors without becoming another brittle integration layer.",
+          "first_move": "Choose one reversible marketing workflow and document every term and permission it requires.",
+          "hardest_part": "The hardest part is assigning authority when business teams legitimately use conflicting definitions and systems cannot carry the same permissions.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 470,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 466,
+            "output_tokens_details": {
+              "reasoning_tokens": 232
+            },
+            "total_tokens": 936
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "To: CMO. The industry keeps trying to build a universal data dictionary before turning agents loose. That fails every time because sales, finance, and marketing will never agree on what an 'active customer' means in the abstract. Instead of waiting for a company-wide standard, I would build narrow, task-specific views for our agents. When an agent runs a campaign, we hand it pre-filtered data with definitions hard-coded strictly for that single job. We should also enforce access rules at our data warehouse before the agent ever sees it, rather than trusting tool-level permissions. We will not solve universal business alignment overnight, but this keeps our automations useful, accurate, and secure right now.",
+          "first_move": "I would define and hard-code three essential terms strictly for our retention workflow before connecting any agent.",
+          "hardest_part": "Different department heads have legitimate, conflicting operational needs that make a single definition of basic business terms impossible to force.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 336,
+            "candidatesTokenCount": 218,
+            "totalTokenCount": 1044,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 336
+              }
+            ],
+            "thoughtsTokenCount": 490,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "three-moves",
+        "label": "Three moves",
+        "instruction": "Give exactly three moves, in order. One sentence each, then one sentence on what makes that move hard. Nothing else."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Move 1 — Don't try to agree on what \"customer\" means; harvest the definitions that already exist in executable form (dbt models, CDP audience SQL, ad platform conversion configs, the CFO's revenue recognition logic) and publish them as competing, versioned, owner-attributed named metrics, so the layer's job is disambiguation and provenance rather than consensus. Hard part: the definitions that matter most are usually undocumented, embedded in a Looker view or a hand-tuned audience, and their nominal owner will disown them the moment you put their name on it. Move 2 — Make the governed path the only path: agents get no direct connection to warehouse, CDP or ad APIs, only a single resolution endpoint where semantics and entitlements are evaluated together against a short-lived, human-delegated identity, deny-by-default, with activation (audience push, spend) treated as a separate egress checkpoint requiring a named approver. Hard part: ad platforms and most SaaS CRMs won't honor your identity or row-level policy, so at the boundary you're back to coarse OAuth scopes and have to solve it with pre-materialized, pre-filtered surfaces rather than real enforcement — which means you're maintaining a shadow copy of permissions and it will drift. Move 3 — Instrument for confident wrongness specifically: build an eval set of deliberately ambiguous requests where the correct behavior is to ask which definition or refuse, and ship the whole thing behind a stable internal contract with MCP as a thin, explicitly disposable adapter. Hard part: refusal and disambiguation feel like product failure to the people funding the agent, so you'll be under constant pressure to pick a default definition — and the moment you do, you've recreated the silent wrongness you built the layer to prevent.",
+          "first_move": "Pull the actual SQL and audience logic behind every existing definition of \"customer\" and see how many there really are.",
+          "hardest_part": "The ambiguity is not a modeling gap, it's an unresolved organizational disagreement about who owns the number, and no schema can settle that.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 906,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1441,
+            "output_tokens_details": {
+              "thinking_tokens": 742
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Move 1: Define executable, versioned semantic contracts for a narrow set of high-risk terms, tying each definition to owners, source data, temporal rules, tests, provenance, and explicitly allowed variants rather than attempting a universal ontology.\nWhat makes that move hard is that disagreements over terms such as “customer” usually reflect legitimate business contexts and organizational power, not missing metadata.\nMove 2: Put an identity-aware policy enforcement layer between agents and tools that evaluates purpose, delegated identity, consent, field and row permissions, and output obligations for every action, denying access when a destination cannot preserve those controls.\nWhat makes that move hard is that entitlement models do not map cleanly across platforms, while permitted fields can still be recombined to infer restricted information.\nMove 3: Build a conformance and evaluation harness that records the semantic-contract version, policy decision, data lineage, tool call, and result for every activation, while isolating MCP and vendor changes behind replaceable adapters.\nWhat makes that move hard is that plausible agent output often lacks an objective ground truth, so drift, policy failures, and semantic errors can remain indistinguishable without costly human review.",
+          "first_move": "Start with a few costly, disputed terms and make their definitions executable and testable.",
+          "hardest_part": "The hardest part is reconciling legitimate contextual meanings and incompatible permission systems without pretending one global definition or policy model is sufficient.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 461,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 746,
+            "output_tokens_details": {
+              "reasoning_tokens": 442
+            },
+            "total_tokens": 1207
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. Build narrow, compile-time semantic contracts for specific agent tasks instead of attempting to construct a universal enterprise-wide data ontology. What makes this hard: Teams maintain conflicting definitions of terms like 'customer' intentionally because their performance incentives depend on different counting rules. 2. Attach cryptographically signed permission and meaning tokens directly to tool payloads so downstream systems validate entitlements independently of the agent reasoning loop. What makes this hard: Third-party marketing APIs and ad platforms have zero commercial incentive to adopt or respect foreign governance envelopes. 3. Restrict agent execution to generating declarative activation manifests that must pass a deterministic verification engine before touching live downstream systems. What makes this hard: Forcing deterministic compilation strips away the dynamic reasoning and adaptation that make autonomous agents appealing in the first place.",
+          "first_move": "I would stop trying to build a shared data model and instead require every tool call to declare its exact data definition in machine-readable code.",
+          "hardest_part": "Marketing, sales, and finance teams deliberately define core terms differently to defend their own operational metrics, making semantic consensus a political impossibility rather than a technical one.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 325,
+            "candidatesTokenCount": 249,
+            "totalTokenCount": 1535,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 325
+              }
+            ],
+            "thoughtsTokenCount": 961,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "pseudocode",
+        "label": "Pseudocode",
+        "instruction": "Express the approach as short annotated pseudocode. The comments should carry the reasoning; the code should carry the structure. Around 15 lines."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "# 0. Disagree with the obvious move: do NOT try to ship one enterprise ontology.\n#    \"Customer\" means different things to finance and growth for good reasons. Target traceable\n#    disagreement, not consensus. Consensus projects die in the data council.\n\nresolve(term, ctx):\n    defs = registry.get(term, ctx.domain)          # 2-5 live defs per term is the normal state, not a bug\n    if len(defs) > 1 and not ctx.pinned(term):\n        return NeedsPin(defs, stewards)            # agent stops and names humans; it never picks the plausible one\n    return defs.single\n\nDefinition := {sql: compiled_against(warehouse), steward: person, valid_from, tests[]}\n# Executable or it doesn't exist. Prose definitions in a catalog drift silently and lie confidently.\n\nrun(query, user):\n    tok = broker.delegate(user, ttl=5m, scope=query.tables)  # agent has NO standing identity of its own\n    return warehouse.exec(query, tok)              # inherit existing RLS/masking; don't build a second policy engine\n                                                   # \"can the human see it\" is the only entitlement question worth asking\n\nactivate(audience):                                # ad platforms have no row-level anything; stop pretending\n    assert audience.k >= k_min and consent_basis in allowed\n    log_export()                                   # one-way gate with an audit trail, not a permission surface\n\nanswer.attach(receipt{def_id, version, steward, rows_filtered, delegation_id})\n# The receipt is the product. The agent is a UI over it. Without it you can't debug confident wrongness.\n\nadapter/mcp_<rev>.py imports semantics/           # transport is disposable; spec churn rewrites the adapter, not the layer\n\nKPI := needs_pin_per_100_queries, trending down   # not accuracy. Every NeedsPin is a ticket with a named owner.\n# Convergence comes bottom-up from real query traffic, which surfaces the 40 terms that actually matter.\n\n# Expected failure: stewards ignore tickets, NeedsPin becomes a wall, users route around the agent to\n# raw SQL or ChatGPT. If ambiguity_rate doesn't fall in 90 days, the problem was never technical.",
+          "first_move": "Log the real questions people are already asking agents, and find every place the same word resolves to a different number.",
+          "hardest_part": "The ambiguity is political, not technical — two teams need \"customer\" to mean different things, and no layer can arbitrate that, only make the fork visible and assign someone to own it.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 915,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 2670,
+            "output_tokens_details": {
+              "thinking_tokens": 1754
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "scope = choose_one_activation(\"suppression or lifecycle messaging\")  # Do not begin with a universal marketing ontology.\nstakeholders = name_owners([business, data, privacy, security])  # Every definition and policy needs accountable humans.\nterms = inventory_terms(scope)  # Include disputed meanings, source mappings, and identity assumptions.\ncontracts = encode(terms, logic, grain, time_window, exclusions, provenance)  # Definitions must be executable and testable.\nversions = version(contracts, compatibility=\"explicit\")  # Changed meaning should fail loudly rather than drift silently.\npolicies = attach([purpose, fields, rows, geography, retention], contracts)  # Entitlements belong with meaning, not in prompts.\nidentity = model_links(confidence, source, consent, expiry)  # “Customer” is often an identity-resolution claim, not a fact.\ncapabilities = mint_short_lived_access(agent, task, purpose)  # Never hand the agent ambient user or platform credentials.\nplan = compile(request, contracts, policies, source_connectors)  # Translate intent into governed, source-specific operations.\nresult = execute_at_source(plan, deny_by_default=True)  # Preserve warehouse and application enforcement where possible.\nresult = label(result, definition_version, lineage, policy, freshness)  # Context must travel with every returned value.\nagent_answer = constrain_agent(result, allowed_actions, uncertainty)  # Refuse when definitions conflict or evidence is stale.\ntests = build_conformance_cases(golden_records, edge_cases, attacks)  # Test semantics and leakage, not merely connector uptime.\nshadow_run(scope, compare_to_humans=True)  # Measure disagreement before permitting activation.\nmcp = wrap_as_thin_adapter(plan, result)  # Keep moving transport specifications outside the semantic core.\niterate_on_failures(); do_not_claim_portability_yet()  # Cross-system policy equivalence is the unsolved part, not plumbing.",
+          "first_move": "I would pick one high-value activation and write down exactly who qualifies and who must be excluded.",
+          "hardest_part": "The hardest part is preserving the same business meaning and enforceable purpose-based access when identity, policy primitives, and data grain differ across systems.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 464,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 729,
+            "output_tokens_details": {
+              "reasoning_tokens": 251
+            },
+            "total_tokens": 1193
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "# 1. Never expose raw warehouse schemas or broad MCP tools directly to the agent\ndef execute_governed_tool(agent_call, session_context):\n    # 2. Treat natural language definitions as untrusted; force explicit metric contracts\n    contract = MetricRegistry.resolve(agent_call.metric, domain=session_context.domain)\n    if contract.is_ambiguous():\n        return RequestDisambiguation(contract.competing_definitions) # Fail closed instead of guessing\n\n    # 3. Compile business logic to executable dialect, not agent prompt context\n    executable_ast = SemanticCompiler.compile(contract.dsl_definition, parameters=agent_call.params)\n\n    # 4. Inject row/column security at execution layer using caller delegation chain\n    actor_policy = PolicyEngine.evaluate(session_context.delegated_identity, contract.target_system)\n    sandboxed_ast = SecurityRewriter.apply_predicates(executable_ast, actor_policy.row_filters)\n\n    # 5. Return typed values and lineage token, stripping unmasked PII downstream\n    return ExecutionGateway.dispatch(sandboxed_ast, redact_columns=actor_policy.masked_fields)",
+          "first_move": "Pick two systems that disagree on one metric like 'active customer' and force the agent to fail closed when caller scope does not specify which department's definition to compile.",
+          "hardest_part": "Different business units have valid, politically entrenched, and irreconcilable definitions for identical terms, turning what looks like a data cataloging problem into a social consensus problem.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 329,
+            "candidatesTokenCount": 376,
+            "totalTokenCount": 1694,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 329
+              }
+            ],
+            "thoughtsTokenCount": 989,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "checklist",
+        "label": "A checklist",
+        "instruction": "Give a checklist someone could actually run next quarter. Each item concrete enough to be marked done or not done. Six items at most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "My disagreement with the obvious answer first: the reflex is \"build the enterprise ontology, then let agents read it.\" I think that fails for the same reason MDM and the CDP golden record failed — 'revenue' isn't ambiguous because nobody wrote it down, it's ambiguous because finance's answer and marketing's answer are both correct for their purpose. Chasing one definition is a two-year governance project that produces a wiki page. So I would not try to make meaning singular. I'd try to make it *named, cited, and versioned*, and make the agent's failure mode 'I need you to pick which one' instead of a plausible number. Second disagreement: don't build a cross-tool entitlement model. It doesn't exist and you can't make ad platforms honor row-level policy. Collapse the read path to one surface you actually control, and treat everything else as a boundary you export across with rules.\n\nChecklist for next quarter:\n\n1. Build a contested-term register from real traffic, not a workshop. Take the last N thousand actual agent/analyst questions, extract the terms they hinge on, and for the top 12–20 compute the numeric spread across CRM, CDP, warehouse and ad platform for the same period. Done = a register where every term has a quantified disagreement (e.g. 'active customer: 4.1M vs 3.3M vs 2.7M, driver = trailing window and suppression of churned') and a named owner per variant. If the spread is small, drop it; spend your quarter on the four terms where it isn't.\n\n2. Give agents exactly one governed read surface and revoke everything else. Expose those terms as typed metrics/entities in the warehouse-side semantic layer (dbt SL, Cube, your own service — the tool matters less than the exclusivity) and delete the agent's raw table credentials and direct CRM/CDP read scopes. Done = an access audit showing the agent identity has zero read paths that bypass the semantic layer. This is the single highest-value item and it's mostly a permissions and plumbing job, not an AI job.\n\n3. Make the agent act as the human, not as a service account. Token exchange / on-behalf-of into the read surface, with row and field filters enforced at the surface, never in the prompt. Done = same question asked by a regional marketer and a global admin returns provably different row counts, and both calls are in an audit log with the effective policy attached.\n\n4. Ship an ambiguity contract and measure confidently-wrong rate. Every number the agent returns carries definition name, version, as-of, and filters applied; if a request maps to more than one registered variant it must ask rather than pick. Done = a held-out eval set of ~100 prompts (roughly a third deliberately ambiguous, a third answerable, a third out of scope) with a published baseline for correct / abstained / confidently wrong, re-run in CI on every prompt or metric change. Without this number you have no way to argue with anyone about whether the layer is working.\n\n5. Split the write path and make every activation reversible. Audience pushes, budget moves and suppression changes go through a small set of typed, idempotent actions with a dry-run diff ('this adds 812k profiles, 30k of which have no consent for paid social') and an approval threshold above a defined blast radius. Done = every write action has a documented rollback that has been executed once in staging, and the consent/purpose check happens on the export, not in the model.\n\n6. Quarantine the transport so integration work compounds. MCP or whatever replaces it lives in a thin adapter; semantics, entitlements, audit and eval live in your service with their own contracts. Done = a rehearsed swap drill — re-point the whole thing at a different transport (or the stateless revision) in under a week, with only adapter code touched, and the eval suite passing after.\n\nWhat I expect to run into: the abstention behavior in item 4 will be the thing people ask you to turn off, because an agent that says 'which revenue?' feels worse in a demo than one that answers. You need item 1's numbers to defend it. The other break point is item 2 — some team will have a latency or freshness reason the agent must hit an operational system directly, and that exception, once granted, quietly becomes the architecture. And ad platforms will remain a one-way door: once an audience is pushed, your field-level policy stops existing, so treat activation as export-with-DLP rather than pretend policy follows the data.",
+          "first_move": "Pull the last few thousand real questions people asked the agent and count how many depend on a term where the systems already disagree — then measure how far apart the numbers actually are.",
+          "hardest_part": "The ambiguity is political rather than technical — several definitions of \"customer\" are genuinely correct for different owners — so the system has to carry plural named truths and openly refuse to guess, which is exactly the behavior stakeholders experience as the agent being worse.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 909,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 2921,
+            "output_tokens_details": {
+              "thinking_tokens": 1317
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "- [ ] **Bound the pilot:** choose one agent workflow, two systems, and no more than three disputed terms; document decisions the agent may make and actions it must never take. Done when data, security, legal, and channel owners sign the scope and exclusions.\n- [ ] **Create executable semantic contracts:** for each term, record grain, source, identity rules, calculation logic, time window, timezone, freshness, owner, version, permitted purposes, and known disagreements; add positive and negative test fixtures. Done when the same fixtures produce explainable results in both systems—or the mismatch is explicitly preserved rather than papered over.\n- [ ] **Define a deny-by-default entitlement matrix:** map user → delegated agent → purpose → allowed rows, fields, tools, and actions; use short-lived credentials and require approval for irreversible activation. Done when automated tests prove both allowed access and denial across every scoped tool.\n- [ ] **Put a governed mediation layer in front of the tools:** translate a stable internal semantic-and-policy request into system-specific calls, keeping MCP as a replaceable transport adapter rather than the source of meaning or authorization. Done when an adapter can be upgraded or replaced without changing semantic contracts; also verify and pin the claimed July 2026 revision rather than architecting against an unverified future specification.\n- [ ] **Require evidence and activation receipts:** every answer must carry definition/version, source, as-of time, applied filters, denied context, and confidence; every action must support dry-run, idempotency, approval, and replayable audit logs. Done when ambiguous or stale context causes abstention instead of a plausible answer.\n- [ ] **Run in shadow mode and publish the failure taxonomy:** test normal, conflicting-definition, stale-data, identity-collision, prompt-injection, and privilege-escalation cases against the current human workflow. Done when owners review measured semantic error and policy-violation rates and make a documented go/no-go decision; do not generalize the pilot into a universal ontology unless evidence supports it.",
+          "first_move": "I would pick one consequential workflow and force its owners to agree on the exact definitions and exclusions before building anything.",
+          "hardest_part": "The genuinely hard part is resolving organizational disagreement over meaning and authority, because software can version competing definitions but cannot decide which stakeholder is entitled to make one canonical.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 463,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 1009,
+            "output_tokens_details": {
+              "reasoning_tokens": 516
+            },
+            "total_tokens": 1472
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. Define canonical SQL models in the warehouse for exactly two contested concepts (e.g., 'Active Customer' and 'Qualified Lead') and mandate them as the only acceptable definitions across all tools.\n2. Expose these definitions through a single read-only MCP context server that pre-evaluates row- and field-level permissions at query time, rather than passing raw tool access to the agent.\n3. Restrict agent activation tools to accept only pre-resolved canonical IDs emitted by the context server, explicitly removing the agent's ability to calculate segments or filter audiences on its own.\n4. Build an identity map table bridging CRM, CDP, and platform IDs so the agent never performs fuzzy identity resolution across disconnected systems.\n5. Implement automated schema and transport contract tests against your tool endpoints to break builds immediately when upstream platform specs or MCP transport interfaces drift.\n6. Run red-team execution traces with mock restricted accounts to verify that row-level security blocks unauthorized agent activation attempts before touching production martech APIs.",
+          "first_move": "Pick one core definition—like 'active customer'—and force sales, marketing, and data teams to commit to a single SQL query that defines it.",
+          "hardest_part": "Semantic disagreement is organizational and political, meaning different departments actively benefit from conflicting definitions of performance metrics.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 327,
+            "candidatesTokenCount": 293,
+            "totalTokenCount": 1398,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 327
+              }
+            ],
+            "thoughtsTokenCount": 778,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "fifty-words",
+        "label": "Fifty words",
+        "instruction": "Fifty words or fewer. No preamble, no caveats. The compression is the point: keep only what you would keep if you could keep one thing."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Skip the ontology. Give agents one gateway that only answers in metrics compiled from warehouse SQL, with identity passed through to row/column policies already enforced there. Undefined term = refusal, not a guess. Definitions live in version-controlled code owned by finance/RevOps, not marketing. Treat MCP as disposable transport.",
+          "first_move": "Pick the ten terms that appear in board reporting and force one owner to write each as query code.",
+          "hardest_part": "Definitions differ across teams for real reasons, so someone must lose an argument and keep losing it as the business changes.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 913,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 303,
+            "output_tokens_details": {
+              "thinking_tokens": 97
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Reject a universal ontology. Build versioned, executable semantic contracts covering definitions, lineage, identity, freshness, and authorization; test disputed metrics across two systems, with adapters insulating contracts from MCP churn.",
+          "first_move": "Inventory one consequential term and every decision using it.",
+          "hardest_part": "Entitlements depend on purpose and context, not fields alone.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 468,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 599,
+            "output_tokens_details": {
+              "reasoning_tokens": 513
+            },
+            "total_tokens": 1067
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Stop building universal semantic catalogs. Bind metric logic directly to deterministic warehouse query contracts with runtime policy tokens. Expose only pre-computed, entitlement-filtered views as agent tools instead of raw system access. Resolve definitions upstream where business logic lives, treating tool-native context as untrusted display layers.",
+          "first_move": "Map where your CRM, warehouse, and ad platform definitions of one key metric explicitly contradict each other.",
+          "hardest_part": "Semantic divergence is usually an unresolved political dispute over revenue credit and quota attainment disguised as a data modeling problem.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 330,
+            "candidatesTokenCount": 119,
+            "totalTokenCount": 1045,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 330
+              }
+            ],
+            "thoughtsTokenCount": 596,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "haiku",
+        "label": "A haiku",
+        "instruction": "Three lines, 5-7-5 syllables. A severe constraint on a serious problem: what survives the compression is what you actually think matters most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "One query engine—\nagents ask, it answers 'no'\nwhen the word is loose.",
+          "first_move": "Pick the ten metrics that actually get argued about, and make each one a single callable function that returns numbers plus its own definition and who is allowed to see it.",
+          "hardest_part": "The blocker isn't building a semantic layer, it's that the business genuinely has several valid definitions of 'customer' and no one has authority to kill the others — so the real work is political, and the technical answer is teaching agents to refuse rather than to guess.",
+          "confidence": "low",
+          "usage": {
+            "input_tokens": 914,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 503,
+            "output_tokens_details": {
+              "thinking_tokens": 315
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Name one term, then test\nMeaning and rights must travel\nDrift will break the map",
+          "first_move": "Name one term, then test.",
+          "hardest_part": "Meaning and rights must travel.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 469,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 573,
+            "output_tokens_details": {
+              "reasoning_tokens": 515
+            },
+            "total_tokens": 1042
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Stop building big truth / Bind the math where money moves / Fail before you act",
+          "first_move": "Pick three conflicting words across your sales and ad tools, and force the agent to stop whenever it hits them.",
+          "hardest_part": "Different departments rely on conflicting definitions of the same word to justify their budgets and performance.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 332,
+            "candidatesTokenCount": 90,
+            "totalTokenCount": 1159,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 332
+              }
+            ],
+            "thoughtsTokenCount": 737,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "lullaby",
+        "label": "A lullaby",
+        "instruction": "Write it as a short lullaby: three or four gentle rhyming couplets someone could actually sing. Soft on the surface, honest underneath. The problem is still unsolved when the song ends, and the song should know it."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Hush now, the dashboards still glow in the hall —\nFinance and Growth mean two things when they call.\n\nWe'll settle one word, sign it, version it too,\nand make every answer show what it went through.\n\nThe locks live with data, not with the machine,\nso the specs keep on turning and nothing's unseen.\n\nSleep, little agent, so fluent, so wrong;\nthe meaning's not settled — that's the end of the song.",
+          "first_move": "Pick one contested term, like \"active customer,\" and make a single executable definition in the warehouse that agents must fetch instead of computing it themselves.",
+          "hardest_part": "The disagreement isn't a data problem — finance, growth and legal often need genuinely different definitions of the same word, so there's no single meaning to publish, and even a correct number gets paraphrased by the agent into a claim nobody authorized.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 938,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1905,
+            "output_tokens_details": {
+              "thinking_tokens": 1600
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Begin with one small journey, not a glossary for all,\nDefine its terms and owners where the source fields rise and fall.\nBind each meaning to its lineage, purpose, clock, and claim,\nThen gate each row and field before an agent speaks its name.\nKeep MCP an adapter, so its shifting tides may roam,\nWhile signed context contracts and audit trails stay home.\nTest for leaks and contradictions through the quiet night;\nWe may learn where trust can travel—we won’t make meaning right.",
+          "first_move": "Pick one activation workflow and document exactly what every term means there.",
+          "hardest_part": "The hardest part is preserving contested business meaning and enforceable permissions as identity, purpose, data, and tools change.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 485,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 682,
+            "output_tokens_details": {
+              "reasoning_tokens": 516
+            },
+            "total_tokens": 1167
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Hush now, little engine, let your queries rest, the warehouse and the sales floor still cannot pass the test. They tell us build a unified view to make the borders sweet, but revenue means different things depending who you meet. The specs will shift by winter and undo the walls we trace, with half the real permissions bound to human time and space. So dream of clean semantics while the night is soft and deep, the words are still in conflict, but go on now to sleep.",
+          "first_move": "I would sit down with sales and finance to document the exact points where their definitions of a single customer actively contradict each other.",
+          "hardest_part": "Different departments have legitimate, conflicting business incentives to define core metrics differently, so forcing mathematical consensus breaks someone's actual operating model.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 347,
+            "candidatesTokenCount": 184,
+            "totalTokenCount": 1488,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 347
+              }
+            ],
+            "thoughtsTokenCount": 957,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    }
+  ]
+}
