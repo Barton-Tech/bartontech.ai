@@ -1,0 +1,98 @@
+{
+  "date": "2026-08-24",
+  "generated_at": "2026-08-24T07:15:33.191Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-02-24",
+    "to": "2026-08-24",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08"
+    ],
+    "solution_days": 6
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 3873,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 2051,
+    "output_tokens_details": {
+      "thinking_tokens": 813
+    },
+    "service_tier": "standard",
+    "inference_geo": "global"
+  },
+  "themes": [
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data or an instruction leaves your own systems, you cannot see inside the partner, ad platform, or trained model that receives it. So compliance and safety can only be estimated from outside, never proven.",
+      "evidence": "On downstream consent, deletion and purpose enforcement all three models said proof stops at the black box, on safe agent execution they warned that vendors expose no rollback or agent identity, and on identity resolution one model said platform owners keep changing the ground rules from outside your control.",
+      "problem_ids": [
+        "consent-enforcement-downstream",
+        "agent-safe-execution",
+        "agent-traffic-identification",
+        "identity-resolution-decay"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Start From What Already Failed",
+      "plain": "Every model opens the same way: go dig up what your organization already decided, already logged, or already measured, and turn that into labels, rules, or code. Nobody starts by designing the ideal system.",
+      "evidence": "Rejected legal reviews become an approved claims library in generative content governance, existing SQL definitions expose how many customer definitions really exist in the semantic context layer, vendor and network logs reveal where data actually leaves in downstream consent, and on identity resolution the first moves are to pick one suppression case and count how many interactions carry a verified login.",
+      "problem_ids": [
+        "genai-content-governance",
+        "semantic-context-layer",
+        "consent-enforcement-downstream",
+        "agent-traffic-identification",
+        "identity-resolution-decay"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Agents Break Web Assumptions",
+      "plain": "Software agents now browse, buy, and act for people, but the systems underneath were built for humans clicking pages. The stack cannot tell who is on the other end, what they are allowed to do, or what a term in their request even means.",
+      "evidence": "Agentic traffic answers describe agents that pretend to be human when human pages get better prices, safe agent execution answers describe money spent and messages sent with no way to undo them, and the semantic context layer answers show agents calling tools whose data definitions disagree.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "agent-safe-execution",
+        "semantic-context-layer"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Incentives, Not Architecture",
+      "plain": "Several of these are not engineering problems at all. Teams inside the company, and partners outside it, gain from keeping their own answer or staying opaque, so no schema or protocol can settle the dispute for them.",
+      "evidence": "On the semantic context layer models called disagreement over the definition of customer a political fight rather than a modeling gap, on downstream consent they said ad platforms are structurally rewarded for being black boxes, on agentic traffic they said honest signals need operators to have something to lose, and on identity resolution one model said platforms and regulators change the rules faster than any shared mechanism can adapt.",
+      "problem_ids": [
+        "semantic-context-layer",
+        "consent-enforcement-downstream",
+        "agent-traffic-identification",
+        "identity-resolution-decay"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust what is acting or where data goes, they route everything through one door they own. Put a gateway in front of every write, log it, cap it, and make permissions expire, because a sent message or a spent budget cannot be taken back.",
+      "evidence": "Safe agent execution drew proxy and gateway answers from all three models with hard limits on budget and audience size, downstream consent drew short-lived cohorts that expire unless refreshed, and agentic traffic drew dedicated token-gated endpoints for agents.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "consent-enforcement-downstream",
+        "agent-traffic-identification"
+      ],
+      "trend": "steady"
+    }
+  ]
+}
