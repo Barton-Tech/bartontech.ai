@@ -1,0 +1,100 @@
+{
+  "date": "2026-08-26",
+  "generated_at": "2026-08-26T07:04:37.848Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-02-26",
+    "to": "2026-08-26",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08"
+    ],
+    "solution_days": 8
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 4470,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 2003,
+    "output_tokens_details": {
+      "thinking_tokens": 751
+    },
+    "service_tier": "standard",
+    "inference_geo": "global"
+  },
+  "themes": [
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data, an instruction, or a brand mention leaves your own systems, you cannot see inside the partner, ad platform, or model that received it. So safety, compliance, and influence can only be estimated from outside, never proven.",
+      "evidence": "On answer engines all three models say answers come from hidden weights and opaque retrieval pipelines rather than a readable index; on downstream consent all three say ad platforms and trained models expose no lineage or provable deletion; on safe agent execution the models point to third-party APIs with no rollback.",
+      "problem_ids": [
+        "aeo",
+        "consent-enforcement-downstream",
+        "agent-safe-execution",
+        "agent-traffic-identification"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "No Ground Truth to Measure Against",
+      "plain": "Several of these problems have no reliable answer key to check work against. The thing being measured shifts, is personalized, or was never labeled, so teams are estimating a distribution instead of reading a number.",
+      "evidence": "On answer engines Claude says the output is nondeterministic and personalized so there is no ground truth, and ChatGPT names model drift and personalization as the blocker; on agentic traffic the first move is to manufacture a labeled dataset from known agents; on identity resolution ChatGPT names representative ground truth as the hardest part.",
+      "problem_ids": [
+        "aeo",
+        "agent-traffic-identification",
+        "identity-resolution-decay",
+        "cross-channel-incrementality"
+      ],
+      "trend": "new"
+    },
+    {
+      "name": "Start From What Already Failed",
+      "plain": "Every model opens by digging into what the company already did or already logs: rejected work, real network traffic, one live case, verbatim answers. Nobody starts by designing the ideal system on paper.",
+      "evidence": "On generative content governance all three start from recent legal rejections; on downstream consent Claude reads network and vendor logs rather than asking teams; on answer engines all three stand up a fixed prompt panel and log what is actually cited; on journey orchestration Claude builds a read-only contact ledger first.",
+      "problem_ids": [
+        "genai-content-governance",
+        "consent-enforcement-downstream",
+        "aeo",
+        "cross-channel-journey-orchestration",
+        "semantic-context-layer"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust who is acting or where data goes, they build one door they own and force everything through it. Gateway, log, cap, expire, because a sent message or a spent budget cannot be taken back.",
+      "evidence": "On safe agent execution all three route every agent write through one proxy or gateway with hard limits and a kill switch; on downstream consent Gemini replaces perpetual audience lists with short-lived cohorts that expire; on journey orchestration Gemini sets one absolute contact limit across all channels.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "consent-enforcement-downstream",
+        "cross-channel-journey-orchestration",
+        "agent-traffic-identification"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Incentives, Not Architecture",
+      "plain": "Many of these problems are fights over money and credit, not engineering gaps. Teams and outside partners each gain from keeping their own number or their own channel goal, so no schema or dashboard can settle the argument for them.",
+      "evidence": "On the semantic context layer all three name organizational disagreement over who owns a definition as the real blocker; on journey orchestration Claude says no neutral party can price attention and Gemini says channel owners will not accept doing nothing; on downstream consent Gemini says platforms are structurally incentivized to stay black boxes.",
+      "problem_ids": [
+        "semantic-context-layer",
+        "cross-channel-journey-orchestration",
+        "consent-enforcement-downstream",
+        "identity-resolution-decay"
+      ],
+      "trend": "steady"
+    }
+  ]
+}
