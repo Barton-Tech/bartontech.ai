@@ -2,10 +2,20 @@ name: daily answers
 
 on:
   schedule:
-    # 06:10 UTC daily. Vendor batch collection was removed when the tracker
-    # stopped (2026-08-19); this workflow now produces the daily answers.
-    - cron: '10 6 * * *'
+    # 06:37 UTC daily, with a 13:37 UTC backstop. Vendor batch collection was
+    # removed when the tracker stopped (2026-08-19); this workflow now produces
+    # the daily answers. Two crons because scheduled events are best-effort:
+    # GitHub dropped the 2026-08-27 run entirely, and every run before it had
+    # started 44-64 minutes late off a 10-past cron. Both scripts no-op when
+    # the day's file already exists, so the backstop is free on a normal day.
+    - cron: '37 6 * * *'
+    - cron: '37 13 * * *'
   workflow_dispatch:
+    inputs:
+      date:
+        description: 'UTC date to answer (YYYY-MM-DD). Blank means today.'
+        required: false
+        default: ''
 
 concurrency:
   group: daily
@@ -24,29 +34,56 @@ jobs:
         with:
           node-version: '22'
           cache: npm
+
+      # Resolved once and passed to both scripts, so a backfill writes the day
+      # that was asked for and the commit message agrees with the files. Both
+      # scripts take the date as argv[2] and default to today when it is absent.
+      - name: resolve date
+        id: day
+        env:
+          INPUT_DATE: ${{ inputs.date }}
+        run: |
+          day="${INPUT_DATE:-$(date -u +%F)}"
+          node -e '
+            const day = process.argv[1];
+            const t = Date.parse(`${day}T00:00:00Z`);
+            const real = /^\d{4}-\d{2}-\d{2}$/.test(day) && !Number.isNaN(t)
+              && new Date(t).toISOString().slice(0, 10) === day;
+            if (!real) {
+              console.log(`::error::date must be a real YYYY-MM-DD date, got "${day}"`);
+              process.exit(1);
+            }
+          ' "$day"
+          echo "day=$day" >> "$GITHUB_OUTPUT"
+          echo "answering for $day"
+
       - run: npm ci
       # Rotates one problem off the board each day and asks all three models
       # how they would attack it. Cheap (~$0.08/day) and independent of the
       # day's tracker data, so a batch that is not ready does not block it.
-      - run: npm run solutions:daily
+      - run: npm run solutions:daily -- "$DAY"
         env:
+          DAY: ${{ steps.day.outputs.day }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
 
       # Claude reads the whole six-month record and refreshes the themes.
       # Single-model synthesis, labeled as such on the page.
-      - run: npm run themes:daily
+      - run: npm run themes:daily -- "$DAY"
         env:
+          DAY: ${{ steps.day.outputs.day }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
       - name: commit results
+        env:
+          DAY: ${{ steps.day.outputs.day }}
         run: |
           git config user.name  'bartontech-bot'
           git config user.email 'bot@users.noreply.github.com'
           git add data/
           git diff --staged --quiet && exit 0
-          git commit -m "answers: $(date -u +%F)"
+          git commit -m "answers: $DAY"
           for attempt in 1 2 3 4 5; do
             if git push; then exit 0; fi
             echo "push rejected (attempt $attempt), rebasing onto origin/main"
