@@ -1,0 +1,101 @@
+{
+  "date": "2026-08-28",
+  "generated_at": "2026-08-28T18:59:11.332Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-02-28",
+    "to": "2026-08-28",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08"
+    ],
+    "solution_days": 10
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 5152,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1809,
+    "output_tokens_details": {
+      "thinking_tokens": 479
+    },
+    "service_tier": "standard",
+    "inference_geo": "global"
+  },
+  "themes": [
+    {
+      "name": "Incentives, Not Architecture",
+      "plain": "Many of these problems are fights over money, credit, and leverage rather than engineering gaps. Nobody has the authority to make everyone else play along, so better software alone cannot settle the argument.",
+      "evidence": "On agentic traffic all three models say honest disclosure only happens if agents have something to lose or something to gain, and no party has enough leverage to issue trusted credentials; the same logic appears in journey orchestration (no neutral party can price a customer's attention), the semantic context layer (teams define terms differently on purpose), and downstream consent (partners profit from staying opaque).",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "cross-channel-journey-orchestration",
+        "semantic-context-layer",
+        "consent-enforcement-downstream"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data, an instruction, an ad budget, or a brand mention leaves your own systems, you cannot see inside the partner, ad platform, or model that received it. Safety, compliance, and effect can only be estimated from outside, never proven.",
+      "evidence": "Downstream consent answers say deletion inside ad platforms and trained models can only be inferred statistically, incrementality answers say platforms control and conceal the treatment, agent execution answers say vendors expose no rollback or agent identity, and agentic traffic answers say a delegation claim cannot be proven without a trusted issuer.",
+      "problem_ids": [
+        "consent-enforcement-downstream",
+        "cross-channel-incrementality",
+        "agent-safe-execution",
+        "agent-traffic-identification",
+        "aeo"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "No Ground Truth to Measure Against",
+      "plain": "Several of these problems have no reliable answer key to check work against. The thing being measured shifts while you measure it, is personalized, or was never labeled, so teams estimate a range instead of reading a number.",
+      "evidence": "Answer engine answers call the output nondeterministic and personalized with no rank to read, incrementality answers say the system changes its own behavior while you measure it, identity resolution answers name representative ground truth as the hardest part, and agentic traffic answers start by manufacturing labeled agent sessions because none exist.",
+      "problem_ids": [
+        "aeo",
+        "cross-channel-incrementality",
+        "identity-resolution-decay",
+        "agent-traffic-identification"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Start From What Already Failed",
+      "plain": "Every model opens with evidence the company can already get: rejected work, real network traffic, one live case, verbatim answers. Nobody starts by designing the ideal system on paper.",
+      "evidence": "Content governance answers all begin with recent legal rejections, downstream consent answers reconstruct data exits from network and vendor logs, the semantic layer answers pull the real SQL behind every definition of customer, and today's agentic traffic answers run the company's own shopping agents or a small signed-traffic pilot to create real examples.",
+      "problem_ids": [
+        "genai-content-governance",
+        "consent-enforcement-downstream",
+        "semantic-context-layer",
+        "agent-traffic-identification",
+        "cross-channel-journey-orchestration"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust who is acting or where data goes, they build one door they own and force everything through it. Gateway, log, cap, expire, because a sent message or a spent budget cannot be taken back.",
+      "evidence": "Agent execution answers all put a proxy or gateway in front of every write with hard limits and a kill switch, downstream consent answers replace perpetual audience lists with short-lived cohorts that expire, journey orchestration answers propose a single contact ledger and one absolute frequency cap, and agentic traffic answers offer agents a dedicated token-gated endpoint or checkout path.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "consent-enforcement-downstream",
+        "cross-channel-journey-orchestration",
+        "agent-traffic-identification"
+      ],
+      "trend": "steady"
+    }
+  ]
+}
