@@ -46,12 +46,17 @@ test('priceUsage prices by stored usage with search fee and batch discount', asy
 
 test('spend accounting: usd, averages, recorded spend and monthly rollup', async () => {
   const { usd, measuredAverages, recordedSpend, spendByMonth } = await import('../src/lib/cost.js');
-  const { paths, readJSON } = await import('../src/lib/io.js');
+  const { paths, readJSON, listJSON } = await import('../src/lib/io.js');
   const real = readJSON(paths.config('models.json'));
   assert.equal(usd(1.5), '$1.50');
   const avg = measuredAverages();
   assert.ok(avg instanceof Map);
   assert.ok(recordedSpend(real) >= 0);
+  // Pinned to the last stored day, not the clock. Collection stopped
+  // 2026-08-19, so the default trailing week walked off the end of the
+  // record and stopped pricing anything at all.
+  const lastRaw = listJSON(paths.data('raw')).at(-1).replace('.json', '');
+  assert.ok(recordedSpend(real, 7, lastRaw) > 0);
   const rows = spendByMonth(real);
   assert.ok(Array.isArray(rows) && rows.length >= 1);
   const aug = rows.find((r) => r.month === '2026-08');

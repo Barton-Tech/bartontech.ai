@@ -658,7 +658,7 @@ ${siteFooter()}
     </div>
     <h2 class="board__title">The daily answers</h2>
     <div class="prose">
-      <p>Every day at 06:10 UTC, the date deterministically picks one problem off the board, and all three models answer the same question about it: how would you attack this? Never "solve this". Everything on the board is there because it is unsolved, and a model asked to solve it invents a confident plan. Each model answers in every format on the list, from a memo to a lullaby. The page opens on one format chosen by a date seed and the reader switches to the rest. Within any panel all three models share the format, so differences between their answers are substance, not style.</p>
+      <p>Every day at 06:37 UTC, the date deterministically picks one problem off the board, and all three models answer the same question about it: how would you attack this? Never "solve this". Everything on the board is there because it is unsolved, and a model asked to solve it invents a confident plan. Each model answers in every format on the list, from a memo to a lullaby. The page opens on one format chosen by a date seed and the reader switches to the rest. Within any panel all three models share the format, so differences between their answers are substance, not style.</p>
       <p>After the answers land, Claude rereads the whole six-month record and refreshes a small set of cross-cutting themes. That layer is a single-model synthesis, and the page labels it that way.</p>
     </div>
     <h2 class="board__title">The recognition check</h2>

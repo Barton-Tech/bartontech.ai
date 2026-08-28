@@ -50,7 +50,7 @@ flowchart TB
     EXP --> HUM["Human applies or declines"]
     HUM --> LOG["Recognition + experiment<br/>logs appended"]
   end
-  subgraph daily["Daily (06:10 UTC)"]
+  subgraph daily["Daily (06:37 UTC)"]
     ROT["Date picks a problem<br/>off the board"] --> ANS["3 models answer<br/>in every format"]
     ANS --> TH["Claude refreshes themes<br/>(six-month window)"]
   end
@@ -124,7 +124,7 @@ src/
 
 | Workflow | Schedule | Does |
 |---|---|---|
-| daily answers | 06:10 UTC | all-format answers + themes, commits results |
+| daily answers | 06:37 UTC (13:37 backstop) | all-format answers + themes, commits results |
 | monthly problem index | 1st, 03:00 UTC | panel, reconciliation, review issue (problems + aliases), recognition log, experiment proposal |
 | weekly model refresh | Mon 05:00 UTC | verifies model ids against live provider lists; opens a PR when the lineup should change; urgent issue if a configured model was retired |
 | checks | every push and PR | eslint:recommended, syntax check, unit tests with enforced coverage, full site build |

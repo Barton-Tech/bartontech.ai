@@ -37,7 +37,7 @@ const bandY = HEADER_H + LANE_H * LANES + BAND_GAP;
 const COLUMNS = [
   { title: 'The monthly board', sub: '1st of the month' },
   { title: 'The recognition loop', sub: 'same monthly run' },
-  { title: 'The daily answers', sub: 'every day, 06:10 UTC' },
+  { title: 'The daily answers', sub: 'every day, 06:37 UTC' },
   { title: 'The model refresh', sub: 'every Monday' },
 ];
 
@@ -203,7 +203,7 @@ export function swimlaneSvg() {
 // deploys to the edge, the edge serves people and crawlers the same page.
 // Same visual language as the swimlane: same tokens, same dark base band.
 const STAGES = [
-  { title: 'GitHub Actions', lines: ['Daily answers, 06:10', 'Monthly index, the 1st', 'Weekly refresh, Monday'] },
+  { title: 'GitHub Actions', lines: ['Daily answers, 06:37', 'Monthly index, the 1st', 'Weekly refresh, Monday'] },
   { title: 'The harness', lines: ['Node, open source.', 'Spend guard first,', 'then the model calls'] },
   { title: 'The record', lines: ['Append-only JSON,', 'versioned in git.', 'Every run is a commit'] },
   { title: 'Cloudflare', lines: ['Every push rebuilds;', 'static assets served', 'from the edge'] },
