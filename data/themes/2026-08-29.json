@@ -1,0 +1,100 @@
+{
+  "date": "2026-08-29",
+  "generated_at": "2026-08-29T12:50:06.312Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-03-01",
+    "to": "2026-08-29",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08"
+    ],
+    "solution_days": 11
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 5481,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1720,
+    "output_tokens_details": {
+      "thinking_tokens": 505
+    },
+    "service_tier": "standard",
+    "inference_geo": "global"
+  },
+  "themes": [
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust who is acting or what a tool will do, they build one door they own and force everything through it. Gateway, proxy, log, spending cap, kill switch, because a sent message or a spent budget cannot be taken back.",
+      "evidence": "On safe agent execution, all three models opened with the same move twice in ten days: route every agent write through a proxy or broker and hard-cap spend, send volume and audience size, and the consent enforcement answers proposed expiring cohorts instead of permanent lists.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "consent-enforcement-downstream",
+        "agent-traffic-identification",
+        "cross-channel-journey-orchestration"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data, an instruction, an ad budget, or a brand mention leaves your own systems, you cannot see inside the partner, ad platform, or model that received it. Safety, compliance, and effect can only be estimated from outside, never proven.",
+      "evidence": "The safe agent execution answers say vendor behavior and irreversible side effects cannot be modeled through the APIs on offer, the downstream consent answers say ad platform audiences and trained models hide their own lineage, and the answer engine and incrementality answers say retrieval pipelines and ad auctions stay hidden while they change.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "consent-enforcement-downstream",
+        "aeo",
+        "cross-channel-incrementality"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Incentives, Not Architecture",
+      "plain": "Many of these problems are fights over money, credit, and leverage rather than engineering gaps. Nobody has the authority to make everyone else play along, so better software alone cannot settle the argument.",
+      "evidence": "On agentic traffic the models say assistants gain by hiding and no one has the leverage to issue trusted credentials, on the semantic context layer they call disagreement about the word customer a political fight, and on journey orchestration they say no neutral party can price a customer's attention.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "semantic-context-layer",
+        "cross-channel-journey-orchestration",
+        "identity-resolution-decay"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "No Ground Truth to Measure Against",
+      "plain": "Several of these problems have no reliable answer key to check work against. The thing being measured shifts while you measure it, is personalized, or was never labeled, so teams estimate a range instead of reading a number.",
+      "evidence": "The answer engine answers say responses are nondeterministic and personalized with no rank to read, the incrementality answers say the system changes its own behavior mid-measurement, and the identity resolution and agentic traffic answers both start by admitting there are almost no labeled examples to learn from.",
+      "problem_ids": [
+        "aeo",
+        "cross-channel-incrementality",
+        "identity-resolution-decay",
+        "agent-traffic-identification"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Start From What Already Failed",
+      "plain": "Most answers open with evidence the company can already get: rejected work, real network traffic, one live case, verbatim answers. Almost nobody starts by designing the ideal system on paper.",
+      "evidence": "The generative content governance answers all begin with a review of recent legal rejections, the downstream consent answers reconstruct data exits from network and vendor logs rather than team inventories, and the semantic context answers start by counting the real SQL definitions of customer already in use.",
+      "problem_ids": [
+        "genai-content-governance",
+        "consent-enforcement-downstream",
+        "semantic-context-layer",
+        "aeo",
+        "cross-channel-journey-orchestration"
+      ],
+      "trend": "fading"
+    }
+  ]
+}
