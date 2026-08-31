@@ -1,0 +1,95 @@
+{
+  "date": "2026-08-31",
+  "generated_at": "2026-08-31T14:22:09.969Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-03-03",
+    "to": "2026-08-31",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08"
+    ],
+    "solution_days": 13
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 6254,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 3152,
+    "output_tokens_details": {
+      "thinking_tokens": 2021
+    },
+    "service_tier": "standard",
+    "inference_geo": "global"
+  },
+  "themes": [
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust who is acting or what a tool will do, they build one door they own and force everything through it. Gateway, proxy, log, spending cap, kill switch, because a sent message or a spent ad budget cannot be taken back.",
+      "evidence": "Both passes on safe, auditable agent execution had all three models routing every agent write through a proxy, broker, or gateway with hard caps on spend and audience size, and the agentic traffic work proposes dedicated declared endpoints for agents.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "agent-traffic-identification",
+        "consent-enforcement-downstream"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Judgment That Won't Compile",
+      "plain": "Some of the hardest calls depend on meaning, context, and implied claims, and no rule set captures that. The models keep concluding that judgment can only be narrowed to a smaller, safer box, not automated away.",
+      "evidence": "On both passes at reviewing generative marketing content, all three models said legal and brand risk turns on implied meaning and phrasing nuance that software cannot defend in an audit, and the semantic context layer work says the same about context-dependent definitions.",
+      "problem_ids": [
+        "genai-content-governance",
+        "semantic-context-layer"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Politics, Not Plumbing",
+      "plain": "Several problems look like missing technology but are really fights over money, ownership, and reported numbers. Teams disagree on purpose, and no schema or standard can settle a disagreement about whose number changes.",
+      "evidence": "On the governed semantic context layer, all three models called conflicting definitions of \"active customer\" a political settlement rather than a modeling gap, and the journey orchestration and agentic traffic answers likewise cite missing neutral authority and channel owners defending their own goals.",
+      "problem_ids": [
+        "semantic-context-layer",
+        "cross-channel-journey-orchestration",
+        "agent-traffic-identification"
+      ],
+      "trend": "new"
+    },
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data, an instruction, an ad budget, or a brand mention leaves your own systems, you cannot see inside the partner, ad platform, or model that received it. Safety, compliance, and effect can only be estimated from outside, never proven.",
+      "evidence": "On provable downstream consent and deletion, all three models said ad platforms, agencies, and trained models expose neither lineage nor real unlearning, and the incrementality and answer engine work says platforms conceal how their own treatment and retrieval change.",
+      "problem_ids": [
+        "consent-enforcement-downstream",
+        "cross-channel-incrementality",
+        "aeo",
+        "agent-safe-execution"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "No Ground Truth to Measure Against",
+      "plain": "Several problems have no reliable answer key to check work against. What is being measured shifts while you measure it, is personalized per person, or was never labeled, so teams end up estimating a range instead of reading a number.",
+      "evidence": "Answer engine work calls the output nondeterministic and personalized with no rank to read, incrementality says the system changes its own behavior while you measure it, and identity resolution and agentic traffic both start by manufacturing labeled examples that do not exist yet.",
+      "problem_ids": [
+        "aeo",
+        "cross-channel-incrementality",
+        "identity-resolution-decay",
+        "agent-traffic-identification"
+      ],
+      "trend": "steady"
+    }
+  ]
+}
