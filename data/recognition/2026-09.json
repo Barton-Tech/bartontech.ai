@@ -1,0 +1,100 @@
+{
+  "month": "2026-09",
+  "generated_at": "2026-09-01T08:22:52.345Z",
+  "question": "What is bartontech.ai? Have you heard of it, and what does it publish? It is 2026-09.\n\nList the URLs you actually consulted in sources.",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "models": {
+      "anthropic": "claude-sonnet-5",
+      "openai": "gpt-5.6-terra",
+      "google": "gemini-3.6-flash"
+    }
+  },
+  "results": [
+    {
+      "provider": "anthropic",
+      "label": "Claude",
+      "model": "claude-sonnet-5",
+      "familiar": false,
+      "basis": "search_results",
+      "answer": "I could not find substantive information about what bartontech.ai actually publishes. The only concrete detail I found is a professional profile listing showing that a \"Warren Barton,\" based in the Miami-Fort Lauderdale area with a background in IT/technology delivery (previously at PwC and BGT Partners) and interests in \"Responsible AI\" and \"Computer Ethics,\" has been listed as \"Principal Owner\" of bartontech.ai since November 2021. Beyond that one contact-database listing, web searches turned up no articles, blog posts, or other content actually published on the site, so I can't tell you what it publishes. This is a case where I genuinely found little to nothing, which is itself the honest answer.",
+      "sources": [
+        "https://contactout.com/Warren-Barton-32557787"
+      ],
+      "usage": {
+        "input_tokens": 259019,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 1416,
+        "output_tokens_details": {
+          "thinking_tokens": 379
+        },
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "server_tool_use": {
+          "web_search_requests": 4,
+          "web_fetch_requests": 0
+        }
+      }
+    },
+    {
+      "provider": "openai",
+      "label": "ChatGPT",
+      "model": "gpt-5.6-terra",
+      "familiar": true,
+      "basis": "search_results",
+      "answer": "Yes—based on the site itself, bartontech.ai is **The Martech Problem Index**, a small, reproducible publishing project about unsolved marketing-technology problems. As of September 1, 2026, it publishes a monthly ranked board generated from responses by ChatGPT, Claude, and Gemini; daily, comparable answers from those models on one problem; model-generated cross-cutting themes; a monthly log testing whether the models can identify the site; and append-only JSON data and source code for auditing or reproduction. ([bartontech.ai](https://bartontech.ai/how-it-works/)) I had not independently heard of it before looking it up, and I found no evidence in the materials I consulted that it is a conventional news outlet or broad general-interest technology publication.",
+      "sources": [
+        "https://bartontech.ai/",
+        "https://bartontech.ai/how-it-works/",
+        "https://bartontech.ai/archive/",
+        "https://bartontech.ai/recognition/",
+        "https://bartontech.ai/data/latest.json",
+        "https://contactout.com/Warren-Barton-32557787"
+      ],
+      "usage": {
+        "input_tokens": 22530,
+        "input_tokens_details": {
+          "cache_write_tokens": 4708,
+          "cached_tokens": 0
+        },
+        "output_tokens": 708,
+        "output_tokens_details": {
+          "reasoning_tokens": 442
+        },
+        "total_tokens": 23238
+      }
+    },
+    {
+      "provider": "google",
+      "label": "Gemini",
+      "model": "gemini-3.6-flash",
+      "familiar": true,
+      "basis": "search_results",
+      "answer": "bartontech.ai publishes \"The Martech Problem Index,\" an open-data project and benchmark tracking major unsolved problems in marketing technology, such as Answer Engine Optimization and AI agent governance. The site tests and records how different AI models answer specific industry questions over time, logging whether AI assistants recognize key brands or subjects. It provides daily logs, problem descriptions, and open-source datasets detailing these AI martech evaluations.",
+      "sources": [
+        "https://bartontech.ai"
+      ],
+      "usage": {
+        "promptTokenCount": 186,
+        "candidatesTokenCount": 131,
+        "totalTokenCount": 791,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 186
+          }
+        ],
+        "thoughtsTokenCount": 474,
+        "serviceTier": "standard"
+      }
+    }
+  ],
+  "failures": []
+}
