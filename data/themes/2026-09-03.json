@@ -1,0 +1,99 @@
+{
+  "date": "2026-09-03",
+  "generated_at": "2026-09-03T11:39:57.726Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-03-03",
+    "to": "2026-09-03",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08",
+      "2026-09"
+    ],
+    "solution_days": 16
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 7727,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1657,
+    "output_tokens_details": {
+      "thinking_tokens": 317
+    },
+    "service_tier": "standard",
+    "inference_geo": "global"
+  },
+  "themes": [
+    {
+      "name": "No Ground Truth to Measure Against",
+      "plain": "Several problems have no reliable answer key to check work against. So the models' first move is usually to build one: a panel of test questions, a labeled set of known cases, a shared timeline of what was sent and what happened, or a group of customers who tell you the truth about themselves.",
+      "evidence": "On answer engine optimization all three models start by logging a fixed panel of buyer questions, on identity resolution Claude recruits consenting customers as a truth set, on agentic traffic Claude runs its own shopping agents to create labeled examples, and on the loss of B2B buying-group signal all three note that the only validation data is a biased, late-arriving sample of accounts already pursued.",
+      "problem_ids": [
+        "aeo",
+        "cross-channel-incrementality",
+        "identity-resolution-decay",
+        "agent-traffic-identification",
+        "b2b-buying-group-signal-loss"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data, an ad budget, or a buying conversation leaves your own systems, you cannot see inside the partner, ad platform, model, or private chat that holds it. Compliance and effect can only be estimated from outside, never proven.",
+      "evidence": "On downstream consent and deletion all three models say ad platforms and trained models expose no lineage, on incrementality they note platforms both control and conceal the treatment, and on the B2B signal loss Gemini points out that real evaluation happens in private Slack threads and internal documents where no tag can reach.",
+      "problem_ids": [
+        "consent-enforcement-downstream",
+        "cross-channel-incrementality",
+        "b2b-buying-group-signal-loss",
+        "aeo",
+        "identity-resolution-decay"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust who is acting or what a tool will do, they build one door they own and force everything through it. Gateway, proxy, shared eligibility check, spending cap, kill switch, because a sent message or a spent ad budget cannot be taken back.",
+      "evidence": "On safe agent execution all three models independently propose a proxy or broker in front of every write with hard caps on spend and audience size, on journey orchestration Claude routes every send through one shared pre-send eligibility check and Gemini strips channel tools of their own sending rules, and on consent enforcement Gemini replaces perpetual audience lists with short-lived cohorts that expire.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "cross-channel-journey-orchestration",
+        "consent-enforcement-downstream",
+        "agent-traffic-identification"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Politics, Not Plumbing",
+      "plain": "Several problems look like missing technology but are really fights over money, ownership, and reported numbers. Teams and platforms disagree on purpose, so no schema or standard can settle whose number has to change.",
+      "evidence": "On the semantic context layer all three models call conflicting definitions of \"active customer\" a political settlement rather than a modeling gap, on journey orchestration they say no one has authority to price a customer's attention or to tell channel owners that sending nothing is better, and on agentic traffic they note operators have every incentive to hide because no trusted party can issue credentials.",
+      "problem_ids": [
+        "semantic-context-layer",
+        "cross-channel-journey-orchestration",
+        "agent-traffic-identification"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Judgment That Won't Compile",
+      "plain": "Some of the hardest calls depend on meaning, context, and implied claims, and no rule set captures that. The models keep concluding that judgment can only be narrowed to a smaller, safer box, not automated away.",
+      "evidence": "On generative content governance all three models say deciding whether copy makes a claim, and whether a phrasing nuance breaks its substantiation, is exactly the semantic judgment software cannot defend in an audit, so they fall back to an approved-claims registry that limits what the model may say.",
+      "problem_ids": [
+        "genai-content-governance",
+        "semantic-context-layer"
+      ],
+      "trend": "steady"
+    }
+  ]
+}
