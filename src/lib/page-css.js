@@ -62,7 +62,7 @@ body {
    and no-CSS readers see a plain list. aria-current carries location in the
    accessibility tree; the blue accent carries it visually. */
 .menu { position:relative; }
-.menu summary { list-style:none; display:flex; align-items:center; justify-content:center; cursor:pointer;
+.menu summary { list-style:none; display:flex; align-items:center; justify-content:center; cursor:pointer; touch-action:manipulation;
   color:#b9b7ae; padding:10px; border:1px solid rgba(255,255,255,.28); border-radius:8px; }
 .menu summary::-webkit-details-marker { display:none; }
 .menu summary:hover { color:#fff; border-color:rgba(255,255,255,.6); }
