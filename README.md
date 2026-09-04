@@ -88,7 +88,8 @@ page, plus `/archive/`, `/recognition/` and `/how-it-works/`.
   Question/Answer on day pages, Thing-with-aliases on problem pages,
   BreadcrumbList on all subpages.
 - Atom feed, per-URL sitemap lastmod, OG/Twitter cards with a generated
-  og.png.
+  og.png (source in src/site/og-card.html; content sits in a centered safe
+  zone so Teams-style center crops keep the headline intact).
 
 ## Layout
 

@@ -1,0 +1,33 @@
+<!--
+  Source for assets/og.png (the social share card).
+
+  The card is 1200x630 for Facebook, LinkedIn, X, Slack and iMessage, which
+  show the full 1.91:1 image. Teams and a few chat clients center-crop it to
+  roughly 4:3 or square, so all content stays inside a 640px-wide centered
+  safe zone. Anything outside the central ~630px can be cut off.
+
+  Render with headless Chrome, then copy the result over assets/og.png and
+  bump the ?v= query on the og:image and twitter:image URLs (build-site.js
+  and lib/render.js) so scrapers refetch it:
+
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+    --headless=new --disable-gpu --hide-scrollbars \
+    --force-device-scale-factor=1 --window-size=1200,630 \
+    --screenshot=og.png file://$PWD/src/site/og-card.html
+-->
+<!doctype html><meta charset="utf-8"><style>
+html,body{margin:0;width:1200px;height:630px;overflow:hidden}
+body{background:#0b0b0b;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Helvetica,Arial,sans-serif;display:flex;align-items:center;justify-content:center;text-align:center}
+.safe{width:640px}
+.eyebrow{font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:#8d8b84;font-weight:600;margin:0 0 30px}
+h1{font-size:61px;line-height:1.08;letter-spacing:-.03em;font-weight:680;margin:0}
+h1 em{font-style:normal;color:#5fa0f0}
+hr{border:0;border-top:1px solid rgba(255,255,255,.14);margin:38px 0 26px}
+.foot{font-size:22px;color:#8d8b84;display:flex;justify-content:center;gap:0 20px;flex-wrap:wrap}
+.foot b{color:#fff;font-weight:650}
+</style><body><div class="safe">
+<p class="eyebrow">The Martech problem index</p>
+<h1>One unsolved problem.<br><em>Three AI answers.</em><br>Every day.</h1>
+<hr>
+<div class="foot"><b>bartontech.ai</b><span>ChatGPT, Claude and Gemini, on the record</span></div>
+</div></body>

@@ -56,7 +56,7 @@ export function headBlock({ title, description, path, jsonLd }) {
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="${SITE}/og.png">
+<meta property="og:image" content="${SITE}/og.png?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/png">
@@ -64,7 +64,7 @@ export function headBlock({ title, description, path, jsonLd }) {
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(description)}">
-<meta name="twitter:image" content="${SITE}/og.png">
+<meta name="twitter:image" content="${SITE}/og.png?v=2">
 <meta name="twitter:image:alt" content="The Martech problem index: one unsolved problem, three AI answers, every day.">
 <link rel="alternate" type="application/atom+xml" href="${SITE}/feed.xml" title="The Martech problem index, daily">
 ${jsonLd ? `<script type="application/ld+json">${jsonLd}</script>` : ''}
