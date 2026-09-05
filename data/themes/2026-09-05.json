@@ -1,0 +1,98 @@
+{
+  "date": "2026-09-05",
+  "generated_at": "2026-09-05T10:53:57.352Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-03-05",
+    "to": "2026-09-05",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08",
+      "2026-09"
+    ],
+    "solution_days": 18
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 8368,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 3167,
+    "output_tokens_details": {
+      "thinking_tokens": 1761
+    },
+    "service_tier": "standard",
+    "inference_geo": "global"
+  },
+  "themes": [
+    {
+      "name": "No Ground Truth to Measure Against",
+      "plain": "Several problems have no reliable answer key to check work against, and the thing being measured often shifts while you measure it. So the models' first move is usually to manufacture a truth set: a fixed panel of buyer questions, permanently dark test markets, labeled sessions from agents you ran yourself, or customers who tell you which devices they use.",
+      "evidence": "Answer engine optimization answers say there is no denominator or stable unit, incrementality answers call the ad platform an adaptive agent that reacts to your test, identity resolution answers say accuracy claims are unfalsifiable without an answer key, and B2B buying-group answers warn the validation data is a biased sample learned two quarters late.",
+      "problem_ids": [
+        "aeo",
+        "cross-channel-incrementality",
+        "identity-resolution-decay",
+        "agent-traffic-identification",
+        "b2b-buying-group-signal-loss"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data, an ad budget, or a buying conversation leaves your own systems, you cannot see inside the partner, ad platform, model, or private chat that holds it. Compliance and effect can only be estimated from the outside, never proven, and the parties holding the answers have little reason to open up.",
+      "evidence": "Consent and deletion answers say you cannot inspect an ad platform audience or a trained model, today's incrementality answers say platforms lack incentives to expose auditable treatment assignment, answer engine optimization answers point to hidden retrieval and missing impression logs, and B2B buying-group answers note evaluation happens in private chats where no tag can reach.",
+      "problem_ids": [
+        "consent-enforcement-downstream",
+        "cross-channel-incrementality",
+        "aeo",
+        "b2b-buying-group-signal-loss"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust who is acting or what a tool will do, they build one door they own and force everything through it. Gateway, proxy, shared pre-send check, spend and audience caps, expiring audience lists, kill switch, because a sent message or a spent budget cannot be taken back.",
+      "evidence": "All three models route agent writes through a broker, gateway, or intercepting proxy in the safe agent execution answers, propose one shared eligibility check or central send control in the journey orchestration answers, switch ad audiences to short-lived expiring cohorts in the consent enforcement answers, and offer agents dedicated credentialed endpoints in the agentic traffic answers.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "cross-channel-journey-orchestration",
+        "consent-enforcement-downstream",
+        "agent-traffic-identification"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Politics, Not Plumbing",
+      "plain": "Several problems look like missing technology but are really fights over money, ownership, and reported numbers. Teams and outside platforms disagree on purpose, so no schema, standard, or credential can settle whose number has to change or who gives up budget.",
+      "evidence": "Semantic context layer answers call conflicting definitions of customer a political settlement wearing a data modeling costume, journey orchestration answers say no neutral party can price attention and channel owners are paid on their own conversions, and agentic traffic answers say agents will hide because honest disclosure earns them worse prices with no one able to force a shared credential.",
+      "problem_ids": [
+        "semantic-context-layer",
+        "cross-channel-journey-orchestration",
+        "agent-traffic-identification"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Judgment That Won't Compile",
+      "plain": "Some of the hardest calls depend on meaning, context, and implied claims, and no rule set captures that. The models keep concluding that human judgment can be narrowed to a smaller, safer box, not automated away.",
+      "evidence": "All three models in the generative content governance answers say deciding whether copy makes a claim, and whether a phrasing nuance breaks its substantiation, is the same semantic judgment the system is trying to avoid, and the semantic context layer answers make the parallel point that context-dependent meaning cannot be flattened into one global definition.",
+      "problem_ids": [
+        "genai-content-governance",
+        "semantic-context-layer"
+      ],
+      "trend": "steady"
+    }
+  ]
+}
