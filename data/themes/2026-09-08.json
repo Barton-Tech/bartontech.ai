@@ -1,0 +1,98 @@
+{
+  "date": "2026-09-08",
+  "generated_at": "2026-09-08T11:41:09.115Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-03-08",
+    "to": "2026-09-08",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08",
+      "2026-09"
+    ],
+    "solution_days": 21
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 9293,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1447,
+    "output_tokens_details": {
+      "thinking_tokens": 325
+    },
+    "service_tier": "standard",
+    "inference_geo": "global"
+  },
+  "themes": [
+    {
+      "name": "Judgment That Won't Compile",
+      "plain": "The hardest calls depend on meaning, context, and what a sentence implies, and no rule set fully captures that. All three models end up narrowing human judgment to a smaller, safer box rather than removing it.",
+      "evidence": "On generative content governance all three models build a library of pre-approved claims and then admit software cannot judge whether wording crosses into misleading advertising, and the semantic context layer answers hit the same wall where one word means different things to different teams.",
+      "problem_ids": [
+        "genai-content-governance",
+        "semantic-context-layer"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust who is acting or what an action will do next, they build one door they own and push everything through it. A sent email or a spent dollar cannot be taken back, so the only real control happens before the action leaves.",
+      "evidence": "Every answer on safe agent execution puts a proxy or gateway in front of agent writes with hard spend and audience caps, and the content governance answers restrict generation tools to an approved claims library for the same reason.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "genai-content-governance",
+        "cross-channel-journey-orchestration"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "No Ground Truth to Measure Against",
+      "plain": "Many of these problems have no answer key to grade your work against, and the thing you are measuring often shifts while you measure it. So the first move is usually to build a small truth set of your own.",
+      "evidence": "Answer engine optimization answers describe stochastic personalized answers with no denominator, incrementality answers describe platforms that adapt to your holdout, and identity resolution and agentic traffic answers both start by manufacturing labeled examples.",
+      "problem_ids": [
+        "aeo",
+        "cross-channel-incrementality",
+        "identity-resolution-decay",
+        "agent-traffic-identification",
+        "b2b-buying-group-signal-loss"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Incentives Before Standards",
+      "plain": "Several problems stall because the party holding the answer gains nothing by sharing it, and nobody has the power to make them. The models keep saying a standard or a schema cannot settle a fight over money and self-interest.",
+      "evidence": "On agentic traffic the models say agents profit by passing as human and offer them faster endpoints as a bribe, on the semantic context layer they call conflicting definitions a political settlement, and on journey orchestration they say channel owners are paid on the very sends the plan would suppress.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "semantic-context-layer",
+        "cross-channel-journey-orchestration",
+        "cross-channel-incrementality"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data, an ad budget, or a buying conversation leaves your own systems, you cannot see inside the partner, ad platform, or model that now holds it. Effects and compliance can only be estimated from outside.",
+      "evidence": "The downstream consent answers say deletion inside ad platforms and trained models cannot be proved from outside, the incrementality answers say platforms conceal how treatment changes, and the B2B intent answers say the real buying group meets in private channels no tag can reach.",
+      "problem_ids": [
+        "consent-enforcement-downstream",
+        "cross-channel-incrementality",
+        "b2b-buying-group-signal-loss",
+        "aeo"
+      ],
+      "trend": "steady"
+    }
+  ]
+}
