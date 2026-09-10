@@ -27,7 +27,7 @@ import {
   questionLd,
   problemLd,
 } from './lib/render.js';
-import { swimlaneSvg, stackSvg } from './lib/diagram.js';
+import { swimlaneSvg, stackSvg, discoverySvg } from './lib/diagram.js';
 import { projectCost, measuredAverages, spendByMonth, usd } from './lib/cost.js';
 import {
   SITE,
@@ -645,6 +645,54 @@ ${siteFooter()}
         .join('')}</ul>`
     : '<div class="empty">The first proposal lands with the next monthly run.</div>';
 
+  // Counted from the live config rather than typed by hand, so this number
+  // cannot drift from the robots.txt the build actually writes.
+  const crawlerCount = (ROBOTS.match(/^User-agent: (?!\*)/gm) ?? []).length;
+
+  const discoveryHtml = `
+    <h2 class="board__title">SEO, AEO and GEO</h2>
+    <div class="prose">
+      <p>Search engine optimization ranks a page in a results list. Answer engine optimization and generative engine optimization, its search-grounded cousin, decide whether a page is named inside an answer a model writes. This site treats all three as one problem: serve one page, identically, to every requester, and make that page legible to whichever kind of engine reads it.</p>
+    </div>
+    <figure class="diagram">
+      ${discoverySvg({ crawlerCount, faqCount: faq.length })}
+      <figcaption>Three lanes of signal converge on one page. Classic SEO plumbing shapes ranked results; crawler access and structured data shape whether an answer engine can read the page at all; plain-language, self-contained content shapes whether a model can lift an answer out of it. The recognition log, covered above, is the only place any of this is checked against real model answers rather than assumed.</figcaption>
+    </figure>
+    <div class="prose">
+      <p>Nothing here is cloaked or served conditionally: the same server-rendered HTML reaches Googlebot, GPTBot and a browser with JavaScript off, because the page ships none. What differs by signal is which kind of reader it is aimed at.</p>
+    </div>
+    <ul class="meta-list">
+      <li>
+        <div class="meta-list__top"><span class="meta-list__title">robots.txt</span><span class="meta-list__note">AEO / GEO</span></div>
+        <p class="meta-list__body">Names and explicitly allows ${crawlerCount} AI crawlers and answer agents, from GPTBot to Google-Extended to PerplexityBot, rather than leaving them to a wildcard default. A site that measures AI-answer visibility and then blocked the agents that build those answers would be undermining its own subject.</p>
+      </li>
+      <li>
+        <div class="meta-list__top"><span class="meta-list__title">llms.txt</span><span class="meta-list__note">AEO / GEO</span></div>
+        <p class="meta-list__body">A plain-language index built for assistants rather than browsers: what the site is, its current numbers, links to every open data file, and the method in a few bullet points, so a model can ground an answer without crawling the whole site.</p>
+      </li>
+      <li>
+        <div class="meta-list__top"><span class="meta-list__title">The JSON-LD graph</span><span class="meta-list__note">SEO + AEO / GEO</span></div>
+        <p class="meta-list__body">One script tag, the only one on the page, describing the site, the page, its author, the ranked board and the FAQ as linked schema.org entities, plus a WebPage speakable annotation marking the passages written to be read out as an answer. Every field mirrors something visible in the HTML; nothing in the markup claims what a reader cannot also see.</p>
+      </li>
+      <li>
+        <div class="meta-list__top"><span class="meta-list__title">sitemap.xml, canonical links, meta robots</span><span class="meta-list__note">SEO</span></div>
+        <p class="meta-list__body">Standard search-engine plumbing: every page listed once, a canonical URL so an archived rerun never competes with the live version, and a <code>max-snippet:-1, max-image-preview:large</code> directive so a search result can quote the page at full length instead of a truncated snippet.</p>
+      </li>
+      <li>
+        <div class="meta-list__top"><span class="meta-list__title">The FAQ</span><span class="meta-list__note">AEO / GEO</span></div>
+        <p class="meta-list__body">${faq.length} questions, each answer written to stand alone with no pronoun pointing outside itself, because an answer engine lifts a single answer out of its surrounding page. The same source feeds the visible list and the FAQPage schema, so the two cannot drift apart.</p>
+      </li>
+      <li>
+        <div class="meta-list__top"><span class="meta-list__title">Plain-language copy</span><span class="meta-list__note">GEO</span></div>
+        <p class="meta-list__body">Every problem carries a short <code>plain</code> gloss and a <code>plain_summary</code> written near an eighth-grade reading level, measured rather than eyeballed. A model paraphrasing the page for an answer starts from the plainest sentence it can find.</p>
+      </li>
+      <li>
+        <div class="meta-list__top"><span class="meta-list__title">The canonical problem registry</span><span class="meta-list__note">GEO</span></div>
+        <p class="meta-list__body">Reconciles every model's own wording of a problem against one entity with one id and one URL, so "AEO", "GEO" and "LLM visibility" register as the same thing instead of three pages a model has to disambiguate on its own.</p>
+      </li>
+    </ul>
+`;
+
   const howBody = `
     <figure class="diagram">
       ${swimlaneSvg()}
@@ -665,6 +713,7 @@ ${siteFooter()}
     <div class="prose">
       <p>Once a month, in the same run as the board, each model gets one neutral question with web search on and no hints: what is bartontech.ai? The verbatim answers go into an append-only <a href="/recognition/">recognition log</a>. Getting named by AI answers is one of the problems the index tracks, so this is the site running that experiment on itself. The log records the date each model's "found nothing" turns into a correct answer, and it drives the <a href="#learning">experiment loop</a> below.</p>
     </div>
+    ${discoveryHtml}
     <h2 class="board__title">The model refresh</h2>
     <div class="prose">
       <p>Every Monday, the pipeline fetches the live model lists from all three providers and asks Claude whether the configured lineup is still the most applicable, with pricing verified by search. Any change ships as a pull request that a person reviews; a retired model raises an urgent issue instead. Models never change silently, because every stored run is priced and stamped with the exact model ids that produced it.</p>

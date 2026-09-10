@@ -278,3 +278,114 @@ export function stackSvg() {
     .join('')}</text>
 </svg>`;
 }
+
+// The discovery surface: three lanes of signals (classic SEO, crawler access
+// and structured data for AEO, and answer-shaped content for GEO) converge on
+// the one page every requester gets, which reaches both search results and
+// AI-generated answers, and feeds the recognition log that checks whether it
+// worked. Same visual language as the other two diagrams; counts are passed
+// in from the build so the labels cannot drift from the code they describe.
+const DISC_OFFSET = 90;
+const DISC_LANE_W = 300;
+const DISC_LANE_H = 120;
+const DISC_LANE_GAP = 16;
+
+export function discoverySvg({ crawlerCount, faqCount }) {
+  const W3 = 1060;
+  const laneX = DISC_OFFSET;
+  const laneY = (i) => 20 + i * (DISC_LANE_H + DISC_LANE_GAP);
+
+  const lanes = [
+    {
+      title: 'Classic SEO',
+      lines: ['sitemap.xml, canonical URLs', 'and meta robots directives', 'Semantic HTML headings', 'No JavaScript, no cloaking'],
+    },
+    {
+      title: 'Crawler access (AEO)',
+      lines: [`${crawlerCount} AI crawlers named and`, 'allowed in robots.txt, plus', 'llms.txt and a JSON-LD graph:', 'WebSite, Dataset, FAQPage, Person'],
+    },
+    {
+      title: 'Answer content (GEO)',
+      lines: ['Plain-language hero and glosses', `${faqCount} self-contained FAQ answers`, 'One canonical entity per problem,', 'never three names for one idea'],
+    },
+  ];
+
+  const convBox = { x: laneX + DISC_LANE_W + 40, y: 146, w: 230, h: 140 };
+  const searchBox = { x: convBox.x + convBox.w + 40, y: convBox.y + convBox.h / 2 - 60, w: 240, h: 120 };
+  const recBox = { x: searchBox.x, y: searchBox.y + searchBox.h + 40, w: 240, h: 120 };
+
+  const bandY3 = Math.max(laneY(2) + DISC_LANE_H, recBox.y + recBox.h) + 16;
+  const bandH3 = 58;
+  const H3 = bandY3 + bandH3 + 10;
+
+  function infoBox({ x, y, w, h }, title, lines, accent = false) {
+    const textLines = lines.map((l, j) => `<tspan x="${x + 16}" y="${y + 46 + j * 16}">${l}</tspan>`).join('');
+    return `
+  <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="#ffffff" stroke="${accent ? ACCENT : INK}" stroke-width="${accent ? 1.6 : 1.2}"/>
+  <text x="${x + 16}" y="${y + 26}" font-size="13.5" font-weight="650" fill="${INK}">${title}</text>
+  <text font-size="11.5" fill="${SECONDARY}">${textLines}</text>`;
+  }
+
+  const laneBoxes = lanes
+    .map((l, i) => infoBox({ x: laneX, y: laneY(i), w: DISC_LANE_W, h: DISC_LANE_H }, l.title, l.lines))
+    .join('');
+  const convBoxSvg = infoBox(
+    convBox,
+    'One page, no cloaking',
+    ['Zero JavaScript leaves the', 'server, so every requester,', 'person or crawler, gets', 'the same HTML, every time.'],
+    true,
+  );
+  const searchBoxSvg = infoBox(searchBox, 'Search & AI answers', [
+    'Classic SEO signals shape',
+    'ranked results; AEO/GEO',
+    'signals shape what models',
+    'cite or generate as answers',
+  ]);
+  const recBoxSvg = infoBox(recBox, 'Recognition log', [
+    'Monthly, no hints: what is',
+    'bartontech.ai? Logged',
+    'verbatim, append-only,',
+    'feeding the experiment loop',
+  ]);
+
+  const laneCenterY = (i) => laneY(i) + DISC_LANE_H / 2;
+  const convEntryY = (i) => convBox.y + 30 + i * ((convBox.h - 60) / 2);
+  const laneFlows = lanes
+    .map((_, i) => {
+      const startX = laneX + DISC_LANE_W;
+      const endX = convBox.x;
+      return `<path d="M ${startX} ${laneCenterY(i)} L ${endX} ${convEntryY(i)}" fill="none" stroke="${SECONDARY}" stroke-width="1.4" marker-end="url(#arrowhead3)"/>`;
+    })
+    .join('');
+
+  const convCenterY = convBox.y + convBox.h / 2;
+  const toSearch = `<path d="M ${convBox.x + convBox.w} ${convCenterY} L ${searchBox.x} ${searchBox.y + searchBox.h / 2}" fill="none" stroke="${SECONDARY}" stroke-width="1.4" marker-end="url(#arrowhead3)"/>`;
+  const searchCenterX = searchBox.x + searchBox.w / 2;
+  const toRecognition = `<path d="M ${searchCenterX} ${searchBox.y + searchBox.h} L ${searchCenterX} ${recBox.y}" fill="none" stroke="${SECONDARY}" stroke-width="1.4" marker-end="url(#arrowhead3)"/>`;
+
+  const bandLines3 = [
+    'The recognition log is the only place the site measures whether the AEO/GEO signals worked,',
+    'checked against verbatim model answers rather than eyeballed.',
+  ];
+
+  return `<svg viewBox="0 0 ${W3} ${H3}" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="discovery-title discovery-desc" font-family="system-ui,-apple-system,'Segoe UI',sans-serif">
+  <title id="discovery-title">The discovery surface: SEO, AEO and GEO signals on one page</title>
+  <desc id="discovery-desc">A diagram in three converging lanes. Classic SEO: sitemap.xml, canonical URLs, meta robots directives, semantic HTML headings, no JavaScript and no cloaking. Crawler access and structured data for AEO: ${crawlerCount} AI crawlers named and allowed in robots.txt, plus llms.txt and a JSON-LD graph covering WebSite, Dataset, FAQPage and Person. Answer-shaped content for GEO: plain-language hero copy and glosses, ${faqCount} self-contained FAQ answers, and one canonical entity per problem instead of three competing names. All three lanes converge on one page served identically to every requester, with zero JavaScript and no cloaking. That page reaches both classic search results and AI-generated answers. The AI-answer side feeds a monthly recognition log, which asks each model with no hints what bartontech.ai is and logs the verbatim answer append-only, driving the experiment loop.</desc>
+  <defs>
+    <marker id="arrowhead3" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">
+      <path d="M 1 1 L 7 4 L 1 7 Z" fill="${SECONDARY}"/>
+    </marker>
+  </defs>
+  ${laneFlows}
+  ${toSearch}
+  ${toRecognition}
+  ${laneBoxes}
+  ${convBoxSvg}
+  ${searchBoxSvg}
+  ${recBoxSvg}
+  <rect x="0" y="${bandY3}" width="${W3}" height="${bandH3}" rx="10" fill="${INK}"/>
+  <text font-size="13" fill="#ffffff">${bandLines3
+    .map((l, i) => `<tspan x="18" y="${bandY3 + 24 + i * 19}">${l}</tspan>`)
+    .join('')}</text>
+</svg>`;
+}
