@@ -1,0 +1,99 @@
+{
+  "date": "2026-09-12",
+  "generated_at": "2026-09-12T11:12:45.942Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-03-12",
+    "to": "2026-09-12",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08",
+      "2026-09"
+    ],
+    "solution_days": 25
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 10640,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1516,
+    "output_tokens_details": {
+      "thinking_tokens": 379
+    },
+    "service_tier": "standard",
+    "inference_geo": "global"
+  },
+  "themes": [
+    {
+      "name": "Incentives Before Standards",
+      "plain": "Several problems stall because the party holding the answer gains nothing by sharing it, and nobody can force them. A shared schema or central system cannot settle a fight over money, credit, or turf.",
+      "evidence": "On cross-channel journey orchestration all three models point at channel budgets and separate P&Ls that reward saying yes, on agentic traffic they say agents gain by hiding, and on the semantic context layer they call the definition fight political rather than technical.",
+      "problem_ids": [
+        "cross-channel-journey-orchestration",
+        "agent-traffic-identification",
+        "semantic-context-layer",
+        "cross-channel-incrementality"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust who is acting or what happens next, they build one door they own and push everything through it. A sent email, a spent dollar, or an exported file cannot be taken back, so the only real control happens before the action leaves.",
+      "evidence": "On journey orchestration the models propose one shared contact log or fatigue ledger every channel must check, on safe agent execution they all propose a proxy or gateway with hard spend and audience caps, and on downstream consent they propose a single gate on every path data takes out of the building.",
+      "problem_ids": [
+        "cross-channel-journey-orchestration",
+        "agent-safe-execution",
+        "consent-enforcement-downstream",
+        "agent-traffic-identification"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "No Ground Truth to Measure Against",
+      "plain": "Many of these problems have no answer key to grade your work against, and the thing you are measuring often changes while you measure it. So the usual first move is to build a small truth set of your own, or admit you are only estimating.",
+      "evidence": "On identity resolution the models say there is no independent truth set for matches, on answer engine optimization they say answers are stochastic with no denominator, on incrementality they say the ad platform adapts to your test, and on journey orchestration they name delayed feedback and contested attribution.",
+      "problem_ids": [
+        "identity-resolution-decay",
+        "aeo",
+        "cross-channel-incrementality",
+        "cross-channel-journey-orchestration",
+        "b2b-buying-group-signal-loss"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data, money, or a message leaves your own systems, you cannot see inside the partner, ad platform, or trained model that now holds it. Compliance and effects can only be estimated from outside, never proven.",
+      "evidence": "On downstream consent and deletion all three models say enforcement stops at the boundary of systems you do not control, and on incrementality they say platforms both control the treatment and conceal how it changes.",
+      "problem_ids": [
+        "consent-enforcement-downstream",
+        "cross-channel-incrementality",
+        "aeo",
+        "identity-resolution-decay"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Judgment That Won't Compile",
+      "plain": "The hardest calls depend on meaning, context, and what a sentence implies, and no rule set fully captures that. The models end up shrinking human judgment into a smaller, safer box rather than removing it.",
+      "evidence": "On governance of generative content the models agree that judging whether a claim is supported is a reasoning task software cannot do, so they limit what can be said, and on the semantic context layer they say different teams hold genuinely different meanings of the same term.",
+      "problem_ids": [
+        "genai-content-governance",
+        "semantic-context-layer"
+      ],
+      "trend": "steady"
+    }
+  ]
+}
