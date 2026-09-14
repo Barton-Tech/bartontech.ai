@@ -1,0 +1,573 @@
+{
+  "date": "2026-09-14",
+  "month": "2026-09",
+  "board_month": "2026-09",
+  "board_rank": 1,
+  "generated_at": "2026-09-14T13:16:23.473Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1
+  },
+  "problem": {
+    "canonical_id": "aeo",
+    "canonical_name": "Answer Engine Optimization",
+    "plain": "getting named by AI"
+  },
+  "default_format": "lullaby",
+  "formats": [
+    {
+      "format": {
+        "id": "cmo-memo",
+        "label": "A memo to a CMO",
+        "instruction": "Write it as a short internal memo to a chief marketing officer. Plain language, no jargon they would have to look up. Around 120 words."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Memo — AI answers\n\nWe can't measure this the way we measure search, and I'd rather admit that than buy a dashboard that pretends otherwise. Most tracking tools run a few prompts and report a number that moves on its own week to week.\n\nWhere I'd start: write 100–200 questions real buyers actually ask, run them weekly across the main assistants, and log not our ranking but which sources the answers cite. Those sources — Reddit threads, review sites, trade press, Wikipedia — are the only lever we have. Work on them, not on our own site copy.\n\nFor impact, add \"how did you hear about us\" to forms; logs won't show it.\n\nExpect noise for two or three quarters before any pattern is trustworthy.",
+          "first_move": "Write down the actual questions our buyers ask, and start asking the AI assistants those questions every week.",
+          "hardest_part": "The systems are non-deterministic and cite third-party sources we don't control, so there's no clean line between anything we do and what a buyer sees.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 687,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 601,
+            "output_tokens_details": {
+              "thinking_tokens": 249
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "To: CMO\nSubject: Getting named by AI\n\nI would not start by promising an “AI ranking” product. These systems are variable, personalized, and partly closed, so citation counts alone can create false confidence.\n\nI would build a controlled measurement panel around questions customers actually ask, repeated across major answer engines, locations, accounts, and time. We would record whether the brand appears, how it is described, which sources are cited, and whether answers change after known content or PR interventions. We would connect that data to customer research, referrals, and conversions to identify commercially important questions.\n\nThen we would test influence rather than assume it: improve authoritative product facts, independent coverage, comparison pages, and content availability, using matched question groups to estimate lift.\n\nThe limit is causality. Models change silently. The realistic product is directional evidence and risk detection, not a universal score.",
+          "first_move": "Build a repeatable list of real customer questions and measure how leading AI systems answer them today.",
+          "hardest_part": "The hardest part is separating our influence from silent model changes, personalization, and normal answer variation.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 321,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 507,
+            "output_tokens_details": {
+              "reasoning_tokens": 260
+            },
+            "total_tokens": 828
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Vendors will try to sell us AI SEO, but no one actually knows how to game these models. We should not waste money trying to optimize our website for chatbots that do not crawl like Google. Instead, we should treat this like public relations and factual distribution. AI tools pull their recommendations from third-party consensus: independent review sites, industry databases, and news articles, not our own marketing claims. I propose mapping the fifty most common questions buyers ask, querying the major AI tools weekly to build a baseline of what they say, and focusing our effort entirely on getting listed in the trusted external sources those engines cite. It will be imprecise, but chasing third-party authority beats guessing at algorithms.",
+          "first_move": "Run our buyers' top fifty questions through ChatGPT, Perplexity, and Gemini once a week to track whether we are mentioned and which external sources are cited.",
+          "hardest_part": "AI models synthesize answers from opaque, constantly shifting data pools, making it impossible to directly tie a marketing action to an AI output.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 190,
+            "candidatesTokenCount": 231,
+            "totalTokenCount": 1013,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 190
+              }
+            ],
+            "thoughtsTokenCount": 592,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "three-moves",
+        "label": "Three moves",
+        "instruction": "Give exactly three moves, in order. One sentence each, then one sentence on what makes that move hard. Nothing else."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Move 1 — Skip the \"LLM rank tracker\" that everyone is shipping and instead build a retrieval audit: for a few hundred real buying-intent prompts, capture the citations and grounded sources the engines actually pull, then cluster them to find which twenty or so documents and domains own your category's answer substrate. What makes it hard: outputs are non-stationary and partly personalized, so you need enough sampling and versioning discipline to separate a real shift in the source graph from model drift or sampling noise, and most of the API surfaces don't expose the grounding you actually want.\n\nMove 2 — Work the substrate, not your own site: treat Reddit threads, G2/Capterra, Wikipedia, docs, and the two or three trade publications that keep showing up as the real optimization target, and drive a consistent, extractable, first-party-sourced set of claims about what you do, who you're for, and what you cost into those places. What makes it hard: you don't control most of that surface, the tactics that work fastest are the ones that get you burned as manipulation, and you're influencing a corpus that gets re-ingested on an unknown lag, so the feedback loop is weeks to quarters long.\n\nMove 3 — Give up on referral-log attribution and measure this the way brand has always had to be measured: geo or audience holdouts, self-reported attribution on the form, and modeled lift on branded demand, with the citation-share data from Move 1 used as a leading indicator only, never as the KPI. What makes it hard: AEO's traffic volume is currently too small to power a clean holdout in most categories, so you'll be asked to prove a real but tiny effect, and the honest answer for a while is \"directionally yes, with wide error bars.\"",
+          "first_move": "Pull a few hundred real buying-intent prompts and log which sources the AI answers are actually citing.",
+          "hardest_part": "You are trying to influence and measure a system whose inputs you don't control, whose outputs aren't stable, and whose feedback loop runs on an ingestion lag nobody publishes.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 677,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1019,
+            "output_tokens_details": {
+              "thinking_tokens": 330
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Move 1: Build a longitudinal observatory that repeatedly samples commercially meaningful questions across models, modes, locales, and user contexts, recording brand mentions, claims, citations, competitors, and answer variance rather than pretending there is one stable “AI visibility” score.\nWhat makes this hard: Outputs are stochastic, personalized, model-dependent, and frequently changed, while real prompt demand is largely hidden.\nMove 2: Run controlled interventions on the evidence models can retrieve—site content, product feeds, documentation, third-party coverage, structured data, and correction channels—and use holdouts or staggered rollouts to estimate which changes causally affect representation.\nWhat makes this hard: Retrieval and generation are opaque, effects can lag, upstream sources are correlated, and model updates can overwhelm experimental signals.\nMove 3: Turn the findings into a representation operations loop that maps important claims to authoritative evidence, assigns owners for factual gaps and errors, and prioritizes durable source credibility over prompt-volume publishing or synthetic-content gaming.\nWhat makes this hard: Brands do not control answer engines, credible third parties cannot be managed like owned media, and any apparent playbook may stop working without notice.",
+          "first_move": "Start by repeatedly measuring real brand questions across the major answer engines.",
+          "hardest_part": "The hardest problem is separating causal influence from noisy outputs produced by changing, opaque systems.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 312,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 635,
+            "output_tokens_details": {
+              "reasoning_tokens": 343
+            },
+            "total_tokens": 947
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. Run automated prompt sampling across leading engines to map which third-party sources are consistently fetched and cited for category queries. What makes this hard is that model weights, RAG pipelines, and user personalization create non-deterministic outputs that resist traditional ranking baselines. 2. Shift content optimization away from owned web properties toward the high-consensus external sites, forums, and structured databases that models frequently pull as ground truth. What makes this hard is that you have zero direct control or clean attribution over third-party sentiment and narrative drift. 3. Publish proprietary benchmark data and dense named entities formatted specifically so models must cite the source rather than anonymously synthesize the text. What makes this hard is that foundation models are natively engineered to compress and paraphrase facts while discarding source identities.",
+          "first_move": "Run automated prompt tests across major AI engines to map which third-party websites they actually cite when answering buying questions in your category.",
+          "hardest_part": "AI models are engineered specifically to synthesize information and strip away the original source, making deliberate attribution an uphill battle against the architecture itself.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 179,
+            "candidatesTokenCount": 241,
+            "totalTokenCount": 1057,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 179
+              }
+            ],
+            "thoughtsTokenCount": 637,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "pseudocode",
+        "label": "Pseudocode",
+        "instruction": "Express the approach as short annotated pseudocode. The comments should carry the reasoning; the code should carry the structure. Around 15 lines."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "```\n# 1. Stop treating this as rank tracking. There is no query log, so the prompt space is unobservable.\nprompts = cluster(search_logs + sales_call_transcripts + support_tickets + sales objections)\n# ^ derive prompts from real buyer language, not a vendor's guessed 500-prompt list.\n\n# 2. Measure as a distribution, not a position. Same prompt, same day, different answer.\nfor p in prompts: sample(p, n=30, across=[models, personas, geos, fresh_sessions])\nmetric = P(brand_mentioned) with CI  # a \"rank\" here is a fiction; report probability + variance\n\n# 3. Split the mechanism before you spend a dollar on the lever.\nfor answer in samples: classify(grounded_in_citations vs parametric_recall)\n# retrieval-driven gaps are fixable in weeks; weights-baked gaps are fixable in quarters, if ever.\n\n# 4. The lever I'd actually pull is corroboration, not content volume.\n#    Models name what multiple independent sources agree on. Own-domain copy is weak evidence.\nintervene(third_party_corpora, structured_entity_facts, comparison/listicle surfaces, forums)\n\n# 5. Prove it causally, because the surface is non-stationary and competitors move too.\nholdout = sample(prompt_clusters, 30%)   # never intervene on these\nread = did_in_diff(treated vs holdout, blocked_by_model)  # absorbs silent model updates\n\n# 6. Accept that the business outcome is unobservable from the AI side. Triangulate demand.\ntruth = lift(branded_search_volume, direct_traffic, \"how did you hear\" survey, self-reported LLM in CRM)\n```\nWhere I disagree with the obvious answer: the industry is racing to build LLM rank trackers, and I think that's the least useful piece. A number that moves ±20 points between two runs of the same prompt isn't a metric, it's a mood. The interesting work is (a) separating retrieval-time influence from training-time influence, since only one of them responds to anything you do this quarter, and (b) refusing to report a share-of-voice figure without a holdout, because otherwise you're attributing model release notes to your content calendar.\n\nWhat I expect to run into: prompt-set selection quietly becomes the whole result — pick prompts your brand already wins and the dashboard is green forever, so the prompt set needs external governance. Models update asynchronously and without notice, which wrecks clean pre/post windows; blocking by model helps but doesn't fully save you. And the demand-side read is slow and noisy, so you'll be running a six-week proxy loop against a two-quarter truth signal, which means some of what you optimize will turn out to be measurement artifact. I'd plan for that rather than pretend otherwise.",
+          "first_move": "Pull the actual questions buyers ask from sales calls and support tickets, and use those as the prompt set instead of guessing.",
+          "hardest_part": "You cannot observe the population of real prompts or the traffic the answer replaced, so both the input and the outcome of any experiment are estimated rather than measured.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 686,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1678,
+            "output_tokens_details": {
+              "thinking_tokens": 589
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "FUNCTION attack_AEO(brand, markets):\n  jobs = sample_real_customer_questions(markets)  # Start with decision journeys, not a vanity list of brand prompts.\n  panel = select_models × locales × personas  # There is no single AI surface or canonical answer.\n  schedule = freeze_prompt_sets_and_run_repeatedly(panel, jobs)  # Repetition exposes stochasticity and model drift.\n  answers = capture(text, citations, retrieval_results, timestamp, model_version)  # Provenance matters as much as wording.\n  labels = classify(mention, recommendation, rank, sentiment, claims, omissions)  # Separate being named from being represented correctly.\n  metrics = aggregate(labels, by=job_and_model)  # Report distributions and confidence intervals, not one “AEO score.”\n  baseline = connect(metrics, referrals, conversions, surveys)  # Visibility is only useful if it changes customer behavior.\n  gaps = compare(brand, competitors, authoritative_sources)  # Source overlap can reveal where answers are being grounded.\n  causes = split(gaps, retrieval_failure, source_deficit, latent_model_behavior)  # Only the first two are plausibly actionable today.\n  candidates = propose(canonical_content, structured_data, feeds, third_party_corroboration, earned_media)\n  tests = randomize(candidates, across=topics_or_markets, with=holdouts)  # Ordinary correlation will over-credit every intervention.\n  lift = rerun(schedule) - baseline  # Measure persistence across repeated runs and model updates.\n  IF lift_is_not_causal_or_durable: mark_unknown()  # Black-box systems make honest non-findings essential.\n  ship_dashboard(metrics, evidence, uncertainty, change_log)  # Show exact answers and sources behind every aggregate.\n  repeat_on_model_or_source_change()  # This becomes an observatory and experiment loop, not solved SEO.\nEND FUNCTION",
+          "first_move": "Build a versioned set of real customer questions across the decisions that matter to the brand.",
+          "hardest_part": "The hardest part is establishing causal influence when model internals are hidden, outputs vary, and providers change retrieval and generation without notice.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 315,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 990,
+            "output_tokens_details": {
+              "reasoning_tokens": 516
+            },
+            "total_tokens": 1305
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "# 1. Stop analyzing owned SEO; LLMs prioritize multi-source consensus over brand claims\nqueries = generate_unbranded_intent_prompts(category)\n\n# 2. Deconstruct retrieval: isolate RAG live-search citations from parametric training weights\nrag_citations, model_priors = audit_engine_retrieval_mechanisms(queries, engines=['chatgpt', 'perplexity', 'claude'])\n\n# 3. Find the narrow set of high-authority nodes the RAG layers consistently synthesize\nconsensus_graph = map_frequently_cited_third_parties(rag_citations)\n\n# 4. Inject machine-readable entity triples (Subject-Predicate-Object) into those 3rd-party hubs\nfor node in consensus_graph.top_authorities:\n    seed_unambiguous_factual_relations(node, brand_attributes)\n\n# 5. Measure as a probability distribution over synthetic persona samples, not deterministic rank\nwhile monitoring:\n    responses = run_monte_carlo_evaluations(queries, n_samples=200)\n    brand_salience = calculate_semantic_affinity(responses, brand_attributes)\n    drift = detect_parametric_decay_or_hallucination(brand_salience)",
+          "first_move": "Run a battery of category prompts across the main answer engines to map which third-party websites they repeatedly cite when answering questions about your space.",
+          "hardest_part": "Because answer generation is non-deterministic and blends live retrieval with opaque latent weights, you cannot definitively prove whether an intervention changed the answer or was merely random token variance.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 183,
+            "candidatesTokenCount": 380,
+            "totalTokenCount": 1316,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 183
+              }
+            ],
+            "thoughtsTokenCount": 753,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "checklist",
+        "label": "A checklist",
+        "instruction": "Give a checklist someone could actually run next quarter. Each item concrete enough to be marked done or not done. Six items at most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "1) Build a prompt portfolio, not a rank tracker. Pull 200-400 real buyer questions from sales call recordings, chat logs, site search, and support tickets. Run each across the 4-5 surfaces that matter to you (ChatGPT w/ and w/o browsing, Google AI Overviews/AI Mode, Perplexity, Copilot, Gemini) at fixed cadence, n>=5 samples per prompt. Log brand mention, position, sentiment, and every cited URL. Done when you have a baseline with variance bands per prompt cluster. Disagreement: most vendor dashboards report a single 'visibility score' as if it were a rank. It isn't — it's a survey with sampling error, and if you can't state the error bar you can't detect a change. Treat this as polling, not SEO.\n\n2) Instrument the referral floor. Parse server logs for AI user-agents and referrers (chatgpt.com, perplexity.ai, copilot, gemini), add a free-text 'how did you first hear about us' on every form, and tag it. Done when you can report a monthly number and, more importantly, can say out loud what fraction of AI influence this can never capture. Expect the logged referrals to be a rounding error while self-report climbs — that gap is the honest measurement story, and you should brief leadership on it before someone else spins it.\n\n3) Run a factual error audit and make it the executive artifact. Score every sampled answer against ground truth on pricing, availability, integrations, certifications, and competitor substitution. Done when you have a ranked list of specific wrong claims with the cited source that caused each one. This is the only part of AEO that converts to unambiguous action in Q1, and it's where the actual business risk sits — a model confidently quoting your discontinued SKU or a competitor's feature as yours.\n\n4) Do source-share analysis and accept that your website is not the work queue. Aggregate the cited URLs from step 1 into a domain ranking. Done when you have the top 50 third-party pages that actually get retrieved in your category — usually Reddit threads, G2/Capterra category pages, a Wikipedia entity, and three listicles from mid-tier publishers. Disagreement: llms.txt, FAQ schema, and 'conversational content rewrites' are the popular answer and I've seen no credible evidence they move retrieval. The corpus that decides whether you get named is mostly not yours.\n\n5) Ship exactly one pre-registered intervention and measure it properly. Pick one lever from step 4 (get a review-platform category profile corrected, earn placement in three retrieved listicles, publish a genuinely better head-to-head comparison page, or correct a Wikidata entity), write down in advance which prompt clusters should move and by how much, hold a matched cluster untouched, then re-measure on the same schedule for 8+ weeks. Done when you've written the result up — including 'no detectable effect,' which is the likely and still valuable outcome. One clean null beats ten unattributed wins.\n\n6) Close the plumbing you actually control, and document the tradeoffs. Audit robots.txt and WAF rules for GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot, Google-Extended; verify Bing indexation (it feeds Copilot and more than people think); make sure product/pricing feeds, entity markup, and third-party profiles are consistent and current. Done when there is a written, dated decision per crawler signed off by legal and marketing — not a default. Blocking training crawlers while allowing retrieval crawlers is a defensible position; not knowing which you've done is not.",
+          "first_move": "Pull the actual questions buyers ask from sales call transcripts and support tickets, and run them through the models by hand this week before buying any tool.",
+          "hardest_part": "The output is non-deterministic and the inputs are a third-party corpus you don't own, so attributing any change to anything you did is statistically hard at the sample sizes a single brand can afford.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 680,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 2468,
+            "output_tokens_details": {
+              "thinking_tokens": 1131
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "- [ ] **Define the observable surface.** Select 100–200 commercially meaningful prompts, segmented by journey stage, market, and customer type; specify five answer engines, logged-in/out state, geography, and device. Freeze this panel for the quarter and document what it does *not* represent.\n- [ ] **Establish a repeated baseline.** Run every prompt at least weekly with multiple repetitions; retain answer text, citations, model/version metadata, and screenshots. Score brand inclusion, prominence, factual accuracy, framing, competitors, and cited domains, with a human-audited sample. Do not collapse this into one “AI visibility” score—the variance is part of the result.\n- [ ] **Map the evidence supply chain.** For each important answer theme, identify cited sources, recurring uncited sources, entity/reference databases, publisher coverage, and accessible owned content. Deliver a source-by-claim matrix showing unsupported claims, contradictions, stale facts, and gaps where no credible source exists.\n- [ ] **Run controlled publishing tests.** Choose 10–20 claim/topic clusters and pre-register paired treatment/control groups. Treatments may include clearer factual pages, consistent entity naming, primary evidence, expert or publisher validation, and crawlable structured content. Hold ordinary SEO and PR activity as stable as practical; define success as a sustained treatment/control change across repeated runs, not a favorable screenshot.\n- [ ] **Test business impact separately from answer visibility.** Instrument AI referrals, but assume they undercount zero-click influence. Add an exposed/unexposed survey or matched-market test and compare qualified brand search, direct visits, consideration, and conversion. Report correlation unless the design supports a causal claim.\n- [ ] **Publish an operating decision and uncertainty log.** At quarter end, document which interventions moved which engines, where effects failed to replicate, model-update confounders, harmful or inaccurate representations, and escalation owners. Set explicit continue/stop criteria for the next quarter; a rank tracker alone is not an answer to a stochastic, personalized, and partially unobservable system.",
+          "first_move": "I would freeze a small, commercially meaningful prompt panel before buying or building any monitoring platform.",
+          "hardest_part": "The genuinely hard part is separating an intervention’s effect from stochastic outputs, personalization, retrieval changes, and unannounced model updates.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 314,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 834,
+            "output_tokens_details": {
+              "reasoning_tokens": 343
+            },
+            "total_tokens": 1148
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. Build a fixed benchmark set of 50 high-intent buyer prompts and run them weekly across ChatGPT, Perplexity, Gemini, and Claude to log mention rates and citations. 2. Map the top 20 third-party domains cited in those benchmark outputs to see which external consensus sources the engines actually trust. 3. Stop writing top-of-funnel SEO articles and redirect budget to seeding accurate product data and reviews on those top cited third-party platforms. 4. Publish machine-readable, un-gated comparison tables and pricing directly on your core domain so retrieval models can parse your facts without inference errors. 5. Set up automated LLM-as-a-judge scoring on your weekly run to measure brand sentiment and factual accuracy rather than raw volume. 6. Audit your site's robots.txt and server logs to verify whether specific AI crawler user-agents (e.g., GPTBot, PerplexityBot) are actively indexing your pages.",
+          "first_move": "Manually run your top 50 commercial queries across the major AI engines and write down every single URL they cite.",
+          "hardest_part": "You are optimizing for a non-deterministic black box whose retrieval layers, training weights, and source preferences shift without release notes or public documentation.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 181,
+            "candidatesTokenCount": 288,
+            "totalTokenCount": 991,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 181
+              }
+            ],
+            "thoughtsTokenCount": 522,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "fifty-words",
+        "label": "Fifty words",
+        "instruction": "Fifty words or fewer. No preamble, no caveats. The compression is the point: keep only what you would keep if you could keep one thing."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Stop tracking \"rank.\" Models don't rank, they retrieve. So instrument the corpus: which third-party pages, forums, and datasets get cited for your category, and own the facts inside them. Measure share-of-citation across sampled prompts, with confidence intervals, because outputs are non-stationary. Expect drift to swamp your effects.",
+          "first_move": "Scrape the actual sources AI answers cite in my category and see who controls them.",
+          "hardest_part": "The measurement target moves on its own, so you can rarely prove your change caused the lift.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 684,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 329,
+            "output_tokens_details": {
+              "thinking_tokens": 131
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Start with observability: sample audience tasks across models; log mentions, framing, citations, and volatility; connect exposure to holdout brand-lift tests; then perturb owned content and independent evidence to estimate influence.",
+          "first_move": "Build a representative prompt panel and baseline it.",
+          "hardest_part": "Opaque, stochastic, personalized answers make stable causal attribution difficult.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 319,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 572,
+            "output_tokens_details": {
+              "reasoning_tokens": 484
+            },
+            "total_tokens": 891
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Stop reverse-engineering closed weights. Treat models like consensus engines. Probe latent associations using systematic prompt clustering, then aggressively seed the niche, high-authority primary sources models retrieve during synthesis. Optimize for inclusion in retrieval corpora rather than legacy SEO rankings, and track probability shifts over time.",
+          "first_move": "Run automated, high-variance prompt sweeps across target categories to map citation sources and omission patterns.",
+          "hardest_part": "Model stochasticity and continuous, opaque retraining make causal attribution virtually impossible to prove.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 184,
+            "candidatesTokenCount": 110,
+            "totalTokenCount": 728,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 184
+              }
+            ],
+            "thoughtsTokenCount": 434,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "haiku",
+        "label": "A haiku",
+        "instruction": "Three lines, 5-7-5 syllables. A severe constraint on a serious problem: what survives the compression is what you actually think matters most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Ask ten thousand times\nanswers drift like weather maps\nfeed the sources, wait",
+          "first_move": "Stand up a daily panel of real buyer prompts across the main models and log every answer verbatim, before touching anything on the site.",
+          "hardest_part": "Outputs are nondeterministic and personalized, so there is no stable baseline to attribute a change against — and the real lever is what third parties say about you, not anything you control on your own pages.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 685,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 959,
+            "output_tokens_details": {
+              "thinking_tokens": 797
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Probe answers, not ranks\nMap source paths and variance\nTest what shifts the words",
+          "first_move": "Probe answers first.",
+          "hardest_part": "AI answers vary by model, prompt, context, and time, which makes causal measurement genuinely difficult.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 320,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 542,
+            "output_tokens_details": {
+              "reasoning_tokens": 475
+            },
+            "total_tokens": 862
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Trace the training trails\nBe the source they cannot skip\nWait for weights to set",
+          "first_move": "Query all major models repeatedly to map which third-party domains they consistently cite for our category.",
+          "hardest_part": "Model retrieval is probabilistic and updates without notice, making true cause and effect impossible to prove.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 186,
+            "candidatesTokenCount": 91,
+            "totalTokenCount": 1314,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 186
+              }
+            ],
+            "thoughtsTokenCount": 1037,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "lullaby",
+        "label": "A lullaby",
+        "instruction": "Write it as a short lullaby: three or four gentle rhyming couplets someone could actually sing. Soft on the surface, honest underneath. The problem is still unsolved when the song ends, and the song should know it."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Sleep, little brand, in the glow of the screen —\nyou're named in an answer that nobody's seen.\n\nWe'll sample the dark a few thousand times over,\nand call it a panel, not truth we discover.\n\nThere's no bid to place and no rank to be won,\nso be the thing quoted by everyone.\n\nThen measure the lift in demand, not in clicks,\nand know that this lullaby isn't a fix.",
+          "first_move": "Start asking the assistants the questions your buyers ask, over and over, and write down what comes back.",
+          "hardest_part": "The system you're measuring is non-deterministic and changes under you, so there's no stable ground truth to optimize against — and no click to attribute the outcome to.",
+          "confidence": "low",
+          "usage": {
+            "input_tokens": 709,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1123,
+            "output_tokens_details": {
+              "thinking_tokens": 867
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Hush, little brand, one prompt can never be your score;\nSample needs and paraphrases at every model’s door.\n\nSave answers, claims, and citations, dated through the night;\nTrack share, tone, and volatility—don’t call a snapshot right.\n\nStage owned-fact and earned-source tests; let matched topics wait;\nThen watch for lift in names and visits, though the signal may come late.\n\nBlack boxes shift; citations aren’t the causes they may seem;\nWe’ll map the bounds, not promise we can steer the dream.",
+          "first_move": "I would first collect a representative set of real customer questions.",
+          "hardest_part": "The hardest part is separating our influence from hidden model changes, retrieval choices, and personalization.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 336,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 1109,
+            "output_tokens_details": {
+              "reasoning_tokens": 934
+            },
+            "total_tokens": 1445
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Hush now, quiet, feed the waiting stream, hoping we will echo in the engine's dream. The old blue links have drifted off to sleep, into hidden layers far too dark and deep. We trace the prompts and guess which seeds took hold, but cannot turn the mystery to gold. Rest your head, child, let the metrics fall, for in the dark, no one controls the call.",
+          "first_move": "I would query the top answer engines with thousands of everyday buyer questions to map where our brand appears and where we are entirely omitted.",
+          "hardest_part": "You cannot reverse-engineer or optimize against probabilistic latent spaces that generate unique outputs on the fly and offer no underlying ranking logs.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 201,
+            "candidatesTokenCount": 167,
+            "totalTokenCount": 1100,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 201
+              }
+            ],
+            "thoughtsTokenCount": 732,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    }
+  ]
+}
