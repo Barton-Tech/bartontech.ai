@@ -1,0 +1,99 @@
+{
+  "date": "2026-09-21",
+  "generated_at": "2026-09-21T13:16:05.234Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-03-21",
+    "to": "2026-09-21",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08",
+      "2026-09"
+    ],
+    "solution_days": 34
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 13704,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1717,
+    "output_tokens_details": {
+      "thinking_tokens": 564
+    },
+    "service_tier": "standard",
+    "inference_geo": "global"
+  },
+  "themes": [
+    {
+      "name": "No Ground Truth to Measure Against",
+      "plain": "Many of these problems have no answer key to grade your work against, and the thing you measure often changes while you measure it. So the common first move is to build a small truth set of your own, or admit you are only estimating.",
+      "evidence": "All three models say identity resolution cannot be calibrated without knowing who is really the same person, and the same complaint runs through answer engine optimization, cross-channel incrementality, B2B buying-group intent, and content review where expert reviewers themselves disagree.",
+      "problem_ids": [
+        "identity-resolution-decay",
+        "aeo",
+        "cross-channel-incrementality",
+        "b2b-buying-group-signal-loss",
+        "genai-content-governance"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "Incentives Before Standards",
+      "plain": "Several problems stall because the party holding the answer gains nothing by sharing it, and nobody can force them. A shared standard or a central system cannot settle a fight over money, credit, or turf.",
+      "evidence": "On identity resolution the models say platforms and regulators have stronger reasons to break links than marketers have to build them, and the same logic appears in agentic traffic (agents gain by hiding), journey orchestration (channel budgets reward saying yes), and the semantic context layer, called a political settlement rather than a data problem.",
+      "problem_ids": [
+        "identity-resolution-decay",
+        "agent-traffic-identification",
+        "cross-channel-journey-orchestration",
+        "semantic-context-layer",
+        "cross-channel-incrementality"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust who is acting or what happens next, they build one door they own and push everything through it. A sent email or a spent dollar cannot be taken back, so the only real control happens before the action leaves.",
+      "evidence": "Every model answering safe agent execution proposes a proxy, gateway, or control plane with hard spend and audience caps, and the same single-gate move shows up in downstream consent, where each data exit path is routed through one checkpoint.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "consent-enforcement-downstream",
+        "cross-channel-journey-orchestration"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data, money, or a message leaves your own systems, you cannot see inside the partner, ad platform, or trained model that now holds it. You can estimate whether the rules were honored, but you cannot prove it.",
+      "evidence": "On downstream consent and deletion all three models call ad platforms and agency segments black boxes with no accepted test for removal from trained models, and the same opacity blocks incrementality testing, answer engine measurement, and cross-platform identity checks.",
+      "problem_ids": [
+        "consent-enforcement-downstream",
+        "cross-channel-incrementality",
+        "aeo",
+        "identity-resolution-decay"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Judgment That Won't Compile",
+      "plain": "The hardest calls depend on meaning, context, and what a sentence implies, and no rule set fully captures that. The models end up shrinking human judgment into a smaller, safer box rather than removing it.",
+      "evidence": "On generative content review all three models say deciding whether evidence supports a claim is contextual judgment software cannot do, so they lock generation to an approved claims library, and the semantic context layer answers make the same point about the word customer meaning different things on purpose.",
+      "problem_ids": [
+        "genai-content-governance",
+        "semantic-context-layer"
+      ],
+      "trend": "steady"
+    }
+  ]
+}
