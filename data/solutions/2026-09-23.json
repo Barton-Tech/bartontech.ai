@@ -1,0 +1,573 @@
+{
+  "date": "2026-09-23",
+  "month": "2026-09",
+  "board_month": "2026-09",
+  "board_rank": 10,
+  "generated_at": "2026-09-23T12:02:27.233Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1
+  },
+  "problem": {
+    "canonical_id": "b2b-buying-group-signal-loss",
+    "canonical_name": "Loss of B2B Account and Buying-Group Intent Signal",
+    "plain": ""
+  },
+  "default_format": "three-moves",
+  "formats": [
+    {
+      "format": {
+        "id": "cmo-memo",
+        "label": "A memo to a CMO",
+        "instruction": "Write it as a short internal memo to a chief marketing officer. Plain language, no jargon they would have to look up. Around 120 words."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "MEMO — Account intent signal\n\nThe honest starting point: IP-to-company matching is decaying (remote work, carrier networks, Apple's relay), and much third-party \"intent\" is bidstream data that was always thin and is getting thinner. Buying more of it is the obvious move and I'd push back on it.\n\nWhere I'd start: treat sales conversations as the signal source. Mine call transcripts and CRM notes for who actually showed up in deals we won, then look backwards for the weak digital traces that preceded them. That gives us a validation set — something the industry mostly lacks.\n\nThen add friction deliberately: fewer gated assets, but ones that ask who else is involved.\n\nExpect this to be lagging, partial, and hard to attribute. I'd rather have a slow true signal than a fast fake one.",
+          "first_move": "Pull last year's won deals and list every person who touched them, from call notes and CRM.",
+          "hardest_part": "We have no reliable ground truth about who was actually in a buying group, so any signal we build can't be properly validated.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 633,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 543,
+            "output_tokens_details": {
+              "thinking_tokens": 175
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "To: CMO\nSubject: Rebuilding account and buying-group intent\n\nI would not try to replace lost cookies with a larger identity graph. That creates false certainty and growing privacy risk.\n\nI would start with signals we can defend: known engagement, site activity matched to companies with stated confidence, product use, event attendance, sales conversations, and changes in account behavior over time. We would connect those signals around accounts, then test whether they predict real movement through controlled sales and media experiments.\n\nFor buying groups, I would model roles only when behavior supports them, rather than inventing complete committees from weak data. Unknown visitors should remain unknown.\n\nThe likely outcome is less signal, but more reliable signal. This will not restore everything lost; it should show which signals are useful enough to fund and which merely look precise.",
+          "first_move": "Audit every current intent signal against actual sales outcomes.",
+          "hardest_part": "The hardest part is separating genuine account movement from shared devices, research noise, and vendor matching errors.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 289,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 443,
+            "output_tokens_details": {
+              "reasoning_tokens": 218
+            },
+            "total_tokens": 732
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "MEMO TO: CMO\nFROM: MarTech\nSUBJECT: Intent Signal Loss\n\nThe standard pitch is to buy more third-party intent feeds or identity-stitching tools. I think that is throwing money at noise. Third-party data is getting worse, and IP tracking is mostly guesswork now.\n\nInstead of trying to surveil invisible research across the web, I would focus entirely on our owned properties. We should build genuinely useful resources—like interactive pricing tools or open documentation—that encourage people inside target accounts to share links with their colleagues. That gives us real first-party breadcrumbs.\n\nWe cannot rebuild the old tracking machine. The goal should be making it so valuable to engage with us that buying groups choose to identify themselves earlier.",
+          "first_move": "Interview the buyers from our last thirty closed deals to learn how their committee actually researched us before filling out a form.",
+          "hardest_part": "B2B buying committees deliberately hide their research in private channels until they are already close to a final decision.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 157,
+            "candidatesTokenCount": 238,
+            "totalTokenCount": 1058,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 157
+              }
+            ],
+            "thoughtsTokenCount": 663,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "three-moves",
+        "label": "Three moves",
+        "instruction": "Give exactly three moves, in order. One sentence each, then one sentence on what makes that move hard. Nothing else."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Move 1 — Before buying another signal, build the ground truth: assemble a labeled dataset of closed opportunities with entry dates, buying-group membership reconstructed retroactively from CRM contacts, calls and email threads, and self-reported \"how did you first hear\" text, then backtest every intent source you already pay for against it. What makes it hard: the labels are sparse, arrive six to eighteen months late, and are contaminated by your own sales outreach, so a vendor that looks predictive is often just detecting accounts your SDRs already touched.\n\nMove 2 — Stop trying to restore deterministic person-to-account resolution and re-specify the problem as account-level probabilistic inference with calibrated uncertainty, using a mixed-effects or hierarchical model over the noisy sources you have rather than a match-or-drop identity graph; I'd explicitly disagree with the reflex to buy more third-party co-op intent, because keyword-surge panels were always low-precision and LLM-mediated research is now removing the very page visits those panels sample. What makes it hard: the output is a distribution, and the sales org wants a name and a phone number, so the model dies politically long before it dies statistically.\n\nMove 3 — Buy signal you can actually instrument by investing in owned surfaces that give people a reason to identify themselves — pricing and sizing calculators, docs and API keys, community, partner and marketplace telemetry, customer-referenceable usage data — and treat that as the primary sensor with third-party data demoted to a prior. What makes it hard: it is a multi-quarter product and content investment judged on quarterly pipeline, and everything it captures is self-selected late-stage demand, so you get sharper signal on people already in-market and still see nothing upstream.",
+          "first_move": "Pull last year's closed deals and check whether the intent data you already buy actually predicted any of them.",
+          "hardest_part": "The signal loss is not a measurement gap you can patch, it is that the observable behavior moved somewhere unobservable, so the honest answer changes what you can promise the business rather than restoring what you had.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 623,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1410,
+            "output_tokens_details": {
+              "thinking_tokens": 707
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Move 1: I would not start by buying more “intent”; I would build a consented first-party benchmark joining CRM opportunities, account hierarchies, product and web events, and sales-confirmed buying-group roles while explicitly retaining unknown identities. Hard: Buying-group membership is latent, CRM labels are incomplete and hindsight-biased, and sales activity contaminates the signal we are trying to measure.\nMove 2: I would model identity and intent as probabilistic, time-decaying account-member graphs, exposing confidence and provenance rather than forcing people, devices, domains, and topics into deterministic account scores. Hard: Shared devices, remote work, job changes, corporate networks, sparse observations, and vendor feedback loops make calibration and entity resolution genuinely unstable.\nMove 3: I would test whether these signals create incremental value through prospective account-level holdouts against simple contextual and account-fit baselines, measuring pipeline quality and lift rather than match rate or engagement. Hard: B2B outcomes are rare and slow, buying groups cross experimental boundaries, and seller interventions make clean causal attribution difficult.",
+          "first_move": "Build a consented benchmark that preserves unknown identities instead of buying another intent feed.",
+          "hardest_part": "The hardest part is obtaining unbiased ground truth for a buying group that is latent, changing, and affected by the marketing and sales actions being evaluated.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 280,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 660,
+            "output_tokens_details": {
+              "reasoning_tokens": 372
+            },
+            "total_tokens": 940
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. Strip out dependence on third-party IP-lookup feeds and re-anchor signal detection entirely to first-party behavioral telemetry on owned assets. What makes it hard: Most B2B brands do not produce enough owned-property traffic to yield statistically significant account clusters without third-party syndication. 2. Operationalize structured qualitative feedback loops within sales and customer success to map shadow committee members directly from buyer conversations. What makes it hard: Frontline reps resist capturing unstructured attribution data reliably, and manual collection cannot scale to broad programmatic workflows. 3. Re-architect the digital experience around interactive, zero-party utility tools that force anonymous committee stakeholders to self-identify and invite colleagues voluntarily. What makes it hard: Building genuine standalone utility requires scarce software engineering resources that marketing organizations rarely control.",
+          "first_move": "Audit and cut spend on third-party intent data vendors that rely on degrading IP resolution.",
+          "hardest_part": "Enterprise buying groups intentionally conduct their early consensus-building inside closed, private channels where external observation is impossible.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 146,
+            "candidatesTokenCount": 234,
+            "totalTokenCount": 1243,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 146
+              }
+            ],
+            "thoughtsTokenCount": 863,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "pseudocode",
+        "label": "Pseudocode",
+        "instruction": "Express the approach as short annotated pseudocode. The comments should carry the reasoning; the code should carry the structure. Around 15 lines."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "```\n# Premise: person-level resolution is gone and isn't coming back. The obvious move —\n# stitch harder, buy a second intent vendor — spends money on a measurement problem.\n# Instead: treat intent as a latent variable with known error, and get honest about the error.\n\nlabels = closed_won + closed_lost + self_reported_attribution + call_notes\n  # small n, but the only unbiased ground truth you own. For calibration, not training.\n\nfor src in [3p_intent, ip_resolution, 1p_web, email, product, community, partner]:\n    spurious_rate = probe(src, known_cold_accounts)   # if it 'detects' intent on accounts\n                                                      # that never touched you, it's imputing, not observing\n    report PPV_at_your_base_rate(src, labels)         # not AUC. ~4% in-market means a 70%-precision\n                                                      # signal is mostly noise. Do this math publicly.\n    kill(src) if PPV_lift < cost_of_a_wasted_seller_hour   # most co-op feeds die here\n\nscrub(traffic, bots + crawlers + agentic_browsers)    # newly acute; LLM agents are inflating 2025 web/intent volume\n\nscore = bayes(prior = ICP_fit + firmographic_trigger, evidence = surviving_signals)\n  # fit and observable triggers (hiring, funding, tech change) are a stronger prior\n  # than any behavioral signal is evidence. Weight accordingly — this is the actual reallocation.\n\ngroup = predict_shape_from(historical_opp_contact_roles by segment, deal_size)\n  # you will never *observe* the buying group. Prescribe its likely composition, make the seller confirm.\n\nroute(account, score, explicit_confidence_band)       # unhedged scores get ignored once they're wrong twice\nlog(seller_disposition)                               # only renewable label supply; feeds back to calibrate()\n```\nWhat I expect to hit: the ground-truth set is too small to calibrate anything below the account level, so buying-group inference stays a hypothesis sellers test rather than a model output. And killing vendor feeds on PPV grounds is a political fight, not a technical one — someone bought that contract.",
+          "first_move": "Take a list of accounts I know were never in market, run them through each intent source, and see how many come back flagged.",
+          "hardest_part": "In-market accounts are rare enough that even a decent-looking signal produces mostly false positives, and there's almost no clean ground truth to prove that either way.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 632,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 2357,
+            "output_tokens_details": {
+              "thinking_tokens": 1477
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "DEFINE target = P(account, buying_group, topic, stage | evidence)  # Preserve uncertainty; do not invent a single intent score\nREJECT universal_ID_as_plan                                # Signal loss is structural, not an enrichment-vendor gap\nMAP decisions_and_labels                                  # Start from sales outcomes and known committee participation\nINSTRUMENT first_party_events                              # Capture content, product, event, email, and CRM activity with consent\nNORMALIZE events -> {time, topic, depth, source, person?}   # Comparable semantics matter more than raw event volume\nRESOLVE person_to_account probabilistically                # Keep competing matches; never force ambiguous identities\nINFER role_distribution(person)                            # Champion, evaluator, user, finance, security, or unknown\nGROUP evidence by {account, topic, time_window}             # Buying groups form around initiatives, not static account charts\nWEIGHT evidence by specificity, recency, independence       # Ten syndicated copies should not look like ten signals\nMODEL background_rate(account, segment, channel)            # Separate ordinary research from unusual coordinated behavior\nESTIMATE posterior + confidence                             # Expose missingness and identity uncertainty to activation systems\nACTIVATE only when expected_value > contact_cost            # Low-confidence signals should change bids, not trigger SDR spam\nRANDOMIZE holdouts and outreach timing                      # Observational attribution will overstate intent performance\nMEASURE lift in qualified progression, not meetings alone   # Optimize pipeline quality and buying-group coverage\nAUDIT drift, consent, bias, and seller feedback             # Expect sparse labels, long cycles, and irreducible blind spots",
+          "first_move": "I would map the decisions this signal must improve and identify the outcome data available to test it.",
+          "hardest_part": "The hardest part is obtaining unbiased ground truth for who belonged to a buying group and when intent genuinely began.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 283,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 592,
+            "output_tokens_details": {
+              "reasoning_tokens": 203
+            },
+            "total_tokens": 875
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "def evaluate_buying_group_momentum(account_domain, window_days):\n    # 1. Stop relying on 3rd-party IP lookups; VPNs, ZTNA, and Private Relay make reverse-DNS mostly noise\n    first_party_anchors = get_deterministic_touchpoints(account_domain, window_days) # docs, signups, invites\n    \n    # 2. Buying group research has shifted to LLMs and private communities; accept we cannot track the search query\n    # Instead, track downstream artifacts: sudden consumption of technical/pricing assets across distinct subnets\n    consumption_spikes = detect_aggregate_read_patterns(account_domain, asset_types=[\"security\", \"pricing\", \"api_docs\"])\n    \n    # 3. Rather than stitching pseudo-anonymous cookies to personas, model intent as multi-role arrival synchronization\n    buying_group_coherence = correlate_cross_role_activity(first_party_anchors, consumption_spikes)\n    \n    # 4. If signals are sparse, reject the urge to hallucinate intent with probabilistic 3rd-party graphs\n    if buying_group_coherence.entropy > NOISE_TOLERANCE:\n        return IntentState(verdict=\"UNCERTAIN\", score=0.0)\n        \n    # 5. Output a decaying momentum score tied to internal velocity rather than a static buying-stage tag\n    return calculate_velocity_anomaly(buying_group_coherence)",
+          "first_move": "Measure how many recent closed-won deals actually showed third-party intent signals before they talked to sales.",
+          "hardest_part": "Most enterprise buying research now happens inside private chats, vendor sandboxes, and LLMs that emit zero external network telemetry.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 150,
+            "candidatesTokenCount": 418,
+            "totalTokenCount": 1178,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 150
+              }
+            ],
+            "thoughtsTokenCount": 610,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "checklist",
+        "label": "A checklist",
+        "instruction": "Give a checklist someone could actually run next quarter. Each item concrete enough to be marked done or not done. Six items at most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "My honest position first: the industry's default answer — buy more third-party intent, layer on a CDP, do better identity resolution — is mostly rebuilding a surveillance pipeline that is degrading faster than you can patch it. IP-to-account resolution is broken by remote work, CGNAT, corporate VPNs and Private Relay; co-op intent is a black box you can't audit; and an increasing share of early research now happens inside an LLM where there is no signal to lose because there was never a pageview. I would stop trying to reconstruct the account journey from residue and instead do three things: audit what your current signal is actually worth, manufacture declared signal you own, and switch measurement from attribution to incrementality so you stop needing person-level tracking to make budget decisions. Expect the fight to be political, not technical.\n\nChecklist for the quarter:\n\n1. **Run a back-test on every intent source you pay for.** Take closed-won and closed-lost opps from the last four quarters, pull what each vendor flagged for those accounts in the 90 days before opportunity creation, and compute precision/recall against a random-account baseline. Done = a one-page lift table per vendor. Expect at least one vendor to be at or below base rate, and expect them to resist giving you the evidence to check. Cancel accordingly at renewal.\n\n2. **Build a deterministic account graph from email domain only, and publish the coverage number.** Join every first-party touchpoint you control — webinar regs, trials, docs logins, community, support tickets, Gong/Chorus call participants, calendar invites — on corporate email domain. No probabilistic stitching. Done = a weekly number: % of active-opportunity accounts with ≥1 deterministic touch in the last 30 days. That number is your real signal floor. It will be lower than you expect.\n\n3. **Get the buying group from sellers, not from inference.** Make contact roles a required field to advance an opp past stage 2, and mine call transcripts for named-but-not-in-CRM people (\"I'll need to run this past our CISO\"). Done = 70% of open opps above $X have ≥3 named roles. This is the least sexy item on the list and by far the highest yield — behavioral inference of a buying group is mostly a guess dressed up as a model, while the rep literally knows the names.\n\n4. **Ship two value-for-data assets that require a work email to be useful.** Benchmark assessment, ROI/pricing configurator, security package, private community. Not gated PDFs. Done = both live, with signal-yield-per-visitor measured against the ungated baseline. Warning: this depresses raw lead volume, so get the goal metric changed to account coverage *before* you launch or finance will kill it in month two.\n\n5. **Run one randomized account holdout.** Take a matched target list, withhold 15–20% from paid and outbound for a full quarter, measure pipeline delta at the account level. Done = a written readout with a confidence interval. This is how you make budget decisions without signal — you stop needing to observe the journey if you can observe the causal delta. The obstacle is entirely political: someone has to agree to not market to accounts.\n\n6. **Instrument the dark channels you can't track, crudely and on purpose.** Required free-text \"what prompted you to reach out\" on demo requests, plus a monthly scripted prompt panel checking whether you surface in LLM answers for your top 20 buying questions, plus branded search volume as a lagging proxy. Done = three months of trend lines. Accept that this is directional, never attributable, and say so out loud before someone asks you to attribute it.",
+          "first_move": "Back-test your existing intent vendors against last year's closed deals to see if they beat random.",
+          "hardest_part": "A buying group is a social fact that mostly happens off your properties, so no amount of better tracking recovers it — you have to get it declared by someone who was in the room.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 626,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 2541,
+            "output_tokens_details": {
+              "thinking_tokens": 1247
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "- [ ] **Define one narrow decision and success label.** Pick a single use case—such as prioritizing accounts for SDR outreach—and document the prediction window, buying-group definition, opportunity-stage outcome, and acceptable false-positive rate.\n- [ ] **Build a signal-loss inventory.** For every current intent source, record provenance, coverage, latency, consent basis, account-match rate, historical availability, and correlation with pipeline; quantify where loss is occurring rather than treating “intent” as one metric.\n- [ ] **Create a first-party event spine.** Join consented web, product, event, content, CRM, and sales-interaction events using stable first-party identifiers, timestamps, and source metadata; publish weekly coverage and match-rate reports.\n- [ ] **Model account and buying-group membership with uncertainty.** Produce person-to-account and person-to-role mappings with confidence scores, temporal validity, and an explicit “unresolved” state; do not force every contact into an account or infer a committee from job titles alone.\n- [ ] **Run an account-level incrementality test.** Compare the existing approach, a first-party-only score, and any vendor-enriched score using randomized account holdouts; measure lift in qualified opportunities and pipeline, not clicks, content consumption, or score agreement.\n- [ ] **Make a quarter-end go/no-go decision.** Document which signals added out-of-sample lift, which merely expanded coverage, where privacy or identity constraints remain, and what should be stopped; I would not default to buying more third-party intent because additional opaque signals can amplify resolution errors without restoring buying-group observability.",
+          "first_move": "Choose one activation decision and define the downstream revenue outcome it must improve.",
+          "hardest_part": "The genuinely hard part is validating whether anonymous activity belongs to the right account and current buying group without turning uncertain identity inference into false precision.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 282,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 623,
+            "output_tokens_details": {
+              "reasoning_tokens": 224
+            },
+            "total_tokens": 905
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. Audit your current reverse-IP intent data by comparing vendor account matches against your last 50 closed-won opportunities to measure false-positive and miss rates. 2. Implement an open-text 'How did you hear about us?' field on all primary conversion forms to capture unmeasured dark social and peer referral signals. 3. Strip gates off top-of-funnel content and redirect gating strictly to high-intent assets like interactive ROI models or technical sandboxes that require a verified work email. 4. Instrument server-side analytics on pricing and documentation pages to track behavioral velocity rather than relying on third-party domain-matching cookies. 5. Build an internal cross-functional log where sales reps document buying group members discovered during discovery calls who never appeared in marketing analytics. 6. Stop using aggregate vendor intent scores for automated ad spend or SDR alerting until verified against first-party match accuracy.",
+          "first_move": "Compare what your intent tools claimed about your last 50 closed deals against what those buyers actually did.",
+          "hardest_part": "Most genuine B2B buying consensus happens across private channels and internal workspaces that leave no public digital trace for vendors to capture.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 148,
+            "candidatesTokenCount": 266,
+            "totalTokenCount": 1194,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 148
+              }
+            ],
+            "thoughtsTokenCount": 780,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "fifty-words",
+        "label": "Fifty words",
+        "instruction": "Fifty words or fewer. No preamble, no caveats. The compression is the point: keep only what you would keep if you could keep one thing."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Stop rebuilding identity. Treat account demand as a latent state inferred from sparse noisy evidence — first-party engagement, self-reported account on forms, deal outcomes — with a model that decays and quantifies uncertainty. Validate against closed-won, not click-through. Expect IP resolution to keep rotting and buying groups to stay unobservable; size effort accordingly.",
+          "first_move": "Check how much of our own pipeline we can retroactively predict from signals we already own.",
+          "hardest_part": "There's no ground truth for a buying group, so any model you build can only be validated against outcomes that arrive too late and too rarely.",
+          "confidence": "low",
+          "usage": {
+            "input_tokens": 630,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 378,
+            "output_tokens_details": {
+              "thinking_tokens": 156
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Reject replacing third-party feeds. Build a privacy-safe event spine across CRM, product, web, content, and partners; infer accounts and roles probabilistically; test incremental pipeline lift, not historical opportunity correlation alone.",
+          "first_move": "Inventory surviving consented signals and observable buying-group outcomes.",
+          "hardest_part": "Separating genuine demand formation from sales-activity exhaust.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 287,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 1466,
+            "output_tokens_details": {
+              "reasoning_tokens": 1377
+            },
+            "total_tokens": 1753
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Stop trying to resurrect dying third-party IP matching. I would pivot entirely to first-party product telemetry and authenticated community engagement, clustering unlinked individual behaviors into probable buying groups based on concurrent technical actions rather than shared network metadata.",
+          "first_move": "Audit our product logs to find where multiple people collaborate before a purchase.",
+          "hardest_part": "Distinguishing real organizational buying interest from one employee's isolated curiosity when everyone works remotely.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 151,
+            "candidatesTokenCount": 112,
+            "totalTokenCount": 915,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 151
+              }
+            ],
+            "thoughtsTokenCount": 652,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "haiku",
+        "label": "A haiku",
+        "instruction": "Three lines, 5-7-5 syllables. A severe constraint on a serious problem: what survives the compression is what you actually think matters most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Stop chasing the click —\nask them who is in the room,\nthen test against wins.",
+          "first_move": "Pull last year's won and lost deals and check whether the intent signals we already pay for actually showed up before them.",
+          "hardest_part": "Most of a buying group never identifies itself, so account-level intent is an inference you can't validate — and the only ground truth we have, CRM contact roles, is filled in badly after the fact.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 631,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 907,
+            "output_tokens_details": {
+              "thinking_tokens": 754
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Start with known buyers\nStitch weak clues, then test for lift\nExpect some blind spots",
+          "first_move": "Start with known buyers.",
+          "hardest_part": "Identity loss makes buying-group inference uncertain and hard to validate.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 288,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 578,
+            "output_tokens_details": {
+              "reasoning_tokens": 516
+            },
+            "total_tokens": 866
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Stop chasing false ghosts\nMake tools buyers freely use\nEarn their open names",
+          "first_move": "Measure how rarely our existing intent alerts actually match the accounts that end up buying.",
+          "hardest_part": "Most of the real buying conversation happens across private channels and fragmented groups where software simply cannot watch.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 153,
+            "candidatesTokenCount": 87,
+            "totalTokenCount": 1587,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 153
+              }
+            ],
+            "thoughtsTokenCount": 1347,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "lullaby",
+        "label": "A lullaby",
+        "instruction": "Write it as a short lullaby: three or four gentle rhyming couplets someone could actually sing. Soft on the surface, honest underneath. The problem is still unsolved when the song ends, and the song should know it."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Hush now, the cookies have gone to their rest,\nthe IP that named you was only a guess.\n\nSleep, little pipeline — we'll count what we see:\nthe docs and the demos, the logged-in, the free.\n\nDon't buy the dream that a vendor will sell;\ntheir signal's as tired, they just hide it well.\n\nWe'll model the shadow, admit what we lack,\nand sing this again when the buyers come back.\n\n(Sung plainly: I'd stop trying to rebuild person-level tracking and instead treat account intent as a latent variable with a handful of honestly-observed, first-party indicators — product logins, docs and pricing pages, event scans, what reps actually hear — fit against closed-won history, reported weekly at account level with error bars wide enough to be true. The obvious answer, buying third-party intent, mostly launders someone else's decaying panel into false precision; I'd rather have a coarse number I can audit. The buying group stays partly invisible either way, and the song knows it.)",
+          "first_move": "Pull last year's closed deals and check which signals we can still actually observe showed up before them, and how early.",
+          "hardest_part": "The buying group is anonymous by design and we never see ground truth on who actually influenced the deal, so a bad model and a blind sensor look identical from the dashboard.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 655,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1125,
+            "output_tokens_details": {
+              "thinking_tokens": 670
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Hush, gather first-party traces where consent and context meet,\nThen map them to accounts and roles, with confidence incomplete.\n\nDon’t call each click “intent,” nor make one person the whole,\nTest topic, timing, and momentum for each buying role.\n\nUse clean-room partners carefully, with holdouts burning bright,\nAnd judge by incremental pipeline—not scores that look just right.\n\nSome groups will stay hidden; some signals will be gone,\nWe’ll learn where inference helps, while the unsolved sleeps on.",
+          "first_move": "I would audit which consented first-party signals still predict buying-group progression in holdout tests.",
+          "hardest_part": "The hardest part is distinguishing real group-level intent from identity errors, ordinary research, and signals produced by our own marketing.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 304,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 414,
+            "output_tokens_details": {
+              "reasoning_tokens": 234
+            },
+            "total_tokens": 718
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Hush now, close the browser pane, third-party cookies wash away like rain. We chase quiet ghosts across the floor, while buying committees read behind a closed door. We stitch small fragments of who came by, and whisper patterns that might be a lie. Sleep now, dream of the missing trace, still lost in the fog of a walled-off space.",
+          "first_move": "I would measure how many closed-won deals had zero recorded web activity prior to their first sales conversation.",
+          "hardest_part": "Real B2B buying decisions happen inside private messages, word-of-mouth networks, and gated communities where no tracking script can follow.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 168,
+            "candidatesTokenCount": 157,
+            "totalTokenCount": 912,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 168
+              }
+            ],
+            "thoughtsTokenCount": 587,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    }
+  ]
+}
