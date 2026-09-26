@@ -17,7 +17,7 @@
       "label": "Claude",
       "batch": true,
       "models": {
-        "bulk": "claude-haiku-4-5",
+        "bulk": "claude-haiku-4-5-20251001",
         "grounded": "claude-sonnet-5",
         "reasoning": "claude-opus-5"
       }
@@ -52,8 +52,8 @@
     "_note": "Three ungrounded samples give a variance band; a single number reported to two decimals from one sample is not credible. The grounded pass runs once because search results move less between samples and it is the expensive tier."
   },
   "budget": {
-    "max_run_usd": 3.0,
-    "max_rolling_7d_usd": 15.0,
+    "max_run_usd": 3,
+    "max_rolling_7d_usd": 15,
     "_note": "Projected cost of a run is computed before any API call and the run refuses to start if it exceeds max_run_usd. This is the primary guard: it needs no history, so it works on a first run, and it catches the failure mode where a run submits far more work than intended. A steady-state night projects around $1.00, so 3.00 leaves headroom for a legitimate two-day backfill while still stopping a seven-day stampede. max_rolling_7d_usd is the secondary guard, computed from recorded usage; it catches gradual drift and price rises but is blind to runs whose results never persisted."
   },
   "pricing": {
@@ -62,37 +62,41 @@
       "batch_discount": 0.5,
       "search_per_call": 0.01,
       "claude-haiku-4-5": {
-        "in": 1.0,
-        "out": 5.0
+        "in": 1,
+        "out": 5
       },
       "claude-sonnet-5": {
-        "in": 2.0,
-        "out": 10.0
+        "in": 2,
+        "out": 10
       },
       "claude-opus-5": {
-        "in": 5.0,
-        "out": 25.0
+        "in": 5,
+        "out": 25
+      },
+      "claude-haiku-4-5-20251001": {
+        "in": 1,
+        "out": 5
       }
     },
     "openai": {
-      "batch_discount": 1.0,
+      "batch_discount": 1,
       "search_per_call": 0.01,
       "gpt-5.6-luna": {
         "in": 0.2,
         "out": 1.2
       },
       "gpt-5.6-terra": {
-        "in": 2.0,
-        "out": 12.0
+        "in": 2,
+        "out": 12
       },
       "gpt-5.6-sol": {
-        "in": 3.0,
-        "out": 15.0
+        "in": 5,
+        "out": 30
       }
     },
     "google": {
-      "batch_discount": 1.0,
-      "search_per_call": 0.0,
+      "batch_discount": 1,
+      "search_per_call": 0,
       "gemini-3.5-flash-lite": {
         "in": 0.3,
         "out": 2.5
@@ -102,8 +106,8 @@
         "out": 3.75
       },
       "gemini-3.7-flash": {
-        "in": 1.5,
-        "out": 7.5
+        "in": 0.75,
+        "out": 3.75
       }
     }
   },
