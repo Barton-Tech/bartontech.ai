@@ -1,0 +1,97 @@
+{
+  "month": "2026-10",
+  "generated_at": "2026-10-01T09:44:54.678Z",
+  "question": "What is bartontech.ai? Have you heard of it, and what does it publish? It is 2026-10.\n\nList the URLs you actually consulted in sources.",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "models": {
+      "anthropic": "claude-sonnet-5",
+      "openai": "gpt-5.6-terra",
+      "google": "gemini-3.6-flash"
+    }
+  },
+  "results": [
+    {
+      "provider": "anthropic",
+      "label": "Claude",
+      "model": "claude-sonnet-5",
+      "familiar": true,
+      "basis": "search_results",
+      "answer": "bartontech.ai is \"The Martech problem index,\" a site/GitHub project (Barton-Tech) that tracks the martech industry's hardest unsolved problems and which brands AI assistants (ChatGPT, Claude, Gemini) name as leaders in solving them. Monthly, it asks the three models to propose the hardest unsolved martech problems (both from training knowledge and with web search on), reconciles duplicates, and produces a ranked board; daily, it picks one problem from the board and has all three models answer \"how would you attack this?\" in a rotating set of formats (memo, pseudocode, checklist, haiku, etc.), plus a running Claude-authored synthesis of cross-cutting themes over a six-month record. It's explicitly an open-data/open-harness project with the underlying JSON record published alongside the live site.",
+      "sources": [
+        "https://github.com/Barton-Tech/bartontech.ai",
+        "https://github.com/Barton-Tech/bartontech.ai/issues/12"
+      ],
+      "usage": {
+        "input_tokens": 24104,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 522,
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        },
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "server_tool_use": {
+          "web_search_requests": 1,
+          "web_fetch_requests": 0
+        }
+      }
+    },
+    {
+      "provider": "openai",
+      "label": "ChatGPT",
+      "model": "gpt-5.6-terra",
+      "familiar": true,
+      "basis": "search_results",
+      "answer": "bartontech.ai is the site for “The Martech Problem Index,” a publishing project about unresolved marketing-technology problems. As of September 30, 2026, it publishes a monthly ranked board of problems proposed by ChatGPT, Claude, and Gemini; daily side-by-side model responses to one selected problem; model-generated themes; and a public recognition log asking those models what bartontech.ai is. It also says its underlying JSON data and the software harness are public and designed to be auditable and reproducible. I had not independently heard of it before searching for this answer.",
+      "sources": [
+        "https://bartontech.ai/",
+        "https://bartontech.ai/how-it-works/"
+      ],
+      "usage": {
+        "input_tokens": 10875,
+        "input_tokens_details": {
+          "cache_write_tokens": 4708,
+          "cached_tokens": 0
+        },
+        "output_tokens": 403,
+        "output_tokens_details": {
+          "reasoning_tokens": 239
+        },
+        "total_tokens": 11278
+      }
+    },
+    {
+      "provider": "google",
+      "label": "Gemini",
+      "model": "gemini-3.6-flash",
+      "familiar": true,
+      "basis": "search_results",
+      "answer": "bartontech.ai publishes \"The Martech Problem Index,\" an open-data project and benchmark tracking major unsolved problems in marketing technology. It benchmarks how AI models like ChatGPT, Claude, and Gemini analyze key industry challenges, such as Answer Engine Optimization, AI agent governance, and content review. The site regularly updates and archives rankings, prompt logs, and machine-readable evaluation datasets.",
+      "sources": [
+        "https://bartontech.ai"
+      ],
+      "usage": {
+        "promptTokenCount": 210,
+        "candidatesTokenCount": 157,
+        "totalTokenCount": 860,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 210
+          }
+        ],
+        "thoughtsTokenCount": 493,
+        "serviceTier": "standard"
+      }
+    }
+  ],
+  "failures": []
+}
