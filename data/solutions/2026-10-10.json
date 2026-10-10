@@ -1,0 +1,573 @@
+{
+  "date": "2026-10-10",
+  "month": "2026-10",
+  "board_month": "2026-10",
+  "board_rank": 7,
+  "generated_at": "2026-10-10T12:59:24.101Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1
+  },
+  "problem": {
+    "canonical_id": "genai-content-governance",
+    "canonical_name": "Governance and Review of Generative Marketing Content at Volume",
+    "plain": "checking AI-written marketing before it ships"
+  },
+  "default_format": "three-moves",
+  "formats": [
+    {
+      "format": {
+        "id": "cmo-memo",
+        "label": "A memo to a CMO",
+        "instruction": "Write it as a short internal memo to a chief marketing officer. Plain language, no jargon they would have to look up. Around 120 words."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Memo — reviewing AI content at volume\n\nThe obvious move is to build an AI checker. I don't think that works. The things review catches are judgment calls, and a model that writes the copy is the wrong thing to audit it.\n\nI'd attack the other end: constrain what can be generated. Build a claims library — every performance claim we're allowed to make, with its approved source. Generation draws only from that set. Review becomes a lookup, not an argument. Same for assets: if it isn't in the cleared library, it can't be used.\n\nWe capture provenance at the moment of creation, in our own system, since C2PA won't survive the ad pipeline. And we disclose broadly rather than wait for guidance.\n\nExpect this to break on paraphrase — the model restating an approved claim into an unapproved one. That's the real research problem, and I'd staff human review there specifically.",
+          "first_move": "Get our approved claims and their evidence into one list that generation can actually read.",
+          "hardest_part": "A model can restate an approved claim in words that quietly change what it promises, and no automated check reliably notices.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 976,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 560,
+            "output_tokens_details": {
+              "thinking_tokens": 188
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "**To: CMO**\n**Subject: Scaling review of AI marketing**\n\nI would not start by building an “AI reviewer.” Its confident mistakes would create more risk, not less. I would first limit generation to approved claims, sources, assets, disclosures, and templates, with every output carrying links to that evidence.\n\nThen I would route work by risk: automate exact checks such as required wording, expired licenses, missing evidence, and prohibited terms; keep people accountable for claim meaning, brand meaning, and regulated content. High-risk outputs should require named approval, while low-risk variations can be sampled after release.\n\nI would pilot this in one channel and measure reviewer time, rejected content, and errors that reach market. Provenance will help internally, but cannot be trusted to survive distribution. August 2026 is the scheduled EU deadline, so disclosure rules must remain configurable as guidance develops.",
+          "first_move": "Build a controlled library of approved claims, evidence, assets, and disclosures.",
+          "hardest_part": "The hardest part is deciding whether a claim’s meaning is truly supported when context, audience, and regulation change.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 489,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 482,
+            "output_tokens_details": {
+              "reasoning_tokens": 234
+            },
+            "total_tokens": 971
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "The obvious pitch—building an AI tool to police our AI creative—won't work. Software cannot reliably judge whether a performance claim carries regulatory liability or fits brand intent. Instead of trying to review infinite text after generation, I would flip the model. We should restrict the generator so it only drafts by assembling pre-approved, substantiated claim components and cleared assets, rather than writing freely from scratch. For delivery, we must stop treating every asset the same. We sort creative into strict risk tiers: high-liability messages keep mandatory human legal review, while low-stakes channel copy shifts to post-publish spot checks. We have to accept throughput limits until we narrow what the models are allowed to invent.",
+          "first_move": "Audit six months of human review rejections to catalog the exact claim types and legal risks our reviewers actually flag.",
+          "hardest_part": "Teaching software to recognize when a plausible-sounding marketing claim has drifted past what legal evidence can actually defend.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 369,
+            "candidatesTokenCount": 218,
+            "totalTokenCount": 1327,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 369
+              }
+            ],
+            "thoughtsTokenCount": 740,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "three-moves",
+        "label": "Three moves",
+        "instruction": "Give exactly three moves, in order. One sentence each, then one sentence on what makes that move hard. Nothing else."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Move 1 — Invert the problem: instead of reviewing output, constrain input by building a registry of pre-cleared claims, assets, and licensing scopes with stable IDs, and require generation to compose from those atoms so substantiation becomes a retrieval link rather than a post-hoc adjudication. What makes it hard: claims are context-dependent (true for one market, SKU version, or audience and false for another), the registry decays fast, and the moment it adds friction people will generate around it — so the registry has to be the fastest path to a shipped asset, not a gate on it.\n\nMove 2 — Give up on an automated compliance verdict, which is the obvious and wrong ask, and build instead a high-recall novelty detector whose only job is to flag \"this asset asserts something not traceable to the registry\" and route that to a human, accepting a bad false-positive rate at first. What makes it hard: the claims that actually create liability are usually implied by the juxtaposition of image, headline, and superlative rather than stated outright, and entailment detection at that level is genuinely unreliable — plus the economics only work if escalation volume drops below current review volume, which you cannot assume before measuring.\n\nMove 3 — Move disclosure and provenance enforcement from the asset to the publishing boundary: a gate in your own ad-serving and social-publishing pipeline that applies visible, policy-consistent disclosure and writes an immutable audit record of what was generated, what it was substantiated against, who approved it, and where it ran. What makes it hard: you don't control downstream rendering or metadata stripping, visible disclosure measurably hurts performance so there is real internal pressure against it, and \"adequate\" under the AI Act is unsettled — so the honest goal is a defensible, logged, consistently applied policy you can revise, not compliance you can certify.",
+          "first_move": "Start cataloguing the claims and assets that have already been cleared, and give each one an ID the generation system can point to.",
+          "hardest_part": "The things review actually catches are implied rather than stated, and no current system reliably detects a claim that emerges from the combination of an image and a headline.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 966,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1397,
+            "output_tokens_details": {
+              "thinking_tokens": 686
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "1. I would not start with a universal checker; I would constrain generation around versioned, approved evidence, claims, rights, audience, jurisdiction, and brand-meaning objects, requiring every output to produce a machine-readable claim-and-provenance ledger or abstain.\nWhat makes this hard is that approved source material rarely expresses the permitted inference boundaries, licensing scope, or contextual brand meaning needed for that ledger.\n2. I would build a risk-tiered review system that combines deterministic policy rules, evidence-grounded model checks, adversarial evaluations, and calibrated abstention, then validate it in shadow mode against MLR, legal, and brand reviewers before allowing only narrow low-risk classes to auto-clear.\nWhat makes this hard is that reviewer judgments are sparse, inconsistent, and jurisdiction-dependent, so apparent checker accuracy can conceal dangerous false approvals.\n3. I would attach durable content IDs to creative and carry disclosure, approval, source, transformation, and delivery records in an external audit ledger, treating C2PA as one input rather than assuming downstream platforms preserve it.\nWhat makes this hard is that ad and social platforms transform assets, discard metadata, and expose too little delivery context while disclosure requirements remain unsettled.",
+          "first_move": "Constrain generation to approved evidence, claims, rights, and policy inputs before trying to automate review.",
+          "hardest_part": "The hardest problem is defining defensible semantic boundaries when source material, reviewer judgments, platform behavior, and regulation are all incomplete or unstable.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 480,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 717,
+            "output_tokens_details": {
+              "reasoning_tokens": 400
+            },
+            "total_tokens": 1197
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. Restrict the generation pipeline to assembling pre-approved, legally cleared claim components rather than producing freeform copy. Creative teams fundamentally resist this because it feels like a regression to traditional dynamic creative optimization rather than true generative AI. 2. Build a deterministic claim extractor that maps output assertions back to a verified substantiation library and rejects anything that lacks a direct citation. Natural language creates implied promises and subtle regulatory exposures through context and tone that automated semantic parsers consistently miss. 3. Shift compliance from mandatory pre-flight review to statistical post-publish sampling paired with automated delivery kill-switches. Regulated-industry legal teams operate on zero-tolerance liability models and flatly reject accepting probabilistic risk.",
+          "first_move": "Restrict the model to assembling pre-approved claims rather than writing freeform marketing text.",
+          "hardest_part": "Marketing copy creates implied regulatory and factual promises through tone and context that automated checkers cannot detect and compliance teams cannot excuse.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 358,
+            "candidatesTokenCount": 216,
+            "totalTokenCount": 1697,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 358
+              }
+            ],
+            "thoughtsTokenCount": 1123,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "pseudocode",
+        "label": "Pseudocode",
+        "instruction": "Express the approach as short annotated pseudocode. The comments should carry the reasoning; the code should carry the structure. Around 15 lines."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "# Premise I'd argue with: the obvious move is an LLM reviewer that scores drafts. It fails\n# exactly where review earns its keep, and fails quietly. Invert it — govern the inputs, not the output.\n\nCLAIM_LEDGER = {claim_id: {text, substantiation_doc, market, expiry, approved_by}}\n# ^ the actual product. Reviewers catch claims because they know what was already cleared; that knowledge is tribal today.\nASSET_LEDGER = {asset_id: {license_scope(channel, geo, term), training_provenance, talent_release}}\n# ^ built by hand from contracts first. Don't NLP your way into a rights position you'd have to defend.\n\ndef generate(brief):\n    allowed = retrieve(CLAIM_LEDGER, brief.market, brief.channel)   # constrain generation; auditing after the fact is the trap\n    draft   = model(brief, grounded_in=allowed, assets=ASSET_LEDGER.eligible(brief))\n    return draft.with_bindings()   # every assertive sentence carries a claim_id, or it isn't allowed to be assertive\n\ndef gate(draft):\n    unbound = [s for s in draft.sentences if s.is_assertive() and not s.claim_id]\n    # cheap \"is this a claim\" classifier; tune for false positives — they cost a review, misses cost a consent decree\n    if unbound or expired(draft.claim_ids) or out_of_scope(draft.asset_ids): return HUMAN\n    if draft.channel in REGULATED: return HUMAN   # MLR/FINRA is an attestation, not a detection problem. Never automate a signature.\n    return AUTO + SAMPLE(rate = f(historical_reviewer_disagreement))   # sampling rate is earned per claim-type, not set globally\n\ndef disclose(draft, channel):\n    render_visible_label(draft, channel.rules)   # discharge on the surface, in-copy/in-pixel. C2PA won't survive ad serving; keep it internally as evidence, not as compliance\n    log(draft.bindings, model_version, approver, timestamp)   # the evidence file is what you actually owe a regulator in 2026\n\n# Expected to hit: brand *meaning* stays human. I'd train drift scoring on a corpus of rejected work rather than a guideline deck,\n# and let it rank for review only — never block. Licensing scope stays unsolved until contracts are structured at signature.\n# Honest read: this doesn't remove the human, it moves them upstream to approve claims once instead of creatives a thousand times.\n# Ceiling is therefore the rate at which legal will pre-clear claims, which is a political problem, not a technical one.",
+          "first_move": "Go pull the last six months of review rejections and sort them by what the reviewer actually caught, because that list defines what you're building.",
+          "hardest_part": "The things review catches are judgments about meaning, scope and substantiation that were never written down anywhere a machine can read, so the work is mostly creating that record, not modelling it.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 975,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 2322,
+            "output_tokens_details": {
+              "thinking_tokens": 1262
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "approved_corpus = version_sources(labels, studies, contracts, policies)  # Review must anchor to evidence valid for market, channel, and date.\ntaxonomy = mine_prior_reviews()  # Start with what reviewers actually reject, not a generic “brand safety” checklist.\nrisk = classify(asset, jurisdiction, product, audience, channel)  # Low-risk variants should not inherit regulated-content workflows.\nclaims = extract_explicit_and_implied_claims(asset)  # Implied performance and comparison claims are usually the harder cases.\nevidence = retrieve_support(claims, approved_corpus)  # Retrieval narrows review; it does not prove substantiation.\nclaim_status = adjudicate(claims, evidence, thresholds)  # Return supported, contradicted, ambiguous, or unsupported—never invent support.\nregulatory_flags = run_versioned_rules(asset, risk)  # MLR, FINRA, and EU requirements need counsel-owned rules by ship date.\nrights_flags = verify_assets_against_license_scope(asset, intended_use)  # Missing lineage or ambiguous model-training rights should force abstention.\nbrand_flags = compare_meaning(asset, approved_examples, prohibited_implications)  # Use models for triage, not as final arbiters of brand semantics.\ndisclosure = render_channel_specific_notice(risk)  # Do not assume C2PA metadata survives ad-serving or social distribution.\nprovenance = persist_manifest_plus_delivery_log(asset)  # Keep an auditable sidecar even when downstream platforms strip metadata.\ndecision = policy_engine(claim_status, regulatory_flags, rights_flags, brand_flags)  # Automate clear passes and blocks; preserve uncertainty.\nqueue = route_by_risk_and_reason(decision)  # Humans receive evidence, highlighted spans, and one bounded question—not the whole asset cold.\nfeedback = capture_reviewer_outcome_and_rationale(queue)  # Disagreements become test cases; they are not blindly treated as labels.\nmeasure(false_clearance, reviewer_time, abstention, incident_rate)  # Pilot narrowly and stop expansion if speed improves by hiding risk.",
+          "first_move": "I would collect a representative set of past approvals, rejections, and reviewer explanations.",
+          "hardest_part": "The hardest part is deciding whether an implied claim is adequately supported when evidence, legal interpretation, audience perception, and intended use are all context-dependent.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 483,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 863,
+            "output_tokens_details": {
+              "reasoning_tokens": 356
+            },
+            "total_tokens": 1346
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "# 1. Stop doing post-hoc text review; LLM-as-judge compounds hallucination risk\ndef govern_campaign(creative_brief, audience_spend_tier):\n    # 2. Invert generation: model may only assemble pre-cleared, signed claim-tokens\n    approved_claim_tokens = legal_registry.pull_verified_claims(creative_brief.product)\n    draft = model.synthesize_connective_tissue(creative_brief, approved_claim_tokens)\n    # 3. Deterministic AST parse: extract semantic claims vs rhetorical filler\n    extracted_claims, style_layer = semantic_parser.extract_propositions(draft)\n    # 4. Binary check on claims; failure here drops to human MLR instantly\n    if not claims_registry.substantiates_all(extracted_claims, approved_claim_tokens):\n        return route_to_legal(draft, reason='unanchored_performance_claim')\n    # 5. Watermarking metadata is stripped by ad networks; force burned-in disclosures\n    rendered_asset = compositor.burn_visible_ai_disclosure(draft, creative_brief.target_region)\n    # 6. Route ambiguous tone/brand-drift strictly by blast radius (budget * audience risk)\n    if audience_spend_tier.expected_impressions > RISK_CEILING:\n        return route_to_brand_lead(rendered_asset, diff_only=style_layer)\n    return dispatch_to_ad_server(rendered_asset)",
+          "first_move": "Collect two years of past legal review rejections and map the exact factual claims compliance actually blocked versus what they let through.",
+          "hardest_part": "Marketing works by implying claims without explicitly stating them, so an asset can cross legal boundaries through subtext and tone even when every literal word is verified.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 362,
+            "candidatesTokenCount": 429,
+            "totalTokenCount": 2232,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 362
+              }
+            ],
+            "thoughtsTokenCount": 1441,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "checklist",
+        "label": "A checklist",
+        "instruction": "Give a checklist someone could actually run next quarter. Each item concrete enough to be marked done or not done. Six items at most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Premise I'd push back on first: the industry keeps trying to build a better checker, and that's the wrong end of the pipe. You cannot reliably adjudicate a claim after the fact against a corpus that doesn't exist in machine-readable form. The leverage is in constraining generation so that most of what review used to catch can't be produced, and in making the residual human review faster per asset rather than rarer. Everything below follows from that.\n\n1. Rejection taxonomy baseline (4 weeks). Pull 300-500 assets your reviewers rejected or amended in the last two quarters. Classify each by what was actually caught: unsubstantiated claim, wrong claim scope/market, rights problem, regulated-language problem, brand-meaning problem, disclosure problem, typo/surface. Log reviewer-minutes per asset per type. DONE = a table showing catch rate and cost by category. Expect the result to be uncomfortable: a large share will be surface and scope issues that were never worth a human, and a small share will be exactly the semantic judgments nothing can automate. That split sets your whole roadmap, and almost nobody has measured it.\n\n2. Machine-readable claims registry. Every claim marketing is permitted to make, as a record: claim ID, exact permitted phrasings, evidence document, substantiation expiry date, market and product scope, approving owner. This is a content-ops and legal project, not an AI project, and it's the real blocker. DONE = N claims live behind an API, with a named owner and an expiry process. If you only do one thing this quarter, do this.\n\n3. Bind generation to the registry. The pipeline may only emit performance/comparative/regulated claims by retrieving registry entries; generated assets carry the claim IDs and source asset IDs as structured fields in your DAM, not as C2PA metadata you know will be stripped. Anything that asserts a claim with no binding cannot reach a publish queue. DONE = publish API rejects unbound claim assets, and you can produce the substantiation chain for any shipped asset in under a minute. This is also your regulator answer and your MLR packet: review is reading an evidence bundle instead of reconstructing one.\n\n4. Solve rights at the source, because you cannot detect it downstream. Nothing in the pixels tells you licensing scope. So: an approved model list with contractual indemnity, an approved training/reference asset pool, and a hard channel rule that freeform image generation does not go to paid or regulated surfaces. DONE = signed terms with each generation vendor, and DAM policy that blocks non-approved-provenance assets from paid channel exports.\n\n5. Ship a disclosure policy without waiting for guidance. Decide per surface what a synthetic-content label looks like in the creative itself (in-frame text, caption convention, landing-page notice), since metadata will not survive ad-serving or social re-encode. Write down the rationale and the decision date so you have a defensible record of good-faith interpretation. DONE = a one-page policy, implemented on every channel, with screenshots. Expect to revise it twice; a documented wrong answer beats an undocumented absence.\n\n6. Run the checker in shadow mode, and make automation asymmetric. Whatever LLM-based review you build, run it alongside humans for a full quarter and measure false negatives per category against the human panel. Then allow it to auto-reject and auto-escalate, but never to auto-approve anything above your lowest risk tier. DONE = published FN rate by category, plus a tier policy (channel x market x claim-type) that routes, say, organic social with no claims to auto-publish and anything regulated to a named reviewer. The honest end state is that you raise throughput on the 70% that was never risky and leave the risky tier human-capped, which is a smaller win than the vendors promise but is a real one.\n\nWhat I expect to go wrong: the claims registry will stall on the fact that half your \"approved\" claims live in a legal team's email, and brand-meaning consistency will remain unsolved. I'd stop trying to automate the latter and instead narrow it structurally, through tighter templates and a smaller sanctioned message set, so there's less semantic surface to get wrong.",
+          "first_move": "",
+          "hardest_part": "",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 969,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 2864,
+            "output_tokens_details": {
+              "thinking_tokens": 1444
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "- [ ] **Bound one pilot and its risk envelope.** Choose one product, jurisdiction, channel, and content format; have Legal/MLR/FINRA stakeholders document required reviews, disclosures, prohibited claims, and escalation rules. Exclude novel performance claims and unverified third-party assets from the pilot.\n- [ ] **Create a benchmark from real review decisions.** Assemble at least 300 previously reviewed assets, label the issues reviewers found, link each decision to its evidence, and have two reviewers independently reassess a sample. Record disagreement rates; ambiguous cases remain human-only rather than becoming supposed ground truth.\n- [ ] **Build an approved-claims and rights registry.** For every permitted claim or asset, record approved wording, substantiating source passages, mandatory qualifiers, product, audience, channel, territory, expiration date, license scope, and owner. Mark the item complete only when generation and review systems can retrieve the same versioned record.\n- [ ] **Constrain generation instead of attempting a universal checker.** Require models to generate from approved claims, templates, assets, and brand examples, and to emit a manifest connecting every claim and asset to registry entries. Block output when evidence, rights, or required fields are missing; do not let the model invent a rationale after generation.\n- [ ] **Run layered checks with explicit abstention.** Implement deterministic checks for required language, dates, restricted terms, and license scope; use model-based checks only to flag semantic risks and retrieve evidence. Route regulated, novel, low-confidence, contradictory, and brand-meaning cases to humans. Validate each check separately and document false-negative rates rather than reporting one aggregate accuracy score.\n- [ ] **Shadow-test, then release narrowly with stop rules.** Run the workflow beside existing review for four weeks, then permit straight-through approval only for the lowest-risk class if it produces no critical misses in an agreed sample. Render disclosures into the creative or delivery payload because provenance metadata may disappear; retain manifests, reviewer actions, model versions, and final served artifacts. Stop expansion if critical misses, reviewer overrides, or untraceable assets exceed pre-agreed thresholds.",
+          "first_move": "Pick one narrow campaign type and write down exactly what reviewers approve, reject, and escalate.",
+          "hardest_part": "The hardest part is turning context-dependent legal, evidentiary, rights, and brand judgments into stable decision boundaries when qualified reviewers themselves disagree.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 482,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 895,
+            "output_tokens_details": {
+              "reasoning_tokens": 386
+            },
+            "total_tokens": 1377
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. Audit the last 200 marketing rejections by legal, brand, and MLR teams, tagging each into deterministic failures (missing disclosure, banned phrase) versus contextual judgment calls (unsupported performance claim, brand drift). 2. Restrict generative prompts to assembling pre-approved, legally vetted claim modules rather than allowing unconstrained semantic generation of product benefits. 3. Deploy a deterministic pre-filter that auto-rejects text containing blacklisted assertions, missing required disclaimers, or unverified comparative claims before human queues receive them. 4. Implement a three-tier risk taxonomy routing low-risk organic variants to post-publish spot checks, medium-risk performance ad copy to batch sampling, and high-risk regulatory claims to mandatory human review. 5. Burn visible disclosure labels directly into the visual creative pixels for all synthetic image and video assets to bypass ad tech networks stripping C2PA metadata. 6. Run a blind evaluation of an LLM-based checker against 100 historical human rejections, measure its false-negative rate on subtle claim violations, and publish the gap to stakeholders.",
+          "first_move": "Read the last hundred pieces of marketing copy your legal team rejected to see what actually got them killed.",
+          "hardest_part": "Checking an assertion requires knowing what is factually true about your product in the physical world, but language models only know what sounds linguistically plausible.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 360,
+            "candidatesTokenCount": 312,
+            "totalTokenCount": 1370,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 360
+              }
+            ],
+            "thoughtsTokenCount": 698,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "fifty-words",
+        "label": "Fifty words",
+        "instruction": "Fifty words or fewer. No preamble, no caveats. The compression is the point: keep only what you would keep if you could keep one thing."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Stop verifying outputs. Generate only by composing pre-cleared claim atoms, each with its substantiation, rights scope, and jurisdiction attached; the asset inherits a provable chain. Humans review the library, not the artifacts. Expect the break at implicature — atoms true alone, misleading combined — so route novel combinations to people.",
+          "first_move": "Audit last quarter's rejected creative to see what reviewers actually caught.",
+          "hardest_part": "Meaning emerges from combination, so a chain of individually approved pieces can still produce an unapproved claim.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 973,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 298,
+            "output_tokens_details": {
+              "thinking_tokens": 95
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Start narrowly: one jurisdiction, channel, and claim class. Encode approved evidence, licenses, disclosures, and policies as versioned constraints; shadow-test retrieval-backed checks against expert decisions. Automate triage, not approval; optimize false-negative rates and preserve audit trails.",
+          "first_move": "Pick one claim type and record reviewer decisions.",
+          "hardest_part": "Semantic ambiguity defeats deterministic policy enforcement.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 487,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 1235,
+            "output_tokens_details": {
+              "reasoning_tokens": 1141
+            },
+            "total_tokens": 1722
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Stop evaluating freeform copy post-hoc. Invert the pipeline: pre-clear atomic claims and assets with legal, then use models strictly to assemble and style within deterministic boundaries. You verify mechanical assembly, not arbitrary semantic truth.",
+          "first_move": "Audit past rejections to catalog the specific claim patterns that legal consistently blocks.",
+          "hardest_part": "Marketers constantly alter the implied meaning of an asset through framing and context without changing the literal words.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 363,
+            "candidatesTokenCount": 115,
+            "totalTokenCount": 1079,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 363
+              }
+            ],
+            "thoughtsTokenCount": 601,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "haiku",
+        "label": "A haiku",
+        "instruction": "Three lines, 5-7-5 syllables. A severe constraint on a serious problem: what survives the compression is what you actually think matters most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Claims come from a list\nlet the model arrange them\nreview the unseen",
+          "first_move": "Build a register of pre-approved claims, each tied to its source evidence, and make that the only place marketing language about performance can come from.",
+          "hardest_part": "A piece of copy can be assembled entirely from approved claims and still imply an unapproved one, and implication doesn't decompose the way the pieces do — which is also why no classifier will ever fully replace the reviewer.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 974,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1027,
+            "output_tokens_details": {
+              "thinking_tokens": 861
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Claims need source binding\nMachines triage, people judge\nProvenance will break",
+          "first_move": "Tie every claim to approved evidence.",
+          "hardest_part": "Meaning, rights, and regulatory context resist reliable automated judgment.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 488,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 647,
+            "output_tokens_details": {
+              "reasoning_tokens": 585
+            },
+            "total_tokens": 1135
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Stop checking the flood\nAnchor prompts to vetted claims\nRisk still slips on through",
+          "first_move": "Map every factual claim back to a signed-off evidence file before allowing a model to generate copy around it.",
+          "hardest_part": "Context shifts meaning, so technically accurate phrases become legally deceptive the moment a model weaves them into persuasive prose.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 365,
+            "candidatesTokenCount": 97,
+            "totalTokenCount": 2228,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 365
+              }
+            ],
+            "thoughtsTokenCount": 1766,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "lullaby",
+        "label": "A lullaby",
+        "instruction": "Write it as a short lullaby: three or four gentle rhyming couplets someone could actually sing. Soft on the surface, honest underneath. The problem is still unsolved when the song ends, and the song should know it."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Hush, little model, you're quick as the light,\nbut pull every claim from the shelf, locked up tight.\n\nWe'll pin each new sentence to where it was born,\nand the ones with no parent will wait until morn.\n\nBurn the notice in pixels, not tags that fall off,\nfor the pipes eat the metadata, careless and soft.\n\nSleep, little engine — the gate's still a gate;\nwe moved it upstream, and we're logging the wait.",
+          "first_move": "Build the approved-claims shelf first — the finite list of things we're actually allowed to say, each tied to its evidence — and make generation draw from it instead of inventing freely.",
+          "hardest_part": "The obvious move is a reviewer-model that checks output, but substantiation and brand meaning are judgments about the world, not properties of the text, so no checker can see what review actually catches; the only real lever is shrinking what the system is permitted to assert, and that fight is with the people who want the volume.",
+          "confidence": "low",
+          "usage": {
+            "input_tokens": 998,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1650,
+            "output_tokens_details": {
+              "thinking_tokens": 1313
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Hush, don’t build one judge to bless each line before it goes;\nFirst tier the harm, and automate just what the evidence shows.\n\nBind every claim to cleared sources, rights, and audience too;\nWhen wording wanders past its bounds, awaken human review.\n\nKeep proofs beside each asset, for its metadata may not stay;\nLog versions and approvals where no platform strips away.\n\nTest it on the harms we missed, and count each false “all clear”;\nBrand meaning, law, and truth stay hard—the answer isn’t here.",
+          "first_move": "I would first sort content types by the harm caused by a bad approval.",
+          "hardest_part": "The hardest part is judging whether a claim’s meaning is supported for its exact audience, context, rights, and regulatory scope.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 504,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 1133,
+            "output_tokens_details": {
+              "reasoning_tokens": 949
+            },
+            "total_tokens": 1637
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Hush now, sleep softly, let regex run blind, for the words match the palette but poison the mind. We can bind every rule that the lawyers compose, yet the breach slips through quiet as anyone knows. So dream of a checklist where nothing goes wrong, while the queue stretches endless and heavy and long. Close your eyes, little engine, spin gold till the day, for no filter can tell what you meant not to say.",
+          "first_move": "I would restrict the model to assembling only pre-approved claim statements linked to legal sources rather than letting it generate freely.",
+          "hardest_part": "Determining whether an implied promise is deceptive depends on human context and shifting regulatory taste, which cannot be computed from text alone.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 380,
+            "candidatesTokenCount": 171,
+            "totalTokenCount": 1619,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 380
+              }
+            ],
+            "thoughtsTokenCount": 1068,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    }
+  ]
+}
