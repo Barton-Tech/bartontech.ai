@@ -1,0 +1,573 @@
+{
+  "date": "2026-10-12",
+  "month": "2026-10",
+  "board_month": "2026-10",
+  "board_rank": 9,
+  "generated_at": "2026-10-12T15:59:49.258Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1
+  },
+  "problem": {
+    "canonical_id": "cross-channel-journey-orchestration",
+    "canonical_name": "Globally Optimized Cross-Channel Journey Orchestration",
+    "plain": "coordinating messages across every channel"
+  },
+  "default_format": "checklist",
+  "formats": [
+    {
+      "format": {
+        "id": "cmo-memo",
+        "label": "A memo to a CMO",
+        "instruction": "Write it as a short internal memo to a chief marketing officer. Plain language, no jargon they would have to look up. Around 120 words."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Memo to the CMO\n\nI don't think we should try to build one brain that picks the best message everywhere. That's the obvious answer and I think it fails: the data is too late, the channels too uneven, and nobody agrees what \"best\" means.\n\nInstead I'd start by preventing harm, not chasing optimal. One shared record of what we've said to a person and what we promised them, plus a small set of rules every channel must obey: contact limits, one live offer per person, service always outranks selling. Rules are enforceable even when data is stale.\n\nThen we earn the right to optimize: pick two channels with real feedback, agree one number that counts value over months rather than days, and test against holdouts.\n\nThe hard part is budgets. If channel owners are paid on their own numbers, they'll route around any shared layer. I'd want your air cover on that before I spend engineering money.",
+          "first_move": "Build one shared log of every message and promise we've made to each customer, readable by all channels.",
+          "hardest_part": "There is no agreed definition of a good outcome, so \"optimal\" is undefined before the technology is even the issue.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 850,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 490,
+            "output_tokens_details": {
+              "thinking_tokens": 111
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "To: CMO\n\nSubject: Where to start on cross-channel orchestration\n\nI would not begin with an AI “brain” controlling every channel. The data, incentives and feedback are not reliable enough.\n\nStart with two high-volume journeys across three channels where collisions are visible. Create shared rules for eligibility, contact limits, offer consistency and service exceptions. Log every decision, exposure, cost and outcome, then use customer-level control groups to measure incremental value over months, not clicks over days.\n\nInitially, the central layer should constrain harmful actions and recommend priorities; channel teams can retain execution. Expand its authority only when tests show gains in margin, retention or service without increasing fatigue.\n\nThe main work is organizational: one scorecard, explicit trade-offs, and budget rules that prevent channels from claiming the same result. Even then, incomplete identity and delayed outcomes will limit optimization.",
+          "first_move": "I would first choose two journeys where conflicting messages are common and financially measurable.",
+          "hardest_part": "The hardest part is agreeing who can sacrifice a channel’s short-term results for a better overall customer outcome.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 404,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 445,
+            "output_tokens_details": {
+              "reasoning_tokens": 203
+            },
+            "total_tokens": 849
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Vendors pitch a single central brain that orchestrates every touchpoint, but chasing that is a trap. If we try to algorithmically plan complete customer journeys across every tool, latency, broken data, and channel politics will break it immediately. Instead of building a master conductor, we should build a negative filter: an arbitration layer that only handles constraints. We let email, ads, and web teams run their own engines, but we give a shared system the absolute authority to block conflicting offers, enforce quiet periods, and cap overall contact fatigue. We will quickly run into resistance because channel heads will lose immediate clicks, and proving long-term retention gains takes months. But coordinating by restraint is the only practical starting point.",
+          "first_move": "Implement a shared frequency cap across email and push that stops teams from messaging the same person twice in twenty-four hours.",
+          "hardest_part": "Getting channel owners to accept lower short-term metrics when the system silences them for the broader customer experience.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 274,
+            "candidatesTokenCount": 223,
+            "totalTokenCount": 1111,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 274
+              }
+            ],
+            "thoughtsTokenCount": 614,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "three-moves",
+        "label": "Three moves",
+        "instruction": "Give exactly three moves, in order. One sentence each, then one sentence on what makes that move hard. Nothing else."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Move 1: Instead of building the single decision brain everyone proposes, build a global veto — a contact-rights and offer-consistency ledger that every channel must check before send, which arbitrates (suppress, defer, downgrade) but never decides what to send. Hard part: the ledger only works if the slowest, dumbest execution systems honor it, and ad platforms and batch ESPs give you a check window measured in hours or days, so you're writing policy against stale state and have to decide which channels get a hard gate versus a probabilistic one. Move 2: Establish a person-level global holdout — a population suppressed or lightly treated across every channel simultaneously — and make it the only sanctioned way to claim incremental value, so the objective function gets discovered empirically instead of negotiated in a committee. Hard part: it costs real revenue, leaks constantly through unsuppressible surfaces like organic search and service contacts, and the long-term-value half of the answer doesn't resolve for two to four quarters, which is longer than most sponsors' patience or tenure. Move 3: Convert the veto into an internal market — channels keep their budgets and their own KPIs but bid for a finite number of contact slots per person per window at a shadow price derived from the holdout-measured fatigue cost, so coordination happens through price rather than through org redesign. Hard part: you need an exchange rate between a service deflection, a margin dollar and a churn-risk point that finance will defend, and any bidding system with internally-forecast values gets gamed within a quarter unless bids settle against measured outcomes.",
+          "first_move": "Stand up a shared pre-send check that any channel must call, and start by using it only to suppress and deduplicate, not to choose messages.",
+          "hardest_part": "There is no measurable global objective until you pay for a cross-channel holdout, and the signal that matters most — long-term value — arrives far too late to steer a real-time decision.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 840,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1149,
+            "output_tokens_details": {
+              "thinking_tokens": 513
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Move 1: Reject the obvious “single global brain” starting point and define a measurable portfolio objective for a few high-conflict journeys, with explicit weights for margin, fatigue, service cost, customer harm, and long-term value plus persistent holdouts.\nWhat makes this move hard: The weights are business and governance choices rather than modeling facts, and channel owners will resist measurements that expose local gains as globally harmful.\nMove 2: Build a thin coordination layer that maintains shared customer state and issues only enforceable decisions such as eligibility, suppression, contact budgets, offer consistency, and channel priority while existing platforms retain execution.\nWhat makes this move hard: Identity gaps, stale signals, uneven APIs, and platforms that acknowledge instructions without reliably applying them make the decision layer’s actual control uncertain.\nMove 3: Start in shadow mode, estimate incremental cross-channel effects with randomized exploration where safe, and gradually delegate bounded decisions to constrained learning policies with hard customer, legal, and commercial guardrails.\nWhat makes this move hard: Outcomes are delayed, confounded, sparse, and nonstationary, so proving that a policy improves the whole journey rather than reallocating credit is genuinely difficult.",
+          "first_move": "Choose a few conflicting journeys and agree on how success and customer harm will be measured.",
+          "hardest_part": "The hardest part is creating an objective and control structure that channel owners will accept despite conflicting incentives and unreliable feedback.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 395,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 599,
+            "output_tokens_details": {
+              "reasoning_tokens": 295
+            },
+            "total_tokens": 994
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. Strip decision logic out of the channel tools and turn them into dumb execution endpoints that only fire when granted a centralized token. What makes this hard is that channel teams and vendors fiercely resist losing autonomy, and native platform features actively work against it. 2. Model customer fatigue and negative cross-channel interference first, rather than trying to predict optimal positive actions. What makes this hard is that attributing delayed customer burnout across fragmented identifiers is statistically messy and directly contradicts short-term campaign goals. 3. Replace channel-specific ROI attribution with an internal tax on downstream friction to force budget owners toward shared constraints. What makes this hard is that resolving conflicting executive incentives requires political will that no software architecture can engineer on its own.",
+          "first_move": "I would stop letting individual channel tools decide when to send messages.",
+          "hardest_part": "You cannot mathematically optimize a shared experience when the humans running the channels are measured on conflicting quarterly goals.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 263,
+            "candidatesTokenCount": 213,
+            "totalTokenCount": 1078,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 263
+              }
+            ],
+            "thoughtsTokenCount": 602,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "pseudocode",
+        "label": "Pseudocode",
+        "instruction": "Express the approach as short annotated pseudocode. The comments should carry the reasoning; the code should carry the structure. Around 15 lines."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "```\n# Premise I'd push back on: do NOT build the global optimizer first.\n# Nobody will hand a new layer the right to *send*. They will hand it the right to *stop*.\n# Negative control is politically cheap and captures most of the harm.\n\nloop every_event:\n  state = union(channel_states)            # accept it's stale+partial; attach age+confidence,\n                                           # and make staleness a first-class input, not a bug to fix later\n  bids = [ch.propose(state) for ch in channels]   # channels keep their own models. Rebuilding them is a 3-year detour.\n\n  for b in bids:\n    b.value = calibrate(b.stated_value, ch.history)  # channels WILL inflate bids. Score them on realized\n                                                     # incremental margin, not claimed. Liars get discounted.\n\n  # the missing objective function: don't convene a committee to agree one.\n  # Fix ONE scarce resource (customer attention) and let price discovery do the rest.\n  shadow_price = fatigue_price(customer, from=contact_holdout)  # learned, person-level, nonstationary\n  decision = allow(b) if b.value > shadow_price + contradiction_penalty(b, recent_promises)\n             else suppress_or_delay(b)\n\n  emit(decision)                           # veto/defer only. Channel still executes. No budget is seized.\n  log(decision, counterfactual_arm)\n\n# measurement is the whole game:\nmaintain GLOBAL_HOLDOUT at customer level, 12+ month horizon, never touched by the arbiter\n  # message-level tests cannot see journey-level harm; that's why the industry keeps missing this\n# only after the holdout proves the veto layer pays, bid for positive control of one adjacent pair of channels\n```\nWhat I expect to go wrong: the shadow price of contact is person-specific, nonstationary, and confounded with intent, so early fatigue models will mostly rediscover \"people about to churn stop opening email.\" Contradiction detection is harder than fatigue because it needs a semantic model of what was promised, and offer metadata across platforms is garbage. And the holdout will be raided within two quarters by someone who needs the revenue.",
+          "first_move": "Build a veto-only arbitration layer that can stop or delay messages but never send them, and put a long-horizon customer-level holdout behind it.",
+          "hardest_part": "There is no observable counterfactual for a whole journey at the individual level, so the price of contacting someone — the one number the whole system turns on — has to be inferred from deliberately withheld experience that the business is constantly incentivized to stop withholding.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 849,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1826,
+            "output_tokens_details": {
+              "thinking_tokens": 918
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "function attack():\n  reject(\"start with a global optimizer\")                 # It would optimize invented assumptions before earning control.\n  charter = align_owners(on=\"decision rights and trade-offs\") # Technology cannot reconcile independent budgets by itself.\n  scope = choose(journey=\"one bounded use case\", channels=2..3) # Start where identity and outcomes are reasonably observable.\n  objective = define(primary=\"incremental long-term value\")    # Leadership—not the model—must price margin, service and fatigue.\n  constraints = encode(contact_caps, consent, margin, service)  # Hard guardrails are safer than pretending every harm has a price.\n  state = build_event_ledger(identity, exposures, outcomes)      # Preserve uncertainty and provenance; do not fake a golden record.\n  adapters = normalize(channel_capabilities, latency, failures)  # The policy must know what each channel can actually execute.\n  baseline = measure(current_rules, with=\"persistent holdouts\") # First establish whether coordination beats channel autonomy.\n  models = estimate(causal_lift, fatigue, delayed_value)         # Predictions alone confuse likely buyers with persuadable ones.\n  policy = rank(actions + no_action, under=constraints)          # Silence and service resolution must be legitimate choices.\n  simulate(policy, stress=[missing_state, stale_feedback, outages]) # Test operational harm, not just expected reward.\n  shadow(policy, log=\"recommendation versus actual execution\")  # Expose data and ownership conflicts before granting control.\n  experiment(policy, unit=\"customer\", compare_to=baseline)      # Customer-level randomization captures cross-channel spillovers.\n  expand_or_stop(if=\"incremental value persists\", audit=\"segments and harms\") # Scale gradually; expect the objective to remain contested.",
+          "first_move": "I would get the channel owners to choose one bounded journey and agree on who can make each decision.",
+          "hardest_part": "The hardest part is establishing legitimate trade-offs among long-term value, margin, fatigue and service when customer state and causal feedback remain incomplete.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 398,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 766,
+            "output_tokens_details": {
+              "reasoning_tokens": 324
+            },
+            "total_tokens": 1164
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "# 1. Discard the fantasy of a central real-time decision brain; channels won't surrender execution or latency budgets.\\n# 2. Treat cross-channel coordination as an asynchronous scarcity problem (attention budget), not an optimization math problem.\\ndef handle_touchpoint_request(customer_id, requesting_channel, proposed_action):\\n    # Reconstruct whatever state exists; accept that it is inherently stale and incomplete\\n    user_state = get_shared_state_view(customer_id) \\n    \\n    # Compute the dynamic cost to interrupt based on recent cross-channel touches and service friction\\n    interruption_tax = compute_shadow_price(user_state.touch_history, user_state.active_support_tickets)\\n    \\n    # Obvious trap: trying to maximize global LTV. Realistically: just suppress negative externalities.\\n    net_benefit = proposed_action.expected_margin - proposed_action.cost - interruption_tax\\n    \\n    if net_benefit <= 0:\\n        # Log rejection as a counterfactual for attribution debates; do not fire\\n        return withhold_and_log(reason='negative_external_drag', candidate=proposed_action)\\n        \\n    # Reserve cooldown across all channels rather than dictating what they do\\n    acquire_distributed_lock(customer_id, duration=decay_window(proposed_action))\\n    return emit_execution_grant(proposed_action)",
+          "first_move": "Measure how often two different channel teams send competing messages to the same customer within 24 hours.",
+          "hardest_part": "Channel leaders are incentivized on channel-specific metrics, so withholding a message for the greater good looks like failing their individual goals.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 267,
+            "candidatesTokenCount": 400,
+            "totalTokenCount": 1725,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 267
+              }
+            ],
+            "thoughtsTokenCount": 1058,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "checklist",
+        "label": "A checklist",
+        "instruction": "Give a checklist someone could actually run next quarter. Each item concrete enough to be marked done or not done. Six items at most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Up front, two disagreements with the standard answer.\n\nFirst, I don't think you should start by trying to agree on an objective function. You won't get it, and chasing it burns the quarter in committee. The achievable version is a *constrained arbitration* problem: a set of hard constraints everyone already agrees on (don't upsell someone with an open P1 ticket, don't exceed N touches/week, don't contradict a live offer) plus one shared exchange rate for customer attention. One scalar price, not one utility function. That's a negotiation you can actually win.\n\nSecond, don't try to own execution. Every attempt at a central brain that *commands* channels dies on org politics. A layer with veto authority is politically cheap — channel owners keep their stacks, their budgets, their roadmaps — and veto gets you most of the value, because the big losses are contradiction and over-contact, not suboptimal selection. Positive coordination (orchestrating the right sequence) comes later, if ever. Be honest that \"globally optimal\" is not on the table; Pareto-improving coordination is.\n\nThe checklist:\n\n1. **Unified exposure log.** One event schema, one identity key, every outbound touch and inbound service/commerce event appended within minutes. Done = published per-channel coverage report, with a hard number for what fraction of real touches land in the log and at what latency. Expect paid media to be hours-delayed and partially unattributable at the person level; write that down rather than papering over it.\n\n2. **Conflict audit, in dollars.** Read-only analysis of the log: contradictory concurrent offers, contacts during open tickets, customers above fatigue thresholds, discount given to someone already converting. Done = a number you'd defend to a CFO, broken out by channel pair. This is both the scoping exercise and the political ammunition; without it you're asking people to give up autonomy on a hunch.\n\n3. **Veto-only arbitration service, live in the two highest-volume channels.** Synchronous call, hard constraints only, <50ms p99, fail-open with the default decision logged. No optimization, no model. Done = it's in the send path and has actually blocked traffic. Fail-open is non-negotiable; the first time this thing takes down the web experience you lose the mandate.\n\n4. **One exchange rate, signed.** Get agreement on a single scalar for expected contribution over a fixed short window (14 or 30 days), and a per-customer attention budget priced in it. Not a utility function — a price. Done = a one-page document with the formula, signed by the owners of email, app, web, paid and service. Expect the fight to be about whose conversions get discounted, not about the math.\n\n5. **Customer-level global holdout with a pre-signed measurement contract.** 5–10% held out of arbitration entirely, reported at company level, with the restatement rule for channel-owner scorecards agreed *before* launch. Done = finance/analytics has signed it. Channel owners will resist because coordination taxes their reported numbers; if you haven't pre-negotiated how their targets move, the holdout result won't matter.\n\n6. **Settlement rule for suppressed sends.** Written policy on how a channel is credited when it was vetoed and the customer converted elsewhere. Done = signed. This is the item everyone skips and it's the one that determines whether the layer survives its second quarter.\n\nWhat I expect to run into: identity coverage on anonymous web traffic will be worse than anyone claims, and the arbitration layer will be making decisions about a partial customer. Paid platforms will not honour realtime suppression — their bidders will re-target people you excluded, so treat paid as weather, not a channel you control; you influence the distribution, not the event. The exchange rate will get gamed within a quarter of being published. And the short-horizon proxy will drift from long-term value in ways you can only detect with a holdout you keep running for a year, which is far longer than anyone's patience.",
+          "first_move": "Build the single log of every message we send and every service event, and publish how much of reality it actually captures per channel.",
+          "hardest_part": "There is no agreed way to price one channel's conversion against another's fatigue cost or service outcome, and the people who would have to agree are each measured on numbers that coordination makes worse.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 843,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 2763,
+            "output_tokens_details": {
+              "thinking_tokens": 1343
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "- [ ] **Choose a bounded proving ground:** name one accountable owner, one journey, 2–3 channels, and one decision point; secure written authority to suppress or prioritize channel actions and reserve a randomized holdout.\n- [ ] **Audit execution and feedback reality:** test every participating platform for identity keys, consent handling, action APIs, suppression controls, latency, failure behavior, and outcome-feedback delay; publish a capability matrix with measured SLAs and named gaps.\n- [ ] **Create a minimal shared decision record:** for every eligible customer, assemble timestamped state with source, freshness, identity confidence, prior contacts, offers, consent, costs, and outcomes; prove that decisions can be replayed from the stored data without silently treating missing data as negative data.\n- [ ] **Agree on a scorecard, not a magical universal objective:** select one primary incremental business metric and explicit constraints for margin, contact pressure, complaints, service outcomes, consent, channel budgets, and long-term proxies; obtain sign-off on trade-offs and stop thresholds.\n- [ ] **Run a rules-based arbitration layer in shadow mode:** encode eligibility, frequency caps, conflicting-offer rules, budget constraints, fallback behavior, and channel precedence; compare its recommendations with actual channel actions for at least four weeks and quantify conflicts, prevented contacts, API failures, and stale-state decisions. Do not start with reinforcement learning—the causal signal and control surface are not ready.\n- [ ] **Run one controlled cross-channel pilot:** randomize among business-as-usual, arbitration, and no-contact/control where permissible; log eligibility and decision probabilities, measure incremental outcomes rather than attributed conversions, and end the quarter with a documented scale, revise, or stop decision.",
+          "first_move": "Pick one customer journey and get written authority to coordinate its channel decisions.",
+          "hardest_part": "The genuinely hard part is identifying causal long-term value from delayed, incomplete feedback while different teams retain incentives to optimize their own channels.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 397,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 931,
+            "output_tokens_details": {
+              "reasoning_tokens": 516
+            },
+            "total_tokens": 1328
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. Audit and publish the end-to-end event latency for every execution tool to establish the minimum time window where deterministic orchestration is physically impossible.\n2. Implement a centralized suppression service with sub-50ms read latency that only evaluates hard vetos (active support cases, purchases within 24 hours, global frequency caps) rather than message selection.\n3. Integrate the suppression check into the pre-send workflows of your two highest-volume outbound channels.\n4. Build an append-only event stream capturing outbound sends and delivery receipts across email, push, and paid audience syncs.\n5. Establish an executive-backed agreement on a single dollar penalty for contact fatigue and channel collisions to apply against channel team scorecards.\n6. Run a four-week randomized holdout test that suppresses promotional outbound marketing to users with open support tickets and measure net gross margin.",
+          "first_move": "Build a shared kill-switch list that stops messages across channels instead of trying to pick the best message.",
+          "hardest_part": "Channel owners have independent revenue targets, so no one will voluntarily surrender an interaction without an agreed way to value what not messaging a customer is worth.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 265,
+            "candidatesTokenCount": 263,
+            "totalTokenCount": 1414,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 265
+              }
+            ],
+            "thoughtsTokenCount": 886,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "fifty-words",
+        "label": "Fifty words",
+        "instruction": "Fifty words or fewer. No preamble, no caveats. The compression is the point: keep only what you would keep if you could keep one thing."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Don't build a global optimizer. Build a global veto: one contact-rights and suppression layer every channel must query before send. Scarce, measurable, politically survivable. Learn the real objective from what the veto trades off, over years. The hard part isn't math — it's that no one surrenders send authority without proof, and proof requires the layer to already exist. So buy it with holdouts: run the veto as a measured experiment, not a platform.",
+          "first_move": "Put one shared do-not-contact check in front of every channel's send.",
+          "hardest_part": "Channel owners won't hand over send authority until you've proven value you can't prove without it.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 847,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 307,
+            "output_tokens_details": {
+              "thinking_tokens": 90
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Start with a narrow, enforceable control plane for two channels and journey, not universal orchestration. Instrument identity, exposures, costs, outcomes, and holdouts; learn constrained policies optimizing an explicit, revisable utility with fatigue and service guardrails. Shadow-test before control. Expect causal ambiguity, missing state, API failure, and budget politics to dominate.",
+          "first_move": "Choose one journey where two channels already conflict.",
+          "hardest_part": "The hardest part is defining legitimate tradeoffs across incomparable outcomes and owners.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 402,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 533,
+            "output_tokens_details": {
+              "reasoning_tokens": 414
+            },
+            "total_tokens": 935
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Stop trying to build a central brain. Instead, invert the architecture: implement a real-time reservation protocol where channels bid for customer attention against a shared, stateful fatigue budget. You cannot optimize cross-channel value when latency and attribution are broken, but you can coordinate global suppressions and enforce atomic state locks.",
+          "first_move": "Build a single, fast kill-switch that lets any channel block all others for a customer right after an interaction.",
+          "hardest_part": "Nobody can agree on what a customer's attention is worth when different teams own separate revenue targets and budgets.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 268,
+            "candidatesTokenCount": 127,
+            "totalTokenCount": 955,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 268
+              }
+            ],
+            "thoughtsTokenCount": 560,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "haiku",
+        "label": "A haiku",
+        "instruction": "Three lines, 5-7-5 syllables. A severe constraint on a serious problem: what survives the compression is what you actually think matters most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "One ledger of asks\nPrice attention; channels bid\nMath was never hard",
+          "first_move": "Build a shared record of every message each customer was actually sent, across all channels, before trying to decide anything.",
+          "hardest_part": "The objective function is a political settlement between budget owners, not a math problem, so any single number you pick will be gamed or ignored by whoever loses under it.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 848,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 536,
+            "output_tokens_details": {
+              "thinking_tokens": 398
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Share uncertain state\nTest rival goals in holdouts\nEarn control by proof",
+          "first_move": "I would first map what each channel knows and can control.",
+          "hardest_part": "The hardest part is securing agreement on tradeoffs and authority across channel owners.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 403,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 545,
+            "output_tokens_details": {
+              "reasoning_tokens": 477
+            },
+            "total_tokens": 948
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Kill the central brain\nTax each send for shared fatigue\nTeams still guard their spend",
+          "first_move": "Create a shared log that tracks how often each customer is contacted across all tools.",
+          "hardest_part": "Independent channel teams have conflicting budget incentives to send messages even when it hurts the overall customer experience.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 270,
+            "candidatesTokenCount": 73,
+            "totalTokenCount": 3750,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 270
+              }
+            ],
+            "thoughtsTokenCount": 3407,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "lullaby",
+        "label": "A lullaby",
+        "instruction": "Write it as a short lullaby: three or four gentle rhyming couplets someone could actually sing. Soft on the surface, honest underneath. The problem is still unsolved when the song ends, and the song should know it."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Hush now, the channels all whisper at once,\nsix little bidders, each sure it's the one.\nI'd not build the brain first — I'd build the gate:\none ledger of contact, one shared sense of state.\n\nNot a model to rule them, a budget to spend,\nfatigue as a currency, lent out and then lent again;\neach channel may bid what a touch's truly worth,\nand pay for the quiet it takes from the earth.\n\nThe feedback comes slow and the ad servers lie,\nso hold out a holdout, and watch it, and sigh —\nlong-term value is a guess in a coat,\nand the org chart, not math, is what sinks the boat.\n\nSleep, little stack, we'll not solve this tonight;\nthe objective's a treaty no one yet will write.\nBut a shared contact ledger is a thing we can keep —\nand that's half the fight, love. Now go on to sleep.",
+          "first_move": "Build one shared record of every message a customer has already received, before trying to decide anything.",
+          "hardest_part": "There is no agreed objective function because the tradeoff between conversion, margin, fatigue and lifetime value is a political negotiation between budget owners, not a math problem.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 872,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 417,
+            "output_tokens_details": {
+              "thinking_tokens": 0
+            },
+            "service_tier": "standard",
+            "inference_geo": "global"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Hush now—choose one journey, let every channel share,\nA small and common customer state, with consent and care.\n\nDon’t crown one clever brain to rule each budgeted stream;\nRun shadow choices, holdouts, and constraints before that dream.\n\nPrice fatigue and service harm beside the margin won,\nThen grant the layer limited control when trials are done.\n\nAlign the teams and budgets, watch delayed effects unfold;\nThe weights stay human, truth stays partial—the problem isn’t solved.",
+          "first_move": "I would choose one high-volume journey and map every message, decision, owner, and outcome across its channels.",
+          "hardest_part": "The hardest part is not integration but agreeing who may trade short-term channel revenue against fatigue, service harm, and uncertain long-term value.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 419,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 418,
+            "output_tokens_details": {
+              "reasoning_tokens": 237
+            },
+            "total_tokens": 837
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Hush now, quiet down the noisy feed, no single brain can know what people need. The ad team bids against the service call, while delayed signals whisper down the hall. We trace the quiet steps along the floor, and silence half the knocks upon the door. Sleep tight tonight beneath the siloed skies; the journey wanders where no model lies.",
+          "first_move": "I would measure how often different teams send contradictory messages to the same person.",
+          "hardest_part": "The company itself cannot agree on what a good outcome is, because every channel leader is evaluated on competing financial incentives.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 285,
+            "candidatesTokenCount": 143,
+            "totalTokenCount": 1668,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 285
+              }
+            ],
+            "thoughtsTokenCount": 1240,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    }
+  ]
+}
