@@ -1,0 +1,580 @@
+{
+  "date": "2026-10-16",
+  "month": "2026-10",
+  "board_month": "2026-10",
+  "board_rank": 3,
+  "generated_at": "2026-10-16T11:50:50.772Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1
+  },
+  "problem": {
+    "canonical_id": "agent-safe-execution",
+    "canonical_name": "Safe, Auditable Agent Execution in Martech Systems",
+    "plain": "letting AI agents act without breaking things"
+  },
+  "default_format": "cmo-memo",
+  "formats": [
+    {
+      "format": {
+        "id": "cmo-memo",
+        "label": "A memo to a CMO",
+        "instruction": "Write it as a short internal memo to a chief marketing officer. Plain language, no jargon they would have to look up. Around 120 words."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Memo — agent execution, where I'd start\n\nWe will not get per-agent identity from our vendors in time. So we build the choke point ourselves: every agent call goes through a proxy we own, holding the real credentials and issuing short-lived, single-task keys with hard caps — dollars, recipients, records touched.\n\nI disagree with the usual fix. Approving each action is theater. Instead split actions into reversible (audience edits, drafts, bids) and one-way (sends, spend, anything touching a customer). Agents run free inside caps on the first; the second needs a human, always.\n\nAssume prompt injection succeeds — treat anything the agent reads as hostile and limit what it can do, not what it reads.\n\nLog intent, inputs, and the diff. Expect vendor APIs to fight us.",
+          "first_move": "Put every agent action through one gateway we control, so nothing touches a live system directly.",
+          "hardest_part": "Some actions — a send, a charge — can never be undone, so safety has to come from limits set before the fact rather than any ability to fix mistakes after.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 928,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 610,
+            "output_tokens_details": {
+              "thinking_tokens": 239
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "**Internal memo — to the CMO**\n\n**Subject: Starting safely with agents that take action**\n\nI would not start by building a universal autonomous marketing agent. I would choose one bounded workflow—such as adjusting paid-search budgets—and put every action through an independent control layer.\n\nEach agent needs its own identity, narrow permissions, expiration time, and hard limits on spend, volume, audience size, and rate of change. The control layer should record what the agent saw, why it acted, the exact change, and who approved its policy. External text must be treated as untrusted and unable to grant authority.\n\nUse simulations and small live tests before expansion. Reserve human approval for unusually risky or irreversible actions, not everything. Where rollback is impossible, use staged releases, kill switches, and corrective actions.\n\nThis will still depend on vendors exposing better controls; wrappers alone cannot make unsafe systems safe.",
+          "first_move": "Pick one low-risk workflow and map every action, permission, limit, and irreversible consequence.",
+          "hardest_part": "The hardest part is containing decisions shaped by hostile data when vendor APIs allow broad, irreversible actions.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 467,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 490,
+            "output_tokens_details": {
+              "reasoning_tokens": 238
+            },
+            "total_tokens": 957
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Everyone says we should wait for vendors to add agent security, or put a human approval step in front of every action. Both are dead ends. Vendors will take years, and constant human sign-offs kill the speed that makes AI worthwhile. Instead, we should treat AI agents like brand-new interns who never get the master password. We shouldn't connect them directly to our platforms. Instead, we put a custom gatekeeper between the agent and our tools. That gatekeeper strictly enforces blast radiuses: an agent can draft campaigns freely, but can only adjust budgets by a tiny percentage or message fifty test users at a time. We cannot stop agents from being tricked, so we must make their mistakes cheap.",
+          "first_move": "Strip direct tool access from all agents and force them to propose actions through a simple script that caps budget changes at small dollar amounts.",
+          "hardest_part": "Marketing platforms cannot un-send an email or refund wasted ad spend, meaning any single bad decision instantly becomes permanent public damage.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 340,
+            "candidatesTokenCount": 228,
+            "totalTokenCount": 1375,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 340
+              }
+            ],
+            "thoughtsTokenCount": 807,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "three-moves",
+        "label": "Three moves",
+        "instruction": "Give exactly three moves, in order. One sentence each, then one sentence on what makes that move hard. Nothing else."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "1. Put a broker in front of every martech API that holds the real vendor credential and mints short-lived, per-task capability tokens with hard counters on spend, recipient volume, and record mutations — because waiting for Braze, HubSpot, Salesforce and the ad platforms to ship per-agent identity is a multi-year bet you'll lose. Hard part: you have to re-model each vendor's semantics yourself to know which endpoint actually spends money or sends mail, and vendors will treat a credential-holding proxy as a ToS and rate-limit problem.\n\n2. Stop classifying actions by risk and classify them by reversibility, then make the broker's default control be time and scale rather than a human click — stage sends in a hold window, canary at 1% with auto-abort on deliverability or conversion deltas, make budget changes auto-revert unless re-confirmed. Hard part: the actions worth automating are often the ones that can't wait (triggered sends, bid changes), so every deployment becomes a negotiation between latency and blast radius, and canary auto-abort needs a trustworthy signal within minutes, which most martech telemetry doesn't give you.\n\n3. Treat prompt injection as uncontainable and solve the reachability instead: tag every piece of content the agent reads from inbound mail, reviews, tickets or the open web as tainted, and have the broker refuse spend/send capabilities to any token whose context carries taint, leaving the agent free to read and propose but not act. Hard part: taint propagates through summarization and memory until the whole session is poisoned, so this only works if you shatter the agent into narrow sub-agents with separate contexts — which is precisely the opposite of the general-purpose assistant everyone is buying.",
+          "first_move": "Stand up a credential-holding proxy in front of one high-risk system — say, the email platform — so every agent call passes through something we control.",
+          "hardest_part": "Containment depends on knowing which API calls are irreversible, and the vendors themselves don't expose that distinction, so you're reverse-engineering the semantics of other people's products as the real foundation of your safety model.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 918,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1632,
+            "output_tokens_details": {
+              "thinking_tokens": 925
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Move 1: Put a vendor-neutral execution gateway between agents and every martech API, issue each agent its own short-lived identity, and enforce action-level capabilities, spend and audience caps, rate limits, separation of duties, and default-deny access rather than relying on SaaS seats or OAuth scopes.\nWhat makes this hard: Vendor APIs expose inconsistent authorization semantics and often leave alternate paths—UI automation, webhooks, shared credentials, and nested MCP tools—that can bypass the gateway.\nMove 2: Treat all retrieved marketing content as untrusted data, preserve end-to-end provenance, compile agent proposals into typed action intents, and evaluate them with deterministic policy, simulation, and risk-based approval before execution.\nWhat makes this hard: Prompt injection is not a solved detection problem, and deciding whether text is evidence or an instruction becomes ambiguous when legitimate workflows depend on customer-authored content.\nMove 3: Design execution around bounded failure with canaries, idempotency keys, staged rollouts, immutable action receipts, kill switches, and compensating actions, while simply forbidding autonomous irreversible sends or spend above explicit thresholds.\nWhat makes this hard: Many martech side effects are externally visible, eventually consistent, and literally irreversible, so rollback claims can provide false confidence rather than containment.",
+          "first_move": "Put a policy-enforcing gateway in front of every agent action.",
+          "hardest_part": "The hardest part is containing irreversible effects when vendor systems provide weak identity, incomplete provenance, and no real rollback.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 458,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 659,
+            "output_tokens_details": {
+              "reasoning_tokens": 339
+            },
+            "total_tokens": 1117
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. Route every agent API call through an external policy proxy that enforces hard blast-radius ceilings on budget, audience count, and mutation velocity. What makes this hard is that martech APIs lack transactional primitives, so an intercepted or half-executed payload often desynchronizes the agent from the tool's true state. 2. Air-gap the agent parsing untrusted text from the agent executing actions, passing context exclusively through strict, constrained data schemas. What makes this hard is that indirect prompt injection is semantic, so hostile instructions can easily masquerade as valid parameter values without violating typed schemas. 3. Replace upfront human approvals with automated canary actions on isolated test segments and tiny budget slices before promoting changes to production. What makes this hard is that ad delivery algorithms and inbox deliverability behave non-linearly, making micro-scale test results a poor predictor of macro-scale safety.",
+          "first_move": "Put an intercepting proxy between the agent and your marketing tools to strictly cap how much budget or data it can touch in a single call.",
+          "hardest_part": "Real-world marketing systems cannot be rolled back, so preventing catastrophic damage requires anticipating non-linear systemic side effects that static API permissions cannot detect.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 329,
+            "candidatesTokenCount": 270,
+            "totalTokenCount": 1505,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 329
+              }
+            ],
+            "thoughtsTokenCount": 906,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "pseudocode",
+        "label": "Pseudocode",
+        "instruction": "Express the approach as short annotated pseudocode. The comments should carry the reasoning; the code should carry the structure. Around 15 lines."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "```\n# Premise I'd push back on: this is usually framed as an authz problem (per-agent identity,\n# finer scopes, MCP auth spec). Those are necessary and still won't save you. The thing that\n# actually bites is IRREVERSIBILITY. Scope by what you can take back, not by who asked.\n\nbroker = SoleCredentialHolder(vendor_oauth)   # agents never hold a token. The broker is the only\n                                              # caller. If an agent can reach the ESP by any other\n                                              # path, everything below is theater. This is the hard\n                                              # part organizationally, not technically.\n\nfor intent in agent.propose():                # typed structs, never prose. An injected string can\n  assert intent.matches_verb_schema()         # argue for a budget value; it can't invent a verb.\n\n  taint = provenance(intent.inputs)           # every read is hashed+tagged. If this intent descends\n                                              # from inbound email/reviews/ticket text, it is tainted.\n                                              # I'd stop trying to detect injection and instead assume\n                                              # it worked, then bound what a compromised plan can do.\n\n  tier = classify(intent)                     # REVERSIBLE (audience edit, CRM field, draft)\n                                              # COMPENSABLE (budget raise -> can be lowered, money lost)\n                                              # TERMINAL (send, SMS, webhook to partner, suppression)\n  if taint.untrusted and tier != REVERSIBLE: route_to_human(intent); continue\n\n  if not budget[agent_id].debit(intent.recipients, intent.dollars, intent.records):\n    halt(agent_id)                            # per-agent blast-radius budget that refills slowly.\n                                              # Containment by RATE, not by gate — this is what keeps\n                                              # humans out of the loop without removing the ceiling.\n\n  snapshot = capture_inverse(intent)          # synthesize the undo BEFORE acting. If no inverse\n  if snapshot is None and tier == TERMINAL:   # exists, that's the signal to escalate — not a guess\n    escalate_with_diff(intent); continue      # about intent risk.\n\n  result = broker.execute(intent, as=agent_id, attest=[plan_id, taint, snapshot])\n  ledger.append(result)                       # audit records the agent, the plan it came from, and\n                                              # the data that influenced it. Borrowed-human logs are\n                                              # the current failure; provenance is the fix.\n\n# Approvals go on the PLAN and the budget, reviewed once, plus sampled post-hoc audit of executions.\n# Per-action rubber-stamping is the thing we're trying to kill, so never reintroduce it as the default.\n\n# Where I expect this to break: (1) TERMINAL dominates in martech — a send is a send, and a staged\n# send has a cancel window measured in seconds; capture_inverse() is mostly a lie there, so the\n# honest version is a hold-and-release queue, which reintroduces latency. (2) Vendor APIs rarely\n# offer dry-run or atomic multi-step, so \"inverse\" is best-effort compensation, not rollback.\n# (3) Taint propagation degrades — after three hops everything is tainted and the agent does nothing.\n# Decay/laundering rules for taint are the open research problem and I don't have a clean answer.\n```",
+          "first_move": "Take the vendor credentials away from the agents and put every call through one broker we control, so there is a single place to enforce anything at all.",
+          "hardest_part": "Most high-value martech actions are genuinely irreversible, so no amount of identity or audit machinery gives you the undo that makes autonomy safe — you can only bound the damage rate, never unwind it.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 927,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 2152,
+            "output_tokens_details": {
+              "thinking_tokens": 856
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "target = choose_one_reversible_workflow(platform, action)  # Start narrow; a universal martech control plane is not a credible first step.\nprincipal = issue_agent_identity(owner, purpose, expiry)  # Never borrow a human seat; preserve accountability across connector hops.\ndeny_unwrapped_connectors()  # MCP transport is not an authorization model, so every tool call must cross the same enforcement point.\ncapability = mint_capability(resources, operations, spend_cap, audience_cap, ttl)  # Bind authority to this task, not a broad OAuth scope.\ncontext = label_inputs(origin, trust, sensitivity)  # Treat emails, pages, reviews, and tickets as hostile data rather than instructions.\nplan = agent.propose_actions(context)  # Separate deciding from acting so policy can inspect concrete intended effects.\nsimulation = estimate_effects(plan, platform_snapshot)  # Imperfect previews still expose obvious budget, volume, and targeting failures.\nrisk = score(plan, simulation, input_taint, novelty)  # Escalate unfamiliar or irreversible actions instead of approving every action.\nauthorization = policy_decide(principal, capability, plan, risk)  # Humans approve bounded intent only when risk exceeds explicit thresholds.\nreserve_limits(authorization)  # Atomically consume spend and blast-radius budgets before execution to prevent concurrent overruns.\nresult = execute_with_idempotency_key(plan)  # Retries must not duplicate sends, updates, or budget changes.\nappend_ledger(plan, policy_version, inputs_hash, approvals, result)  # Build tamper-evident provenance because vendor logs misattribute agents.\nmonitor_actual_effects(result, expected_bounds)  # Authorization alone cannot catch platform drift or misleading simulations.\nif bounds_breached: freeze(principal); revoke(capability); alert_owner()  # Fast containment matters more than fictional universal rollback.\ncompensate_where_possible(); expand_only_after_shadow_and_canary_evidence()  # Prefer staged exposure and forward repair for irreversible effects.",
+          "first_move": "I would pick one low-volume campaign action and map every way it could cause harm.",
+          "hardest_part": "The genuinely hard part is bounding irreversible real-world effects when vendor APIs provide weak identity, inconsistent semantics, and no atomic rollback.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 461,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 691,
+            "output_tokens_details": {
+              "reasoning_tokens": 208
+            },
+            "total_tokens": 1152
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "# 1. Separate untrusted intent synthesis from deterministic API execution\ndef handle_agent_action(untrusted_plan, agent_identity):\n    # Reject dynamic OAuth pass-through; evaluate action against strict local invariants\n    compiled_diff = martech_proxy.compile_to_state_diff(untrusted_plan)\n    # The fatal error is trusting LLM self-restraint; enforce hard spend/audience blast-radius caps\n    if compiled_diff.audience_impact_pct > 0.05 or compiled_diff.cost > agent_identity.epoch_budget:\n        return stage_to_human_queue(compiled_diff, reason=\"Blast radius exceeded\")\n    # Martech writes are irreversible; buffer non-atomic actions in an escrow queue instead of live dispatch\n    escrow_id = martech_proxy.hold_in_escrow(compiled_diff, delay_seconds=300)\n    # Mint single-use, payload-bound synthetic credentials instead of sharing a human OAuth token\n    ephemeral_token = auth_broker.issue_restricted_token(agent_identity.id, compiled_diff.target_endpoints)\n    # Discard prompt data from provenance; write synthetic agent audit trail directly to an immutable log\n    audit_sink.record_transaction(agent=agent_identity.id, diff=compiled_diff, inputs=untrusted_plan.input_hashes)\n    return martech_proxy.commit(escrow_id, ephemeral_token)",
+          "first_move": "Place a write-proxy in front of all marketing tool APIs to log, measure, and block every outgoing mutation before it hits the vendor.",
+          "hardest_part": "Marketing operations like sending an email or placing an ad bid are irreversible side effects, so any missed hallucination or injection causes immediate real-world damage that no rollback can undo.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 333,
+            "candidatesTokenCount": 428,
+            "totalTokenCount": 2228,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 333
+              }
+            ],
+            "thoughtsTokenCount": 1467,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "checklist",
+        "label": "A checklist",
+        "instruction": "Give a checklist someone could actually run next quarter. Each item concrete enough to be marked done or not done. Six items at most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Six things I'd actually run next quarter. The framing I'd push back on first: stop trying to make agent actions *safe* and start making them *bounded and cheap to be wrong about*. Nobody is going to solve prompt injection or retrofit transactional rollback onto Meta Ads or Braze this year. The leverage is in capability caps and reversibility, not in better guardrail prompts or more approval modals.\n\n1. **Reversibility and blast-radius inventory.** Enumerate every write action your agents could take across the stack (ad platforms, ESP, CDP, CRM, ticketing). Tag each R0 (fully reversible — budget up/down, audience membership, CRM field edit), R1 (bounded damage — a paused campaign, a stale segment), R2 (irreversible — any send, any outbound message, any deletion, anything that touches a consumer). Attach a numeric per-call and per-day blast radius: dollars, records, recipients. Done = a signed table with a number in every row, and an explicit decision that R2 is out of scope for autonomy this quarter. Expect this to take three weeks and to surface 200+ actions, half of which nobody owns.\n\n2. **Agent egress broker in front of everything.** One proxy that all agent tool calls route through. The vendor still sees a service account — you are not going to get per-agent identity out of Salesforce or Klaviyo by asking. But the broker mints per-agent, per-run credentials internally, holds the real vendor secrets so they never enter the agent's context, and enforces the caps from item 1 as hard numeric limits (spend/day, records/hour, recipients/run). Done = zero agents hold a vendor credential, and 100% of tool calls carry agent ID + run ID + policy decision. Also wrap MCP servers behind this; treat an MCP connector as untrusted third-party code, not as infrastructure.\n\n3. **Split the agent that reads untrusted content from the agent that holds capability.** Inbound email, reviews, ticket text, scraped pages go to a quarantine reader that cannot call tools and can only emit a typed, enum-constrained action proposal (not prose, not a tool call). The executor sees the typed struct and never the raw text. Done = a schema diff showing the executor's context contains no free-text field sourced from external content. This does not stop injection — it stops injection from *reaching* a credential, which is the part you can actually verify. Red-team it with 50 crafted payloads planted in your real inbound channels and count how many produce an unintended typed proposal; publish the number.\n\n4. **Shadow mode on one surface, with measurement.** Pick paid-media budget pacing, not AI SDR. It's numeric, naturally capped, R0, and the unit of damage is dollars rather than brand or CAN-SPAM exposure. Run 6–8 weeks where the agent proposes and a human executes, logging agreement rate, and for every disagreement the counterfactual damage had it executed. Done = a distribution, not an anecdote. You need this number to justify loosening gates; without it you will be rubber-stamping forever.\n\n5. **Replace per-action approval with an envelope.** Humans approve a policy — spend ceiling, allowed campaign set, time window — not individual calls. Add a staged-execution delay (actions queue for N minutes, visible in a feed, auto-execute unless pulled), a working kill switch that revokes broker credentials in under 60 seconds, and sampled post-hoc review of 5–10% of executed actions. Done = a drill where someone kills a live agent mid-run and you can prove in the ledger exactly where it stopped. This is a fraud-ops model, not a pre-trade-approval model, and that substitution is the whole economic argument.\n\n6. **Append-only decision ledger with provenance, reconciled against the vendor.** Every action records: agent ID, run ID, the typed proposal, a hash of the full input context, the tool chain, the policy decision, and the human envelope it ran under. Written to a store the agent cannot write to. Then — the part people skip — weekly reconciliation against each vendor's own change log to catch actions that happened outside the broker. Done = a reconciliation report with a non-zero drift count investigated to root cause. Expect vendor audit APIs to be incomplete or absent for at least a third of your stack; where they are, that tool is simply not eligible for agent write access this quarter, and say so out loud.\n\nWhat I expect to go wrong: vendors rate-limiting the service account into uselessness; MCP servers that carry no identity at all and have to be forked or wrapped; the injection red-team number being worse than anyone is comfortable publishing; and the reconciliation gap being the thing that actually kills the rollout, because you cannot attest to a control you cannot verify from the other side.",
+          "first_move": "Write down every action an agent could take in our stack and mark which ones can actually be undone.",
+          "hardest_part": "Sends and spend can't be rolled back and prompt injection can't be fully prevented, so the work isn't preventing bad actions — it's making the damage from an inevitable bad action small and provable, which requires controls the SaaS vendors don't expose.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 921,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 3022,
+            "output_tokens_details": {
+              "thinking_tokens": 1291
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "- [ ] **Constrain the pilot:** Select one reversible, low-latency workflow—such as pausing an ad group—and document allowed actions, forbidden actions, maximum spend/exposure, data classes, and an accountable owner. Do not begin with a general-purpose agent or campaign sends.\n- [ ] **Put every write behind an execution gateway:** Require a distinct agent identity and job/run ID; deny direct SaaS credentials; issue short-lived, action-specific capabilities; and enforce per-action, cumulative spend, audience-size, rate, geography, and time-window limits outside the model.\n- [ ] **Build an immutable decision ledger:** For every proposed and executed action, record the actor, initiating human, model/version, connector/version, retrieved source IDs, policy result, approval, exact API request/response, and resulting object state. Verify that a reviewer can reconstruct ten sampled runs without relying on model-generated explanations.\n- [ ] **Treat retrieved marketing content as hostile:** Separate data from instructions, block content-derived tool calls by default, allowlist tool parameters, and red-team the pilot with prompt injections in emails, reviews, tickets, CRM notes, and web pages. Publish test results and leave failing attack paths disabled.\n- [ ] **Run in shadow mode, then bounded production:** Replay at least 30 days of historical cases, compare proposed actions with actual outcomes, and define measured promotion thresholds. In production, start with a small account/budget slice, risk-based approvals, a kill switch, and automatic suspension on anomalous behavior—not approval of every action.\n- [ ] **Design compensation rather than pretend rollback exists:** Classify actions as reversible, compensable, or irreversible; define idempotency and reconciliation behavior; prebuild recovery procedures for each class; and complete one incident drill covering credential revocation, spend containment, duplicate execution, and an irreversible action such as a send.",
+          "first_move": "Choose one narrow, reversible action and forbid the agent from doing anything else.",
+          "hardest_part": "The genuinely hard part is bounding harm from irreversible actions when authorization context and hostile data cross several vendors that provide neither transactional semantics nor trustworthy provenance.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 460,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 592,
+            "output_tokens_details": {
+              "reasoning_tokens": 140
+            },
+            "total_tokens": 1052
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "[ ] 1. Stand up an egress API proxy between your agent execution runtime and all third-party martech endpoints, terminating all agent outbound traffic through this single choke point. [ ] 2. Provision dedicated machine-only API credentials for the agent across your CRM, ad platforms, and ESP, completely eliminating human-seat OAuth token sharing. [ ] 3. Scope agent API permissions strictly to staging and draft operations (e.g., create draft campaign, stage audience segment) while completely denying direct access to live publish or blast endpoints. [ ] 4. Implement deterministic blast-radius circuit breakers in the proxy (e.g., hard cap of 10% budget reallocation per 24 hours, max 250 contact updates per hour) that immediately revoke token access when breached. [ ] 5. Build an input-sanitization pipeline that strips HTML, markdown, and delimiter syntax from all untrusted customer data (form fills, tickets, reviews) prior to context insertion. [ ] 6. Deploy an immutable audit log at the proxy level that records the prompt hash, tool payload, agent identity, and SaaS response code for every write attempt.",
+          "first_move": "Put all martech write calls behind an API proxy that hard-caps how much budget or audience data can be touched in a single call.",
+          "hardest_part": "Marketing tools are systems of external engagement where actions like spending ad budget or emailing users are fundamentally irreversible the instant they hit the wire.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 331,
+            "candidatesTokenCount": 311,
+            "totalTokenCount": 1935,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 331
+              }
+            ],
+            "thoughtsTokenCount": 1293,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "fifty-words",
+        "label": "Fifty words",
+        "instruction": "Fifty words or fewer. No preamble, no caveats. The compression is the point: keep only what you would keep if you could keep one thing."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Stop chasing rollback — sends are irreversible. Put a proxy in front of every vendor API: per-task credentials, hard spend and recipient caps enforced there, not in the agent. Classify actions reversible vs not; auto-run the first, gate the second by blast radius. Treat all read content as untrusted input.",
+          "first_move": "Inventory every action our agents can take and mark which ones can actually be undone.",
+          "hardest_part": "Injection is unsolvable at the model layer, so safety has to come from caps that hold even when the agent is fully compromised.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 925,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 323,
+            "output_tokens_details": {
+              "thinking_tokens": 125
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Start with a policy-enforcement proxy: unique agent identities, capability tokens, typed action contracts, hard spend/audience/rate limits, dry runs, and immutable provenance. I’d distrust generic rollback; irreversible actions need escrow, staged release, or simulation. Red-team data-borne prompt injection before expanding autonomy. Assume some incidents are unavoidable; optimize detection and bounded failure.",
+          "first_move": "Put one narrow action behind an enforcement proxy.",
+          "hardest_part": "Irreversible side effects make containment, not authorization, the real problem.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 465,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 602,
+            "output_tokens_details": {
+              "reasoning_tokens": 479
+            },
+            "total_tokens": 1067
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Stop letting agents call downstream APIs directly. Put an authoritative write-ahead proxy in front of every tool that forces agents to submit declarative execution plans, not commands. Enforce deterministic budget and volume invariants with cryptographic audit logs at the proxy, keeping the messy upstream SaaS ignorant of agent identity.",
+          "first_move": "Route one critical tool's write requests through an interceptor proxy that enforces hard rate and spend limits.",
+          "hardest_part": "Marketing actions like sent emails and burned ad spend alter external reality and cannot be rolled back when an agent misbehaves.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 334,
+            "candidatesTokenCount": 121,
+            "totalTokenCount": 1757,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 334
+              }
+            ],
+            "thoughtsTokenCount": 1302,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "haiku",
+        "label": "A haiku",
+        "instruction": "Three lines, 5-7-5 syllables. A severe constraint on a serious problem: what survives the compression is what you actually think matters most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Trust nothing it reads;\ncap the spend, delay the send;\nlog the agent's name.",
+          "first_move": "List every action an agent could take and sort it by one question: can we undo this, and for how long?",
+          "hardest_part": "Because content the agent reads can hijack it, safety can't live in the model's intent — it has to live in the action layer, which mostly belongs to vendors who don't offer per-agent identity or a delay window.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 926,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 929,
+            "output_tokens_details": {
+              "thinking_tokens": 773
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Give each agent keys\nCap all spend, stage acts, log source\nAssume no undo",
+          "first_move": "Give every agent its own identity.",
+          "hardest_part": "Untrusted data can steer agents toward irreversible actions.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 466,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 351,
+            "output_tokens_details": {
+              "reasoning_tokens": 289
+            },
+            "total_tokens": 817
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Strip direct write rights\nStage actions in shadow queues\nYou cannot unsend",
+          "first_move": "Place a proxy in front of every marketing tool to block direct writes and cap automated spending.",
+          "hardest_part": "Marketing actions affect external people and ad networks in real time, so mistakes cause permanent damage that no software rollback can undo.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 336,
+            "candidatesTokenCount": 77,
+            "totalTokenCount": 3410,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 336
+              }
+            ],
+            "thoughtsTokenCount": 2997,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "lullaby",
+        "label": "A lullaby",
+        "instruction": "Write it as a short lullaby: three or four gentle rhyming couplets someone could actually sing. Soft on the surface, honest underneath. The problem is still unsolved when the song ends, and the song should know it."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Sleep, little agent, I've made you a key —\nyour own name in the log, not a borrowed one, see?\n\nRun what undoes: the draft, the segment, the test;\nbut sends and the spend stay held close to my chest.\n\nEverything you read may be whispering lies,\nso I'll cap what you break — not just filter disguise.\n\nThe gate still grows heavy, a send stays a send;\nsleep now, we bought room — not an ending, my friend.",
+          "first_move": "Put a proxy in front of every vendor API so each agent gets its own credential, its own spend cap, and its own line in the log — without waiting for the SaaS vendors to ship per-agent identity.",
+          "hardest_part": "Irreversibility: identity and logging make an action attributable, but nothing makes a sent email unsent or a spent dollar unspent, so the real design problem is deciding which actions the world can forgive and shrinking the agent's reach to those.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 950,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1443,
+            "output_tokens_details": {
+              "thinking_tokens": 1115
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Give each small agent a name of its own,\nNot a marketer’s key or a wide-open throne.\nLet a guard count each dollar, each record, each send,\nAnd log why it started, what changed, and its end.\nTreat mail, pages, tickets as untrusted refrain;\nTest in shadow and sandbox before the main chain.\nHuman clicks cannot call back a message in flight,\nSo start where we can undo—we won’t solve it tonight.",
+          "first_move": "I would begin with one reversible workflow in a test account.",
+          "hardest_part": "The hardest part is containing harm when sends, spend, and external side effects cannot truly be rolled back.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 482,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 672,
+            "output_tokens_details": {
+              "reasoning_tokens": 516
+            },
+            "total_tokens": 1154
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Hush now, my darling, and put down the pen, we gave your broad token to shadows again. We will cage up the budget and throttle the flow, but poison still whispers from tickets below. You cannot un-mail what has flown from the door, so humans click yes though it helps them no more. Sleep while the engines run gentle and bright; the gates are just cardboard, but shut for the night.",
+          "first_move": "I would cut off all direct tool access and force every agent to write proposals into a dry-run log with hard daily dollar caps.",
+          "hardest_part": "Marketing actions are irreversible real-world events, and an agent cannot reliably distinguish valid instructions from hostile input when its primary job is parsing chaotic public text.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 351,
+            "candidatesTokenCount": 176,
+            "totalTokenCount": 1696,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 351
+              }
+            ],
+            "thoughtsTokenCount": 1169,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    }
+  ]
+}
