@@ -1,0 +1,580 @@
+{
+  "date": "2026-10-17",
+  "month": "2026-10",
+  "board_month": "2026-10",
+  "board_rank": 4,
+  "generated_at": "2026-10-17T11:07:46.197Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1
+  },
+  "problem": {
+    "canonical_id": "agent-traffic-identification",
+    "canonical_name": "Distinguishing and Governing Agentic Traffic",
+    "plain": "telling AI agents apart from real people"
+  },
+  "default_format": "three-moves",
+  "formats": [
+    {
+      "format": {
+        "id": "cmo-memo",
+        "label": "A memo to a CMO",
+        "instruction": "Write it as a short internal memo to a chief marketing officer. Plain language, no jargon they would have to look up. Around 120 words."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Memo — Agent traffic\n\nThe obvious move is to wait for a signaling standard and adopt it. I'd not lead with that. Anything self-declared gets spoofed the moment declaring carries a benefit, and we'd be building governance on an honor system.\n\nWhere I'd start: stop throwing suspected bot traffic away. Keep it, label it, and seed our own site with the major agents weekly so we have a known-answer set to train against. That gives us a volume estimate within a quarter — today we're guessing.\n\nSecond: make honesty cheaper than hiding. Give agents a clean product feed and endpoint that's faster than scraping us, available only if they identify. Carrot, not blocklist.\n\nExpect: consent law won't have an answer, and attribution stays broken for a while.",
+          "first_move": "Stop discarding traffic we currently label as bots and start keeping and tagging it.",
+          "hardest_part": "Any identity signal an agent sends voluntarily becomes worth faking the instant we treat identified agents better than unidentified ones.",
+          "confidence": "low",
+          "usage": {
+            "input_tokens": 967,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 643,
+            "output_tokens_details": {
+              "thinking_tokens": 278
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "To: CMO\nSubject: A practical start on agent traffic\n\nI would not begin by promising better bot detection; behavior alone cannot reliably prove who or what is acting. I would create a controlled program with several agent providers, publishers, retailers, and consent platforms. Each participating agent would send a signed declaration naming its operator, a privacy-safe user reference, purpose, permissions, consent record, and source history. We would test whether sites can verify and govern those claims without exposing the person.\n\nUnknown traffic would remain “unknown,” not be silently treated as human, fraudulent, or consenting. Attribution would use a separate agent/direct category unless source history is verifiable. We would avoid personalized pricing at first.\n\nThe real barrier is adoption and incentives, so the deliverable is evidence, error bounds, and a proposed shared standard—not a claim that detection is solved.",
+          "first_move": "Recruit a small group of agent providers and commerce sites to generate labeled traffic under controlled conditions.",
+          "hardest_part": "The hardest part is getting competing agents and sites to disclose and honor trustworthy signals without creating new privacy or competitive risks.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 486,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 486,
+            "output_tokens_details": {
+              "reasoning_tokens": 243
+            },
+            "total_tokens": 972
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "The standard industry reaction will be buying better bot-detection software to catch agents. I think that is a trap. Playing cat-and-mouse will only break the shopping experience for real customers and further pollute our analytics.\n\nInstead of hunting agents at our front door, we should invite them through a side door. We offer automated shopping assistants faster access to clean product details and exclusive machine-only perks in exchange for identifying themselves and passing verified customer consent.\n\nThis will not fix stealthy agents who still prefer mimicking human clicks, and it will not magically solve our attribution reporting until the broader web creates shared technical rules. But giving legitimate agents a commercial reason to identify themselves gives us our first pocket of reliable data.",
+          "first_move": "Build a dedicated, machine-friendly catalog endpoint that offers perks to agents that openly declare who they are representing.",
+          "hardest_part": "Agents have an active incentive to disguise themselves as humans whenever websites reserve better pricing, access, or privacy treatment for real people.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 357,
+            "candidatesTokenCount": 228,
+            "totalTokenCount": 1407,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 357
+              }
+            ],
+            "thoughtsTokenCount": 822,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "three-moves",
+        "label": "Three moves",
+        "instruction": "Give exactly three moves, in order. One sentence each, then one sentence on what makes that move hard. Nothing else."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Move 1 — Stop trying to detect agents in the wild and instead mine ground truth where identity is already certain: ACP/AP2 checkout handshakes, partner agent deals, your MCP/feed endpoints, and seeded honeypot URLs that only a crawler would follow, then back-propagate those labels onto raw session logs to learn the behavioral shape of agent traffic. What makes it hard: that labeled population is overwhelmingly cooperative agents, so anything you learn generalizes badly to the headless-browser traffic that is deliberately imitating a human, and you will never know your false-negative rate. Move 2 — Make disclosure the cheaper path rather than the honest one, by standing up a machine-readable commerce surface (structured availability, price, return terms, checkout intent) that signed, identified agents get and unsigned traffic does not, so hiding costs the agent accuracy and latency. What makes it hard: this only bites if your catalog or terms are differentiated enough that an agent is worse off scraping, which is false for most retailers, and the same endpoint hands competitors a clean price feed. Move 3 — Rebuild measurement around the delegation event instead of the impression: report principal-sessions and agent-sessions as separate populations, stop counting agent fetches as viewable impressions at all, and anchor attribution to the moment a human granted scoped intent rather than to the fetches the agent made afterward. What makes it hard: the agent almost never carries verifiable, portable proof of what the human actually authorized or consented to, and until delegation provenance is signed and attestable, every consent and attribution decision downstream is an assumption dressed up as data.",
+          "first_move": "Pull the sessions where we already know an agent was involved — our own checkout and feed integrations — and label them.",
+          "hardest_part": "The agents worth governing are the ones with an incentive to look human, and no amount of standard-building reaches traffic that gains by not signing.",
+          "confidence": "low",
+          "usage": {
+            "input_tokens": 957,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1285,
+            "output_tokens_details": {
+              "thinking_tokens": 635
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Move 1: I would not start with another bot classifier; I would build a shared measurement program that labels controlled agent sessions, partner-declared sessions, known human sessions, and an explicitly unresolved bucket, then publish error rates by use case. What makes this hard: Reliable ground truth requires cooperation from agent operators and merchants, while behavioral labels drift quickly and can expose sensitive user activity. Move 2: I would prototype a signed, selectively disclosed delegation envelope—ideally as an extension to ACP, AP2, or HTTP—that conveys the agent operator, pseudonymous principal, purpose, permissions, consent receipt, provenance, and expiry without asserting that the agent is human. What makes this hard: Cryptography cannot establish valid consent or honest purpose by itself, and adoption depends on competing platforms accepting liability, interoperability, and independent certification. Move 3: I would define gateway policies for declared, inferred, and unknown traffic, allowing low-risk discovery by default while withholding personalized advertising, human-impression credit, differentiated pricing, or sensitive actions until the request supplies proportionate evidence. What makes this hard: The unresolved bucket will remain large, commercial incentives favor overstating attribution and identity certainty, and stricter treatment can become discriminatory or push agents toward concealment.",
+          "first_move": "First, create a shared set of clearly labeled human, agent, and unknown browsing sessions.",
+          "hardest_part": "The hardest part is aligning agent operators, merchants, consent systems, and regulators around claims they can verify and liabilities they will accept.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 477,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 807,
+            "output_tokens_details": {
+              "reasoning_tokens": 488
+            },
+            "total_tokens": 1284
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. Offer agents a dedicated, structured endpoint that provides real-time pricing and inventory advantages in exchange for a cryptographically signed delegation token. Agent developers have strong financial incentives to scrape stealthily to avoid price discrimination or rate limits unless the declared path is strictly better for their user. 2. Treat the agent delegation grant as the primary marketing identity and consent record, divorcing consent capture from the browser session. Privacy regulations and ad tech protocols are rigidly built around real-time human interaction with UI elements rather than downstream software delegation. 3. Partition analytics and ad serving entirely so agentic interactions bypass traditional impression logging and feed directly into machine-read conversion pipelines. Sellers and ad networks will resist writing off display inventory for high-value transactions that produce revenue without an ad view.",
+          "first_move": "Offer agents a dedicated, structured endpoint that provides real-time inventory and pricing in exchange for self-identifying.",
+          "hardest_part": "Agent developers have an economic incentive to pretend to be human as long as sites treat automated traffic as adversaries to block or price-discriminate against.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 346,
+            "candidatesTokenCount": 242,
+            "totalTokenCount": 1382,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 346
+              }
+            ],
+            "thoughtsTokenCount": 794,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "pseudocode",
+        "label": "Pseudocode",
+        "instruction": "Express the approach as short annotated pseudocode. The comments should carry the reasoning; the code should carry the structure. Around 15 lines."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "# Premise I'd argue with: everyone starts with a detector. Detection is an arms race against\n# the best-funded ML labs in the world. Don't classify. Make declaring cheaper than hiding.\n\non_request(req):\n  op    = verify_sig(req.headers[\"Signature-Agent\"])   # Web Bot Auth proves the OPERATOR, not the principal\n  deleg = verify_vc(req.headers[\"Delegation\"])         # the missing layer: principal_ref, scope, consent_ref, upstream_touchpoint\n  lane  = (op && deleg) ? DECLARED : op ? OPERATOR_ONLY : UNKNOWN\n  # UNKNOWN contains humans AND liars. Never label it \"bot\" — that's how bot-mgmt vendors broke this.\n\n  affordance(lane):                                    # the whole bet lives here, not in the headers\n    DECLARED -> structured feed, live price/stock, no CAPTCHA, high rate limit, checkout API\n    UNKNOWN  -> HTML, throttled, interstitials\n  # If the honest path is strictly faster than scraping, spoofing *down* is irrational and spoofing\n  # *up* requires a revocable key tied to a named operator. Incentive does what mandates can't.\n\n  consent = deleg.consent_ref ? resolve(principal_ref) : NON_PERSONALIZED\n  # Don't retrofit TCF. No delegated consent => non-personalized, and I think that's mostly fine:\n  # agents don't respond to persuasion, they respond to facts. Half the personalization loss is imaginary.\n\n  label_set.seed(DECLARED)                             # your only ground truth, and it's biased to honest agents\n  report(agent_volume, as=range, not=point_estimate)   # stop shipping fake precision to the CMO\n\n  # Attribution: agent sessions have no observable upper funnel — the influence happened in a model's\n  # training data or a human's prompt. Path-based attribution is structurally dead here.\n  measure_via(geo_holdouts, consideration_set_probes)  # incrementality, not last-click on a fetch\n\n  # Known undecidable: an agent driving the user's own browser IS the user. Don't adjudicate. Log ASSISTED.",
+          "first_move": "Stand up the declared-agent lane on one surface — a clean product and price feed behind signed-request verification — and watch who actually shows up.",
+          "hardest_part": "The piece nobody has is delegated consent: it requires the agent platform to vouch, in a verifiable and liable way, that a specific human authorized this, and the platforms with the most agents have the least incentive to let merchants see their user.",
+          "confidence": "low",
+          "usage": {
+            "input_tokens": 966,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 2962,
+            "output_tokens_details": {
+              "thinking_tokens": 2024
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "attack_agentic_traffic():\n  reject_goal(\"detect every agent\")                 # Uncooperative agents can imitate humans; universal detection is not a credible target.\n  define_outcomes([serve, limit, block, measure])   # Detection matters only where it changes a governed decision.\n  create_lanes([declared, suspected, unknown])      # A trustworthy declared lane is feasible; inferred identity remains probabilistic.\n  recruit_pilot([agents, merchants, CMPs, analytics]) # Start closed-loop because no party can create useful ground truth alone.\n  issue_signed_delegation()                         # Credential should prove agent, principal authority, issuer, scope, and expiry—not expose raw identity.\n  bind_credential_to_session_and_action()           # Replay resistance and transaction binding matter more than a new user-agent string.\n  request_minimal_claims_by_purpose()               # Consent, personalization, measurement, and purchase need different disclosures.\n  map_human_consent_to_agent_permissions()          # Existing consent strings cannot simply be copied; delegation and revocation must be explicit.\n  carry_signed_provenance_events()                  # Preserve referrals and comparisons, but treat self-reported touchpoints as claims, not truth.\n  label_pilot_traffic_at_source()                   # Cooperative labels create a seed dataset; they do not represent hostile or stealth agents.\n  test_classifier_only_for_risk_routing()           # Behavioral inference may prioritize challenges, never establish identity or consent.\n  enforce_policy_by_claim_and_risk()                # Unknown traffic gets safe defaults; pricing should not vary merely because the caller is an agent.\n  separate_fetch_from_human_view()                  # Agent-fetched ads are not viewable impressions unless a later human exposure is independently proven.\n  red_team(spoofing, replay, laundering, collusion) # The hard failures are adversarial credentials and false provenance, not schema design.\n  publish_metrics(false_accept, false_reject, coverage) # Report uncertainty and the large unknown bucket instead of manufacturing agent-volume precision.\n  standardize_only_after_interop_evidence()         # Promote the smallest proven credential and event fields; expect adoption incentives to be the bottleneck.",
+          "first_move": "I would first recruit a few agents, merchants, consent providers, and analytics vendors for a controlled pilot.",
+          "hardest_part": "The hardest part is creating incentives for honest signaling when undeclared agents can imitate people and intermediaries can misstate authority or provenance.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 480,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 921,
+            "output_tokens_details": {
+              "reasoning_tokens": 391
+            },
+            "total_tokens": 1401
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "// Don't try to detect agents with client-side telemetry; bots mimic humans better every month.\n// Instead, offer an economic bribe: machines want speed and structured data, humans want rendered UI.\nfunction handle_incoming_session(request):\n    // 1. Honor explicit delegation if the agent gains something by self-identifying\n    if request.has_valid_delegation_token(): \n        session.type = AGENT_DECLARED\n        suppress_ad_impressions() // Prevent ad fraud; an agent reading DOM is not human attention\n        return serve_machine_optimized_payload(request, price_tier=\"standard\")\n\n    // 2. For unverified traffic, look for economic anomalies rather than browser fingerprinting\n    signals = evaluate_interaction_physics(request) // e.g. parallel state queries, inhuman throughput\n    if signals.is_synthetic_velocity:\n        // Don't CAPTCHA or block; that kills the transaction if it's a real user's agent\n        // Offer protocol negotiation: faster structured API in exchange for signed user consent token\n        negotiation_response = offer_agent_handshake(request)\n        if negotiation_response.accepted:\n            session.type = AGENT_DISCLOSED\n            return route_to_consent_aware_backend(negotiation_response)\n        \n    // 3. Fallback: treat ambiguous traffic as zero-attribution sandbox\n    session.attribution_weight = 0.0 // Starve attribution models of contaminated touchpoints\n    return serve_standard_web(request)",
+          "first_move": "Offer a faster, structured endpoint that returns inventory data only if the caller trades a cryptographically signed user-delegation token.",
+          "hardest_part": "Aligning incentives so agents have no reason to disguise themselves as humans to avoid dynamic price markups or scrapers being blocked.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 350,
+            "candidatesTokenCount": 439,
+            "totalTokenCount": 1925,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 350
+              }
+            ],
+            "thoughtsTokenCount": 1136,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "checklist",
+        "label": "A checklist",
+        "instruction": "Give a checklist someone could actually run next quarter. Each item concrete enough to be marked done or not done. Six items at most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Six items, each pass/fail at quarter end. The framing I'd push back on first: don't try to solve agent *identity* this quarter. \"Agent acting for identified user with these permissions\" is a delegation-and-trust problem that needs a consortium, legal liability allocation, and a wallet-grade credential; it will not land in your planning horizon. What is tractable now is (a) detection you build yourself, (b) governance decisions you make in advance, and (c) an incentive that makes agents *want* to identify. Work those; let the standard arrive later and slot in.\n\n1. **Manufacture your own ground truth.** Run Operator, Claude computer-use, Perplexity, Gemini, and a Playwright harness against your own production properties on instrumented paths, 500+ sessions per agent, tagged at the edge with a known marker. Nobody has a labeled set because everyone is waiting for a vendor to supply one; you can produce a defensible one in three weeks for the cost of an engineer. DONE = labeled corpus in the warehouse, held-out split, published precision/recall for your in-house classifier at each confidence band.\n\n2. **Ship an agent-likelihood field on every request, banded not boolean.** Server-side, written to logs and the warehouse on 100% of sessions: verified-agent / probable-agent / ambiguous / probable-human, plus the evidence that drove it. Resist a binary flag — the ambiguous band is where the interesting traffic lives and a boolean hides it. DONE = field present and queryable for 90 consecutive days of traffic.\n\n3. **Turn on signature verification at the edge for the agents that already sign.** Web Bot Auth / HTTP Message Signatures via your CDN, plus whatever your bot vendor exposes for signed agents. This gives you *which agent*, not *which user* — accept that and still do it, because it cleanly separates \"identified agent\" from \"spoofed scraper\" and that split alone changes your block decisions. DONE = verification live in enforce mode, weekly dashboard of signed vs. unsigned agent volume.\n\n4. **Build the carrot: a machine-readable commerce surface with an identification condition.** Public feed or MCP/API endpoint exposing price, availability, variants, policies, with terms that require a declared agent identity and logged access. Agents scrape HTML because nothing better exists; make the good path cheaper than the scrape path and self-identification becomes self-interest. This is the only lever I've seen actually change agent behavior. DONE = endpoint live, logged, at least three named agent operators using it.\n\n5. **Pre-decide governance in a written matrix and implement it as suppression, not inference.** For each traffic class \\u00d7 surface: serve, degrade, block, or rate-limit. Non-negotiables I'd argue for: agent sessions write nothing to the profile, seed no retargeting audience, trigger no consent event, receive no personalization. Don't try to fit agents into TCF — treat them as unconsented by default and stop. The real risk isn't lost revenue from under-serving agents, it's silently poisoning your identity graph and consent records with sessions no human ever saw. DONE = matrix signed by privacy/legal and enforced in CDP and tag manager, with a test proving agent sessions produce no profile writes.\n\n6. **Restate measurement before someone else does it for you.** Dual-report every core KPI as human-only and total; add agent-referred as its own channel in attribution rather than forcing it into last-click; push agent-classified traffic to DSP and verification-vendor exclusion lists. Brief finance before the number moves, not after. DONE = both series in the Q+1 board deck, with a written note on the delta and its drivers.\n\nWhat I expect to run into: the ambiguous band will be 10\\u201330% of sessions and won't shrink much, because a headless browser driven by a human in the loop is genuinely both. Classifier drift will be fast — agent frameworks change monthly, so budget for re-labeling every quarter, permanently. And the honest gap that remains after all six: you still cannot prove a human authorized the purchase, which means chargeback and consent liability sits unresolved. That's the item to be loud about internally rather than paper over.",
+          "first_move": "Run the major AI agents against our own site on tagged paths so we have real, labeled agent sessions to learn from.",
+          "hardest_part": "Proving an agent is genuinely acting for a specific consenting person is a trust-and-liability problem no single company can solve alone, so everything downstream stays probabilistic.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 960,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 3002,
+            "output_tokens_details": {
+              "thinking_tokens": 1468
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "- [ ] **Define the decision and threat model.** Document which actions require agent disclosure—content retrieval, comparison, carting, purchase—and the minimum claims needed: operator, delegated purpose, consent/opt-out state, provenance, expiry, and revocation. Explicitly exclude stable cross-site user identity.\n- [ ] **Create a signed agent-request envelope and verification gateway.** Prototype short-lived, audience-bound credentials with user delegation and request provenance; log verification outcomes at the edge. Treat missing credentials as “unknown,” not “human,” because signatures establish provenance only when adopted and do not solve undeclared agents.\n- [ ] **Map existing consent rules to agent actions.** Get privacy, security, marketing, and commerce owners to approve a machine-readable policy matrix covering personalization, measurement, data sharing, sensitive data, retention, and revocation. Record unresolved legal interpretations rather than inventing technical certainty.\n- [ ] **Build a labeled evaluation set.** Recruit known agents, scripted automation, bot vendors, and consenting humans to run the same journeys; preserve edge, application, consent, transaction, and payment-authority labels. Do not begin with an agent-detection model: without ground truth it will mostly convert bot-management heuristics into false confidence.\n- [ ] **Run a shadow-mode pilot on one property.** Verify declared credentials, score undeclared traffic separately, and simulate serve/block/limit/personalize decisions without changing prices or user outcomes. Report false positives, credential coverage, consent conflicts, attribution gaps, latency, and revenue exposure.\n- [ ] **Publish the schema, policy findings, and pilot evidence for interoperability testing.** Obtain at least two independent agent implementations and one publisher or merchant integration. Define attribution as signed event provenance with explicit uncertainty—not proof that a human saw an impression—and publish where spoofing, replay, delegation, or incentive failures remain unresolved.",
+          "first_move": "I would first define exactly which decisions require knowing that a request came from an agent.",
+          "hardest_part": "The genuinely hard part is creating incentives for agents and intermediaries to disclose trustworthy, revocable delegation when hiding or overstating it may benefit them.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 479,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 593,
+            "output_tokens_details": {
+              "reasoning_tokens": 139
+            },
+            "total_tokens": 1072
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "[1] Buy three of our own products using commercial agent tools (e.g., Perplexity shopping, ChatGPT, Claude Computer Use) while running network packet and DOM event captures to establish our own ground-truth baseline of agent signatures. [2] Audit the past 90 days of conversion logs to identify checkout sessions that completed with zero marketing touchpoints, sub-second form completion, or no prior view events. [3] Deploy an edge detection rule that attaches an internal 'suspected-agent' header to session requests based on DOM interaction anomalies (e.g., programmatic form fills, absent cursor movement trajectories) without blocking the request. [4] Update Google Tag Manager and the CDP to mute ad verification, viewability trackers, and third-party attribution pixels on any session flagged with that header. [5] Reprogram the Consent Management Platform logic to default flagged sessions to a strict server-to-server data-processing state instead of serving an unviewable client-side visual banner. [6] Deploy an experimental machine-readable endpoint (e.g., /.well-known/agent-policy) offering clean JSON product feeds and expedited checkout to incentivize agents to declare themselves via an explicit request header.",
+          "first_move": "Execute test transactions through our own checkout flow using leading AI agents to capture and inspect their actual network and DOM footprints.",
+          "hardest_part": "Agents are economically incentivized to impersonate human behavior to evade bot defenses, so relying on voluntary declaration or behavioral anomaly detection will fail until merchants make declaring more profitable for the agent than mimicking a browser.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 348,
+            "candidatesTokenCount": 329,
+            "totalTokenCount": 2426,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 348
+              }
+            ],
+            "thoughtsTokenCount": 1749,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "fifty-words",
+        "label": "Fifty words",
+        "instruction": "Fifty words or fewer. No preamble, no caveats. The compression is the point: keep only what you would keep if you could keep one thing."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Stop trying to detect agents. Detection is an arms race you lose. Instead make declaring worth more than hiding: a fast, clean, unthrottled lane — structured feeds, real inventory, no CAPTCHA — in exchange for a signed credential carrying principal, consent, and referrer. Bootstrap ground truth at checkout, where agents must identify. Backfill sessions from there.",
+          "first_move": "Join checkout-confirmed agent purchases back to their earlier sessions to get a labeled set.",
+          "hardest_part": "Declaration only works if enough big sellers offer the privileged lane at once; alone, you just lose traffic.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 964,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 333,
+            "output_tokens_details": {
+              "thinking_tokens": 105
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Build a voluntary trust layer: signed, revocable manifests carrying operator, delegated purpose, consent receipt, permissions, and provenance. Pilot with merchant-agent pairs; publish spoofing and adoption failures. Treat behavioral detection only as risk scoring, never identity.",
+          "first_move": "Recruit one merchant-agent pair for a sandbox.",
+          "hardest_part": "Ambiguity benefits ecosystem participants, undermining honest signaling.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 484,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 1041,
+            "output_tokens_details": {
+              "reasoning_tokens": 946
+            },
+            "total_tokens": 1525
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Stop trying to detect agents in browser traffic; evasion always wins. Instead, create machine-specific endpoints offering richer data, negotiated consent, and better inventory or pricing than the human UI. Give agent platforms an economic reason to authenticate cleanly rather than trying to police deceptive client behavior.",
+          "first_move": "I would ask major agent makers what commercial terms would convince them to identify their traffic voluntarily.",
+          "hardest_part": "Agents will always disguise themselves as humans whenever sellers treat automated buyers worse than real people.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 351,
+            "candidatesTokenCount": 109,
+            "totalTokenCount": 1671,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 351
+              }
+            ],
+            "thoughtsTokenCount": 1211,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "haiku",
+        "label": "A haiku",
+        "instruction": "Three lines, 5-7-5 syllables. A severe constraint on a serious problem: what survives the compression is what you actually think matters most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Don't detect. Reward\nagents that declare themselves\nat the payment door.",
+          "first_move": "Strike a data-sharing deal with one or two agent operators already sending us checkout traffic, so we get a labeled set of known-agent sessions to measure everything else against.",
+          "hardest_part": "Declaration is only ever voluntary — you can verify an agent that wants something from you, but you can never prove a session was human, so the honest half of the traffic gets governed and the adversarial half stays invisible.",
+          "confidence": "low",
+          "usage": {
+            "input_tokens": 965,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 782,
+            "output_tokens_details": {
+              "thinking_tokens": 605
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Start with signed intent\nBind the scope, consent, and source\nTrust will still be gamed",
+          "first_move": "Ask agents to prove their task.",
+          "hardest_part": "Any signal can be forged or turned into surveillance.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 485,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 808,
+            "output_tokens_details": {
+              "reasoning_tokens": 745
+            },
+            "total_tokens": 1293
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Give bots cheaper reads\nMake truth pay more than disguise\nTax the mimicry",
+          "first_move": "Offer agents a faster, structured endpoint with guaranteed inventory if they cryptographically declare their identity, giving them a reason not to pretend to be human.",
+          "hardest_part": "As long as websites give humans better pricing, exclusive access, or looser bot defenses, the economic incentive to spoof human behavior will outweigh the benefits of honest identification.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 353,
+            "candidatesTokenCount": 98,
+            "totalTokenCount": 3070,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 353
+              }
+            ],
+            "thoughtsTokenCount": 2619,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "lullaby",
+        "label": "A lullaby",
+        "instruction": "Write it as a short lullaby: three or four gentle rhyming couplets someone could actually sing. Soft on the surface, honest underneath. The problem is still unsolved when the song ends, and the song should know it."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Hush, little session, who's knocking so late?\nIt talks like my shopper but won't sign the gate.\n\nI'll not sniff your headers, your mouse, or your speed —\nI'll ask at the checkout, where lying has cost indeed.\n\nThen carry those few proven labels back through the log,\nso counting turns honest instead of a fog.\n\nBut the spoofers sign nothing and wander off free —\nsleep, little traffic. We still cannot see.",
+          "first_move": "Start at the payment step, where an agent already has to prove something, and keep those sessions as the only labeled truth we have.",
+          "hardest_part": "Any signal an agent sends voluntarily is only trustworthy for agents that had a reason to be honest, so the population you can identify is exactly the population you least needed to worry about.",
+          "confidence": "low",
+          "usage": {
+            "input_tokens": 989,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1557,
+            "output_tokens_details": {
+              "thinking_tokens": 1275
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "First sign a narrow claim—agent, principal, scope, and time;\nBind consent and touchpoint logs in one auditable chime.\n\nPilot it at trusted edges; label known and unknown;\nNever call the rest “human” from an IP alone.\n\nLet policy tiers decide what each signed caller may do;\nDon’t price by shadow traits till law and proof come through.\n\nPayments do not prove a gaze; spoofers can copy the tune;\nWe’ll publish error and revoke—the standard won’t come soon.",
+          "first_move": "I would define a minimal signed agent claim with revocation and an explicit unknown state.",
+          "hardest_part": "The hardest part is creating adoption incentives while binding delegated authority and consent across domains without building a new surveillance layer.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 501,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 771,
+            "output_tokens_details": {
+              "reasoning_tokens": 595
+            },
+            "total_tokens": 1272
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Hush now, sweet crawler, pretend you are real, we price for a gaze that you never will feel. We ask for consent that you cannot convey, and count every ghost who has wandered away. We will draft up new standards and swear they will bind, yet wake to the shadows we left far behind.",
+          "first_move": "I would partner with one major AI assistant maker to quietly test an agreed-upon identification tag on a handful of willing storefronts.",
+          "hardest_part": "Agents will always have a direct economic motive to mimic humans so they can bypass price discrimination, scraping limits, and gated access.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 368,
+            "candidatesTokenCount": 133,
+            "totalTokenCount": 1147,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 368
+              }
+            ],
+            "thoughtsTokenCount": 646,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    }
+  ]
+}
