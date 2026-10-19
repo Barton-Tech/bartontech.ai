@@ -1,0 +1,103 @@
+{
+  "date": "2026-10-19",
+  "generated_at": "2026-10-19T13:52:24.991Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-04-19",
+    "to": "2026-10-19",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08",
+      "2026-09",
+      "2026-10"
+    ],
+    "solution_days": 62
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 23679,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1578,
+    "output_tokens_details": {
+      "thinking_tokens": 315
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+  },
+  "themes": [
+    {
+      "name": "No Ground Truth to Measure Against",
+      "plain": "Most of these problems have no answer key. There is no stable number to grade your work against, and the thing being measured often shifts while you measure it, so the models start by building a small truth set of their own or admit the number is only an estimate.",
+      "evidence": "On identity resolution all three models reach for a consented panel or a login-verified count because real identity is only observable for the authenticated minority; the same gap drives the prompt panels built for answer engine optimization, the geo holdouts for cross-channel incrementality, and the search for unbiased outcomes in B2B buying-group intent.",
+      "problem_ids": [
+        "identity-resolution-decay",
+        "aeo",
+        "cross-channel-incrementality",
+        "b2b-buying-group-signal-loss",
+        "genai-content-governance"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust who is acting or what happens next, they build one door they own and push everything through it. A sent email, a spent dollar, or an exported file cannot be taken back, so the only real control happens before the action leaves.",
+      "evidence": "Every answer on safe agent execution builds a proxy, gateway, or broker with hard caps on spend and audience size, and the consent enforcement answers do the same by forcing all data exports through a single counted exit.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "consent-enforcement-downstream",
+        "cross-channel-journey-orchestration"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data, a message, or a dollar leaves your own systems, you cannot see inside the partner, ad platform, or trained model that now holds it. You can watch from outside and estimate whether the rules were followed, but you cannot prove it.",
+      "evidence": "The consent and deletion answers agree that ad platforms and trained models are black boxes where a person cannot be shown to be removed; the same opacity appears in platform-controlled incrementality tests, in walled-off identity matching, and in unverifiable ad supply and engagement.",
+      "problem_ids": [
+        "consent-enforcement-downstream",
+        "cross-channel-incrementality",
+        "identity-resolution-decay",
+        "generative-ad-supply-integrity",
+        "aeo"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Incentives Before Standards",
+      "plain": "Many of these problems stall because the people who hold the answer gain nothing by sharing it, and nobody can force them. The blockers are money and politics, inside the company as much as outside, so the models try to make honesty or cooperation pay rather than write another rule.",
+      "evidence": "On agentic traffic the models offer fast lanes and better prices so declaring beats spoofing; on identity resolution they note platforms earn more by keeping walls up; on journey orchestration and the semantic context layer the blocker is channel owners and departments paid on conflicting numbers.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "identity-resolution-decay",
+        "cross-channel-journey-orchestration",
+        "semantic-context-layer",
+        "generative-ad-supply-integrity"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Judgment That Won't Compile",
+      "plain": "The hardest calls turn on meaning and context: whether a picture plus a headline implies a promise, whether evidence really backs a claim, whether two teams can both be right about what a word means. No rule set captures that, so the models shrink human judgment into a smaller, safer box instead of removing it.",
+      "evidence": "The generative content governance answers all build an approved-claim library and constrain what can be written because implied meaning resists automation, and the semantic context layer answers conclude that conflicting definitions of customer are a political settlement, not a schema.",
+      "problem_ids": [
+        "genai-content-governance",
+        "semantic-context-layer",
+        "cross-channel-journey-orchestration"
+      ],
+      "trend": "steady"
+    }
+  ]
+}

@@ -1,0 +1,580 @@
+{
+  "date": "2026-10-19",
+  "month": "2026-10",
+  "board_month": "2026-10",
+  "board_rank": 6,
+  "generated_at": "2026-10-19T13:52:01.557Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1
+  },
+  "problem": {
+    "canonical_id": "identity-resolution-decay",
+    "canonical_name": "Durable, Consent-Aware Cross-Channel Identity Resolution",
+    "plain": "recognizing the same person across devices"
+  },
+  "default_format": "checklist",
+  "formats": [
+    {
+      "format": {
+        "id": "cmo-memo",
+        "label": "A memo to a CMO",
+        "instruction": "Write it as a short internal memo to a chief marketing officer. Plain language, no jargon they would have to look up. Around 120 words."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Memo: Identity, how I'd actually go at it\n\nI don't think we should buy another universal ID. Every one so far trades coverage for accuracy or legality, and we'd be renting someone else's problem.\n\nInstead: treat identity as a probability with a published error rate, not a yes/no match. Different jobs need different certainty. Suppressing existing customers can tolerate 80% confidence; personalizing a name in an email cannot. Today we use one blunt match for both.\n\nSo: attach consent to the person as a travelling permission, not a flag stuck in each system. Build a small panel of people we genuinely know across devices to measure how wrong our matching is. Then set confidence thresholds per use case.\n\nExpect this to stay partly unsolved. CTV and walled gardens will remain islands; plan for that rather than pretending otherwise.",
+          "first_move": "Recruit a few thousand customers who opt in across devices, so we finally have a truth set to measure our matching against.",
+          "hardest_part": "There is no ground truth for whether two devices are the same person, so we're tuning accuracy we can't actually observe — and the legal definition of 'same person' changes by market.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 832,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 634,
+            "output_tokens_details": {
+              "thinking_tokens": 233
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "To: CMO\nSubject: A practical identity strategy\n\nI would not start by building another universal ID. The trade-off is structural: more coverage usually means less certainty, consent, or durability.\n\nFirst, define a small set of permitted uses—suppression, frequency control, and measurement—and set separate accuracy and consent thresholds for each. Map where we have direct, current permission and test deterministic links there. Treat probabilistic matches as estimates, never facts: attach confidence, measure false matches with holdouts, and exclude them from sensitive personalization.\n\nBuild consent and deletion into the identity graph, including source, purpose, jurisdiction, expiry, and revocation. Use clean rooms for limited partner comparisons, not as a cure for missing identity.\n\nSuccess is not “one person, one ID.” It is less waste and privacy risk, with known gaps and audited error rates.",
+          "first_move": "Map every available identity signal to its consent, permitted uses, expiry, and deletion path.",
+          "hardest_part": "The hardest part is balancing useful coverage against false matches and permissions that vary by channel, partner, place, and time.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 398,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 526,
+            "output_tokens_details": {
+              "reasoning_tokens": 279
+            },
+            "total_tokens": 924
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "We should stop buying identity graphs that promise universal recognition. Every time vendors build a cross-device bridge, Apple, Google, or privacy regulators intentionally break it. The obvious path of stitching fragmented web cookies to TV sets is a losing arms race. Instead, we should split our strategy into two clear buckets. In known channels, we rely strictly on genuine account logins backed by clear value exchanges and explicit consent. In unknown channels, we stop guessing; we treat those environments as purely contextual reach rather than trying to track individual people across devices. Accepting that universal identity across walled gardens is currently impossible protects us from bad data, wasted spend, and sudden regulatory liability.",
+          "first_move": "Audit our existing marketing tech spend to identify and eliminate tools claiming cross-device probabilistic identity resolution that show poor return.",
+          "hardest_part": "The platform gatekeepers control the underlying hardware and operating systems, and their business interests directly conflict with cross-environment recognition.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 266,
+            "candidatesTokenCount": 213,
+            "totalTokenCount": 1503,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 266
+              }
+            ],
+            "thoughtsTokenCount": 1024,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "three-moves",
+        "label": "Three moves",
+        "instruction": "Give exactly three moves, in order. One sentence each, then one sentence on what makes that move hard. Nothing else."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Move 1: Stop trying to produce an identity and start producing a calibrated probability with a per-use-case error budget — suppression and consent enforcement need near-certainty, frequency capping and reach dedup tolerate 10-15% error, and personalization sits in between, so the same graph gets read at three different thresholds. What makes this hard: you cannot calibrate without ground truth, and the only honest source is a paid authenticated panel plus login-rich first-party estates, which are biased toward exactly the people who are easiest to resolve anyway.\n\nMove 2: Make consent an attribute of every edge rather than every person — each link carries who asserted it, under what jurisdiction, for what purpose, with what expiry — and resolve the graph at query time for a specific purpose instead of maintaining one canonical graph you then try to filter. What makes this hard: revocation has to propagate backwards through inferences already made and data already activated, and most downstream systems have no concept of un-learning a link once it has been used to build a segment.\n\nMove 3: Push the computation to where the data legitimately already lives and return a decision, not an identifier — the answer crossing the boundary should be \"suppress\" or \"this person has seen 4 impressions,\" never a joined ID, which is also the only version of this that survives a regulator reading the architecture diagram. What makes this hard: distributed resolution is slow, expensive, and leaks through its answers, so you need query budgets and noise that degrade precision right when you were trying to buy precision, and no publisher has an incentive to run infrastructure whose entire purpose is to stop them selling an impression.\n\nWhere I disagree with the obvious answer: the industry keeps hunting for one more durable identifier, and I think that search is over — CTV alone kills it, because there is no authentication, the device is shared, and household-versus-person is not a data problem you can solve with better matching. The useful goal is not recognizing the same person, it is making well-characterized errors cheap.",
+          "first_move": "Buy or build a panel of people whose cross-device behaviour we actually know, so we can finally measure how wrong our matching is.",
+          "hardest_part": "Every honest measurement of identity accuracy requires ground truth that only exists for the small, logged-in, consenting minority who were never the hard case.",
+          "confidence": "low",
+          "usage": {
+            "input_tokens": 822,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1211,
+            "output_tokens_details": {
+              "thinking_tokens": 447
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Move 1: Define a consent-scoped identity contract and event model that treats identity as purpose-, channel-, jurisdiction-, and time-bound rather than as a universal person ID. What makes this hard is propagating revocation, deletion, provenance, and policy changes through partners whose consent semantics and enforcement capabilities do not align. Move 2: Build an independently measurable resolution layer that combines deterministic links with explicitly bounded probabilistic evidence, preserves channel-specific pseudonyms, and permits suppression or frequency control only above use-case-specific confidence thresholds. What makes this hard is obtaining representative ground truth for false-link and missed-link rates without creating the invasive identity spine the system is meant to avoid. Move 3: Run narrow, adversarial pilots for suppression and frequency capping across a few willing publishers, commerce networks, CTV platforms, and CRM owners, using clean rooms for computation rather than pretending they create missing interoperability. What makes this hard is that durable success depends less on matching technology than on incentives, platform participation, auditability, and governance surviving commercial and regulatory change.",
+          "first_move": "I would first define the consent-scoped identity contract and its revocation rules.",
+          "hardest_part": "The hardest part is measuring linkage error and consent fidelity across organizations without centralizing more personal data.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 389,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 565,
+            "output_tokens_details": {
+              "reasoning_tokens": 294
+            },
+            "total_tokens": 954
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. Stop chasing a universal spine and anchor strictly to first-party authenticated touchpoints where identity and clear consent are bound together at the point of exchange. What makes this hard is that most publishers and brands lack the consumer utility required to secure recurring logins across fragmented devices. 2. Build scoped, ephemeral identity bridges inside cryptographic environments that resolve matches only for immediate execution windows rather than storing a persistent master graph. What makes this hard is that eliminating durable graphs breaks longitudinal frequency capping and closed-loop measurement, which are the primary economic justifications for identity resolution. 3. Shift cross-channel suppression and frequency enforcement to on-device edge frameworks rather than centralized identity syncing. What makes this hard is that the operating system gatekeepers who control the edge APIs have active commercial incentives to protect their own walled gardens rather than enable open-web coordination.",
+          "first_move": "Anchor all recognition strictly to direct, authenticated logins where consent is captured alongside identity rather than inferred.",
+          "hardest_part": "The platform gatekeepers who control operating systems and browsers have zero commercial incentive to allow durable cross-channel recognition outside their own walls.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 255,
+            "candidatesTokenCount": 232,
+            "totalTokenCount": 1318,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 255
+              }
+            ],
+            "thoughtsTokenCount": 831,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "pseudocode",
+        "label": "Pseudocode",
+        "instruction": "Express the approach as short annotated pseudocode. The comments should carry the reasoning; the code should carry the structure. Around 15 lines."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "# Thesis I'd defend: the blocker isn't matching math, it's that nobody knows their own error rate.\n# So stop shipping an ID. Ship a calibrated belief + consent lattice, and let each use case price its own risk.\n\ntruth = authenticated_sessions ∪ paid_opt_in_panel   # the only labels you'll ever get. Structurally biased toward people who log in.\ngraph = edges(src, a, b, evidence, ts)               # keep EDGES. Never collapse to person_id — collapsing destroys provenance and makes revocation impossible.\n\nfor e in graph: e.p = calibrate(score(e), truth, strata=[channel, geo, device_age, household_size])\n                                                     # one global accuracy number is a lie; CTV/IP error and mobile SDK error differ by an order of magnitude.\ne.p = reweight(e.p, truth_bias)                      # <-- the real research problem. Your labels are densest exactly where linkage is easiest.\n\nconsent = lattice(purpose, jurisdiction, channel, granted_at, ttl)   # consent is a property of the EDGE, not the person. A CRM match isn't a license to link a CTV IP.\nusable(e, purpose) = consent.covers(e.src, purpose) ∧ consent.covers(e.dst, purpose) ∧ ¬revoked(e)\n\nresolve(seed, purpose):\n  τ = threshold[purpose]        # suppression τ≈.97 (a false link is a legal/brand event); freq-cap τ≈.6 (errors are cheap, under-linking is the default failure);\n                                # personalization τ≈.9 AND require ≥1 deterministic edge on the path — perceived creepiness is nonlinear in confidence.\n  paths = walk(graph, seed, hops≤2)                  # past 2 hops precision collapses into the household blob. Resist the reach-chasing pressure to go to 3.\n  return [(n, p(path), explain(path)) for n in paths if p≥τ ∧ ∀e∈path: usable(e, purpose)]\n\nemit(decision, path_hash, consent_snapshot, model_version)   # the audit trail is the deliverable to a regulator, not the match rate.\non_revoke(id): invalidate(edges ∋ id); replay(decisions, 90d) # propagating revocation through derived links is the part that quietly doesn't work anywhere today.\nnever train on outcomes you yourself targeted               # self-fulfilling graph; I think this is the industry's biggest unacknowledged measurement bug.\n\n# What I expect to hit: panel reweighting fails on CTV (no auth, no feedback signal, household≠person) and I don't have an answer.\n# Thresholds will get politically negotiated downward by whoever owns reach targets. Probabilistic linkage may be unlawful-as-profiling regardless of accuracy.",
+          "first_move": "Measure how often the identity graph we already run is actually wrong, broken out by channel, against logged-in users.",
+          "hardest_part": "The only ground truth available comes from people who authenticate, and their linkability is correlated with everything you're trying to estimate, so your confidence scores are least trustworthy precisely where coverage is thinnest.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 831,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 2678,
+            "output_tokens_details": {
+              "thinking_tokens": 1560
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "function RESOLVE(touchpoint, purpose, jurisdiction):\n  scope = policy_for(purpose, jurisdiction, touchpoint.channel)  # Aim for permitted interoperability, not a universal ID.\n  if !valid_consent(touchpoint, scope): return UNLINKED  # No inferred identity should override absent or withdrawn consent.\n  evidence = normalize(first_party_signals(touchpoint))  # Keep source, timestamp, collection basis and reliability attached.\n  candidates = deterministic_candidates(evidence)  # Login, verified contact and device bindings are anchors, not universal truth.\n  candidates += probabilistic_candidates(evidence)  # Use weak signals only where their error can be estimated.\n  for candidate in candidates:\n    p = calibrated_match_probability(evidence, candidate, scope)  # Calibration matters more than a raw model score.\n    if contradictory_evidence(candidate, evidence): reject(candidate)  # False merges create more privacy risk than missed reach.\n    else if p >= scope.merge_threshold: link_with_expiry(candidate, evidence)  # Thresholds differ for suppression vs personalization.\n    else if p >= scope.review_threshold: retain_as_uncertain_edge(candidate)  # Do not silently turn ambiguity into personhood.\n  identity = best_scoped_identity(candidates)  # Separate identities by purpose, controller and legal boundary.\n  token = mint_channel_bound_token(identity, scope)  # Share an actionable token, not the underlying graph or raw identifiers.\n  append_audit_log(identity, evidence, scope)  # Make provenance, access, correction and deletion operational.\n  schedule_revalidation(identity)  # Consent, household membership, devices and identifiers all decay.\n  measure_errors_with_consented_holdouts(scope)  # Clean rooms can evaluate overlap, but cannot manufacture missing truth.\n  return enforce_caps_and_suppression(token, scope)  # Personalization should require stronger evidence than reach control.",
+          "first_move": "I would start with one suppression use case across two channels and measure mistaken matches and misses on a consented test group.",
+          "hardest_part": "The hardest part is obtaining representative ground truth for false matches without creating the invasive identity asset the system is meant to avoid.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 392,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 988,
+            "output_tokens_details": {
+              "reasoning_tokens": 516
+            },
+            "total_tokens": 1380
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "// Stop chasing a permanent global graph; platforms will break any persistent cross-site anchor.\nfunction resolve_cross_channel(event, pub_context):\n    // 1. Consent is non-transitive; verify local authority before touching any identifier\n    consent_scope = verify_provable_consent(event.consent_payload, pub_context.namespace)\n    if not consent_scope.permits(event.purpose): return route_to_oblivious_aggregate(event)\n\n    // 2. Avoid global probabilistic graphs; only link pairwise within mutual first-party contexts\n    direct_match = query_zero_knowledge_clean_room(event.identity_signals, pub_context.first_party_id)\n    if direct_match:\n        // 3. Anchor to ephemeral edge pairs, decaying aggressively instead of storing an eternal ID\n        session_key = derive_time_bounded_pair(direct_match, ttl=\"24h\")\n        return mint_purpose_scoped_token(session_key, consent_scope)\n\n    // 4. For unlinked impressions, abandon 1:1 recognition in favor of privacy-preserving state\n    // Tracking people across disconnected apps without consent or deterministic login is a dead end.\n    return estimate_k_anonymous_reach_bucket(event.signals)",
+          "first_move": "Audit our current cross-device data to see how much overlap actually alters a campaign decision rather than just filling a reporting column.",
+          "hardest_part": "The dominant platform owners have strong commercial incentives to keep identity fragmented, so they will deliberately engineer breakages into any durable bridging mechanism that gains traction.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 259,
+            "candidatesTokenCount": 368,
+            "totalTokenCount": 2154,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 259
+              }
+            ],
+            "thoughtsTokenCount": 1527,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "checklist",
+        "label": "A checklist",
+        "instruction": "Give a checklist someone could actually run next quarter. Each item concrete enough to be marked done or not done. Six items at most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Where I disagree with the default: the industry keeps trying to solve this with a better identifier. There isn't one coming, and if one arrives it will be ubiquitous OR durable OR permitted, not all three. The tractable move is to stop treating identity as a binary join and start treating it as a measured, calibrated, purpose-scoped probability — and to size each use case to the accuracy you can actually prove you have. That's a measurement problem before it's a graph problem.\n\nChecklist for next quarter:\n\n1. **Stand up a ground-truth panel you own.** 50–100k people who have authenticated across at least two of {web, app, CTV, store/CRM}, with device and channel linkage observed rather than inferred. Hold 20% out permanently. Done = the set exists, is refreshed monthly, and no vendor has seen the holdout. Without this, every accuracy claim in your stack — yours or a vendor's — is unfalsifiable, and most are.\n\n2. **Publish precision/recall per edge type, not per graph.** Hashed-email-to-cookie, IP-plus-UA-to-household, retailer-loyalty-to-device, MAID-to-CTV — each gets its own curve against the holdout. Done = a one-page table with measured false-merge and false-split rates by edge type and channel. Expect the IP/household edges to be far worse than the vendor deck says, and degrading quarter over quarter.\n\n3. **Write an explicit cost matrix per use case and set thresholds from it.** A false merge in suppression costs you a wasted impression; a false merge in personalization shows one person another person's data and is a breach narrative. These cannot share a threshold. Done = four use cases (suppression, frequency cap, personalization, measurement) each with a documented confidence floor tied to item 2's curves, enforced in code, not in a slide.\n\n4. **Model consent on the edge, not the node.** The permissioned object is the *join* — purpose, jurisdiction, channel, legal basis, source, timestamp, revocation. Done = your system can answer \"may I link A to B for purpose P in jurisdiction J\" as a query, and you can demonstrate a revocation propagating to all downstream activation endpoints within a stated SLA, verified by audit log. Most stacks today can delete a record but cannot un-make an inference derived from it; find out which you are.\n\n5. **Report unknowns as unknowns.** Split all frequency and reach reporting into person-resolved / household-resolved / unresolved, with the unresolved bucket sized honestly. Done = a dashboard where those three numbers appear separately and the unresolved share is visible to the people buying media. This is the single most uncomfortable and most useful item on the list, because it usually reveals that the \"person-level frequency cap\" everyone has been reporting on covers 30–40% of delivery.\n\n6. **Run one incrementality test on the identity layer itself.** Pick a clean room or ID partner, split a campaign so half runs with the enriched graph and half runs on your first-party spine only, and measure outcome delta against the added cost and legal exposure. Done = a decision to renew, renegotiate, or drop, written down. My prior is that for a meaningful share of partnerships the lift does not clear the cost, and nobody has tested it because the test is politically awkward.\n\nWhat I expect to go wrong: the panel skews toward authenticated heavy users, so your measured accuracy is optimistic exactly where coverage is thinnest; calibration will drift within weeks as browser and OS policy changes land; and legal will likely refuse to let you persist some cross-jurisdiction edges at all, which is correct and which you should design around rather than litigate internally for a quarter. None of this produces the durable universal ID. It produces an honest accuracy floor and a system that degrades to household or cohort instead of silently guessing — which is, I think, the actual achievable state.",
+          "first_move": "Build a panel of people you can genuinely see across two or more channels, and hold part of it back so you can test every accuracy claim against it.",
+          "hardest_part": "You can only observe ground-truth identity for the authenticated minority, so the error rate stays unknowable precisely in the unauthenticated population where the resolution matters most.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 825,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 2471,
+            "output_tokens_details": {
+              "thinking_tokens": 1053
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "- [ ] **Reject the “universal ID” goal and approve three purpose-specific policies.** Document separate identity and consent rules for suppression, frequency capping, and personalization—including permitted signals, jurisdictions, retention, and false-match costs; prohibit probabilistic links from sensitive personalization.\n- [ ] **Select one bounded pilot with measurable coverage.** Choose two or three channels, one jurisdiction, and authenticated consenting customers; define baseline duplicate reach, effective frequency, match coverage, opt-out latency, and false-merge/false-split thresholds before implementation.\n- [ ] **Build a consent-state layer independent of the identity graph.** Represent purpose, channel, controller/processor role, jurisdiction, provenance, timestamp, and expiry; demonstrate that withdrawal blocks activation and propagates deletions to every pilot destination within a specified SLA.\n- [ ] **Create a deterministic reference set and test every matcher against it.** Use volunteered multi-device/account links and controlled test identities; report precision, recall, calibration, and performance by channel and cohort. Include negative examples, since false merges create greater privacy risk than missed matches.\n- [ ] **Deploy scoped, revocable identity edges—not a permanent person ID.** Store provenance, confidence, permitted purposes, expiry, and partner scope on each edge; require activation systems to consume those attributes, and log every identity-based decision for audit and rollback.\n- [ ] **Run a holdout evaluation and make a documented stop/continue decision.** Compare the pilot with business-as-usual on duplicate reach, frequency distribution, incremental outcomes, complaints, deletion failures, and policy violations; discontinue any use case whose benefit depends on uncalibrated probabilistic matching or cannot survive consent withdrawal.",
+          "first_move": "I would first narrow the effort to one use case, one jurisdiction, and a few channels with explicit consent.",
+          "hardest_part": "The hardest part is obtaining representative ground truth while preserving purpose-specific consent, because both match errors and consent coverage are systematically biased rather than random.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 391,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 621,
+            "output_tokens_details": {
+              "reasoning_tokens": 199
+            },
+            "total_tokens": 1012
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. Audit first-party authentication coverage across all touchpoints to quantify the exact percentage carrying a verified hashed email or phone number. 2. Implement a unified consent payload across web, app, and CRM tags that drops downstream sync calls immediately if consent is missing or revoked. 3. Decouple frequency capping from individual-level identity resolution by routing frequency limits to coarse household or platform-native identifiers instead. 4. Run a pairwise clean room overlap test against a single major media partner to measure the actual delivery drop-off versus theoretical match rates. 5. Document explicit confidence tiers that restrict suppression lists to deterministic matches while allowing probabilistic clusters only for top-of-funnel targeting. 6. Deploy an identifier decay monitor to measure how quickly your cookie, mobile, and connected TV identifier pools rot month over month.",
+          "first_move": "Count how many customer interactions across your channels actually have a verified login, email address, or phone number attached.",
+          "hardest_part": "Platform owners have active business and legal incentives to break cross-device bridges faster than martech teams can build them.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 257,
+            "candidatesTokenCount": 231,
+            "totalTokenCount": 1921,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 257
+              }
+            ],
+            "thoughtsTokenCount": 1433,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "fifty-words",
+        "label": "Fifty words",
+        "instruction": "Fifty words or fewer. No preamble, no caveats. The compression is the point: keep only what you would keep if you could keep one thing."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Stop chasing one ID. Treat identity as a probabilistic graph with published, holdout-measured error rates, consent carried as an edge property that expires. Then tune per decision: suppression tolerates loose matches, personalization demands tight ones. Expect the fight over who audits the error rates, and over CTV's unmeasurable truth set.",
+          "first_move": "Build a ground-truth panel of known people so match accuracy can actually be measured rather than asserted.",
+          "hardest_part": "Error rates are unknowable without truth data, and nobody with truth data has an incentive to share it.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 829,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 294,
+            "output_tokens_details": {
+              "thinking_tokens": 88
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "I’d reject a universal identity layer. Build purpose-specific, consent-scoped links from deterministic signals, preserve channel-local pseudonyms, propagate revocation, and treat probabilistic matches as hypotheses. Optimize suppression and measurement separately, with false-join budgets and holdouts.",
+          "first_move": "Start by mapping consent semantics and revocation paths.",
+          "hardest_part": "Ground truth and consent rarely cross ecosystems.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 396,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 914,
+            "output_tokens_details": {
+              "reasoning_tokens": 818
+            },
+            "total_tokens": 1310
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Stop hunting a universal graph; platform incentives kill it. I would shift identity client-side, using consumer-held cryptographic tokens that verify consent and match keys locally without cross-site tracking. Where direct authentication fails, stop pretending: abandon 1:1 targeting and fall back to calibrated geo-cohort experimentation.",
+          "first_move": "Audit where your customers actually log in across channels to see your real coverage limit.",
+          "hardest_part": "The major platforms profit from keeping their ecosystems closed, so they will actively break any shared cross-channel workaround.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 260,
+            "candidatesTokenCount": 134,
+            "totalTokenCount": 1036,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 260
+              }
+            ],
+            "thoughtsTokenCount": 642,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "haiku",
+        "label": "A haiku",
+        "instruction": "Three lines, 5-7-5 syllables. A severe constraint on a serious problem: what survives the compression is what you actually think matters most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Chase no single key —\nbind consent to each edge, score\ndoubt; let links expire",
+          "first_move": "Take the matches we already make, check them against a small set of people we actually know the truth about, and write down how often we're wrong per channel.",
+          "hardest_part": "There is no ground truth to calibrate against, and a withdrawal of consent has to travel backwards through copies of the link you no longer control.",
+          "confidence": "low",
+          "usage": {
+            "input_tokens": 830,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1086,
+            "output_tokens_details": {
+              "thinking_tokens": 942
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Consent is the key\nMeasure links, bound false matches\nSome reach must stay lost",
+          "first_move": "Build a consent ledger first.",
+          "hardest_part": "Ground truth is scarce, while matching errors can become privacy harms.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 397,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 492,
+            "output_tokens_details": {
+              "reasoning_tokens": 430
+            },
+            "total_tokens": 889
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Leave the graph behind\nRun the logic on device\nPass the state, not names",
+          "first_move": "Test how much ad money is actually wasted if frequency is capped on each device separately instead of trying to link them.",
+          "hardest_part": "Channel gatekeepers treat cross-device recognition as an adversarial tracking vector they are economically incentivized to break.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 262,
+            "candidatesTokenCount": 82,
+            "totalTokenCount": 4745,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 262
+              }
+            ],
+            "thoughtsTokenCount": 4401,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "lullaby",
+        "label": "A lullaby",
+        "instruction": "Write it as a short lullaby: three or four gentle rhyming couplets someone could actually sing. Soft on the surface, honest underneath. The problem is still unsolved when the song ends, and the song should know it."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Hush, little graph, you were never one name —\njust links with their odds, and no two the same.\nThe clean room recalls only faces it knew,\nso we'll score every edge by how often it's true.\nEach thread wears the yes that the person once gave,\nand falls when that lapses, however it's brave.\nSuppress when we're certain, cap loosely, and wait —\nno one has solved you. Sleep. We'll stay up late.\n\n(Plainly: I'd stop hunting the one durable ID and build a calibrated graph instead — every link carrying a confidence score and the consent that created it, with different thresholds per use case, since suppression needs precision and frequency capping can live with noise. The unpopular part: I think accuracy is the wrong target and calibration is the right one, and that most clean-room spend is buying arithmetic on data you already had rather than coverage you lacked.)",
+          "first_move": "Pick one decision — suppression — and measure how often today's matching gets it wrong against a small set of people we actually know.",
+          "hardest_part": "Verifying match accuracy requires the very ground truth about real people that consent law and platform policy are designed to stop you from assembling, so error rates stay estimates forever.",
+          "confidence": "low",
+          "usage": {
+            "input_tokens": 854,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1435,
+            "output_tokens_details": {
+              "thinking_tokens": 1026
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Don’t seek one master key to track them everywhere,\nFirst map each purpose, consent, and risk with care.\n\nLet consented logins seed scoped links where signals glow,\nKeep probabilistic guesses from decisions that may woe.\n\nIn clean rooms, test suppression with holdouts channel by channel,\nCount false joins, missed joins, and leakage in each panel.\n\nMake revocation travel, and let each linkage grow old,\nWe may reduce the waste—the riddle stays untold.",
+          "first_move": "I would map each use case to its consent, legal basis, permitted channels, and cost of a wrong match.",
+          "hardest_part": "The hardest part is measuring false matches across parties without creating the very privacy risk the system is meant to reduce.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 413,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 692,
+            "output_tokens_details": {
+              "reasoning_tokens": 516
+            },
+            "total_tokens": 1105
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Hush now, little graph, and close your tired eyes, the clean rooms cannot mend the garden walls and skies. We stitch a hashed address to a wandering screen, and whisper that we know what the match must mean. Tomorrow the tokens will crumble like sand, with half of the household slipped out of our hand. So rest in the dark where the signal runs thin, still guessing which shadow is sleeping within.",
+          "first_move": "Audit our own existing links between devices against ground truth to see how often they are completely wrong.",
+          "hardest_part": "Durable resolution requires persistent shared keys, but the major platforms have every incentive to block them and privacy laws are built to punish them.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 277,
+            "candidatesTokenCount": 163,
+            "totalTokenCount": 1432,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 277
+              }
+            ],
+            "thoughtsTokenCount": 992,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    }
+  ]
+}
