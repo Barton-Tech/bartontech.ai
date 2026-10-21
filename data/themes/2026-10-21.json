@@ -1,0 +1,103 @@
+{
+  "date": "2026-10-21",
+  "generated_at": "2026-10-21T12:16:41.831Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-04-21",
+    "to": "2026-10-21",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08",
+      "2026-09",
+      "2026-10"
+    ],
+    "solution_days": 64
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 24303,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1507,
+    "output_tokens_details": {
+      "thinking_tokens": 292
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+  },
+  "themes": [
+    {
+      "name": "No Ground Truth to Measure Against",
+      "plain": "Most of these problems have no answer key. There is no stable number to grade your work against, and the thing being measured often moves while you measure it, so the models start by building a small truth set of their own or admit the number is only an estimate.",
+      "evidence": "Answer engine optimization has no stable rank or impression count, cross-channel incrementality fights platforms that adapt to the test, identity resolution has no way to confirm who is really the same person, and content review cannot count the mistakes it missed.",
+      "problem_ids": [
+        "aeo",
+        "cross-channel-incrementality",
+        "identity-resolution-decay",
+        "genai-content-governance",
+        "b2b-buying-group-signal-loss",
+        "generative-ad-supply-integrity"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust who is acting or what happens next, they build one door they own and push everything through it. A sent email, a spent dollar, or an exported file cannot be taken back, so the only real control happens before the action leaves.",
+      "evidence": "All three models put a proxy or gateway in front of agent writes in safe agent execution, route every data exit through one checkpoint in downstream consent enforcement, and make every channel check one shared send log in journey orchestration.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "consent-enforcement-downstream",
+        "cross-channel-journey-orchestration",
+        "semantic-context-layer"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data, a message, or a dollar leaves your own systems, you cannot see inside the partner, ad platform, or trained model that now holds it. You can watch from outside and estimate whether the rules were followed, but you cannot prove it.",
+      "evidence": "Downstream consent answers call ad platforms and trained models black boxes with no person-level proof of removal, incrementality answers note platforms control both the treatment and the evidence, and ad supply integrity answers distrust vendor-reported impressions.",
+      "problem_ids": [
+        "consent-enforcement-downstream",
+        "cross-channel-incrementality",
+        "generative-ad-supply-integrity",
+        "identity-resolution-decay"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Incentives Before Standards",
+      "plain": "Many of these problems stall because the people who hold the answer gain nothing by sharing it, and nobody can force them. The blockers are money and politics, inside the company as much as outside, so the models try to make honesty or cooperation pay rather than write another rule.",
+      "evidence": "Agentic traffic answers offer fast lanes and better prices so agents choose to declare themselves, semantic context layer answers call conflicting definitions a political fight over whose number changes, and journey orchestration answers point to channel bonuses that punish sending less.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "semantic-context-layer",
+        "cross-channel-journey-orchestration",
+        "generative-ad-supply-integrity"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "Judgment That Won't Compile",
+      "plain": "The hardest calls turn on meaning and context: whether a picture plus a headline implies a promise, whether evidence really backs a claim, whether two teams can both be right about what a word means. No rule set captures that, so the models shrink human judgment into a smaller, safer box instead of removing it.",
+      "evidence": "Content governance answers build approved claim libraries and restrict what models may write because implied meaning cannot be checked automatically, and semantic context layer answers accept that several definitions of customer can all be legitimate.",
+      "problem_ids": [
+        "genai-content-governance",
+        "semantic-context-layer",
+        "agent-safe-execution"
+      ],
+      "trend": "steady"
+    }
+  ]
+}
