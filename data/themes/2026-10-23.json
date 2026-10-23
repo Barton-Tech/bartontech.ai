@@ -1,0 +1,101 @@
+{
+  "date": "2026-10-23",
+  "generated_at": "2026-10-23T11:59:29.323Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-04-23",
+    "to": "2026-10-23",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08",
+      "2026-09",
+      "2026-10"
+    ],
+    "solution_days": 66
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 24982,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1481,
+    "output_tokens_details": {
+      "thinking_tokens": 213
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+  },
+  "themes": [
+    {
+      "name": "No Ground Truth to Measure Against",
+      "plain": "Most of these problems have no answer key. There is no stable number to grade your work against, and the thing being measured often changes while you measure it, so the models start by building a small truth set of their own or admit the number is only an estimate.",
+      "evidence": "On answer engine optimization the models say personalized, shifting answers leave no denominator; on cross-channel incrementality the platform adapts to the holdout; on identity resolution and B2B buying-group signal the models recruit panels or backtest closed deals because no answer key exists; on ad supply integrity fraud and real performance both look like numbers going up.",
+      "problem_ids": [
+        "aeo",
+        "cross-channel-incrementality",
+        "identity-resolution-decay",
+        "b2b-buying-group-signal-loss",
+        "generative-ad-supply-integrity"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Incentives Before Standards",
+      "plain": "Many of these problems stall because the people who hold the answer gain nothing by sharing it, and nobody can force them. The blockers are money and politics, inside the company as much as outside, so the models try to make honesty or cooperation pay rather than write another rule.",
+      "evidence": "On agentic traffic the models offer fast lanes and perks because agents profit by looking human; on journey orchestration channel owners are paid on their own numbers; on the semantic context layer teams keep conflicting definitions to defend their metrics; on ad supply integrity the parties doing the measuring often profit from the traffic.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "cross-channel-journey-orchestration",
+        "semantic-context-layer",
+        "generative-ad-supply-integrity",
+        "cross-channel-incrementality"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust who is acting or what happens next, they build one door they own and push everything through it. A sent email, a spent dollar, or an exported file cannot be taken back, so the only real control happens before the action leaves.",
+      "evidence": "On safe agent execution all three models put a proxy or gateway in front of every write with hard spend and audience caps; on downstream consent they funnel every data exit through one checkpoint; on journey orchestration they build one shared send log with the power to say no.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "consent-enforcement-downstream",
+        "cross-channel-journey-orchestration"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data, a message, or a dollar leaves your own systems, you cannot see inside the partner, ad platform, or trained model that now holds it. You can watch from outside and estimate whether the rules were followed, but you cannot prove it.",
+      "evidence": "On downstream consent and deletion the models call ad platforms and trained models black boxes where a person's influence cannot be unlearned; on agent execution vendors expose no undo or staging; on ad supply integrity the chain from seller to conversion can be fabricated at many points.",
+      "problem_ids": [
+        "consent-enforcement-downstream",
+        "agent-safe-execution",
+        "generative-ad-supply-integrity",
+        "cross-channel-incrementality"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Judgment That Won't Compile",
+      "plain": "The hardest calls turn on meaning and context: whether a picture plus a headline implies a promise, whether evidence really backs a claim, whether two teams can both be right about what a word means. No rule set captures that, so the models shrink human judgment into a smaller, safer box instead of removing it.",
+      "evidence": "On generative content governance the models build approved-claim registries and constrain what the model may say because implied claims resist automated checking; on the semantic context layer they log which definition was used rather than force one true answer.",
+      "problem_ids": [
+        "genai-content-governance",
+        "semantic-context-layer"
+      ],
+      "trend": "steady"
+    }
+  ]
+}

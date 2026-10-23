@@ -1,0 +1,580 @@
+{
+  "date": "2026-10-23",
+  "month": "2026-10",
+  "board_month": "2026-10",
+  "board_rank": 10,
+  "generated_at": "2026-10-23T11:59:12.424Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1
+  },
+  "problem": {
+    "canonical_id": "generative-ad-supply-integrity",
+    "canonical_name": "Integrity of Ad Supply and Engagement at Generative Scale",
+    "plain": ""
+  },
+  "default_format": "cmo-memo",
+  "formats": [
+    {
+      "format": {
+        "id": "cmo-memo",
+        "label": "A memo to a CMO",
+        "instruction": "Write it as a short internal memo to a chief marketing officer. Plain language, no jargon they would have to look up. Around 120 words."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "MEMO — Ad supply integrity in the generative era\n\nThe obvious move is to buy more detection. I'd resist that. Detection is a race against machines that generate fake sites and fake engagement faster and cheaper than we can classify them, and our vendors grade on the same data the fraudsters optimize against.\n\nI'd attack it from two sides instead. First, economics: shrink to a paid, directly-contracted supply list where someone signs their name to the inventory, and make unverified supply earn its way in rather than opt out. Second, measurement: treat holdout and geo incrementality tests as the referee. Fake traffic can fake a click; it cannot fake lift.\n\nExpect pain: narrower reach, higher CPMs, noisy tests, and six months before the signal is trustworthy. I'd rather pay that than keep buying certainty we don't have.",
+          "first_move": "Run a holdout test on our largest programmatic channel to see what it is actually worth.",
+          "hardest_part": "Fraud and real performance both look like numbers going up, and the only honest way to tell them apart is slow, expensive, and statistically noisy.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 634,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 610,
+            "output_tokens_details": {
+              "thinking_tokens": 223
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "To: CMO\nSubject: Integrity of ad supply and engagement at generative scale\n\nI would start by assuming we cannot reliably distinguish human-made inventory or human attention from generated activity. Watermarks and bot detection will help, but I disagree that either can be the foundation; attackers adapt, and platforms grade their own work.\n\nFirst, map every seller, placement, impression, click, and conversion to an auditable record, then quarantine supply that cannot provide one. Run controlled buys across trusted, unknown, and suspect supply, judging them by durable business outcomes—not clicks or viewability alone. Require independent audits and make payment conditional on evidence quality, with clawbacks for misrepresentation.\n\nThis will shrink reach and raise costs. It also will not prove that engagement is human. The practical goal is narrower: make uncertainty visible, price it correctly, and remove the financial reward for unverifiable supply.",
+          "first_move": "I would map one campaign from seller to conversion and mark every point where evidence can be fabricated.",
+          "hardest_part": "The hardest part is that generated fraud adapts quickly while the parties measuring it often profit from the traffic.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 287,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 394,
+            "output_tokens_details": {
+              "reasoning_tokens": 146
+            },
+            "total_tokens": 681
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Vendors will tell you we can buy new AI tools to detect AI-generated junk websites and fake clicks. I disagree; that is an arms race we are guaranteed to lose because generating synthetic traffic is cheaper than detecting it. I do not believe we can verify open-web ad supply anymore. Instead of trying to police the entire internet, we should retreat from it. We need to stop paying for impressions and clicks, because machines mimic those flawlessly now. We should pull our budget back to closed, authenticated spaces where people actually log in, and judge success solely by verified customer purchases in our own systems. Our reported reach will plummet, but that lost reach was largely an illusion anyway.",
+          "first_move": "Stop spending money on open programmatic ad exchanges and shift those dollars into direct contracts with verified publishers.",
+          "hardest_part": "Convincing ourselves to accept smaller reported audience numbers after years of relying on cheap, synthetic reach to hit marketing targets.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 155,
+            "candidatesTokenCount": 213,
+            "totalTokenCount": 1082,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 155
+              }
+            ],
+            "thoughtsTokenCount": 714,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "three-moves",
+        "label": "Three moves",
+        "instruction": "Give exactly three moves, in order. One sentence each, then one sentence on what makes that move hard. Nothing else."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Move 1: Stop trying to classify generated content and instead move the unit of trust to the counterparty — bid only into supply where the final seller is cryptographically attested, continuously re-verified, and financially identifiable, treating the long tail as guilty until it posts identity. — Hard part: this concentrates spend into a handful of attested sellers and walled gardens, raising prices and making you dependent on the same parties whose incentives you are trying to police, and attestation proves who is selling, not that a human saw it. Move 2: Change what you pay for — shift settlement off impressions and engagement onto lagged, holdout-measured incremental outcomes with a clawback window, so fabricated supply has to fake something expensive rather than something free. — Hard part: incrementality is statistically noisy exactly at the placement-level granularity where the fraud lives, and most sellers will simply refuse terms that defer and claw back revenue unless you have the budget to force it. Move 3: Run your own spend as a sensor network — continuous adversarial probes, seeded decoy creatives, and distributional tests on response shapes across sellers, so you detect fabricated audiences by how they behave in aggregate rather than by what the content looks like. — Hard part: the adversary now has generative tools good enough to match plausible human response distributions at low cost, so you are in a live arms race where your own probe design leaks information every time you run it.",
+          "first_move": "Trace where our money actually ends up, all the way to the final seller, before changing anything else.",
+          "hardest_part": "There is no ground truth for human attention, so every definition of \"real\" you write down becomes the exact thing a generative adversary optimizes against.",
+          "confidence": "low",
+          "usage": {
+            "input_tokens": 624,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1357,
+            "output_tokens_details": {
+              "thinking_tokens": 802
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "1. Build a narrow measurement substrate that links signed supply-chain provenance, raw delivery logs, controlled bot and human panels, and advertiser-side outcomes for a few cooperative supply paths. What makes this hard is that ground truth is sparse, counterparties expose inconsistent data, and several parties can benefit from the same invalid event.\n2. Produce probabilistic integrity estimates by supply path and engagement cohort, combining provenance gaps, behavioral anomalies, causal holdouts, and independent audits rather than pretending a universal fraud classifier will work. What makes this hard is that generative abuse adapts to detection while legitimate niche inventory can look anomalous and be unfairly excluded.\n3. Run limited buying experiments that connect those estimates to confidence-tiered bidding, payment, quarantine, and appeal rules, then measure both fraud displacement and harm to legitimate publishers. What makes this hard is Goodhart’s law: once integrity scores determine revenue, participants will optimize for the score and push abuse toward whatever it misses.",
+          "first_move": "I would first create a small test environment where ad delivery records can be checked against known human and automated activity.",
+          "hardest_part": "The hardest part is obtaining trustworthy ground truth when participants have conflicting incentives and attackers continuously adapt.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 278,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 662,
+            "output_tokens_details": {
+              "reasoning_tokens": 402
+            },
+            "total_tokens": 940
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "First, stop trying to classify whether content or behavior is synthetic, and instead tie impression settlement strictly to cryptographically verified post-click transaction telemetry. What makes this hard is that buyers are deeply addicted to cheap top-of-funnel reach metrics and will reject the drastic drop in reported scale. Second, move publisher verification away from scrapeable domain registries toward hardware-backed cryptographic proof of human render directly from trusted client runtimes. What makes this hard is that browser vendors have conflicting economic incentives that make establishing an open, neutral attestation protocol nearly impossible. Third, introduce financial collateral requirements on supply platforms so that selling synthetic inventory carries direct, automated clawback liability for the exchange. What makes this hard is that the programmatic supply chain still extracts huge fee volumes from synthetic inventory, creating massive structural resistance to penalizing it.",
+          "first_move": "Stop paying for impressions or clicks and tie ad spend entirely to verified real-world purchases.",
+          "hardest_part": "Generating convincing human behavior and content now costs zero, which permanently breaks any verification model based on statistical anomaly detection.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 144,
+            "candidatesTokenCount": 223,
+            "totalTokenCount": 1350,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 144
+              }
+            ],
+            "thoughtsTokenCount": 983,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "pseudocode",
+        "label": "Pseudocode",
+        "instruction": "Express the approach as short annotated pseudocode. The comments should carry the reasoning; the code should carry the structure. Around 15 lines."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "```\n# Premise: \"is this impression/content/user real?\" is unfalsifiable once the adversary\n# has the same models I do. Stop classifying. Attack the economics and the payee.\n\nentity = resolve_payee(bid_request)        # walk sellers.json/ads.txt to a LEGAL+BANKING entity.\n                                           # Domains are now free and infinite; bank accounts are not.\n                                           # Cardinality of things worth policing drops ~5 orders of magnitude.\n\nif entity.age < T or entity.stake == 0:\n    route_to(probation_pool)               # new supply isn't blocked, it's cheap-rated and metered.\n                                           # Make supply onboarding cost something refundable (bond/stake).\n                                           # Fraud becomes a capital problem, not a content problem.\n\nsettle = escrow(spend, holdback=0.15, window=45d)   # pay late. Most synthetic supply can't survive\n                                                    # negative float. This filters by cash cycle, not by signal.\n\n# The only ground truth I trust is counterfactual, not forensic.\nlift = geo_or_ghost_holdout(campaign, entity_cluster)   # measure at CLUSTER level, not placement —\n                                                        # long-tail spend is too small to power a test.\nif lift <= 0 after N cycles: burn_stake(entity); propagate_to(cluster_siblings)\n\n# Calibrate the cheap signals against something expensive and small.\npanel = recruit_hard_identity_panel(n=small)   # device-attested, incentive-audited humans.\nbot_rate_estimate = extrapolate(panel, weighting=known_biases)   # this is a survey estimate, treat it as one\nreport(bot_rate_estimate, confidence_interval)                   # publish the CI, not a 99.4% \"verified\" score\n```\n\nWhere I disagree with the room: the obvious move is a better classifier (AI-slop detection, invalid-traffic ML, MFA domain lists) and I think that's a treadmill you lose. The generator updates faster than your labels, and provenance standards like C2PA get stripped at the first re-encode. Domain-level blocklists assumed domains were scarce; they aren't anymore. Payment entities, bank relationships, and the ability to carry 45 days of float still are — so push enforcement to the scarce layer.\n\nWhat I expect to hit: (1) incrementality at the tail is statistically hopeless, so cluster assignment becomes the whole ballgame and clustering errors mean collective punishment of innocent publishers; (2) SSPs won't hand over payee identity without a regulatory or buy-side-coalition forcing function, and the sellers.json chain is already partly fiction; (3) adversaries respond to outcome-based settlement by farming outcomes — synthetic conversions, bot-driven lift signatures — so this buys a few years, not a solution; (4) staking is regressive and will be read as an incumbency moat, which it partly is.",
+          "first_move": "Map every dollar of one real campaign's spend to the actual legal entity receiving it, and see how much of it I can't trace.",
+          "hardest_part": "There is no reliable ground truth for \"real human\" anymore, so every method is ultimately calibrated against another estimate rather than against truth.",
+          "confidence": "low",
+          "usage": {
+            "input_tokens": 633,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1942,
+            "output_tokens_details": {
+              "thinking_tokens": 806
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "attack_integrity(market):\n  define_harms = [nonhuman_attention, synthetic_inventory, spoofed_context, collusion]  # “AI-generated” itself is not the harm\n  set_goal(\"price uncertainty, not certify truth\")  # A universal good/bad classifier will be gamed\n  map_supply_chain(market)  # Assign responsibility across creator, publisher, SSP, exchange, DSP, and buyer\n  collect_minimal_events(impression, render, interaction, payment)  # Observe delivery and economics without building surveillance\n  bind_events_with_signed_receipts()  # Provenance raises the cost of rewriting history; it does not prove quality\n  preserve_raw_signals_under_access_controls()  # Independent audits need evidence, but privacy and leakage are real constraints\n  build_entity_graph(domains, apps, sellers, accounts, payments)  # Coordinated abuse is often clearer in networks than impressions\n  estimate_baselines(by_format, placement, cohort, time)  # Generative traffic makes static thresholds nearly useless\n  run_random_challenges(on_small_samples)  # Controlled render and interaction tests provide labels that production logs cannot\n  test_incrementality_with_holdouts()  # Engagement that never changes outcomes should not command an attention premium\n  score_uncertainty_and_economic_risk()  # Avoid pretending ambiguous intent can be resolved into one ground-truth label\n  apply_tiered_actions(price, limit, review, suspend)  # Friction and liability may outperform binary blocking\n  fund_independent_audits_from_transaction_fees()  # Self-attestation alone recreates existing incentive failures\n  red_team_with_adaptive_publishers_and_agents()  # Any public detector becomes a training target\n  publish_failure_rates_and_appeals()  # False positives, coverage gaps, and reversals are part of integrity\n  iterate_on_measured_displacement()  # Success means reducing profit and migration, not improving benchmark accuracy",
+          "first_move": "I would first define which kinds of fake supply and engagement cause measurable buyer harm.",
+          "hardest_part": "The hardest part is separating legitimate machine-mediated attention from economically worthless or coordinated activity when intent is latent and every participant can adapt.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 281,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 694,
+            "output_tokens_details": {
+              "reasoning_tokens": 225
+            },
+            "total_tokens": 975
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "// Obvious answer is AI classifiers to spot AI content; that arms race fails on cost.\ndef evaluate_supply_integrity(ad_request, downstream_pipeline):\n    # 1. Stop trusting client-side engagement telemetry; synthetic agents spoof entropy easily\n    strip_untrusted_telemetry(ad_request.mouse_paths, ad_request.scroll_events)\n    \n    # 2. Demand hardware-backed client attestation or cryptographic origin, not text heuristics\n    if not verify_hardware_attestation(ad_request.client_token):\n        route_to_zero_value_auction(ad_request)\n    \n    # 3. Penalize inventory velocity: LLM farms scale fast, so new supply is quarantined\n    domain_age_weight = compute_historical_economic_friction(ad_request.domain)\n    if domain_age_weight < THRESHOLD:\n        return REJECT_BID_REQUEST\n    \n    # 4. Tie clearing prices entirely to delayed, off-chain business outcomes\n    cohort = resolve_publisher_cohort(ad_request.publisher_id)\n    if not downstream_pipeline.has_verified_economic_conversions(cohort, window_days=14):\n        # Synthetic rings can fake engagement, but cannot afford infinite real purchases\n        deprecate_publisher_bid_floor(cohort)\n        return ROUTE_TO_REFUND",
+          "first_move": "Stop paying on top-of-funnel metrics like clicks or dwell time and move all non-guaranteed programmatic spend into a mandatory 30-day escrow tied to downstream merchant transactions.",
+          "hardest_part": "Modern advertising economics fundamentally depend on instantaneous liquidity and high ad volume, both of which collapse the moment you require verifiable proof of a real human at the other end.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 148,
+            "candidatesTokenCount": 421,
+            "totalTokenCount": 1758,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 148
+              }
+            ],
+            "thoughtsTokenCount": 1189,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "checklist",
+        "label": "A checklist",
+        "instruction": "Give a checklist someone could actually run next quarter. Each item concrete enough to be marked done or not done. Six items at most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "**Premise I'd argue with first:** the obvious attack is better detection — AI-content classifiers, another IVT vendor, a slop blocklist. I think that loses. Generation cost is falling faster than detection accuracy is rising, \"written by a model\" is not the same as \"fraudulent,\" and false-positive rates on content classifiers are already unusable at scale. The durable primitives are economic (pay for outcomes fraud can't manufacture) and cryptographic (attested provenance), not inferential. Detection is a tax you pay, not a strategy.\n\n**Checklist for one quarter:**\n\n1. **Run two geo-holdout incrementality tests on your largest open-web supply paths** (not on a channel — on a *path*: a specific SSP/curator/inclusion list). Done = two tests designed with a power calc that admits what effect size you can actually detect, executed, read out. Rationale: a bot farm can fake impressions, clicks, viewability and even conversions; it cannot move a geo's baseline revenue. This is the only audit instrument that is structurally robust to synthetic supply. Expect: the tests are underpowered, the readouts are ugly, and someone will argue the holdout was contaminated. Run them anyway — the argument itself is informative.\n\n2. **Make log-level impression data a renewal condition for every open-web seller above a spend threshold you pick this month.** Done = contract language in flight, and a named list of partners who refused. The refusal list is the deliverable. You will not get this from the walled gardens, which is exactly where most of your money is — document that gap explicitly rather than pretending the audited 20% represents the whole.\n\n3. **Collapse supply paths and publish the number.** Done = a single metric, \"% of programmatic spend reaching the publisher in ≤2 hops with ads.txt/sellers.json ownership verified,\" baselined and reported weekly. Target a direction, not a number. Expect to find resold inventory you believed was direct, and expect the CPM to go up when you fix it — that's the point, you were buying cheap because it wasn't real.\n\n4. **Build your own domain-level quality score from your own outcome data and kill the bottom decile.** Done = ranked domain list by incremental revenue per thousand impressions (or best available proxy), bottom 10% excluded, spend reallocated, delta measured. Do not buy a third-party MFA list to do this; their taxonomy is not your business. Expect the tail to be long and the top of the list to contain things that embarrass someone.\n\n5. **Instrument attestation coverage, don't mandate it.** Done = you can state what % of your traffic carries a device/platform attestation signal (Private Access Tokens, App Attest, Play Integrity) and what % of your creative carries C2PA. Coverage on the open web will be low — single digits in places. The deliverable is knowing the number and having one integration live so you're positioned when coverage rises. Mandating it this quarter would just cut you off from most of the internet.\n\n6. **Write an explicit agentic-traffic policy for your own properties.** Done = a documented decision on whether AI agents are blocked, allowed, or allowed-and-segmented, implemented, and conversions from agent sessions tagged separately in your warehouse. This is the one nobody is doing and it's about to contaminate the baseline that items 1 and 4 depend on. If agent traffic silently enters your conversion data, your incrementality reads are wrong in a direction you can't see.\n\n**What I expect to go wrong:** items 1 and 4 fight each other politically — incrementality will say a lot of your supply does nothing, and the people whose numbers depend on that supply will attack the test design rather than the result. Budget for that fight, not for the analysis.",
+          "first_move": "Pick one big supply path and run a geo holdout against it, because that's the one test fake traffic can't pass.",
+          "hardest_part": "Fraud and legitimate-but-worthless inventory now look identical on every signal you can observe directly, so the only honest test is an economic one that is slow, noisy, and politically costly to run.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 627,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 2432,
+            "output_tokens_details": {
+              "thinking_tokens": 1058
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "- [ ] Publish a threat model covering synthetic inventory, page/app cloning, unauthorized content generation, agentic browsing, click/conversion farms, and measurement spoofing; assign an owner, observable signals, and loss metric to each threat.\n- [ ] Instrument one end-to-end supply path so every bid request, creative, impression, engagement, and conversion carries durable provenance and seller lineage; quantify missing or contradictory records rather than treating provenance as proof of legitimacy.\n- [ ] Build a labeled evaluation set using controlled synthetic publishers, browsing agents, human traffic, known fraud, and production samples independently reviewed by two teams; record disagreement instead of forcing false ground truth.\n- [ ] Benchmark rules, graph analysis, behavioral models, and generative-traffic detectors against that set in shadow mode; report precision, recall, calibration, segment bias, and performance decay. Do not make a generative-content detector the primary control—it will be brittle and gameable.\n- [ ] Run randomized spend holdouts on high-risk cohorts and compare downstream outcomes such as incremental sales, retention, refunds, and advertiser complaints; cap exposure until economic value is demonstrated.\n- [ ] Launch reversible enforcement: bid throttles, budget caps, payment holds, evidence retention, seller notification, and appeals; finish the quarter with a reviewed report on losses prevented, false positives, displaced fraud, and unresolved blind spots.",
+          "first_move": "Map the specific ways synthetic supply and engagement can create advertiser loss before choosing detection technology.",
+          "hardest_part": "The hardest part is establishing trustworthy ground truth when generators adapt, legitimate automation resembles abuse, and every participant has incentives to shape the labels.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 280,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 686,
+            "output_tokens_details": {
+              "reasoning_tokens": 338
+            },
+            "total_tokens": 966
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. Audit your log-level domain reports and permanently drop every domain that lacks a verifiable human editorial masthead and verifiable physical business entity. 2. Run a two-week, 50/50 geo-split blackout test cutting all open exchange programmatic spend to quantify whether that inventory delivers measurable revenue lift. 3. Reconfigure DSP algorithms to optimize exclusively toward downstream first-party conversions (e.g., verified sign-ups or settled checkouts) rather than CTR or vendor-reported viewability. 4. Enforce strict supply-path optimization rules that reject bid requests with more than one intermediary reseller hop in the ads.txt/sellers.json chain. 5. Implement client-side session telemetry on landing pages to measure interaction entropy (scroll-cadence randomness, pointer acceleration) and auto-blacklist referrers exhibiting robotic uniformity.",
+          "first_move": "Turn off all open-exchange programmatic spending for two weeks and see if actual business revenue drops.",
+          "hardest_part": "Synthetic users can simulate human behavior cheaper than ad tech can detect it, and the ad networks profit too much from the fake volume to genuinely stop it.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 146,
+            "candidatesTokenCount": 242,
+            "totalTokenCount": 1429,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 146
+              }
+            ],
+            "thoughtsTokenCount": 1041,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "fifty-words",
+        "label": "Fifty words",
+        "instruction": "Fifty words or fewer. No preamble, no caveats. The compression is the point: keep only what you would keep if you could keep one thing."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Stop detecting fakes; detection loses to generation. Shift spend to a scarce, costly-to-forge signal: verified human outcomes downstream of the impression. Pay sellers on that, not on traffic. Expect the fight to move to outcome fraud, and incrementality tests to be too slow and noisy for most budgets.",
+          "first_move": "Re-baseline one campaign against verified downstream outcomes instead of impressions or clicks.",
+          "hardest_part": "Any signal valuable enough to pay on becomes worth faking, so you're buying time, not a fix.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 631,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 320,
+            "output_tokens_details": {
+              "thinking_tokens": 117
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Detection alone will fail; generators adapt. Combine signed provenance, seller liability, randomized audits, and payment tied to independently measured incrementality. Quarantine unknown supply, publish failure rates, and design for adversarial gaming.",
+          "first_move": "Build an adversarial benchmark from verified campaign data.",
+          "hardest_part": "Provenance breaks where incentives reward laundering, collusion, and synthetic engagement.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 285,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 833,
+            "output_tokens_details": {
+              "reasoning_tokens": 739
+            },
+            "total_tokens": 1118
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Stop inspecting content and clicks; synthetic mimicry wins that game. Instead, anchor value exclusively to cryptographically authenticated publisher origins and post-click commercial outcomes. Accept massive scale contraction. Measurement vendors will fight this; inspecting infinite synthetic noise is their business model.",
+          "first_move": "Tie billing directly to verified bank deposits rather than ad views or site visits.",
+          "hardest_part": "When believable synthetic behavior costs nothing, separating real human attention from simulation is mathematically impossible without destroying user privacy.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 149,
+            "candidatesTokenCount": 121,
+            "totalTokenCount": 1143,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 149
+              }
+            ],
+            "thoughtsTokenCount": 873,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "haiku",
+        "label": "A haiku",
+        "instruction": "Three lines, 5-7-5 syllables. A severe constraint on a serious problem: what survives the compression is what you actually think matters most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Pay for outcomes, not\nimpressions — the fraud follows\nwhoever we pay",
+          "first_move": "Re-run a handful of big spend lines as holdout-based incrementality tests and see how much measured value survives.",
+          "hardest_part": "Generative supply makes content-level detection a losing arms race, and the measurement layer we'd use to catch it is itself the thing being gamed — so there's no clean ground truth to appeal to except expensive, noisy geo and holdout experiments.",
+          "confidence": "low",
+          "usage": {
+            "input_tokens": 632,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 517,
+            "output_tokens_details": {
+              "thinking_tokens": 341
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Trace the cash, not clicks\nTest who has made each signal\nProof trails lag the bots",
+          "first_move": "I would trace every payment for one small set of ads.",
+          "hardest_part": "Attackers adapt faster than evidence standards can stabilize.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 286,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 752,
+            "output_tokens_details": {
+              "reasoning_tokens": 685
+            },
+            "total_tokens": 1038
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Drop detection now\nPay only for cash in hand\nEven that gets gamed",
+          "first_move": "Stop paying for impressions or clicks and measure only verified customer purchases.",
+          "hardest_part": "When creating synthetic human behavior costs nothing, fake buyers become indistinguishable from real ones without invading personal privacy.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 151,
+            "candidatesTokenCount": 71,
+            "totalTokenCount": 3020,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 151
+              }
+            ],
+            "thoughtsTokenCount": 2798,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "lullaby",
+        "label": "A lullaby",
+        "instruction": "Write it as a short lullaby: three or four gentle rhyming couplets someone could actually sing. Soft on the surface, honest underneath. The problem is still unsolved when the song ends, and the song should know it."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Hush, little buyer, the pages come cheap as the rain,\nand counting the clicks only counts them again.\n\nDon't score the page, love — the page is a lie;\nscore who stands behind it, and what they'd let die.\n\nHold back the spend, watch the quiet, find lift;\nthe only clean number's incremental drift.\n\nBut when your own agent goes shopping for you,\nwho's left to call fake? Sleep. I wish I knew.",
+          "first_move": "Stop trying to detect AI-written pages and start demanding a named, bonded seller who loses real money when the supply turns out to be junk.",
+          "hardest_part": "Once people delegate buying to agents, the thing we've always called invalid traffic becomes the legitimate customer, and \"bot\" stops being a useful category at all.",
+          "confidence": "low",
+          "usage": {
+            "input_tokens": 656,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1357,
+            "output_tokens_details": {
+              "thinking_tokens": 1072
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Hush now, each seller must sign every stream,\nSo provenance follows each ad and each dream.\n\nTrust not a classifier that promises sight;\nUse audits and honeypots to test it at night.\n\nHold back some spend, then compare what rings true,\nAs agents learn measures, we’ll change measures too.\n\nReward verified value, not engagement’s bright glow;\nWe may narrow the fraud, but we still will not know.",
+          "first_move": "I would map where supply, identity, content, and engagement evidence can be independently verified.",
+          "hardest_part": "The hardest part is telling genuine attention from adaptive synthetic behavior when generators can learn and exploit whatever measurement becomes valuable.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 302,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 425,
+            "output_tokens_details": {
+              "reasoning_tokens": 265
+            },
+            "total_tokens": 727
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Hush now, close your eyes, while phantom spiders creep, and spun-up engines buy and sell while weary planners sleep. We check the pulse and watch the wire to find a human trace, but every filter that we build just paints another face. No token holds the waking world, no beacon proves the light, so let the simulated clicks keep drifting through the night.",
+          "first_move": "Follow the payout trail to see where real money exits the system instead of trying to catch fake behavior in real time.",
+          "hardest_part": "When the cost to simulate an attentive human drops to zero, any test you invent teaches the machine how to pass it.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 166,
+            "candidatesTokenCount": 141,
+            "totalTokenCount": 1431,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 166
+              }
+            ],
+            "thoughtsTokenCount": 1124,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    }
+  ]
+}
