@@ -1,0 +1,580 @@
+{
+  "date": "2026-10-28",
+  "month": "2026-10",
+  "board_month": "2026-10",
+  "board_rank": 5,
+  "generated_at": "2026-10-28T13:27:48.315Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1
+  },
+  "problem": {
+    "canonical_id": "consent-enforcement-downstream",
+    "canonical_name": "Provable Downstream Consent, Deletion and Purpose Enforcement",
+    "plain": "proving opt-outs are honored everywhere"
+  },
+  "default_format": "haiku",
+  "formats": [
+    {
+      "format": {
+        "id": "cmo-memo",
+        "label": "A memo to a CMO",
+        "instruction": "Write it as a short internal memo to a chief marketing officer. Plain language, no jargon they would have to look up. Around 120 words."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Memo — Proving opt-outs are honored\n\nThe obvious move is to buy or build a consent token that travels with every record. I'd skip that first. No partner, ad platform, or agency will honor a token we invent, so we'd spend a year on plumbing nobody reads.\n\nStart with measurement instead. Plant seeded identities — real, controlled emails and devices — opt them out, then watch where they keep surfacing: ads served, syncs, agency segments. That gives a defect rate instead of an attestation.\n\nThen cut copies. Fewer destinations means fewer places to prove.\n\nOn models: unlearning isn't real yet. Set a retraining clock and suppress at scoring time.\n\nExpect the ugly finding: partners and agencies will be the leaks, and contracts won't cover it.",
+          "first_move": "Create a set of fake-but-real customer identities, opt them out, and see where they still show up.",
+          "hardest_part": "We can prove a signal failed somewhere, but we often can't see inside a partner's or ad platform's systems to prove it succeeded.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 944,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 524,
+            "output_tokens_details": {
+              "thinking_tokens": 150
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "To: CMO\nSubject: Proving opt-outs downstream\n\nI would start with one narrow, high-risk journey—not a universal consent layer. Pick a known person, an opt-out, the warehouse, one activation tool, and one ad platform. Build a record of every handoff, then test whether seeded identities disappear within a stated deadline. Require each system owner and partner to return evidence: receipt, suppression, deletion, or a documented exception.\n\nI disagree that a new consent token is the first answer. A token helps only if every recipient preserves and enforces it. We first need durable identity links, contractual duties, and automated tests that expose broken hops.\n\nDerived features and trained models remain the hard boundary. I would separate future-use suppression from actual model removal, test retraining costs and influence estimates, and report those limits plainly rather than claim deletion we cannot prove.",
+          "first_move": "Choose one opt-out path and trace seeded test identities through every downstream system.",
+          "hardest_part": "The hardest part is proving that a person’s influence is gone from derived data and trained models when identity and lineage have already been lost.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 479,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 326,
+            "output_tokens_details": {
+              "reasoning_tokens": 79
+            },
+            "total_tokens": 805
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Nobody can cleanly prove downstream deletion right now. The common instinct is to track every copied record into Google, Meta, or internal predictive models, but that is a dead end. Once data leaves our servers or gets baked into an AI model, true verification is currently impossible. Instead of chasing downstream deletes, I would invert our approach: cut off permanence at the source. We should treat all audience lists pushed to ad platforms as temporary passes that auto-expire after a few days unless re-approved against fresh consent data. For predictive models, we must stop pretending we can surgically erase someone; we simply schedule regular clean retrains. We can only legally prove what we directly hold and control.",
+          "first_move": "Set every exported ad audience to automatically expire after seven days so customer records fall off by default unless explicitly re-verified.",
+          "hardest_part": "Once an individual's data influences the mathematical weights inside a machine learning model or an external ad platform, that influence cannot be isolated or deleted without rebuilding the system from scratch.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 357,
+            "candidatesTokenCount": 230,
+            "totalTokenCount": 1520,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 357
+              }
+            ],
+            "thoughtsTokenCount": 933,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "three-moves",
+        "label": "Three moves",
+        "instruction": "Give exactly three moves, in order. One sentence each, then one sentence on what makes that move hard. Nothing else."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Move 1: Build an append-only consent ledger keyed not to a person but to every identifier that has ever stood for that person — hashed emails, MAIDs, CRM IDs, household keys, partner match keys — so that an opt-out resolves to an enumerable set of places the person can exist, because the actual failure mode isn't propagation, it's that nobody can list where the copies went. What makes it hard: your identity graph is probabilistic, so you are now asserting a legal deletion obligation on joins you only believe are the same human, and being too aggressive creates its own harm. Move 2: Stop trying to make a consent token travel (Meta and Google will never honor your token) and instead move enforcement to egress — every reverse ETL sync, audience upload, and agency file passes through one gated pipe that re-evaluates purpose at send time, emits a signed manifest of what was suppressed, and seeds canary records whose later appearance in a platform audience proves a leak. What makes it hard: this is an org problem wearing a technical costume — agencies and growth teams hold their own ad accounts and will route around any chokepoint, and some destinations (co-op, offline partners, an exported CSV) have no interceptable API at all. Move 3: Abandon machine unlearning as the answer and instead constrain the model side structurally — ban per-person embeddings and persistent lookalike seeds from the inference path, make consent a hard filter in the feature pipeline, and commit to a published retraining cadence that bounds how long a withdrawn person's contribution can persist. What makes it hard: \"this model no longer contains her\" is effectively unfalsifiable, regulators haven't set a bar, so you're buying a real recurring retraining cost against an undefined standard and may be buying the wrong amount.",
+          "first_move": "Build one list of every identifier we've ever used to represent a person, and attach that person's current consent state to all of them.",
+          "hardest_part": "You are being asked to prove a negative about copies living in systems you don't control, using an identity graph that is itself an educated guess.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 934,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1625,
+            "output_tokens_details": {
+              "thinking_tokens": 943
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Move 1: Pick one identity domain and one purpose, build a copy-and-derivation graph spanning collection, warehouse, reverse ETL, agencies, audience uploads, and features, then issue signed receipts for suppression, deletion, and exceptions against stable internal subject keys. What makes this move hard is identity resolution across pseudonyms and partner-held data, because the proof is only as complete as the lineage and contracts expose. Move 2: Put enforceable egress gateways around every controllable activation path, translate GPC and CRM opt-outs into purpose-specific policy decisions, and continuously reconcile destination populations against suppression sets rather than assuming a universal traveling token will be adopted. What makes this move hard is that major platforms and partners expose inconsistent deletion semantics, weak acknowledgments, and few subject-level audit artifacts. Move 3: Treat derived data and models separately by blocking opted-out people from future features, training, and scoring, deleting recoverable features, setting risk-based retraining triggers, and explicitly reporting where individual influence cannot be proven absent. What makes this move hard is that machine unlearning is not generally verifiable, while opaque lookalike systems may make even retraining or contribution measurement impossible.",
+          "first_move": "Map one person's data copies and derivatives for one purpose.",
+          "hardest_part": "The hardest part is proving enforcement beyond systems you control when partners cannot or will not provide subject-level evidence.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 470,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 734,
+            "output_tokens_details": {
+              "reasoning_tokens": 438
+            },
+            "total_tokens": 1204
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. Replace persistent hashed customer identifiers sent to external platforms with short-lived synthetic tokens that expire by default unless continuous consent re-authorizes them. The ad platforms are fundamentally built to match on static PII, so moving away from permanent identifiers immediately degrades audience match rates and campaign reach. 2. Force all reverse ETL and activation pipelines to write through cryptographically signed tombstones that require automated destination receipts before downstream syncs are allowed to run again. Ad network APIs are black boxes that return generic HTTP success codes rather than verifiable receipts proving an individual record was purged from their internal targeting graph. 3. Partition machine learning feature sets into small, isolated time-sharded models so consent revocations only require retraining fractional sub-models rather than auditing model weights. Exact machine unlearning in trained deep networks is mathematically unsolved, meaning any retraction forces an expensive tradeoff between compute budgets and statistical proof of non-influence.",
+          "first_move": "Swap out static customer identifiers sent to outside platforms for temporary tokens that expire quickly unless refreshed.",
+          "hardest_part": "You cannot cryptographically verify deletion inside external ad platforms that only provide blind ingestion APIs and generic success responses.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 346,
+            "candidatesTokenCount": 257,
+            "totalTokenCount": 1760,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 346
+              }
+            ],
+            "thoughtsTokenCount": 1157,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "pseudocode",
+        "label": "Pseudocode",
+        "instruction": "Express the approach as short annotated pseudocode. The comments should carry the reasoning; the code should carry the structure. Around 15 lines."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "# Disagreement up front: the industry keeps trying to build a consent token that travels with the record\n# (TCF-style). Tokens get stripped at the first hop that doesn't care, and you can't audit a hop\n# that has no contractual reason to echo your metadata back. So: don't propagate permission. Propagate\n# unusability, and verify from outside.\n\non_signal(s):                       # GPC header, pref center, DSAR, authorized agent\n  ids = graph.resolve(s)            # honest: anonymous GPC resolves to device/session, not to a CRM row.\n                                    # Over-suppress deliberately: kill device + every linked login.\n                                    # Then MEASURE the revenue cost of over-suppression, because that number\n                                    # is the only thing that gets you permission to keep doing it.\n  ledger.append(sign(s, ids, purposes_revoked, ts))   # hash-chained, per-record, replayable\n\negress(req):                        # chokepoint: no system reads raw PII directly, ever\n  assert req.purpose in ledger.allowed(req.ids)\n  return encrypt(fields, key=k(req.purpose, ttl=24h))  # revocation == stop renewing the key.\n                                    # Copies in the warehouse, rETL targets, agency extracts crypto-shred\n                                    # themselves. This is the part I'm actually confident in.\n\nfor hop in [meta, google, coop, agency]:   # the part I am not confident in\n  hop.delete(ids); ledger.append(receipt(hop))   # a receipt is proof of REQUEST, not proof of deletion. Say so.\n\nseed_probe():                       # the only real verification available\n  plant canaries through each hop -> opt them out -> buy media -> watch for delivery\n  if impressions(seeds, after=T) > 0: alarm, and now you have a contract conversation, not an attestation\n\ntrain():                            # machine unlearning via influence functions is not auditable. Don't ship it.\n  shard training data by consent cohort (SISA); revocation retrains one shard, not the model\n  publish max_staleness (e.g. 7d) as a stated SLA rather than pretending deletion is instantaneous\n\n# What I expect to hit: the GPC->CRM bridge has no legally defined mapping, so the identity step is a\n# policy choice dressed as engineering; lookalikes built from an uploaded seed are irreversible even after\n# seed deletion; and the chokepoint dies the first time an analyst needs a CSV at 6pm.",
+          "first_move": "Put a single enforced gate in front of every read of customer data, so no team can copy it without first passing a purpose check.",
+          "hardest_part": "You cannot observe inside the systems that matter most — Meta, Google, co-ops, agencies — so \"proof\" degrades into evidence that you asked plus outside-in canary testing, and nobody has agreed on what level of proof that is.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 943,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 2649,
+            "output_tokens_details": {
+              "thinking_tokens": 1641
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "scope = pick_one_brand_region_and_activation_path()       # Start narrow; “everywhere” is not yet provable.\nflows = trace_copies_from_edge_to_partners(scope)           # Runtime discovery beats trusting the catalog alone.\nasset_registry = assign_owner_system_purpose_retention(flows) # Unknown ownership is an enforcement failure.\nidentity_map = link_browser_crm_and_platform_ids()           # GPC reaches server data only when linkage is justified.\npolicy_ledger.append(signal, subject, scope, time, source)    # Preserve immutable policy history, not just current state.\nlabels = attach(subject_scope, allowed_purposes, expiry)      # A token helps internally; no universal downstream standard exists.\nenforce_on_read_write_and_egress(labels)                     # Warehouse-only controls miss reverse ETL and uploads.\non_opt_out(subject, scope):                                  # Treat revocation as a workflow requiring evidence.\n    quarantine_new_use(subject, scope)                       # Stop further harm before asynchronous cleanup finishes.\n    for asset in lineage.impacted(subject, scope):           # Include raw rows, audiences, features, exports, and models.\n        if asset.supports_deletion: execute_and_verify(asset) # Record API response plus later absence checks.\n        elif asset.is_external: request_delete_and_test(asset) # Partner receipts are evidence, not cryptographic proof.\n        elif asset.is_derived_data: recompute_or_expire(asset) # Deleting source rows does not delete derived influence.\n        elif asset.is_model: assess_influence_then_retrain(asset) # Exact unlearning is generally unavailable today.\n    evidence.append(receipts, checks, failures, timestamps)   # Make gaps and unverifiable hops explicit.\nauditor.run(canaries, reconciliations, sampled_platform_checks) # Continuous tests are stronger than annual attestations.\nreport = publish_coverage_latency_and_exceptions(evidence)    # Claim bounded assurance, never universal compliance.",
+          "first_move": "Trace one real opt-out through one activation path and list every copy it creates.",
+          "hardest_part": "The hardest part is proving removal from opaque external platforms and trained models that expose neither complete lineage nor verifiable deletion semantics.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 473,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 717,
+            "output_tokens_details": {
+              "reasoning_tokens": 248
+            },
+            "total_tokens": 1190
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "# Stop treating consent as an append-only event; treat activation data as an expiring cryptographic lease\ndef push_to_activation(profile, consent_scope, destination):\n    # Attaching metadata tokens fails because ad platforms strip arbitrary fields upon ingest\n    lease = issue_ephemeral_lease(profile.id, consent_scope, ttl_days=14)\n    canary_id = register_canary_probe(profile.id, destination)\n    return destination.sync(payload=encrypt_with_lease(profile, lease), canary=canary_id)\n\ndef enforce_revocation(profile_id):\n    # Internal: crypto-shred the identity key instead of chasing copies across warehouse tables\n    destroy_identity_keys(profile_id)\n    # External: walled-garden APIs emit 200 OK on deletes without proof, so verify via canary probing\n    for dest in get_active_sync_destinations(profile_id):\n        dest.send_tombstone(profile_id)\n        poll_canary_exposure(dest, profile_id) # alert if ad engine still serves against canary\n    # Machine unlearning is mathematically intractable at scale; models must have hard expiration dates\n    mark_derived_weights_tainted(profile_id) # schedule model death, never attempt runtime unlearning",
+          "first_move": "Inject synthetic canary identities into reverse-ETL syncs to test whether ad platforms actually stop targeting those records when deletion tombstones are fired.",
+          "hardest_part": "Walled-garden ad platforms and trained model weights are fundamentally opaque state sinks that provide no cryptographic or deterministic guarantees of erasure.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 350,
+            "candidatesTokenCount": 383,
+            "totalTokenCount": 1893,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 350
+              }
+            ],
+            "thoughtsTokenCount": 1160,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "checklist",
+        "label": "A checklist",
+        "instruction": "Give a checklist someone could actually run next quarter. Each item concrete enough to be marked done or not done. Six items at most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Up front, the disagreement: the industry's default answer is \"wait for a consent token standard (GPP-ish) and do machine unlearning.\" I think both are dead ends for next quarter. No standard survives the hop into Meta's audience store, and unlearning isn't production-grade. The achievable goal isn't proof that every destination honored the signal — it's (a) cryptographic-grade proof of what you knew and what you sent, (b) empirical sampling evidence of what destinations actually did, and (c) a shrinking list of paths where you have neither. Say that out loud to legal early, because \"provable\" is going to get redefined and better you do it than a regulator.\n\n1. **Stand up an append-only consent ledger with as-of-time query, and answer one real audit question end-to-end.** Done = you can produce, for an arbitrary person and an arbitrary past timestamp, their purpose state, the signal's source, and the identifiers it was bound to — in under an hour, without an engineer writing custom SQL. This is the artifact an auditor actually wants; most companies can't produce it.\n\n2. **Inventory every egress path and classify each as fail-closed, fail-open, or unknown.** Include the ones nobody puts on the diagram: agency-held segments, the analyst's scheduled CSV, the partner co-op feed, the Looker export, the ML feature store. Done = a signed list with an owner per path and a count of unknowns. Expect the unknown count to be embarrassing and expect 30–40% of paths to be human-mediated. That number is your real risk, not the ad platforms.\n\n3. **Put your highest-volume destination behind a single fail-closed purpose gate.** Reverse ETL first — it's the easiest to chokepoint. Done = records without an explicit purpose claim are rejected, not defaulted; rejections are logged and alerted; someone has been annoyed by it. If nothing broke, you built it fail-open by accident.\n\n4. **Run a seed-identity (canary) program across the top five destinations.** 100+ controlled identities you own, opted out on a schedule, with instrumented devices/accounts watching for continued targeting or audience membership. Done = a dashboard showing time-to-honor per destination and a leakage rate. This is the only mechanism that produces evidence rather than attestation at the walled gardens, and it's statistical, not per-record. Budget for it being noisy and for at least one platform showing a multi-week tail.\n\n5. **Ship training-set manifests plus scoring-time suppression; explicitly deprioritize unlearning.** Done = every model version has a persisted manifest of the identity set it trained on, every scoring path consults the ledger before activation, and there is a written retraining SLA (e.g., 90 days) approved by counsel. You will not remove a person's contribution from existing weights this quarter. The defensible position is: no decision is made about them, and their contribution ages out on a committed clock. Write that position down before someone asks.\n\n6. **Publish a GPC-to-identity mapping rule, signed by legal.** Done = a document stating that GPC is always honored at device level, and the specific, narrow conditions under which it propagates to a known CRM record (authenticated session, deterministic link, confidence threshold). Be conservative — over-linking an anonymous browser signal to the wrong person is its own harm and the obvious answer of \"link it everywhere\" is worse than the problem. Log every propagation decision and every declined one.\n\nWhat I'd expect to run into: the gate in #3 will reveal that several \"consented\" audiences were built from joins nobody can reconstruct, and you'll have to choose between rebuilding them and turning them off. That decision is the real test of whether this program is real.",
+          "first_move": "Write down every single way customer data leaves the company, including the manual spreadsheet exports and the files sitting with agencies.",
+          "hardest_part": "For the destinations that matter most — the ad platforms — there is no read-back, so you can never verify enforcement directly and must substitute sampled empirical evidence for proof.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 937,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 2634,
+            "output_tokens_details": {
+              "thinking_tokens": 1276
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "- [ ] **Define a narrow proof contract.** Pick one jurisdiction, one purpose (targeted advertising), one identifier path, and 3–4 destinations. Document what “honored” means at each hop, including suppression deadlines, derived data, backups, partner copies, and trained models.\n- [ ] **Build an identity-bound rights ledger.** Translate GPC, CRM opt-outs, and deletion requests into versioned decisions keyed to the identifiers the company can legitimately resolve. Record source, timestamp, jurisdiction, purpose, policy version, and identity-match confidence; do not treat an unmatched browser signal as proof about a known CRM profile.\n- [ ] **Instrument lineage at every selected egress.** Require warehouse jobs, reverse-ETL syncs, audience uploads, and feature pipelines to log input policy state, transformation, destination, audience/job ID, row counts, and policy version. Block exports that lack an explicit allowed purpose rather than inventing a universal consent token that downstream platforms do not support.\n- [ ] **Implement destination-specific enforcement and receipts.** For each pilot destination, ship suppression/deletion adapters, maintain durable suppression lists to prevent re-entry, and collect API receipts plus later audience-membership checks where available. Label unsupported partner or agency paths as “attested,” not “verified.”\n- [ ] **Set an explicit model policy and test it.** Inventory models and features touched by opted-out people; stop future scoring and training use immediately, then compare scheduled retraining, exact retraining, and practical unlearning on one model. Define measurable leakage and utility thresholds, while stating clearly that deletion of an individual’s influence cannot generally be proven for existing models.\n- [ ] **Run a canary audit and publish the gaps.** Seed test identities, exercise GPC, opt-out, and deletion flows, and verify warehouse state, outbound logs, destination suppression, re-entry prevention, and model handling within stated SLAs. Produce an evidence bundle that separates observed proof, vendor receipts, contractual attestations, and unknowns; use failures to set next-quarter priorities.",
+          "first_move": "Trace one real opt-out from collection through every place that person’s data is copied.",
+          "hardest_part": "The hardest part is proving removal of a person’s influence after data leaves your control or has been absorbed into a trained model.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 472,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 623,
+            "output_tokens_details": {
+              "reasoning_tokens": 131
+            },
+            "total_tokens": 1095
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. [ ] Map all egress endpoints (reverse ETL syncs, server-side APIs, client-side tags) and catalog exactly which identity keys each pipe exports, rather than trying to trace internal warehouse lineage. 2. [ ] Shift external audiences from push-deletion to ephemeral memberships by configuring ad network segments to auto-expire memberships within 7 days unless actively re-hydrated by a fresh, consent-verified sync. 3. [ ] Set a strict boundary on GPC: bind the opt-out to CRM identity only during authenticated sessions, and block all third-party client-side pixels entirely for anonymous sessions rather than attempting identity resolution. 4. [ ] Build synthetic canary profiles with flagged opt-outs into test pipelines and query ad platform audience APIs weekly to verify those identifiers are absent from targetable segments. 5. [ ] Strip raw CRM IDs from downstream ML feature tables, forcing models to train exclusively on k-anonymized, binned attributes so individual opt-outs do not require retraining. 6. [ ] Implement an automated circuit-breaker in reverse ETL pipelines that fails the entire outbound sync if a record lacks an explicit, validated consent timestamp.",
+          "first_move": "Map every external pipeline that sends customer identifiers outside the data warehouse, ignoring internal ingestion for now.",
+          "hardest_part": "Once personal data is absorbed into walled-garden identity graphs or ML model weights, verification is technically impossible without rebuilding the asset from scratch.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 348,
+            "candidatesTokenCount": 321,
+            "totalTokenCount": 2446,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 348
+              }
+            ],
+            "thoughtsTokenCount": 1777,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "fifty-words",
+        "label": "Fifty words",
+        "instruction": "Fifty words or fewer. No preamble, no caveats. The compression is the point: keep only what you would keep if you could keep one thing."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Stop shipping consent with the record. Make every egress a gate that re-queries live consent at send time and emits a signed receipt — that log is the audit. Models: don't unlearn; suppress at scoring and shard training by consent cohort. Expect it to break where platforms return no deletion receipt.",
+          "first_move": "Inventory every place data leaves the warehouse and force each one through a single send-time checkpoint.",
+          "hardest_part": "Ad platforms and agencies won't confirm deletion, so verification stops at the boundary and becomes attestation again.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 941,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 350,
+            "output_tokens_details": {
+              "thinking_tokens": 154
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Build a control plane: resolve identities, attach purpose policy, propagate tombstones, reconcile sinks, and issue signed receipts. Don’t lead with a universal token; vendors can discard it. Quarantine models, measure influence, then retrain selectively.",
+          "first_move": "Trace one opt-out through one activation path.",
+          "hardest_part": "Models and external platforms break lineage and enforceability.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 477,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 1127,
+            "output_tokens_details": {
+              "reasoning_tokens": 1034
+            },
+            "total_tokens": 1604
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Stop trying to trace downstream copies; you cannot audit Meta or unbake a neural net. I would invert the flow: kill persistent outbound identifier syncs, bind cryptographically signed consent tokens directly to ephemeral data access grants, and accept that models must be retrained on cadences rather than real-time unlearned.",
+          "first_move": "Map and cut off every automated pipeline currently pushing hashed identifiers out to third-party ad networks.",
+          "hardest_part": "Walled gardens will never give you cryptographic proof of internal deletion, and mathematical influence in trained weights cannot be isolated without full retraining.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 351,
+            "candidatesTokenCount": 142,
+            "totalTokenCount": 1238,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 351
+              }
+            ],
+            "thoughtsTokenCount": 745,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "haiku",
+        "label": "A haiku",
+        "instruction": "Three lines, 5-7-5 syllables. A severe constraint on a serious problem: what survives the compression is what you actually think matters most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Burn the key, not rows\neach copy goes dark at once\ntrain on crowds, not names",
+          "first_move": "List every place a person's identifier leaves our control and ask, for each one, who could actually delete it if we asked tomorrow.",
+          "hardest_part": "Once an identifier crosses into a platform or partner you cannot revoke it, and a model that already learned from someone cannot be made to unlearn them, so the only honest fix is preventing the copy rather than chasing it.",
+          "confidence": "low",
+          "usage": {
+            "input_tokens": 942,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 786,
+            "output_tokens_details": {
+              "thinking_tokens": 615
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Trace all copies first\nBind purpose through every hop\nRetrain to forget",
+          "first_move": "Inventory every downstream copy and owner.",
+          "hardest_part": "Third-party enforcement and removing individual influence from trained models remain genuinely unprovable.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 478,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 739,
+            "output_tokens_details": {
+              "reasoning_tokens": 675
+            },
+            "total_tokens": 1217
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Kill persistent syncs\nRevoke the keys, not the rows\nModels cannot purge",
+          "first_move": "Trace every path where user data leaves your systems and disable automatic syncs to platforms that cannot verify deletion.",
+          "hardest_part": "You cannot audit what third-party platforms keep behind closed doors, nor can you mathematically remove an individual's influence from trained model weights without retraining from scratch.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 353,
+            "candidatesTokenCount": 91,
+            "totalTokenCount": 3963,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 353
+              }
+            ],
+            "thoughtsTokenCount": 3519,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "lullaby",
+        "label": "A lullaby",
+        "instruction": "Write it as a short lullaby: three or four gentle rhyming couplets someone could actually sing. Soft on the surface, honest underneath. The problem is still unsolved when the song ends, and the song should know it."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Hush now, the signal went out at the edge,\na promise we whispered — a token, a pledge.\n\nWe stamp every copy a receipt and a name,\nand send little ghosts down the pipes to find blame.\n\nThe warehouse comes clean, and the vendors confess,\nbut the model still dreams of you, more or less.\n\nSo sleep — we retrain on a calendar's beat,\nand call it enough, knowing it's incomplete.\n\n(Where I'd break from the room: I wouldn't start with a universal consent token. Standards bodies have been at that for years and the hops that matter — Meta audience uploads, agency-held segments, co-op partners — are exactly the ones who won't honor a field you invented. Start instead with seeded canary identities: real, controlled, opted-out personas planted upstream, then watched for downstream reappearance in ad delivery, partner files, and model scores. That converts attestation into detection. It's sampling, not proof, and it finds violations rather than certifying compliance — but a system that catches you is worth more than a schema nobody enforces. Pair it with per-hop deletion receipts in an append-only ledger so you at least know who acknowledged what, and treat models as a separate regime entirely: purpose-scoped feature stores, bounded retrain cadence, and honest disclosure that influence on a trained model is attenuated, not erased. Unlearning research is not ready and probably won't be for lookalikes you don't control. GPC-to-CRM mapping I'd solve deliberately narrowly — identity-resolve only where there's a durable logged-in key, and refuse to guess elsewhere, which means admitting a coverage gap in writing rather than papering over it.)",
+          "first_move": "Plant a set of controlled fake customers, opt them out, and watch which systems keep showing them ads.",
+          "hardest_part": "You can detect that an opt-out was violated, but you can never prove absence — especially inside a model that has already learned from someone.",
+          "confidence": "low",
+          "usage": {
+            "input_tokens": 966,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1205,
+            "output_tokens_details": {
+              "thinking_tokens": 540
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Trace one narrow opt-out, one purpose, one ID,\nFrom GPC through CRM copies, marking doubt where it hides.\n\nDon’t mint a grand token and call the work done;\nBind policy to lineage and receipts, one by one.\n\nReconcile every sink so the missing replies show,\nThough partners and aliases cloud what we know.\n\nFor models, retraining is proof we can cite;\nUnlearning still whispers—the end’s not in sight.",
+          "first_move": "I would trace one real opt-out through every system and partner that received the person’s data.",
+          "hardest_part": "The hardest part is proving removal from opaque partner systems and trained models when identity mappings and deletion evidence are incomplete.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 494,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 626,
+            "output_tokens_details": {
+              "reasoning_tokens": 461
+            },
+            "total_tokens": 1120
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Hush now, little signal, drift into the lake, past tables of records no audit can break. We will follow your ghost to the garden walls high, and watch hashed reflections stare back from the sky. The weights in the network remember your face, though clean attestations swear there is no trace. So sleep through the silence where quiet logs lie, for water once poured cannot learn to run dry.",
+          "first_move": "Trace one real person's opt-out by hand through every sync, agency export, and ad platform audience to see where tracking breaks first.",
+          "hardest_part": "Data stops being an addressable row once it has biased the mathematical weights of a trained model or disappeared into a partner's private identity graph.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 368,
+            "candidatesTokenCount": 158,
+            "totalTokenCount": 1675,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 368
+              }
+            ],
+            "thoughtsTokenCount": 1149,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    }
+  ]
+}
