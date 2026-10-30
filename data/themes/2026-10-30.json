@@ -1,0 +1,104 @@
+{
+  "date": "2026-10-30",
+  "generated_at": "2026-10-30T13:26:48.933Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-04-30",
+    "to": "2026-10-30",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08",
+      "2026-09",
+      "2026-10"
+    ],
+    "solution_days": 73
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 27340,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1443,
+    "output_tokens_details": {
+      "thinking_tokens": 83
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+  },
+  "themes": [
+    {
+      "name": "No Ground Truth to Measure Against",
+      "plain": "Most of these problems have no answer key. There is no stable number to grade your work against, and the thing being measured often shifts while you measure it, so the models start by building a small truth set of their own or admit the number is only an estimate.",
+      "evidence": "Answer engine optimization has no stable baseline because answers are personalized and change with every model release, identity resolution cannot grade matches without a consented panel, incrementality measurement faces platforms that adapt to the test, and today's answers on generative content review note that expert reviewers themselves disagree, so there is nothing stable to automate toward.",
+      "problem_ids": [
+        "aeo",
+        "cross-channel-incrementality",
+        "identity-resolution-decay",
+        "genai-content-governance",
+        "b2b-buying-group-signal-loss",
+        "generative-ad-supply-integrity"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Incentives Before Standards",
+      "plain": "Many of these problems stall because the people holding the answer gain nothing by sharing it, and nobody can force them. The blockers are money and politics, inside the company as much as outside, so the models try to make honesty or cooperation pay rather than write another rule.",
+      "evidence": "On agentic traffic the models build a faster declared-agent lane because spoofing pays better than disclosure, on journey orchestration they note channel owners are bonused on their own numbers, on the semantic context layer they call conflicting definitions a political settlement, and on ad supply integrity they say the parties measuring fake traffic often profit from it.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "cross-channel-journey-orchestration",
+        "semantic-context-layer",
+        "generative-ad-supply-integrity",
+        "cross-channel-incrementality"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust who is acting or what happens next, they build one door they own and push everything through it. A sent email, a spent dollar, or an exported file cannot be taken back, so the only real control happens before the action leaves.",
+      "evidence": "All three models answer safe agent execution with a proxy or gateway that holds the credentials and caps spend, rate, and audience size, consent enforcement answers funnel every data exit through one checkpoint, journey orchestration answers build one shared contact log that can say no, and content governance answers restrict generation to pre-approved claims.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "consent-enforcement-downstream",
+        "cross-channel-journey-orchestration",
+        "genai-content-governance"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data, a message, or a dollar leaves your own systems, you cannot see inside the partner, ad platform, or trained model that now holds it. You can watch from outside and guess whether the rules were followed, but you cannot prove it.",
+      "evidence": "Consent and deletion answers agree that ad platforms and agency segments are black boxes and that a person cannot be unlearned from a trained model, agent execution answers note vendors expose no rollback or agent identity, incrementality answers say platforms control both the treatment and the evidence, and identity answers point to platform owners who profit from keeping walls up.",
+      "problem_ids": [
+        "consent-enforcement-downstream",
+        "agent-safe-execution",
+        "cross-channel-incrementality",
+        "identity-resolution-decay",
+        "generative-ad-supply-integrity"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Judgment That Won't Compile",
+      "plain": "The hardest calls turn on meaning and context: whether a picture plus a headline implies a promise, whether evidence really backs a claim, whether two teams can both be right about what a word means. No rule set captures that, so the models shrink human judgment into a smaller, safer box instead of removing it.",
+      "evidence": "Today's answers on generative content review all say substantiation is a judgment about meaning that tools cannot carry legal risk for, and the semantic context layer answers say a single definition of customer is the wrong target because different teams legitimately need different answers.",
+      "problem_ids": [
+        "genai-content-governance",
+        "semantic-context-layer"
+      ],
+      "trend": "steady"
+    }
+  ]
+}
