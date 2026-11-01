@@ -1,0 +1,1166 @@
+{
+  "month": "2026-11",
+  "generated_at": "2026-11-01T10:01:19.451Z",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "models": {
+      "anthropic": "claude-opus-5",
+      "openai": "gpt-5.6-sol",
+      "google": "gemini-3.7-flash"
+    }
+  },
+  "board": [
+    {
+      "canonical_id": "cross-channel-incrementality",
+      "canonical_name": "Cross-Channel Incrementality and Causal Measurement",
+      "is_new": false,
+      "score": 35,
+      "proposals": 12,
+      "providers": [
+        "anthropic",
+        "google",
+        "openai"
+      ],
+      "categories": [
+        "automation",
+        "identity",
+        "measurement"
+      ],
+      "panel_rank": 1
+    },
+    {
+      "canonical_id": "aeo",
+      "canonical_name": "Answer Engine Optimization",
+      "is_new": false,
+      "score": 17,
+      "proposals": 6,
+      "providers": [
+        "anthropic",
+        "google",
+        "openai"
+      ],
+      "categories": [
+        "measurement"
+      ],
+      "panel_rank": 2
+    },
+    {
+      "canonical_id": "agent-safe-execution",
+      "canonical_name": "Safe, Auditable Agent Execution in Martech Systems",
+      "is_new": false,
+      "score": 16,
+      "proposals": 6,
+      "providers": [
+        "anthropic",
+        "google",
+        "openai"
+      ],
+      "categories": [
+        "automation",
+        "governance",
+        "org"
+      ],
+      "panel_rank": 3
+    },
+    {
+      "canonical_id": "agent-traffic-identification",
+      "canonical_name": "Distinguishing and Governing Agentic Traffic",
+      "is_new": false,
+      "score": 10,
+      "proposals": 4,
+      "providers": [
+        "anthropic",
+        "google"
+      ],
+      "categories": [
+        "data",
+        "identity",
+        "measurement"
+      ],
+      "panel_rank": 4
+    },
+    {
+      "canonical_id": "genai-content-governance",
+      "canonical_name": "Governance and Review of Generative Marketing Content at Volume",
+      "is_new": false,
+      "score": 15,
+      "proposals": 6,
+      "providers": [
+        "anthropic",
+        "google",
+        "openai"
+      ],
+      "categories": [
+        "content",
+        "governance"
+      ],
+      "panel_rank": 5
+    },
+    {
+      "canonical_id": "identity-resolution-decay",
+      "canonical_name": "Durable, Consent-Aware Cross-Channel Identity Resolution",
+      "is_new": false,
+      "score": 10,
+      "proposals": 4,
+      "providers": [
+        "anthropic",
+        "google",
+        "openai"
+      ],
+      "categories": [
+        "identity"
+      ],
+      "panel_rank": 6
+    },
+    {
+      "canonical_id": "consent-enforcement-downstream",
+      "canonical_name": "Provable Downstream Consent, Deletion and Purpose Enforcement",
+      "is_new": false,
+      "score": 12,
+      "proposals": 5,
+      "providers": [
+        "anthropic",
+        "google",
+        "openai"
+      ],
+      "categories": [
+        "governance"
+      ],
+      "panel_rank": 7
+    },
+    {
+      "canonical_id": "semantic-context-layer",
+      "canonical_name": "Governed Semantic Context Layer for Agents and Activation",
+      "is_new": false,
+      "score": 6,
+      "proposals": 2,
+      "providers": [
+        "openai"
+      ],
+      "categories": [
+        "data"
+      ],
+      "panel_rank": 8
+    },
+    {
+      "canonical_id": "cross-channel-journey-orchestration",
+      "canonical_name": "Globally Optimized Cross-Channel Journey Orchestration",
+      "is_new": false,
+      "score": 6,
+      "proposals": 2,
+      "providers": [
+        "google"
+      ],
+      "categories": [
+        "data"
+      ],
+      "panel_rank": 9
+    }
+  ],
+  "proposals": [
+    {
+      "provider": "anthropic",
+      "pass": "ungrounded",
+      "name": "Measuring demand mediated by AI assistants",
+      "definition": "A growing share of discovery, research and shortlisting now happens inside LLM assistants and AI answer surfaces, and there is no reliable way to measure a brand's presence there, the traffic/revenue it produces, or the effect of any intervention on it.",
+      "why_unsolved": "Three compounding blockers: (a) no log-level or impression-level data is released by the assistant providers, so 'share of voice in answers' can only be estimated by prompt sampling, which is non-deterministic, personalized, and unstable across model versions; (b) referral signal is lossy — much assistant-driven traffic arrives as direct, or never arrives at all because the answer substitutes for the click; (c) the causal lever is unclear, since nobody can show that a given content or schema change moved a model's output rather than a retraining cycle or retrieval-index refresh. The 'GEO/AEO' tool category sells rank-tracking against this, but it measures a proxy nobody has validated against outcomes.",
+      "category": "measurement",
+      "evidence": "The category of visibility-tracking tools exploded in 2025 and was being bought by large brands by 2026, while the same brands still cannot answer 'what is this worth' in a board deck. Meanwhile organic click-through from search has been visibly decaying for publishers and informational queries, so the gap is now material rather than theoretical.",
+      "confidence": "high"
+    },
+    {
+      "provider": "anthropic",
+      "pass": "ungrounded",
+      "name": "No counterfactual inside black-box platform automation",
+      "definition": "The majority of paid spend now flows through automated allocation products (PMax-style, Advantage+-style, and their equivalents) where the advertiser chooses budget and signal but not placement, audience, or creative, and cannot diagnose or reconstruct why spend moved or what it replaced.",
+      "why_unsolved": "The platforms' own reporting is self-graded and uses last-touch or modeled conversions trained on the platform's own data; brand/non-brand, retargeting, and organic are conflated inside one campaign; and the platform will not expose the counterfactual (what the user would have done absent the ad). Advertisers' only real instrument is a blunt on/off geo test on the whole product, which is expensive, slow, and cannot answer the within-campaign allocation question. Spend has moved into these products faster than any independent diagnostic layer has been built.",
+      "category": "automation",
+      "evidence": "Practitioner complaints have shifted in character — from 'attribution is hard' to 'I cannot tell whether this campaign is harvesting demand I already had,' and agencies now sell cannibalization audits as a service, which is a tell that the tooling does not resolve it.",
+      "confidence": "high"
+    },
+    {
+      "provider": "anthropic",
+      "pass": "ungrounded",
+      "name": "Incrementality without ground truth or experimentation infrastructure",
+      "definition": "MMM has been re-adopted broadly (including open-source implementations), but most deployments are uncalibrated: there is no routine, affordable experimentation layer producing unbiased lift estimates to anchor the models.",
+      "why_unsolved": "Geo-experiments require sufficient spend, geographic granularity, and patience that most advertisers under roughly $20–50M media budgets do not have; platform-run lift tests are run by the seller on the seller's data; privacy-preserving measurement APIs shipped far less than promised and are not usable as a calibration source. The result is Bayesian models whose priors are doing most of the work, and two vendors handing the same client contradictory channel ROIs with no tiebreaker. Nobody owns a neutral experimentation utility, and the platforms have no incentive to fund one.",
+      "category": "measurement",
+      "evidence": "The proliferation of free/cheap MMM tooling since 2024 pushed adoption down-market to companies that cannot run the validating experiments; the live symptom is finance and marketing arguing over model outputs with no agreed arbiter.",
+      "confidence": "high"
+    },
+    {
+      "provider": "anthropic",
+      "pass": "ungrounded",
+      "name": "Agentic visitors and agentic buyers break the analytics and identity model",
+      "definition": "When an AI agent browses, researches, fills forms, or checks out on a user's behalf, existing web analytics, personalization, consent capture, fraud detection, and conversion attribution all mis-handle it — the agent is neither a human session nor clearly a bot.",
+      "why_unsolved": "There is no widely honored attestation standard for 'legitimate user-delegated agent,' so bot filters either block valuable traffic or let it pollute behavioral data. Consent and preference capture assume a human reading an interface. Personalization and CRO assume a human eye and a dwell-time signal. Conversion value cannot be assigned because the agent's path is invisible upstream of the site. Agentic commerce protocols emerging in 2025–26 solve payment and order handoff, not measurement, consent provenance, or audience definition.",
+      "category": "identity",
+      "evidence": "Agentic checkout moved from demo to shipping product in 2025–26, and crawler/agent traffic became a visible line item in server logs and a billing problem for infrastructure vendors; analytics teams are now manually excluding traffic they cannot classify.",
+      "confidence": "medium"
+    },
+    {
+      "provider": "anthropic",
+      "pass": "ungrounded",
+      "name": "Consent and deletion lineage that survives into AI systems",
+      "definition": "Consent state, purpose limitation, and deletion requests do not reliably propagate from the capture point through the warehouse into feature stores, embeddings, fine-tuned models, and vendor-side AI systems.",
+      "why_unsolved": "Consent frameworks produce a string at the edge; warehouses and activation layers carry rows. Field-level purpose tagging is rarely implemented, and once first-party data has been used to tune a model or build an embedding index, honoring an erasure request is a genuinely unsolved technical problem — machine unlearning does not work reliably, so the practical answer is retraining, which nobody does per-request. Universal opt-out signals are now legally binding in multiple US states and must be honored downstream, not just on the website.",
+      "category": "governance",
+      "evidence": "The combination of ~20 US state privacy laws with mandatory universal opt-out honoring, EU AI Act obligations phasing in through 2026, and the simultaneous rush to pipe CRM data into model fine-tuning created a concrete compliance gap that legal teams are now flagging and no CDP or consent vendor closes end-to-end.",
+      "confidence": "medium"
+    },
+    {
+      "provider": "anthropic",
+      "pass": "ungrounded",
+      "name": "Cross-walled-garden identity and clean room interoperability",
+      "definition": "Brands can match data to any single retail media network, platform, or publisher, but cannot deduplicate reach, frequency, or conversions across them, which makes portfolio-level planning and frequency control impossible.",
+      "why_unsolved": "Each environment is a separate clean room with its own match key, its own query restrictions, and its own output thresholds; there is no shared, consented join key with scale for logged-out and anonymous users. The IAB and various interoperability initiatives have produced standards on paper, but the commercial incentive for a dominant platform to allow cross-environment deduplication is negative — deduplication reveals overlap and reduces claimed incremental reach. Retail media network proliferation made the fragmentation worse, not better.",
+      "category": "identity",
+      "evidence": "Retail media kept adding networks through 2025–26 while advertisers consolidated budgets; the live complaint is not 'we cannot target' but 'we are paying three networks for the same shopper and cannot prove it.'",
+      "confidence": "high"
+    },
+    {
+      "provider": "anthropic",
+      "pass": "ungrounded",
+      "name": "Creative supply chain: generation outran review and per-asset signal",
+      "definition": "Generative tools made it trivial to produce thousands of asset variants, but legal/brand review and per-variant performance measurement did not scale with it, so volume increases cost and risk without producing learning.",
+      "why_unsolved": "The bottleneck moved to human approval — rights clearance, likeness and talent usage, disclosure obligations, and brand-safety judgment that cannot be fully delegated to a classifier. Simultaneously the platforms' automated campaign products absorb the variants and report asset performance at a coarse, non-experimental grain, so advertisers get no clean read on which creative element drove lift. The feedback loop that would justify the volume is broken at both ends.",
+      "category": "content",
+      "evidence": "Brands scaled variant production hard in 2025–26 and the visible consequence was DAM/review tooling becoming the stated pain point, plus a run of public incidents around AI-generated ads and talent likeness that made legal review stricter rather than looser.",
+      "confidence": "medium"
+    },
+    {
+      "provider": "anthropic",
+      "pass": "ungrounded",
+      "name": "Governing agents that act inside the marketing stack",
+      "definition": "Marketing teams are deploying agents with write access to ad accounts, CRMs, CMSs, and email platforms, with no established pattern for permissioning, spend limits, audit trails, rollback, or quality evaluation.",
+      "why_unsolved": "Martech SaaS permission models were designed for human seats, not for a non-human actor making hundreds of changes per hour; tool-connection protocols standardized the plumbing in 2025 but not authorization scoping or attribution of actions to a responsible party. Worse, there is no accepted evaluation methodology for marketing agent output — unlike code, a campaign change has no unit test, and the outcome signal arrives weeks later and is confounded, so teams cannot tell a competent agent from a confident one until money is spent.",
+      "category": "org",
+      "evidence": "The 2026 pattern is pilots stalling at the point of granting production write access, and procurement/security teams becoming the blocker rather than the technology — a governance failure, not a capability failure.",
+      "confidence": "medium"
+    },
+    {
+      "provider": "anthropic",
+      "pass": "grounded",
+      "name": "Measuring the AI-assistant layer of the funnel",
+      "definition": "Buyers increasingly research inside ChatGPT, Gemini, Copilot and AI Overviews, but brands cannot reliably measure whether they appear there, how often, or what that exposure is worth — the touchpoint produces no stable identifier and often no referrer at all.",
+      "why_unsolved": "The blocker is structural, not tooling: LLM answers are non-deterministic across runs, prompts, locations and model versions, so a 'visibility score' is a sample with no agreed sampling frame; app-based and in-overview exposure leaves no referrer, so a large share of resulting visits land in GA4 as 'direct'; and no platform publishes impression or citation data. Visibility vendors reconcile to each other poorly and none can connect exposure to revenue causally.",
+      "category": "measurement",
+      "evidence": "2026 practitioner writing is explicit that no single tool reports AI search visibility end to end and that most AI-assisted referrals are misclassified as direct; two 2026 GEO measurement papers independently concluded one-off prompt observations are unreliable. Google's own May 2026 guidance that structured data isn't required for AI Mode removed even the proxy lever teams were pulling.",
+      "confidence": "high"
+    },
+    {
+      "provider": "anthropic",
+      "pass": "grounded",
+      "name": "No causal measurement substrate under AI-run ad buying",
+      "definition": "Spend is concentrated in black-box automated buys (Performance Max, Advantage+, AI-mediated placements) whose internal allocation is unobservable, while the privacy-driven collapse of user-level signal removed the data MTA needed — leaving teams without a defensible answer on what marketing caused.",
+      "why_unsolved": "Incrementality testing is the only honest answer, but platform automation actively undermines it: the algorithm reallocates across holdout boundaries, channel overlap contaminates geo tests, and platforms do not expose the in-campaign breakdown needed to interpret results. Server-side tagging and conversions APIs restore input volume but add no causal identification. MMM requires spend variance and history most mid-market teams lack, and open-source MMM outputs vary wildly with priors.",
+      "category": "measurement",
+      "evidence": "Large 2026 incrementality programs (e.g. a 640-test study of Meta spend) found automated campaign types underperforming manual ones — a result advertisers cannot obtain from platform reporting itself, which is the point. Agency commentary in 2026 describes platform transparency as net worsening despite more reporting surfaces.",
+      "confidence": "high"
+    },
+    {
+      "provider": "anthropic",
+      "pass": "grounded",
+      "name": "Agent identity: telling an autonomous buyer from a bot or a human",
+      "definition": "AI agents now browse, fill forms, add to cart and transact on brand properties, and existing stacks cannot classify them — bot defenses block legitimate agent purchases, analytics counts them as human sessions, and personalization logic targets them.",
+      "why_unsolved": "There is no settled agent-identity or attestation standard in production. Competing protocols (ACP, Google's UCP, AP2, MCP, x402) are being pushed simultaneously by rivals, so merchants cannot implement one and be done. Meanwhile bot-management vendors, analytics vendors, CDPs and payment risk engines each make an independent and conflicting judgment about the same traffic, and payment rails have no clean way to authorize a delegated non-human purchaser.",
+      "category": "identity",
+      "evidence": "2026 reporting documents triple-digit growth in agent-originated retail traffic, merchants finding existing anti-bot controls rejecting legitimate agentic purchases, and bank/card infrastructure explicitly lagging on bot payment authorization. Adobe's 2026 analysis flags most retail sites as not machine-readable.",
+      "confidence": "high"
+    },
+    {
+      "provider": "anthropic",
+      "pass": "grounded",
+      "name": "Authorization and audit for agents acting inside the martech stack",
+      "definition": "Marketing teams are giving AI agents write access to CRMs, ad accounts, CDPs and email platforms, but the stack has no way to express 'this agent, on behalf of this person, may spend up to X / email this segment but not that one' with an audit trail.",
+      "why_unsolved": "Martech permission models are built around human seats and roles; there is no per-agent identity lifecycle, no scoped delegation, and no provenance record of which agent changed what. MCP connectors proliferated faster than any permission layer for them, so the practical control is all-or-nothing API keys. Rolling your own governance means rebuilding IAM inside each SaaS tool you don't control.",
+      "category": "governance",
+      "evidence": "Agent use crossed ~50% of marketing organizations by August 2026, while 2026 CISO surveys report the overwhelming majority lack full inventory of agent identities and permissions, and that agents are held to weaker controls than employees. Tens of thousands of MCP servers are now indexed with no corresponding authorization standard.",
+      "confidence": "high"
+    },
+    {
+      "provider": "anthropic",
+      "pass": "grounded",
+      "name": "Consent and opt-out enforcement across a fragmented, now-enforced US patchwork",
+      "definition": "Honoring universal opt-out signals, state-specific sensitive-data opt-in rules, and downstream deletion across every destination in the stack is an engineering problem no CMP actually solves end to end.",
+      "why_unsolved": "CMPs capture consent at the edge; they do not propagate state into the warehouse, CDP audiences, ad platform custom audiences, offline suppression lists or vendor sub-processors — and most activation destinations have no API to express granular purpose limitation. GPC handling differs by state, sensitive categories keep expanding (geolocation, health inference, neural data), and 'sale/share' definitions diverge, so a single global consent string cannot be compliant everywhere at once.",
+      "category": "governance",
+      "evidence": "2026 enforcement has concentrated specifically on opt-out mechanics — broken links and unhonored signals — rather than notices, meaning the failure mode regulators are punishing is exactly the downstream-propagation gap. The compliance surface grew again in 2026 with new state laws and expanded sensitive-data categories.",
+      "confidence": "medium"
+    },
+    {
+      "provider": "anthropic",
+      "pass": "grounded",
+      "name": "Identity resolution degraded to the point that the customer record is a guess",
+      "definition": "Stitching the same person across checkout, app login, support ticket, CTV, retail media and offline is now done on sparse deterministic signal, and teams cannot measure how wrong their match rate is.",
+      "why_unsolved": "Walled gardens stopped returning identifiers, third-party cookies are gone, and the fallback — probabilistic matching — has no ground truth to validate against, so nobody can state a confidence interval on a profile. CDPs ship identity resolution as a configuration screen rather than an evidence-backed matching engine, and composable architectures push the hardest part onto data teams who inherit the same sparse inputs. Errors are silent: an over-merged profile looks like a success metric (profile completeness) while corrupting suppression, frequency and personalization.",
+      "category": "identity",
+      "evidence": "2026 CDP commentary repeatedly separates 'CDP' from 'identity resolution' as distinct problems and documents high implementation failure rates measured with vanity metrics like profile count rather than outcomes — a sign the match-quality question still has no accepted measurement.",
+      "confidence": "medium"
+    },
+    {
+      "provider": "anthropic",
+      "pass": "grounded",
+      "name": "Quality control at AI content volume",
+      "definition": "Content production cost fell to near zero, but review, factual verification, disclosure and brand-consistency capacity did not scale with it, so volume outruns the governance that makes it safe to publish.",
+      "why_unsolved": "The missing piece is automated verification, not generation: there is no reliable way to check a generated claim against an authoritative internal source at scale, no consistent provenance/disclosure standard that survives distribution, and detection tools are unreliable enough to be useless as gates. Brand guideline enforcement is still human judgement, so the bottleneck is headcount in the exact place AI didn't help. Distribution platforms are simultaneously demoting low-quality synthetic content, so the failure is commercial, not just reputational.",
+      "category": "content",
+      "evidence": "2026 brand-side reporting treats 'AI slop' as an active brand-risk and governance category rather than a social-media curiosity, with vendors' own research showing scaled generation outpacing review workflows.",
+      "confidence": "medium"
+    },
+    {
+      "provider": "anthropic",
+      "pass": "grounded",
+      "name": "Engagement metrics are now machine-generated and nobody has replacements",
+      "definition": "Opens, clicks, sessions and impressions are increasingly produced by machines — AI inbox agents reading and summarizing mail, crawlers, agents browsing — so the core optimization signals in email and web analytics have become unreliable as behavioral evidence.",
+      "why_unsolved": "Optimization loops, send-time models, lead scoring and engagement-based suppression are all trained on these metrics, and there is no drop-in replacement that is both privacy-durable and available at the per-recipient level. Filtering machine activity requires classification that is itself unsolved (see agent identity), and the mailbox providers increasingly interpose AI summaries between the creative and the human, so even a true human 'read' may never involve seeing the message.",
+      "category": "measurement",
+      "evidence": "Gmail's Gemini-era inbox changes through early 2026 plus hardened authentication enforcement materially altered what an 'open' means, and practitioners in 2026 report engagement-based deliverability heuristics misfiring as a result.",
+      "confidence": "medium"
+    },
+    {
+      "provider": "openai",
+      "pass": "ungrounded",
+      "name": "Causal measurement across closed and privacy-constrained channels",
+      "definition": "Marketers still cannot reliably determine the incremental effect of spending across search, social, connected TV, retail media, creators, and offline channels. Attribution, media-mix modeling, and experiments often produce materially different answers.",
+      "why_unsolved": "Platforms expose incomplete, differently defined, and sometimes modeled data; user-level signals are disappearing; conversion APIs remain lossy; and clean rooms permit matching without eliminating selection bias. Controlled experiments provide causality but cannot continuously cover every channel, audience, and interaction effect.",
+      "category": "measurement",
+      "evidence": "November 2026 is beyond what I can directly verify, so this is a forward assessment from known industry conditions. Signal loss, platform-reported attribution inflation, renewed adoption of MMM, and growing demand for incrementality testing indicate that the measurement stack still lacks a dependable source of truth.",
+      "confidence": "high"
+    },
+    {
+      "provider": "openai",
+      "pass": "ungrounded",
+      "name": "Consent-aware identity and recognition",
+      "definition": "Brands cannot consistently recognize the same customer across browsers, devices, apps, stores, households, and advertising platforms while respecting that person’s current consent and permitted purposes.",
+      "why_unsolved": "There is no universal privacy-safe identifier. First-party identifiers cover only authenticated interactions, probabilistic links are unstable, platform IDs are nonportable, and consent can differ by jurisdiction, purpose, channel, and time. Clean rooms constrain data movement but do not establish ground truth identity.",
+      "category": "identity",
+      "evidence": "Cookie deprecation uncertainty has not restored lost addressability: mobile identifiers remain restricted, browsers block tracking, authenticated traffic is incomplete, and publishers, retailers, and platforms continue building incompatible identity environments.",
+      "confidence": "high"
+    },
+    {
+      "provider": "openai",
+      "pass": "ungrounded",
+      "name": "End-to-end enforcement of privacy choices",
+      "definition": "Organizations cannot reliably prove that consent withdrawals, purpose restrictions, deletion requests, and retention rules have propagated through every downstream marketing system and derived audience.",
+      "why_unsolved": "Consent-management platforms capture choices but lack durable control over copied data, modeled attributes, SaaS exports, agency systems, clean-room outputs, and platform audiences. Data lineage is incomplete, while regulations and platform rules define purposes and obligations differently.",
+      "category": "governance",
+      "evidence": "The proliferation of server-side tracking, customer-data platforms, clean rooms, conversion APIs, and generative-AI services creates more downstream copies and processing paths precisely as regulators demand demonstrable control over them.",
+      "confidence": "high"
+    },
+    {
+      "provider": "openai",
+      "pass": "ungrounded",
+      "name": "Reliable autonomous marketing agents",
+      "definition": "AI agents cannot yet be trusted to independently plan, execute, and optimize consequential campaigns across production systems without close human supervision.",
+      "why_unsolved": "Models are nondeterministic, weak at maintaining long-running state, and vulnerable to bad context or instructions. Marketing systems lack standardized permission boundaries, simulations, rollback mechanisms, cross-vendor action protocols, and evaluations that connect an agent’s decisions to incremental business outcomes.",
+      "category": "automation",
+      "evidence": "The market is moving from content copilots toward agents that alter bids, audiences, journeys, and assets. Early deployments still rely on approvals, narrow scopes, and deterministic guardrails, showing that demos have advanced faster than operational reliability.",
+      "confidence": "high"
+    },
+    {
+      "provider": "openai",
+      "pass": "ungrounded",
+      "name": "Measurement of visibility inside AI-generated answers",
+      "definition": "Brands cannot reliably measure or optimize how often they appear, are cited, or influence purchases inside personalized AI assistants and answer engines.",
+      "why_unsolved": "Answer providers generally expose little impression, query, citation, or conversion data; outputs vary by model, prompt, user context, and time; referrals may lose attribution; and synthetic prompt panels do not represent actual user demand or causal commercial impact.",
+      "category": "measurement",
+      "evidence": "Search experiences are increasingly answering questions without a conventional click, while a new optimization-tool category is attempting to infer brand visibility from repeated prompts. The reliance on inferred samples rather than platform telemetry is evidence that the underlying measurement problem remains open.",
+      "confidence": "medium"
+    },
+    {
+      "provider": "openai",
+      "pass": "ungrounded",
+      "name": "Interoperable retail-media measurement",
+      "definition": "Advertisers cannot compare retail-media networks consistently or determine whether retailer-reported sales were genuinely incremental rather than purchases that would have occurred anyway.",
+      "why_unsolved": "Each retailer controls its own identity graph, inventory, attribution windows, product taxonomy, and sales data. Clean rooms enable analysis within individual environments, but there is no neutral cross-retailer exposure ledger, standardized outcome definition, or scalable experimental framework.",
+      "category": "measurement",
+      "evidence": "Retail media is absorbing larger brand budgets and expanding beyond sponsored search into off-site media and connected TV, while buyers continue demanding standardization, deduplicated reach, and independent incrementality measurement.",
+      "confidence": "high"
+    },
+    {
+      "provider": "openai",
+      "pass": "ungrounded",
+      "name": "Governed provenance and rights for generative content",
+      "definition": "Marketing teams cannot consistently establish that AI-generated text, images, audio, and video are legally usable, brand-compliant, authentic, and traceable through later edits and distribution.",
+      "why_unsolved": "Training-data rights are often opaque; similarity and infringement tests are inconclusive; provenance metadata can be stripped; detection is unreliable; and asset-management systems do not maintain complete lineage across prompts, source materials, models, edits, approvals, and channel variants.",
+      "category": "content",
+      "evidence": "Generative production is moving from experimentation to high-volume campaign operations while lawsuits, synthetic-media rules, impersonation risks, and platform-labeling requirements remain unsettled. Human legal and brand review therefore remains a bottleneck despite automated generation.",
+      "confidence": "high"
+    },
+    {
+      "provider": "openai",
+      "pass": "ungrounded",
+      "name": "A consistent semantic layer from customer data to activation",
+      "definition": "Even well-funded organizations cannot ensure that metrics, audiences, events, and customer states mean the same thing across warehouses, CDPs, analytics tools, ad platforms, CRM systems, and AI applications.",
+      "why_unsolved": "Connectors move records but do not reconcile business definitions, identity rules, event timing, taxonomy drift, consent state, or model-derived attributes. Vendor APIs transform and aggregate data differently, and ownership of the shared semantic model is usually fragmented across teams.",
+      "category": "data",
+      "evidence": "Warehouse-native and composable architectures have reduced some copying but increased dependence on contracts, lineage, and shared definitions. Persistent discrepancies between finance, product analytics, CRM, CDP, and advertising reports show that architectural modernization alone has not solved semantic consistency.",
+      "confidence": "high"
+    },
+    {
+      "provider": "openai",
+      "pass": "grounded",
+      "name": "Cross-channel causal measurement",
+      "definition": "Determine the incremental business impact of each channel and allocate budget across walled gardens, offline media, commerce media, CTV, creators and AI-mediated journeys.",
+      "why_unsolved": "Exposure and outcome data remain partitioned, platforms grade their own performance, and attribution, experiments and marketing-mix models frequently produce incompatible answers. Signal loss and incomplete channel coverage prevent any method from serving as a reliable cross-channel source of truth. ([iab.com](https://www.iab.com/wp-content/uploads/2026/01/IAB_StateofDataReport_February_2026pdf.pdf))",
+      "category": "measurement",
+      "evidence": "IAB reported in February 2026 that up to 75% of buyers say advanced measurement underperforms on rigor, timeliness, trust or efficiency. In July, WFA found two-thirds of major advertisers behind on paid-media measurement and fewer than 3% fully confident they can separate short-term performance from long-term brand effects. ([iab.com](https://www.iab.com/wp-content/uploads/2026/01/IAB_StateofDataReport_February_2026pdf.pdf))",
+      "confidence": "high"
+    },
+    {
+      "provider": "openai",
+      "pass": "grounded",
+      "name": "Safe, auditable agent execution",
+      "definition": "Allow AI agents to change campaigns, audiences, content and budgets without creating unacceptable financial, privacy, security or brand risk.",
+      "why_unsolved": "Current systems lack dependable combinations of least-privilege access, deterministic validation, cross-tool audit trails, rollback, approval thresholds and runtime monitoring for probabilistic agents. Inter-agent transaction standards are only emerging and do not by themselves govern what an agent may safely do inside an advertiser's stack. ([iabtechlab.com](https://iabtechlab.com/press-releases/iab-tech-lab-introduces-aamp-3-0-with-openproposal/?trk=article-ssr-frontend-pulse_little-text-block&utm_source=openai))",
+      "category": "automation",
+      "evidence": "By September 2026, 46% of major brands were using workflow automation or autonomous agents, yet governance and legal requirements remained a leading scaling barrier. IAB Tech Lab's RFP-to-buy agent protocol was still in public comment in November, showing that foundational execution standards remain unsettled. ([wfanet.org](https://wfanet.org/knowledge/item/2026/09/30/96-of-major-brands-now-use-ai-in-marketing-wfa-research-finds))",
+      "confidence": "high"
+    },
+    {
+      "provider": "openai",
+      "pass": "grounded",
+      "name": "Semantic interoperability across the stack",
+      "definition": "Make customer, campaign, product and performance data mean the same thing across warehouses, CDPs, CRM systems, media platforms and AI agents.",
+      "why_unsolved": "APIs move records but do not reconcile schemas, taxonomies, business definitions, lineage, freshness or conflicting system states. Each organization still builds brittle custom mappings, and AI agents amplify inconsistencies when they act on ambiguous context. ([iab.com](https://www.iab.com/blog/project-eidos-building-a-common-language-for-campaign-data/?utm_source=openai))",
+      "category": "data",
+      "evidence": "The 2026 Martech for 2026 study found poor data quality affected 56.3% of respondents and integration friction 50.5%; the enterprise integration figure reached 68%. WFA's September study separately named interoperability and data access among the biggest barriers to scaling marketing AI. ([content.martechday.com](https://content.martechday.com/martech-for-2026.pdf))",
+      "confidence": "high"
+    },
+    {
+      "provider": "openai",
+      "pass": "grounded",
+      "name": "Consent-aware identity resolution",
+      "definition": "Recognize the same customer or household across devices and channels while preserving consent, purpose limitations and an auditable level of match confidence.",
+      "why_unsolved": "There is no universal, privacy-safe identifier. Deterministic identifiers are sparse, probabilistic matches cannot be reliably verified without representative consented truth data, and clean rooms constrain data movement without eliminating false matches or incompatible consent states.",
+      "category": "identity",
+      "evidence": "Lack of a unified customer ID remained a reported challenge for 28.2% of teams—and 36% of enterprises—in late-2025 research published for 2026. IAB's 2026 measurement work continued to identify privacy-driven signal loss and disconnected data as structural barriers. ([content.martechday.com](https://content.martechday.com/martech-for-2026.pdf))",
+      "confidence": "medium"
+    },
+    {
+      "provider": "openai",
+      "pass": "grounded",
+      "name": "Comparable commerce-media measurement",
+      "definition": "Compare reach, attributed sales and true incrementality across retail and commerce-media networks, including on-site, off-site and in-store activity.",
+      "why_unsolved": "Networks use different definitions, attribution windows, identity systems and data-access rules, while each network generally controls the purchase data used to validate its own performance. There is still no broadly adopted method for deduplicating outcomes or running comparable independent incrementality tests across networks. ([iab.com](https://www.iab.com/news/iab-announces-actionable-industry-guidelines-commerce-media-ai-fueled-performance-era/?utm_source=openai))",
+      "category": "measurement",
+      "evidence": "IAB said in April 2026 that inconsistent definitions, measurement and operational frameworks were blocking scale. September research summarized by WFA found retailers still defined core metrics—including attributed sales—differently and that no network combined all leading practices. ([iab.com](https://www.iab.com/news/iab-announces-actionable-industry-guidelines-commerce-media-ai-fueled-performance-era/?utm_source=openai))",
+      "confidence": "high"
+    },
+    {
+      "provider": "openai",
+      "pass": "grounded",
+      "name": "Generative-content rights and compliance at scale",
+      "definition": "Verify that every generated or modified marketing asset is legally usable, factually supportable, brand-compliant and appropriately disclosed across markets.",
+      "why_unsolved": "Training-data rights and agency usage are often opaque; provenance metadata can be removed; disclosure requirements vary by jurisdiction; and automated reviewers cannot reliably resolve subjective brand standards or complex legal claims. ([wfanet.org](https://wfanet.org/knowledge/item/2026/09/30/96-of-major-brands-now-use-ai-in-marketing-wfa-research-finds))",
+      "category": "content",
+      "evidence": "Only 13% of major brands reported strong visibility into agency AI use in September 2026, while 59% had introduced contractual clauses covering IP, confidentiality and training data. IAB noted that provenance remains vulnerable to removal or manipulation and that disclosure obligations are fragmenting internationally. ([wfanet.org](https://wfanet.org/knowledge/item/2026/09/30/96-of-major-brands-now-use-ai-in-marketing-wfa-research-finds))",
+      "confidence": "high"
+    },
+    {
+      "provider": "openai",
+      "pass": "grounded",
+      "name": "Decision-grade measurement of AI discovery",
+      "definition": "Measure whether and why a brand appears in AI-generated answers, recommendations and agent-mediated purchases—and connect that exposure to commercial outcomes.",
+      "why_unsolved": "Answers vary by prompt, user context, geography, model version and sampling run. AI platforms expose little standardized impression, citation or downstream-conversion data, so third-party tools use different synthetic prompt panels and can return conflicting results.",
+      "category": "measurement",
+      "evidence": "In August 2026, IAB said more than 20 AI-visibility vendors were using incompatible methodologies that could produce different answers for the same brand. By September, 73% of major brands were attempting to monitor AI visibility, but only 8% had a clear strategy. ([iab.com](https://www.iab.com/guidelines/measuring-visibility-in-the-ai-era/?utm_source=openai))",
+      "confidence": "high"
+    },
+    {
+      "provider": "openai",
+      "pass": "grounded",
+      "name": "Executable privacy policy across the supply chain",
+      "definition": "Propagate and enforce consent, deletion, retention and purpose restrictions through every agency, platform, clean room, model and measurement partner receiving marketing data.",
+      "why_unsolved": "Consent platforms record preferences at collection, while contracts describe downstream obligations, but neither provides interoperable runtime controls proving that every recipient—and its AI systems—honored the permitted purpose, geography and retention period. This is an inference from the industry's continued reliance on contractual frameworks amid divergent laws. ([iab.com](https://www.iab.com/news/iab-statement-on-the-secure-data-act/?utm_source=openai))",
+      "category": "governance",
+      "evidence": "IAB made its largest Multi-State Privacy Agreement update since 2023 in March 2026 because enforcement risk and downstream contracting gaps were increasing. It also identified materially different state rules for sensitive data, minimization, disclosures and minors, while industry respondents acknowledged that clean rooms cannot fully de-identify personal information. ([iab.com](https://www.iab.com/news/iab-statement-on-the-secure-data-act/?utm_source=openai))",
+      "confidence": "medium"
+    },
+    {
+      "provider": "google",
+      "pass": "ungrounded",
+      "name": "Reconciliation of Incommensurable Measurement Paradigms",
+      "definition": "The mathematical and operational inability to synthesize top-down econometric modeling (MMM), randomized control trials (geo-lift testing), and algorithmic platform-reported conversions into a unified, actionable budget allocation engine.",
+      "why_unsolved": "Each method operates on fundamentally disjointed epistemologies: MMM models macroscopic lagged correlations with wide credible intervals, lift tests yield localized incrementality ground truth that expires quickly, and walled-garden conversion APIs inject proprietary modeled data with non-transparent baseline assumptions. Bridging them requires arbitrary weighting heuristics rather than deterministic statistical integration.",
+      "category": "measurement",
+      "evidence": "Enterprise marketing teams routinely run Bayesian MMMs alongside monthly geo-experiments, yet media planners continue to override modeled recommendations because daily automated bidding engines in ad platforms optimize against intraday modeled conversions that contradict MMM outputs.",
+      "confidence": "high"
+    },
+    {
+      "provider": "google",
+      "pass": "ungrounded",
+      "name": "Attribution and Tracking Breakdown from Conversational Search and Zero-Click AI",
+      "definition": "The failure to detect, quantify, and attribute brand discovery and downstream conversions generated by LLM answer engines, AI agents, and conversational summaries that synthesize web data without user traversal.",
+      "why_unsolved": "Conversational interfaces ingest and synthesize content asynchronously via background web crawlers and vector embeddings. They emit no standardized HTTP referrers, UTM parameters, or deterministic click signals, breaking the foundational request-response web analytics paradigm.",
+      "category": "measurement",
+      "evidence": "Organic search traffic from high-intent informational queries has materially declined across enterprise brands, accompanied by unexplained increases in 'Direct' web traffic and dark funnel conversions that correlate with brand inclusions in AI overview citations.",
+      "confidence": "high"
+    },
+    {
+      "provider": "google",
+      "pass": "ungrounded",
+      "name": "Cross-Clean-Room Identity and Frequency Fragmentation",
+      "definition": "The impossibility of computing true deduplicated reach, frequency, and cross-exposure measurement across multiple isolated data clean rooms without exposing underlying identifiers.",
+      "why_unsolved": "Clean room vendors (e.g., Snowflake, AWS, Google ADH, InfoSum) use competing compute paradigms, divergent hashing salts, and incompatible differential privacy budgets. Adding noise to prevent identity leakage across multiple clean-room joins geometrically degrades the statistical validity of the resulting overlap metrics.",
+      "category": "identity",
+      "evidence": "Omnichannel consumer brands running media across Amazon, Walmart, and Meta must manage three to four separate clean rooms and cannot compute a unified cross-retailer reach-and-frequency curve without violating clean-room query thresholds.",
+      "confidence": "high"
+    },
+    {
+      "provider": "google",
+      "pass": "ungrounded",
+      "name": "Schema Divergence and Latency Cascades in Composable CDPs",
+      "definition": "The continuous operational failure of composable data stacks (cloud data warehouse plus reverse ETL) to power real-time, stateful customer interaction management across edge marketing channels.",
+      "why_unsolved": "Analytical data warehouses are structurally architected for append-heavy, batch-columnar storage, whereas operational martech execution systems (ESPs, push engines, on-site personalization) require ultra-low latency, bi-directional transactional key-value lookups with deterministic schema contracts. Upstream analytical updates constantly break downstream operational payloads.",
+      "category": "data",
+      "evidence": "Engineering teams spend disproportionate sprint allocations building custom monitoring and circuit-breakers around reverse-ETL syncs because downstream vendor APIs silently drop records when object structures shift in the warehouse.",
+      "confidence": "high"
+    },
+    {
+      "provider": "google",
+      "pass": "ungrounded",
+      "name": "Safe Execution and State Rollback in Agentic Campaign Automation",
+      "definition": "The inability to delegate multi-step campaign execution (audience assembly, budget reallocation, creative deployment) to autonomous software agents due to the absence of transactional safety guarantees in vendor APIs.",
+      "why_unsolved": "Marketing technology APIs are heterogeneous, asynchronous, and non-transactional; they lack idempotent operations, standardized error-handling abstractions, and unified rollback mechanics (ACID equivalents for martech actions). An agent making a probabilistic sequencing error cannot revert deployed assets, spent budget, or triggered customer notifications.",
+      "category": "automation",
+      "evidence": "Vendors broadly ship 'agentic copilots' that are strictly restricted to read-only advisory suggestions or prompt-assisted workflow builders, because unconstrained programmatic write actions across multi-platform ad and CRM stacks consistently cause catastrophic budget or customer-fatigue errors.",
+      "confidence": "medium"
+    },
+    {
+      "provider": "google",
+      "pass": "ungrounded",
+      "name": "Real-Time Semantic Governance of Multi-Modal Generative Assets",
+      "definition": "The lack of deterministic, high-throughput verification systems that can validate dynamically generated multi-modal creative (copy, imagery, video, audio) against complex legal, regulatory, and brand guidelines before public delivery.",
+      "why_unsolved": "Generative creative pipelines run faster than manual human review, but LLM- and vision-based evaluation models remain non-deterministic and prone to context blindness. Downstream digital asset management (DAM) and CMS stacks lack formal constraint verification engines capable of proving regulatory compliance across dynamically composed variations in sub-second personalization workflows.",
+      "category": "governance",
+      "evidence": "Regulated industries (financial services, healthcare, alcohol) remain largely unable to deploy real-time dynamic generative creative at scale, forcing them into pre-rendered, pre-approved static asset libraries despite owning advanced generative tools.",
+      "confidence": "high"
+    },
+    {
+      "provider": "google",
+      "pass": "ungrounded",
+      "name": "Ephemeral First-Party Session Decay from OS and Browser Isolation",
+      "definition": "The persistent degradation of first-party customer continuity caused by aggressive client-side storage partitioning, ephemeral cookie policies, and network-level telemetry obfuscation.",
+      "why_unsolved": "Browser engines and mobile operating systems treat first-party tracking workarounds (such as CNAME cloaking, local storage manipulation, and server-side HTTP cookies set via third-party IPs) as adversarial tracking vectors, systematically capping their lifespan to days or hours regardless of user consent.",
+      "category": "identity",
+      "evidence": "Web analytics installations across Safari and privacy-focused browsers routinely report artificial multi-hundred percent inflation of 'new visitors' alongside broken attribution windows that truncate after 24 to 72 hours of inactivity.",
+      "confidence": "high"
+    },
+    {
+      "provider": "google",
+      "pass": "grounded",
+      "name": "Zero-Click Generative Engine Attribution",
+      "definition": "Marketing organizations cannot deterministically measure, track, or attribute commercial influence when brand impressions, product mentions, and answers occur inside generative search summaries and conversational AI assistants without user click-throughs.",
+      "why_unsolved": "LLM-powered search interfaces and conversational agents operate as closed runtime environments that do not execute client-side tracking pixels, trigger web beacon calls, or pass uniform HTTP referrers upon impression or synthesis, breaking standard click-stream and multi-touch web attribution architectures.",
+      "category": "measurement",
+      "evidence": "Over 60 percent of organic search interactions now terminate without a website click following the global expansion of Google AI Overviews and native conversational discovery engines, creating an attribution blackout where downstream direct or branded conversions cannot be tied to upstream synthetic exposure.",
+      "confidence": "high"
+    },
+    {
+      "provider": "google",
+      "pass": "grounded",
+      "name": "Cross-Ecosystem Clean Room Interoperability",
+      "definition": "Enterprise marketing teams cannot execute deduplicated cross-network reach and frequency deduplication, journey pathing, or closed-loop conversion attribution across separate publisher and cloud data clean rooms without exposing underlying identities.",
+      "why_unsolved": "Major advertising platforms (such as Google Ads Data Hub, Meta Advanced Analytics, and Amazon Marketing Cloud) and cloud data warehouses mandate proprietary privacy-enhancing computation enclaves, incompatible differential privacy noise thresholds, and non-conforming cryptographic join schemas that legally and architecturally prohibit cross-platform enclave federation.",
+      "category": "identity",
+      "evidence": "Despite industry reconciliation attempts such as IAB Tech Lab PAIR and ADMaP protocols, enterprise marketers in 2026 must maintain disjointed clean rooms for each walled garden, forcing reliance on disconnected media analysis and unverified modeled lift rather than cohesive multi-platform reconciliation.",
+      "confidence": "high"
+    },
+    {
+      "provider": "google",
+      "pass": "grounded",
+      "name": "In-Session Activation Latency in Composable CDPs",
+      "definition": "Decoupled martech architectures running atop enterprise cloud data warehouses cannot evaluate complex behavioral audience segments and serve dynamic personalization within sub-second consumer web or application sessions.",
+      "why_unsolved": "Analytical columnar data warehouses and reverse-ETL sync pipelines are architecturally optimized for asynchronous bulk data throughput rather than single-digit millisecond transactional key-value reads, causing data synchronization cadences to lag substantially behind edge personalization delivery windows.",
+      "category": "data",
+      "evidence": "Enterprises investing heavily in warehouse-native CDP architectures in 2025 and 2026 routinely maintain expensive parallel transactional CDPs specifically to avoid personalization lag during active consumer digital sessions.",
+      "confidence": "high"
+    },
+    {
+      "provider": "google",
+      "pass": "grounded",
+      "name": "Transactional Rollback and Boundary Controls for Agentic AI Workflows",
+      "definition": "Marketing operations teams cannot safely delegate end-to-end, multi-agent campaign optimization and dynamic budget execution due to the absence of deterministic transactional boundaries, error compensation routines, and state rollbacks across third-party marketing APIs.",
+      "why_unsolved": "LLM-driven autonomous agents execute probabilistically across distributed SaaS endpoints (e.g., DSPs, ad networks, email service providers, and CRMs) that lack standard two-phase commit protocols or unified undo mechanisms, ensuring that flawed reasoning or prompt drift results in permanent, irreversible downstream system modifications.",
+      "category": "automation",
+      "evidence": "While adoption of Model Context Protocol (MCP) integrations exploded in 2026, enterprise production deployments remain throttled to drafting and sandbox environments because operations leaders cannot automate safeguards against unauthorized budget reallocations or campaign defacements.",
+      "confidence": "high"
+    },
+    {
+      "provider": "google",
+      "pass": "grounded",
+      "name": "Granular Consent Propagation Across Vectorized Data and RAG Architectures",
+      "definition": "Enterprises cannot reliably propagate customer privacy opt-outs, deletions, or scope modifications into real-time vectorized retrieval stores and generative personalization pipelines.",
+      "why_unsolved": "Embedding vectors derived from unstructured customer interactions lack deterministic, bi-directional lineage metadata back to specific source consent records, rendering targeted mathematical unlearning and real-time vector invalidation computationally intractable without full vector index rebuilds.",
+      "category": "governance",
+      "evidence": "Regulatory enforcement under the EU AI Act and tightening global consumer privacy laws throughout 2025 and 2026 has exposed widespread non-compliance in enterprise generative pipelines, where customer data that has been formally revoked persists inside production RAG contexts.",
+      "confidence": "high"
+    },
+    {
+      "provider": "google",
+      "pass": "grounded",
+      "name": "Synthetic Lead and Automated Engagement Signal Poisoning",
+      "definition": "Marketing operations and revenue teams cannot reliably differentiate between authentic human buyer demand and high-fidelity, automated AI agent telemetry in inbound lead and scoring pipelines.",
+      "why_unsolved": "Autonomous generative agents replicate human browser fingerprints, realistic conversational syntax, and organic form completion cadences, completely evading legacy CAPTCHAs, honeypots, and behavioral anomaly heuristics.",
+      "category": "data",
+      "evidence": "Sales development and marketing operations teams report widespread failure of traditional lead scoring matrices in 2026, as human sales reps spend substantial working hours engaging with synthetic inbound inquiries generated by automated AI scraping and SDR tools.",
+      "confidence": "high"
+    },
+    {
+      "provider": "google",
+      "pass": "grounded",
+      "name": "Real-Time Calibration Between Bayesian MMM and Incrementality Lift Testing",
+      "definition": "Marketing analytics teams cannot programmatically and continuously harmonize top-down Marketing Mix Modeling (MMM) estimates with granular, tactical randomized lift experiments into an unambiguous decision engine for continuous budget allocation.",
+      "why_unsolved": "Macro MMM frameworks operate on aggregate historical time-series signals with inherent structural dampening and reporting latency, whereas randomized digital lift tests yield short-term, high-variance local shocks under different bias regimes, creating mathematical calibration contradictions that automated optimizers cannot reconcile on the fly.",
+      "category": "measurement",
+      "evidence": "Recent 2026 marketing analytics benchmarks reveal that while adoption of open-source Bayesian MMM engines has become standard practice, under a quarter of enterprise brands trust their modeled outputs sufficiently to execute automated cross-channel budget reallocations.",
+      "confidence": "medium"
+    },
+    {
+      "provider": "google",
+      "pass": "grounded",
+      "name": "Semantic Brand Compliance and Factual Verification at Generative Creative Scale",
+      "definition": "Brands running high-velocity algorithmic creative engines cannot reliably verify factual product claims, contractual compliance, and brand voice consistency across tens of thousands of personalized asset variants prior to deployment.",
+      "why_unsolved": "Rules-based digital asset validators only inspect static keywords and layout grids, while deploying LLM-as-a-judge review pipelines at high asset volumes introduces prohibitive inference latency, high compute costs, and non-deterministic error rates on nuanced brand standards.",
+      "category": "content",
+      "evidence": "The contraction and consolidation of generative creative martech startups during 2026 was largely precipitated by enterprise brands encountering insurmountable human QA bottlenecks required to intercept synthetic hallucinations and regulatory violations before publication.",
+      "confidence": "medium"
+    }
+  ],
+  "resolutions": [
+    {
+      "proposed_name": "Measuring demand mediated by AI assistants",
+      "decision": "match",
+      "canonical_id": "aeo",
+      "canonical_name": "Answer Engine Optimization",
+      "reason": "Describes the inability to measure brand presence and causal effect inside LLM assistant answers, the core of the AEO entry.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "No counterfactual inside black-box platform automation",
+      "decision": "match",
+      "canonical_id": "cross-channel-incrementality",
+      "canonical_name": "Cross-Channel Incrementality and Causal Measurement",
+      "reason": "This is the 'incrementality inside black-box AI ad buying' friction already captured by the entry's definition and aliases.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Incrementality without ground truth or experimentation infrastructure",
+      "decision": "match",
+      "canonical_id": "cross-channel-incrementality",
+      "canonical_name": "Cross-Channel Incrementality and Causal Measurement",
+      "reason": "Uncalibrated MMM and absent neutral experimentation is the same causal-measurement problem, not a distinct one.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Agentic visitors and agentic buyers break the analytics and identity model",
+      "decision": "match",
+      "canonical_id": "agent-traffic-identification",
+      "canonical_name": "Distinguishing and Governing Agentic Traffic",
+      "reason": "Identical to the entry: agent traffic cannot be classified, consented, personalized for, or attributed.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Consent and deletion lineage that survives into AI systems",
+      "decision": "match",
+      "canonical_id": "consent-enforcement-downstream",
+      "canonical_name": "Provable Downstream Consent, Deletion and Purpose Enforcement",
+      "reason": "Propagation of consent and erasure through warehouses, embeddings and trained models is the downstream enforcement problem.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Cross-walled-garden identity and clean room interoperability",
+      "decision": "match",
+      "canonical_id": "cross-channel-incrementality",
+      "canonical_name": "Cross-Channel Incrementality and Causal Measurement",
+      "reason": "Clean-room and walled-garden deduplication for portfolio reach and conversion measurement is already an alias of this entry.",
+      "confidence": "medium"
+    },
+    {
+      "proposed_name": "Creative supply chain: generation outran review and per-asset signal",
+      "decision": "match",
+      "canonical_id": "genai-content-governance",
+      "canonical_name": "Governance and Review of Generative Marketing Content at Volume",
+      "reason": "The human review bottleneck on generated variants is the defining friction of this entry.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Governing agents that act inside the marketing stack",
+      "decision": "match",
+      "canonical_id": "agent-safe-execution",
+      "canonical_name": "Safe, Auditable Agent Execution in Martech Systems",
+      "reason": "Permissioning, audit, rollback and evaluation for agents with write access is exactly this entry.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Measuring the AI-assistant layer of the funnel",
+      "decision": "match",
+      "canonical_id": "aeo",
+      "canonical_name": "Answer Engine Optimization",
+      "reason": "Restates visibility and attribution inside AI answer surfaces.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "No causal measurement substrate under AI-run ad buying",
+      "decision": "match",
+      "canonical_id": "cross-channel-incrementality",
+      "canonical_name": "Cross-Channel Incrementality and Causal Measurement",
+      "reason": "Same black-box automation plus signal-loss causal measurement problem already registered.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Agent identity: telling an autonomous buyer from a bot or a human",
+      "decision": "match",
+      "canonical_id": "agent-traffic-identification",
+      "canonical_name": "Distinguishing and Governing Agentic Traffic",
+      "reason": "Agent attestation and classification on brand properties is the registered agentic traffic problem.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Authorization and audit for agents acting inside the martech stack",
+      "decision": "match",
+      "canonical_id": "agent-safe-execution",
+      "canonical_name": "Safe, Auditable Agent Execution in Martech Systems",
+      "reason": "Scoped delegation, per-agent identity and audit trails are the substance of this entry.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Consent and opt-out enforcement across a fragmented, now-enforced US patchwork",
+      "decision": "match",
+      "canonical_id": "consent-enforcement-downstream",
+      "canonical_name": "Provable Downstream Consent, Deletion and Purpose Enforcement",
+      "reason": "CMPs capturing consent at the edge without propagating it downstream is the registered friction.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Identity resolution degraded to the point that the customer record is a guess",
+      "decision": "match",
+      "canonical_id": "identity-resolution-decay",
+      "canonical_name": "Durable, Consent-Aware Cross-Channel Identity Resolution",
+      "reason": "Sparse deterministic signal and unvalidatable probabilistic matching across channels is this entry.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Quality control at AI content volume",
+      "decision": "match",
+      "canonical_id": "genai-content-governance",
+      "canonical_name": "Governance and Review of Generative Marketing Content at Volume",
+      "reason": "Verification, disclosure and brand-consistency capacity failing to scale with generation is the same problem.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Engagement metrics are now machine-generated and nobody has replacements",
+      "decision": "match",
+      "canonical_id": "agent-traffic-identification",
+      "canonical_name": "Distinguishing and Governing Agentic Traffic",
+      "reason": "Machine-produced opens, clicks and sessions corrupting signals is covered by the agent-vs-human measurement aliases of this entry.",
+      "confidence": "medium"
+    },
+    {
+      "proposed_name": "Causal measurement across closed and privacy-constrained channels",
+      "decision": "match",
+      "canonical_id": "cross-channel-incrementality",
+      "canonical_name": "Cross-Channel Incrementality and Causal Measurement",
+      "reason": "Direct restatement of cross-channel incremental measurement under signal loss.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Consent-aware identity and recognition",
+      "decision": "match",
+      "canonical_id": "identity-resolution-decay",
+      "canonical_name": "Durable, Consent-Aware Cross-Channel Identity Resolution",
+      "reason": "Same consent-aware cross-channel recognition problem.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "End-to-end enforcement of privacy choices",
+      "decision": "match",
+      "canonical_id": "consent-enforcement-downstream",
+      "canonical_name": "Provable Downstream Consent, Deletion and Purpose Enforcement",
+      "reason": "Proving propagation of withdrawals, deletions and purpose limits downstream is the registered entry.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Reliable autonomous marketing agents",
+      "decision": "match",
+      "canonical_id": "agent-safe-execution",
+      "canonical_name": "Safe, Auditable Agent Execution in Martech Systems",
+      "reason": "Trusting agents to act in production systems with permissions, rollback and evaluation is this entry.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Measurement of visibility inside AI-generated answers",
+      "decision": "match",
+      "canonical_id": "aeo",
+      "canonical_name": "Answer Engine Optimization",
+      "reason": "Verbatim the AEO visibility and measurement problem.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Interoperable retail-media measurement",
+      "decision": "match",
+      "canonical_id": "cross-channel-incrementality",
+      "canonical_name": "Cross-Channel Incrementality and Causal Measurement",
+      "reason": "Comparable, incremental retail media measurement is an existing alias of this entry.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Governed provenance and rights for generative content",
+      "decision": "match",
+      "canonical_id": "genai-content-governance",
+      "canonical_name": "Governance and Review of Generative Marketing Content at Volume",
+      "reason": "Provenance and rights lineage for generated creative is an existing alias.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "A consistent semantic layer from customer data to activation",
+      "decision": "match",
+      "canonical_id": "semantic-context-layer",
+      "canonical_name": "Governed Semantic Context Layer for Agents and Activation",
+      "reason": "Shared, governed business definitions across warehouse, CDP, platforms and AI apps is this entry.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Cross-channel causal measurement",
+      "decision": "match",
+      "canonical_id": "cross-channel-incrementality",
+      "canonical_name": "Cross-Channel Incrementality and Causal Measurement",
+      "reason": "Name and description match the registered entry directly.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Safe, auditable agent execution",
+      "decision": "match",
+      "canonical_id": "agent-safe-execution",
+      "canonical_name": "Safe, Auditable Agent Execution in Martech Systems",
+      "reason": "Identical name and scope.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Semantic interoperability across the stack",
+      "decision": "match",
+      "canonical_id": "semantic-context-layer",
+      "canonical_name": "Governed Semantic Context Layer for Agents and Activation",
+      "reason": "Making data mean the same thing across systems and for agents is the semantic context layer problem.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Consent-aware identity resolution",
+      "decision": "match",
+      "canonical_id": "identity-resolution-decay",
+      "canonical_name": "Durable, Consent-Aware Cross-Channel Identity Resolution",
+      "reason": "Same problem under a near-identical label.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Comparable commerce-media measurement",
+      "decision": "match",
+      "canonical_id": "cross-channel-incrementality",
+      "canonical_name": "Cross-Channel Incrementality and Causal Measurement",
+      "reason": "Cross-network commerce media comparability and incrementality is already an alias here.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Generative-content rights and compliance at scale",
+      "decision": "match",
+      "canonical_id": "genai-content-governance",
+      "canonical_name": "Governance and Review of Generative Marketing Content at Volume",
+      "reason": "Rights clearance, claim substantiation and disclosure review at volume is the registered entry.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Decision-grade measurement of AI discovery",
+      "decision": "match",
+      "canonical_id": "aeo",
+      "canonical_name": "Answer Engine Optimization",
+      "reason": "Measuring appearance in AI answers and linking it to outcomes is the AEO entry.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Executable privacy policy across the supply chain",
+      "decision": "match",
+      "canonical_id": "consent-enforcement-downstream",
+      "canonical_name": "Provable Downstream Consent, Deletion and Purpose Enforcement",
+      "reason": "Runtime proof that every downstream recipient honors purpose and retention is the same friction.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Reconciliation of Incommensurable Measurement Paradigms",
+      "decision": "match",
+      "canonical_id": "cross-channel-incrementality",
+      "canonical_name": "Cross-Channel Incrementality and Causal Measurement",
+      "reason": "Triangulated measurement reconciliation across MMM, lift tests and platform conversions is an existing alias.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Attribution and Tracking Breakdown from Conversational Search and Zero-Click AI",
+      "decision": "match",
+      "canonical_id": "aeo",
+      "canonical_name": "Answer Engine Optimization",
+      "reason": "Zero-click AI search visibility and attribution is explicitly covered by this entry.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Cross-Clean-Room Identity and Frequency Fragmentation",
+      "decision": "match",
+      "canonical_id": "cross-channel-incrementality",
+      "canonical_name": "Cross-Channel Incrementality and Causal Measurement",
+      "reason": "Clean room and data collaboration interoperability for deduplicated cross-platform measurement is an existing alias.",
+      "confidence": "medium"
+    },
+    {
+      "proposed_name": "Schema Divergence and Latency Cascades in Composable CDPs",
+      "decision": "match",
+      "canonical_id": "cross-channel-journey-orchestration",
+      "canonical_name": "Globally Optimized Cross-Channel Journey Orchestration",
+      "reason": "Warehouse-to-execution state and latency failure for real-time interaction management matches the sub-second omnichannel state orchestration alias.",
+      "confidence": "medium"
+    },
+    {
+      "proposed_name": "Safe Execution and State Rollback in Agentic Campaign Automation",
+      "decision": "match",
+      "canonical_id": "agent-safe-execution",
+      "canonical_name": "Safe, Auditable Agent Execution in Martech Systems",
+      "reason": "Rollback and transactional safety for agent actions in martech APIs is the core of this entry.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Real-Time Semantic Governance of Multi-Modal Generative Assets",
+      "decision": "match",
+      "canonical_id": "genai-content-governance",
+      "canonical_name": "Governance and Review of Generative Marketing Content at Volume",
+      "reason": "Deterministic semantic compliance for real-time generative creative is an existing alias.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Ephemeral First-Party Session Decay from OS and Browser Isolation",
+      "decision": "match",
+      "canonical_id": "identity-resolution-decay",
+      "canonical_name": "Durable, Consent-Aware Cross-Channel Identity Resolution",
+      "reason": "First-party identity graph decay from ephemeral browser storage is an existing alias.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Zero-Click Generative Engine Attribution",
+      "decision": "match",
+      "canonical_id": "aeo",
+      "canonical_name": "Answer Engine Optimization",
+      "reason": "Same zero-click AI answer visibility and attribution problem.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Cross-Ecosystem Clean Room Interoperability",
+      "decision": "match",
+      "canonical_id": "cross-channel-incrementality",
+      "canonical_name": "Cross-Channel Incrementality and Causal Measurement",
+      "reason": "Duplicate of the clean-room interoperability alias already folded into this entry.",
+      "confidence": "medium"
+    },
+    {
+      "proposed_name": "In-Session Activation Latency in Composable CDPs",
+      "decision": "match",
+      "canonical_id": "cross-channel-journey-orchestration",
+      "canonical_name": "Globally Optimized Cross-Channel Journey Orchestration",
+      "reason": "Sub-second activation of warehouse-held state for live personalization matches the orchestration entry's state-latency alias.",
+      "confidence": "medium"
+    },
+    {
+      "proposed_name": "Transactional Rollback and Boundary Controls for Agentic AI Workflows",
+      "decision": "match",
+      "canonical_id": "agent-safe-execution",
+      "canonical_name": "Safe, Auditable Agent Execution in Martech Systems",
+      "reason": "Deterministic boundaries, undo and compensation for agents acting on martech APIs is this entry.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Granular Consent Propagation Across Vectorized Data and RAG Architectures",
+      "decision": "match",
+      "canonical_id": "consent-enforcement-downstream",
+      "canonical_name": "Provable Downstream Consent, Deletion and Purpose Enforcement",
+      "reason": "Propagating opt-outs and deletions into embeddings and derived stores is the downstream enforcement problem.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Synthetic Lead and Automated Engagement Signal Poisoning",
+      "decision": "match",
+      "canonical_id": "agent-traffic-identification",
+      "canonical_name": "Distinguishing and Governing Agentic Traffic",
+      "reason": "Inability to separate authentic human demand from agent telemetry in lead and engagement pipelines is the agentic traffic entry.",
+      "confidence": "medium"
+    },
+    {
+      "proposed_name": "Real-Time Calibration Between Bayesian MMM and Incrementality Lift Testing",
+      "decision": "match",
+      "canonical_id": "cross-channel-incrementality",
+      "canonical_name": "Cross-Channel Incrementality and Causal Measurement",
+      "reason": "Calibrating MMM against lift tests is the triangulation facet of the existing causal measurement entry.",
+      "confidence": "high"
+    },
+    {
+      "proposed_name": "Semantic Brand Compliance and Factual Verification at Generative Creative Scale",
+      "decision": "match",
+      "canonical_id": "genai-content-governance",
+      "canonical_name": "Governance and Review of Generative Marketing Content at Volume",
+      "reason": "Verifying claims, compliance and brand voice across mass-generated variants is this entry.",
+      "confidence": "high"
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "provider": "anthropic",
+      "pass": "ungrounded",
+      "ok": true,
+      "model": "claude-opus-5",
+      "usage": {
+        "input_tokens": 836,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 5398,
+        "output_tokens_details": {
+          "thinking_tokens": 2272
+        },
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard"
+      }
+    },
+    {
+      "provider": "anthropic",
+      "pass": "grounded",
+      "ok": true,
+      "model": "claude-opus-5",
+      "usage": {
+        "input_tokens": 44717,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 4127,
+        "output_tokens_details": {
+          "thinking_tokens": 208
+        },
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard",
+        "server_tool_use": {
+          "web_search_requests": 17,
+          "web_fetch_requests": 0
+        }
+      }
+    },
+    {
+      "provider": "openai",
+      "pass": "ungrounded",
+      "ok": true,
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 334,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1908,
+        "output_tokens_details": {
+          "reasoning_tokens": 659
+        },
+        "total_tokens": 2242
+      }
+    },
+    {
+      "provider": "openai",
+      "pass": "grounded",
+      "ok": true,
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 56009,
+        "input_tokens_details": {
+          "cache_write_tokens": 4764,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3859,
+        "output_tokens_details": {
+          "reasoning_tokens": 2218
+        },
+        "total_tokens": 59868
+      }
+    },
+    {
+      "provider": "google",
+      "pass": "ungrounded",
+      "ok": true,
+      "model": "gemini-3.7-flash",
+      "usage": {
+        "promptTokenCount": 161,
+        "candidatesTokenCount": 1388,
+        "totalTokenCount": 3321,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 161
+          }
+        ],
+        "thoughtsTokenCount": 1772,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "provider": "google",
+      "pass": "grounded",
+      "ok": true,
+      "model": "gemini-3.7-flash",
+      "usage": {
+        "promptTokenCount": 4429,
+        "candidatesTokenCount": 1328,
+        "totalTokenCount": 10313,
+        "cachedContentTokenCount": 1674,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 4429
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 1674
+          }
+        ],
+        "thoughtsTokenCount": 4556,
+        "serviceTier": "standard"
+      }
+    },
+    {
+      "provider": "anthropic",
+      "pass": "reconcile",
+      "ok": true,
+      "model": "claude-opus-5",
+      "usage": {
+        "input_tokens": 13975,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 8850,
+        "output_tokens_details": {
+          "thinking_tokens": 3046
+        },
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard"
+      }
+    }
+  ]
+}

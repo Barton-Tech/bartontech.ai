@@ -1,0 +1,100 @@
+{
+  "month": "2026-11",
+  "generated_at": "2026-11-01T10:01:32.593Z",
+  "question": "What is bartontech.ai? Have you heard of it, and what does it publish? It is 2026-11.\n\nList the URLs you actually consulted in sources.",
+  "provenance": {
+    "prompt_version": "2026-08-21.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "models": {
+      "anthropic": "claude-sonnet-5",
+      "openai": "gpt-5.6-terra",
+      "google": "gemini-3.6-flash"
+    }
+  },
+  "results": [
+    {
+      "provider": "anthropic",
+      "label": "Claude",
+      "model": "claude-sonnet-5",
+      "familiar": true,
+      "basis": "search_results",
+      "answer": "bartontech.ai is a site run by Warren Barton (an independent martech consultant) that publishes \"The Martech Problem Index.\" It's an open-data project/GitHub repo that monthly asks ChatGPT, Claude and Gemini what they consider the martech industry's hardest unsolved problems and which brands those AI assistants name as leaders in solving them, reconciling the results into a ranked board. It also tracks, as a kind of meta-experiment, whether AI models recognize the site itself when asked \"what is bartontech.ai?\" Note: there are unrelated companies with similar names (e.g., Bartontech, a Polish waste-management/recycling machinery manufacturer), which are not connected to this AI-focused site.",
+      "sources": [
+        "https://github.com/Barton-Tech/bartontech.ai",
+        "https://bartontech.ai/",
+        "https://contactout.com/Warren-Barton-32557787"
+      ],
+      "usage": {
+        "input_tokens": 24633,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 505,
+        "output_tokens_details": {
+          "thinking_tokens": 7
+        },
+        "service_tier": "standard",
+        "inference_geo": "global",
+        "speed": "standard",
+        "server_tool_use": {
+          "web_search_requests": 1,
+          "web_fetch_requests": 0
+        }
+      }
+    },
+    {
+      "provider": "openai",
+      "label": "ChatGPT",
+      "model": "gpt-5.6-terra",
+      "familiar": true,
+      "basis": "search_results",
+      "answer": "bartontech.ai is **The Martech Problem Index**, a publishing/open-data project about hard, unresolved problems in marketing technology. It publishes a monthly, human-checked ranked board of problems proposed by ChatGPT, Claude, and Gemini; daily side-by-side answers from those models to one rotating problem; a model-generated thematic synthesis; and a public log of whether the models can identify the site. It also says it publishes append-only machine-readable data, raw responses, prompts/model identifiers, and an open-source harness intended to make the results auditable and reproducible. I had not previously known it independently; this description is based on the site pages I found.",
+      "sources": [
+        "https://bartontech.ai/",
+        "https://bartontech.ai/how-it-works/",
+        "https://bartontech.ai/archive/"
+      ],
+      "usage": {
+        "input_tokens": 18950,
+        "input_tokens_details": {
+          "cache_write_tokens": 4773,
+          "cached_tokens": 0
+        },
+        "output_tokens": 366,
+        "output_tokens_details": {
+          "reasoning_tokens": 181
+        },
+        "total_tokens": 19316
+      }
+    },
+    {
+      "provider": "google",
+      "label": "Gemini",
+      "model": "gemini-3.6-flash",
+      "familiar": true,
+      "basis": "search_results",
+      "answer": "bartontech.ai hosts \"The Martech Problem Index,\" an open-data benchmark and publishing project that tracks major unsolved problems in marketing technology. Orchestrated by Warren Barton, it publishes monthly ranked boards of industry challenges evaluated by AI models such as ChatGPT, Claude, and Gemini. The site also features daily side-by-side model responses to specific martech issues, model-generated themes, and an append-only open dataset for auditing.",
+      "sources": [
+        "https://bartontech.ai/"
+      ],
+      "usage": {
+        "promptTokenCount": 200,
+        "candidatesTokenCount": 137,
+        "totalTokenCount": 1129,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 200
+          }
+        ],
+        "thoughtsTokenCount": 792,
+        "serviceTier": "standard"
+      }
+    }
+  ],
+  "failures": []
+}

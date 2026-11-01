@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated_at": "2026-10-01T09:44:38.605Z",
+  "updated_at": "2026-11-01T10:01:19.452Z",
   "problems": [
     {
       "id": "aeo",
@@ -963,6 +963,335 @@
       "alias": "Attribution and Citation Measurement Black Box in Generative Engine Optimization (GEO)",
       "proposed_in": "2026-10",
       "reason": "GEO is an explicit alias of the AEO entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "aeo",
+      "alias": "Measuring demand mediated by AI assistants",
+      "proposed_in": "2026-11",
+      "reason": "Describes the inability to measure brand presence and causal effect inside LLM assistant answers, the core of the AEO entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "cross-channel-incrementality",
+      "alias": "No counterfactual inside black-box platform automation",
+      "proposed_in": "2026-11",
+      "reason": "This is the 'incrementality inside black-box AI ad buying' friction already captured by the entry's definition and aliases.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "cross-channel-incrementality",
+      "alias": "Incrementality without ground truth or experimentation infrastructure",
+      "proposed_in": "2026-11",
+      "reason": "Uncalibrated MMM and absent neutral experimentation is the same causal-measurement problem, not a distinct one.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "agent-traffic-identification",
+      "alias": "Agentic visitors and agentic buyers break the analytics and identity model",
+      "proposed_in": "2026-11",
+      "reason": "Identical to the entry: agent traffic cannot be classified, consented, personalized for, or attributed.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "consent-enforcement-downstream",
+      "alias": "Consent and deletion lineage that survives into AI systems",
+      "proposed_in": "2026-11",
+      "reason": "Propagation of consent and erasure through warehouses, embeddings and trained models is the downstream enforcement problem.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "cross-channel-incrementality",
+      "alias": "Cross-walled-garden identity and clean room interoperability",
+      "proposed_in": "2026-11",
+      "reason": "Clean-room and walled-garden deduplication for portfolio reach and conversion measurement is already an alias of this entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "genai-content-governance",
+      "alias": "Creative supply chain: generation outran review and per-asset signal",
+      "proposed_in": "2026-11",
+      "reason": "The human review bottleneck on generated variants is the defining friction of this entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "agent-safe-execution",
+      "alias": "Governing agents that act inside the marketing stack",
+      "proposed_in": "2026-11",
+      "reason": "Permissioning, audit, rollback and evaluation for agents with write access is exactly this entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "aeo",
+      "alias": "Measuring the AI-assistant layer of the funnel",
+      "proposed_in": "2026-11",
+      "reason": "Restates visibility and attribution inside AI answer surfaces.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "cross-channel-incrementality",
+      "alias": "No causal measurement substrate under AI-run ad buying",
+      "proposed_in": "2026-11",
+      "reason": "Same black-box automation plus signal-loss causal measurement problem already registered.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "agent-traffic-identification",
+      "alias": "Agent identity: telling an autonomous buyer from a bot or a human",
+      "proposed_in": "2026-11",
+      "reason": "Agent attestation and classification on brand properties is the registered agentic traffic problem.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "agent-safe-execution",
+      "alias": "Authorization and audit for agents acting inside the martech stack",
+      "proposed_in": "2026-11",
+      "reason": "Scoped delegation, per-agent identity and audit trails are the substance of this entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "consent-enforcement-downstream",
+      "alias": "Consent and opt-out enforcement across a fragmented, now-enforced US patchwork",
+      "proposed_in": "2026-11",
+      "reason": "CMPs capturing consent at the edge without propagating it downstream is the registered friction.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "identity-resolution-decay",
+      "alias": "Identity resolution degraded to the point that the customer record is a guess",
+      "proposed_in": "2026-11",
+      "reason": "Sparse deterministic signal and unvalidatable probabilistic matching across channels is this entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "genai-content-governance",
+      "alias": "Quality control at AI content volume",
+      "proposed_in": "2026-11",
+      "reason": "Verification, disclosure and brand-consistency capacity failing to scale with generation is the same problem.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "agent-traffic-identification",
+      "alias": "Engagement metrics are now machine-generated and nobody has replacements",
+      "proposed_in": "2026-11",
+      "reason": "Machine-produced opens, clicks and sessions corrupting signals is covered by the agent-vs-human measurement aliases of this entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "cross-channel-incrementality",
+      "alias": "Causal measurement across closed and privacy-constrained channels",
+      "proposed_in": "2026-11",
+      "reason": "Direct restatement of cross-channel incremental measurement under signal loss.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "identity-resolution-decay",
+      "alias": "Consent-aware identity and recognition",
+      "proposed_in": "2026-11",
+      "reason": "Same consent-aware cross-channel recognition problem.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "consent-enforcement-downstream",
+      "alias": "End-to-end enforcement of privacy choices",
+      "proposed_in": "2026-11",
+      "reason": "Proving propagation of withdrawals, deletions and purpose limits downstream is the registered entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "agent-safe-execution",
+      "alias": "Reliable autonomous marketing agents",
+      "proposed_in": "2026-11",
+      "reason": "Trusting agents to act in production systems with permissions, rollback and evaluation is this entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "aeo",
+      "alias": "Measurement of visibility inside AI-generated answers",
+      "proposed_in": "2026-11",
+      "reason": "Verbatim the AEO visibility and measurement problem.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "cross-channel-incrementality",
+      "alias": "Interoperable retail-media measurement",
+      "proposed_in": "2026-11",
+      "reason": "Comparable, incremental retail media measurement is an existing alias of this entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "genai-content-governance",
+      "alias": "Governed provenance and rights for generative content",
+      "proposed_in": "2026-11",
+      "reason": "Provenance and rights lineage for generated creative is an existing alias.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "semantic-context-layer",
+      "alias": "A consistent semantic layer from customer data to activation",
+      "proposed_in": "2026-11",
+      "reason": "Shared, governed business definitions across warehouse, CDP, platforms and AI apps is this entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "cross-channel-incrementality",
+      "alias": "Cross-channel causal measurement",
+      "proposed_in": "2026-11",
+      "reason": "Name and description match the registered entry directly.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "agent-safe-execution",
+      "alias": "Safe, auditable agent execution",
+      "proposed_in": "2026-11",
+      "reason": "Identical name and scope.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "semantic-context-layer",
+      "alias": "Semantic interoperability across the stack",
+      "proposed_in": "2026-11",
+      "reason": "Making data mean the same thing across systems and for agents is the semantic context layer problem.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "identity-resolution-decay",
+      "alias": "Consent-aware identity resolution",
+      "proposed_in": "2026-11",
+      "reason": "Same problem under a near-identical label.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "cross-channel-incrementality",
+      "alias": "Comparable commerce-media measurement",
+      "proposed_in": "2026-11",
+      "reason": "Cross-network commerce media comparability and incrementality is already an alias here.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "genai-content-governance",
+      "alias": "Generative-content rights and compliance at scale",
+      "proposed_in": "2026-11",
+      "reason": "Rights clearance, claim substantiation and disclosure review at volume is the registered entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "aeo",
+      "alias": "Decision-grade measurement of AI discovery",
+      "proposed_in": "2026-11",
+      "reason": "Measuring appearance in AI answers and linking it to outcomes is the AEO entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "consent-enforcement-downstream",
+      "alias": "Executable privacy policy across the supply chain",
+      "proposed_in": "2026-11",
+      "reason": "Runtime proof that every downstream recipient honors purpose and retention is the same friction.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "cross-channel-incrementality",
+      "alias": "Reconciliation of Incommensurable Measurement Paradigms",
+      "proposed_in": "2026-11",
+      "reason": "Triangulated measurement reconciliation across MMM, lift tests and platform conversions is an existing alias.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "aeo",
+      "alias": "Attribution and Tracking Breakdown from Conversational Search and Zero-Click AI",
+      "proposed_in": "2026-11",
+      "reason": "Zero-click AI search visibility and attribution is explicitly covered by this entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "cross-channel-incrementality",
+      "alias": "Cross-Clean-Room Identity and Frequency Fragmentation",
+      "proposed_in": "2026-11",
+      "reason": "Clean room and data collaboration interoperability for deduplicated cross-platform measurement is an existing alias.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "cross-channel-journey-orchestration",
+      "alias": "Schema Divergence and Latency Cascades in Composable CDPs",
+      "proposed_in": "2026-11",
+      "reason": "Warehouse-to-execution state and latency failure for real-time interaction management matches the sub-second omnichannel state orchestration alias.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "agent-safe-execution",
+      "alias": "Safe Execution and State Rollback in Agentic Campaign Automation",
+      "proposed_in": "2026-11",
+      "reason": "Rollback and transactional safety for agent actions in martech APIs is the core of this entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "genai-content-governance",
+      "alias": "Real-Time Semantic Governance of Multi-Modal Generative Assets",
+      "proposed_in": "2026-11",
+      "reason": "Deterministic semantic compliance for real-time generative creative is an existing alias.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "identity-resolution-decay",
+      "alias": "Ephemeral First-Party Session Decay from OS and Browser Isolation",
+      "proposed_in": "2026-11",
+      "reason": "First-party identity graph decay from ephemeral browser storage is an existing alias.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "aeo",
+      "alias": "Zero-Click Generative Engine Attribution",
+      "proposed_in": "2026-11",
+      "reason": "Same zero-click AI answer visibility and attribution problem.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "cross-channel-incrementality",
+      "alias": "Cross-Ecosystem Clean Room Interoperability",
+      "proposed_in": "2026-11",
+      "reason": "Duplicate of the clean-room interoperability alias already folded into this entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "cross-channel-journey-orchestration",
+      "alias": "In-Session Activation Latency in Composable CDPs",
+      "proposed_in": "2026-11",
+      "reason": "Sub-second activation of warehouse-held state for live personalization matches the orchestration entry's state-latency alias.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "agent-safe-execution",
+      "alias": "Transactional Rollback and Boundary Controls for Agentic AI Workflows",
+      "proposed_in": "2026-11",
+      "reason": "Deterministic boundaries, undo and compensation for agents acting on martech APIs is this entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "consent-enforcement-downstream",
+      "alias": "Granular Consent Propagation Across Vectorized Data and RAG Architectures",
+      "proposed_in": "2026-11",
+      "reason": "Propagating opt-outs and deletions into embeddings and derived stores is the downstream enforcement problem.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "agent-traffic-identification",
+      "alias": "Synthetic Lead and Automated Engagement Signal Poisoning",
+      "proposed_in": "2026-11",
+      "reason": "Inability to separate authentic human demand from agent telemetry in lead and engagement pipelines is the agentic traffic entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "cross-channel-incrementality",
+      "alias": "Real-Time Calibration Between Bayesian MMM and Incrementality Lift Testing",
+      "proposed_in": "2026-11",
+      "reason": "Calibrating MMM against lift tests is the triangulation facet of the existing causal measurement entry.",
+      "status": "pending_review"
+    },
+    {
+      "canonical_id": "genai-content-governance",
+      "alias": "Semantic Brand Compliance and Factual Verification at Generative Creative Scale",
+      "proposed_in": "2026-11",
+      "reason": "Verifying claims, compliance and brand voice across mass-generated variants is this entry.",
       "status": "pending_review"
     }
   ]
