@@ -4,6 +4,11 @@ import * as google from './google.js';
 
 export const PROVIDERS = { anthropic, openai, google };
 
+// The tier that answers every public question: the board's proposals, the
+// daily answers and the recognition check. One constant, so the models asked
+// what bartontech.ai is are the same models whose answers fill the page.
+export const PANEL_TIER = 'reasoning';
+
 export function enabledProviders(config) {
   return Object.entries(config.providers)
     .filter(([, cfg]) => cfg.enabled)

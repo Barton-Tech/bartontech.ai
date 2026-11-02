@@ -262,7 +262,7 @@ export function experimentUser({ month, recognitions, surfaces, previous }) {
   const history = recognitions
     .map((r) => {
       const per = r.results
-        .map((x) => `${x.label}: familiar=${x.familiar} basis=${x.basis}`)
+        .map((x) => `${x.label} (${x.model}): familiar=${x.familiar} basis=${x.basis}`)
         .join(' | ');
       return `${r.month}: ${per}`;
     })

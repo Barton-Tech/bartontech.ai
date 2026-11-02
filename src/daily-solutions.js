@@ -16,7 +16,7 @@
 
 import { paths, readJSON, writeJSON, exists, listJSON, provenance, log } from './lib/io.js';
 import { today } from './lib/dates.js';
-import { enabledProviders, assertConfigured } from './lib/providers/index.js';
+import { enabledProviders, assertConfigured, PANEL_TIER } from './lib/providers/index.js';
 import { SOLUTION } from './lib/schemas.js';
 import { solutionSystem, solutionUser } from './lib/prompts.js';
 
@@ -54,7 +54,7 @@ async function askFormat({ format, top, entry, config }) {
         const res = await impl.once(
           {
             custom_id: `solution__${format.id}__${name}`,
-            tier: 'reasoning',
+            tier: PANEL_TIER,
             grounded: false,
             system,
             user,
@@ -65,7 +65,7 @@ async function askFormat({ format, top, entry, config }) {
         if (!res.ok) return failures.push({ provider: name, error: res.error });
         // Usage is stored so recorded spend stays computable from the file
         // alone; the display prices it by the model that produced it.
-        answers.push({ provider: name, label: cfg.label, model: res.model ?? cfg.models.reasoning, ...res.data, usage: res.usage ?? null });
+        answers.push({ provider: name, label: cfg.label, model: res.model ?? cfg.models[PANEL_TIER], ...res.data, usage: res.usage ?? null });
         log(`${format.id}/${name} done in ${Math.round((Date.now() - started) / 1000)}s`);
       } catch (err) {
         failures.push({ provider: name, error: String(err.message ?? err) });

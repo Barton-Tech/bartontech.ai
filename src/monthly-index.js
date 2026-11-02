@@ -11,7 +11,7 @@
 
 import { paths, readJSON, writeJSON, exists, listJSON, provenance, log } from './lib/io.js';
 import { thisMonth } from './lib/dates.js';
-import { enabledProviders, assertConfigured } from './lib/providers/index.js';
+import { enabledProviders, assertConfigured, PANEL_TIER } from './lib/providers/index.js';
 import { PROBLEM_PROPOSAL, RECONCILIATION } from './lib/schemas.js';
 import {
   PROBLEM_INDEX_SYSTEM,
@@ -32,7 +32,7 @@ async function gatherProposals(config, month) {
         impl.once(
           {
             custom_id: `index__${name}__${grounded ? 'grounded' : 'ungrounded'}`,
-            tier: 'reasoning',
+            tier: PANEL_TIER,
             grounded,
             system: PROBLEM_INDEX_SYSTEM,
             user: problemIndexUser({ grounded, month }),
@@ -220,7 +220,7 @@ async function main() {
     generated_at: new Date().toISOString(),
     provenance: provenance(config, {
       models: Object.fromEntries(
-        enabledProviders(config).map(({ name, cfg }) => [name, cfg.models.reasoning]),
+        enabledProviders(config).map(({ name, cfg }) => [name, cfg.models[PANEL_TIER]]),
       ),
     }),
     board,

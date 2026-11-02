@@ -8,10 +8,14 @@
 // embarrassing; the point is to record the date that changes, per model. The
 // prompt must never describe the site: the moment the question leaks the
 // answer, the log measures prompt-following rather than recognition.
+//
+// The question goes to the panel tier, the same models that answer the
+// martech questions. Through 2026-11 it went to the grounded tier instead, so
+// those log entries name different models than the board of the same month.
 
 import { paths, readJSON, writeJSON, exists, listJSON, provenance, log } from './lib/io.js';
 import { thisMonth } from './lib/dates.js';
-import { enabledProviders, assertConfigured } from './lib/providers/index.js';
+import { enabledProviders, assertConfigured, PANEL_TIER } from './lib/providers/index.js';
 import { assertWithinBudget, usd } from './lib/cost.js';
 import { RECOGNITION } from './lib/schemas.js';
 import { recognitionSystem, recognitionUser } from './lib/prompts.js';
@@ -19,6 +23,17 @@ import { recognitionSystem, recognitionUser } from './lib/prompts.js';
 // Search-infrastructure redirect hosts are plumbing, not sources a reader can
 // evaluate, so they are dropped from the stored source list.
 const INFRASTRUCTURE = /vertexaisearch\.cloud\.google\.com|googleusercontent\.com/;
+
+export function recognitionRequest(provider, month) {
+  return {
+    custom_id: `recognition__${provider}`,
+    tier: PANEL_TIER,
+    grounded: true,
+    system: recognitionSystem(),
+    user: recognitionUser({ month }),
+    schema: RECOGNITION,
+  };
+}
 
 async function main() {
   const config = readJSON(paths.config('models.json'));
@@ -37,7 +52,7 @@ async function main() {
 
   const providers = enabledProviders(config);
   const guard = assertWithinBudget(
-    providers.map(({ name }) => ({ provider: name, requests: [{ tier: 'grounded', grounded: true }] })),
+    providers.map(({ name }) => ({ provider: name, requests: [{ tier: PANEL_TIER, grounded: true }] })),
     config,
   );
   log(`asking ${providers.length} models (projected ${usd(guard.projection.total)})`);
@@ -48,22 +63,12 @@ async function main() {
   await Promise.all(
     providers.map(async ({ name, cfg, impl }) => {
       try {
-        const res = await impl.once(
-          {
-            custom_id: `recognition__${name}`,
-            tier: 'grounded',
-            grounded: true,
-            system: recognitionSystem(),
-            user,
-            schema: RECOGNITION,
-          },
-          { providerConfig: cfg },
-        );
+        const res = await impl.once(recognitionRequest(name, month), { providerConfig: cfg });
         if (!res.ok) return failures.push({ provider: name, error: res.error });
         results.push({
           provider: name,
           label: cfg.label,
-          model: res.model ?? cfg.models.grounded,
+          model: res.model ?? cfg.models[PANEL_TIER],
           ...res.data,
           usage: res.usage ?? null,
           sources: (res.data.sources ?? []).filter((u) => !INFRASTRUCTURE.test(u)),
@@ -93,7 +98,7 @@ async function main() {
     generated_at: new Date().toISOString(),
     question: user,
     provenance: provenance(config, {
-      models: Object.fromEntries(providers.map(({ name, cfg }) => [name, cfg.models.grounded])),
+      models: Object.fromEntries(providers.map(({ name, cfg }) => [name, cfg.models[PANEL_TIER]])),
     }),
     results,
     failures,
