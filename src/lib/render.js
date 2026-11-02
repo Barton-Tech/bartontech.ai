@@ -207,6 +207,21 @@ export function renderAnswers(sol, { linkDate = false } = {}) {
   </div>`;
 }
 
+// The visible counterpart to breadcrumbLd's BreadcrumbList: same trail, so
+// the two can never disagree. The last crumb is plain text with
+// aria-current, not a link, since it names the page the visitor is already
+// on.
+export function crumbsNav(trail) {
+  if (!trail?.length) return '';
+  const items = trail
+    .map((t, i) => {
+      const last = i === trail.length - 1;
+      return `<li${last ? ' aria-current="page"' : ''}>${last ? esc(t.name) : `<a href="${t.path}">${esc(t.name)}</a>`}</li>`;
+    })
+    .join('');
+  return `<nav class="crumbs" aria-label="Breadcrumb"><ol>${items}</ol></nav>`;
+}
+
 export function breadcrumbLd(trail, extraNodes = []) {
   return JSON.stringify({
     '@context': 'https://schema.org',
@@ -274,7 +289,7 @@ export function problemLd(entry, path) {
 
 // Every page below the homepage: slim dark masthead linking home, a light
 // heading block, the body, the shared footer.
-export function subShell({ title, description, path, eyebrow, heading, deck = '', body, jsonLd }) {
+export function subShell({ title, description, path, eyebrow, heading, deck = '', body, jsonLd, trail }) {
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -293,6 +308,7 @@ ${headBlock({ title, description, path, jsonLd })}
 </header>
 <main id="main">
 <div class="wrap">
+  ${crumbsNav(trail)}
   <div class="subpage__head">
     <p class="subpage__eyebrow">${eyebrow}</p>
     <h1 class="subpage__title">${heading}</h1>

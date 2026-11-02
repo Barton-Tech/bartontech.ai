@@ -298,15 +298,30 @@ export function discoverySvg({ crawlerCount, faqCount }) {
   const lanes = [
     {
       title: 'Classic SEO',
-      lines: ['sitemap.xml, canonical URLs', 'and meta robots directives', 'Semantic HTML headings', 'No JavaScript, no cloaking'],
+      lines: [
+        { text: 'sitemap.xml, canonical URLs', href: '/sitemap.xml', label: 'sitemap.xml' },
+        'and meta robots directives',
+        'Semantic HTML headings',
+        'No JavaScript, no cloaking',
+      ],
     },
     {
       title: 'Crawler access (AEO)',
-      lines: [`${crawlerCount} AI crawlers named and`, 'allowed in robots.txt, plus', 'llms.txt and a JSON-LD graph:', 'WebSite, Dataset, FAQPage, Person'],
+      lines: [
+        `${crawlerCount} AI crawlers named and`,
+        { text: 'allowed in robots.txt, plus', href: '/robots.txt', label: 'robots.txt' },
+        { text: 'llms.txt and a JSON-LD graph:', href: '/llms.txt', label: 'llms.txt' },
+        'WebSite, Dataset, FAQPage, Person',
+      ],
     },
     {
       title: 'Answer content (GEO)',
-      lines: ['Plain-language hero and glosses', `${faqCount} self-contained FAQ answers`, 'One canonical entity per problem,', 'never three names for one idea'],
+      lines: [
+        'Plain-language hero and glosses',
+        { text: `${faqCount} self-contained FAQ answers`, href: '/#faq', label: 'The FAQ' },
+        { text: 'One canonical entity per problem,', href: '/data/registry/problems.json', label: 'The problem registry, as JSON' },
+        'never three names for one idea',
+      ],
     },
   ];
 
@@ -318,8 +333,20 @@ export function discoverySvg({ crawlerCount, faqCount }) {
   const bandH3 = 58;
   const H3 = bandY3 + bandH3 + 10;
 
+  // A line can be a plain string, or { text, href, label } to link that one
+  // line to the live file it names (robots.txt, llms.txt, the registry
+  // JSON...), so the diagram doubles as a set of working shortcuts, not just
+  // labels. aria-label is explicit rather than left to the nested tspan,
+  // because SVG's accessible-name computation for <a> wrapping <tspan> is
+  // unreliable across browsers and an unnamed link fails an axe check.
   function infoBox({ x, y, w, h }, title, lines, accent = false) {
-    const textLines = lines.map((l, j) => `<tspan x="${x + 16}" y="${y + 46 + j * 16}">${l}</tspan>`).join('');
+    const textLines = lines
+      .map((l, j) => {
+        const linked = typeof l === 'object';
+        const tspan = `<tspan x="${x + 16}" y="${y + 46 + j * 16}">${linked ? l.text : l}</tspan>`;
+        return linked ? `<a href="${l.href}" class="svg-link" aria-label="${l.label}">${tspan}</a>` : tspan;
+      })
+      .join('');
     return `
   <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="#ffffff" stroke="${accent ? ACCENT : INK}" stroke-width="${accent ? 1.6 : 1.2}"/>
   <text x="${x + 16}" y="${y + 26}" font-size="13.5" font-weight="650" fill="${INK}">${title}</text>
@@ -343,7 +370,7 @@ export function discoverySvg({ crawlerCount, faqCount }) {
   ]);
   const recBoxSvg = infoBox(recBox, 'Recognition log', [
     'Monthly, no hints: what is',
-    'bartontech.ai? Logged',
+    { text: 'bartontech.ai? Logged', href: '/recognition/', label: 'The recognition log' },
     'verbatim, append-only,',
     'feeding the experiment loop',
   ]);
@@ -368,9 +395,9 @@ export function discoverySvg({ crawlerCount, faqCount }) {
     'checked against verbatim model answers rather than eyeballed.',
   ];
 
-  return `<svg viewBox="0 0 ${W3} ${H3}" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="discovery-title discovery-desc" font-family="system-ui,-apple-system,'Segoe UI',sans-serif">
+  return `<svg viewBox="0 0 ${W3} ${H3}" xmlns="http://www.w3.org/2000/svg" aria-labelledby="discovery-title discovery-desc" font-family="system-ui,-apple-system,'Segoe UI',sans-serif">
   <title id="discovery-title">The discovery surface: SEO, AEO and GEO signals on one page</title>
-  <desc id="discovery-desc">A diagram in three converging lanes. Classic SEO: sitemap.xml, canonical URLs, meta robots directives, semantic HTML headings, no JavaScript and no cloaking. Crawler access and structured data for AEO: ${crawlerCount} AI crawlers named and allowed in robots.txt, plus llms.txt and a JSON-LD graph covering WebSite, Dataset, FAQPage and Person. Answer-shaped content for GEO: plain-language hero copy and glosses, ${faqCount} self-contained FAQ answers, and one canonical entity per problem instead of three competing names. All three lanes converge on one page served identically to every requester, with zero JavaScript and no cloaking. That page reaches both classic search results and AI-generated answers. The AI-answer side feeds a monthly recognition log, which asks each model with no hints what bartontech.ai is and logs the verbatim answer append-only, driving the experiment loop.</desc>
+  <desc id="discovery-desc">A diagram in three converging lanes. Classic SEO: sitemap.xml, canonical URLs, meta robots directives, semantic HTML headings, no JavaScript and no cloaking. Crawler access and structured data for AEO: ${crawlerCount} AI crawlers named and allowed in robots.txt, plus llms.txt and a JSON-LD graph covering WebSite, Dataset, FAQPage and Person. Answer-shaped content for GEO: plain-language hero copy and glosses, ${faqCount} self-contained FAQ answers, and one canonical entity per problem instead of three competing names. All three lanes converge on one page served identically to every requester, with zero JavaScript and no cloaking. That page reaches both classic search results and AI-generated answers. The AI-answer side feeds a monthly recognition log, which asks each model with no hints what bartontech.ai is and logs the verbatim answer append-only, driving the experiment loop. Several labels link to the live file or page they name: sitemap.xml, robots.txt, llms.txt, the FAQ, the recognition log and the problem registry.</desc>
   <defs>
     <marker id="arrowhead3" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">
       <path d="M 1 1 L 7 4 L 1 7 Z" fill="${SECONDARY}"/>

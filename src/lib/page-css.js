@@ -86,7 +86,14 @@ body {
 .subhead__site { font-size:.85rem; color:#b9b7ae; text-decoration:none; display:inline-block; padding:8px 0; margin:-8px 0; }
 .subhead__site:hover, .subhead__mark:hover b { text-decoration:underline; }
 .subhead a:focus-visible { outline-color:#7fb2f5; }
-.subpage__head { padding:56px 0 26px; border-bottom:1px solid var(--rule); margin-bottom:30px; }
+.crumbs { margin:32px 0 0; font-size:.82rem; }
+.crumbs ol { list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px 8px; }
+.crumbs li { display:flex; align-items:center; gap:8px; }
+.crumbs li + li::before { content:"/"; color:var(--baseline); }
+.crumbs a { color:var(--text-secondary); text-decoration:none; }
+.crumbs a:hover { color:var(--link); text-decoration:underline; }
+.crumbs li[aria-current] { color:var(--text-muted); }
+.subpage__head { padding:20px 0 26px; border-bottom:1px solid var(--rule); margin-bottom:30px; }
 .subpage__eyebrow { font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted); margin:0 0 14px; font-weight:600; }
 .subpage__title { font-size:clamp(1.7rem,3.4vw,2.6rem); line-height:1.1; letter-spacing:-.025em; font-weight:660; margin:0; max-width:26ch; text-wrap:balance; }
 .subpage__title em { font-style:normal; color:var(--link); }
@@ -182,9 +189,20 @@ main { padding-bottom:0; }
 .theme__evidence { margin:6px 0 0; font-size:.86rem; color:var(--text-secondary); max-width:66ch; }
 
 /* ---------- how-it-works ---------- */
+.toc { margin:28px 0 0; padding:16px 18px; border:1px solid var(--border); border-radius:12px; background:var(--surface-1); }
+.toc p { margin:0 0 10px; font-size:.74rem; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted); font-weight:600; }
+.toc ol { list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:8px; counter-reset:toc; }
+.toc li { counter-increment:toc; }
+.toc a { display:inline-flex; align-items:center; gap:6px; border:1px solid var(--border); border-radius:999px;
+  padding:6px 14px; font-size:.86rem; color:var(--text-secondary); text-decoration:none; }
+.toc a::before { content:counter(toc); font-variant-numeric:tabular-nums; color:var(--text-muted); }
+.toc a:hover { border-color:var(--link); color:var(--link); }
 .diagram { margin:6px 0 10px; padding:18px 14px 14px; overflow-x:auto; background:var(--surface-1);
   border:1px solid var(--border); border-radius:14px; }
 .diagram svg { display:block; min-width:940px; width:100%; height:auto; }
+.diagram svg a { cursor:pointer; }
+.diagram svg a tspan { text-decoration:underline; text-decoration-color:currentColor; }
+.diagram svg a:hover tspan, .diagram svg a:focus-visible tspan { fill:var(--link); }
 .diagram figcaption { margin:12px 4px 0; font-size:.86rem; color:var(--text-muted); max-width:70ch; }
 .prose { max-width:70ch; }
 .prose p { margin:12px 0 0; color:var(--text-secondary); }

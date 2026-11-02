@@ -424,6 +424,11 @@ ${siteFooter()}
             <span>${newer ? `<a href="/days/${esc(newer.date)}/">Next day: ${esc(newer.date)}</a>` : ''}</span>
           </nav>`
         : '';
+    const dayTrail = [
+      { name: 'The Martech problem index', path: '/' },
+      { name: 'Archive', path: '/archive/' },
+      { name: sol.date, path: `/days/${sol.date}/` },
+    ];
     writePage(
       `/days/${sol.date}/`,
       subShell({
@@ -434,14 +439,8 @@ ${siteFooter()}
         heading: `How would you attack <em>${esc(plain)}</em>?`,
         deck: entry?.plain_summary ? esc(entry.plain_summary) : '',
         body: renderAnswers(sol) + pager,
-        jsonLd: breadcrumbLd(
-          [
-            { name: 'The Martech problem index', path: '/' },
-            { name: 'Archive', path: '/archive/' },
-            { name: sol.date, path: `/days/${sol.date}/` },
-          ],
-          [questionLd(sol)],
-        ),
+        trail: dayTrail,
+        jsonLd: breadcrumbLd(dayTrail, [questionLd(sol)]),
       }),
     );
     subUrls.push({ loc: `${SITE}/days/${sol.date}/`, changefreq: 'monthly', priority: '0.6', lastmod: sol.date });
@@ -477,6 +476,11 @@ ${siteFooter()}
           })
           .join('')}</ul>`
       : `<div class="empty">No daily answers yet. This problem's turn comes around in the rotation.</div>`;
+    const problemTrail = [
+      { name: 'The Martech problem index', path: '/' },
+      { name: 'Archive', path: '/archive/' },
+      { name: entry.canonical_name, path: `/problems/${entry.id}/` },
+    ];
     writePage(
       `/problems/${entry.id}/`,
       subShell({
@@ -498,14 +502,8 @@ ${siteFooter()}
           ${timeline}
           ${entry.aliases?.length ? `<p class="aka">Also called: ${entry.aliases.map(esc).join('; ')}.</p>` : ''}
         `,
-        jsonLd: breadcrumbLd(
-          [
-            { name: 'The Martech problem index', path: '/' },
-            { name: 'Archive', path: '/archive/' },
-            { name: entry.canonical_name, path: `/problems/${entry.id}/` },
-          ],
-          [problemLd(entry, `/problems/${entry.id}/`)],
-        ),
+        trail: problemTrail,
+        jsonLd: breadcrumbLd(problemTrail, [problemLd(entry, `/problems/${entry.id}/`)]),
       }),
     );
     const problemLastmod = sols.length
@@ -538,6 +536,10 @@ ${siteFooter()}
             .join('')}</ul>`
         : '<div class="empty">The first day lands with the next daily run.</div>'
     }`;
+  const archiveTrail = [
+    { name: 'The Martech problem index', path: '/' },
+    { name: 'Archive', path: '/archive/' },
+  ];
   writePage(
     '/archive/',
     subShell({
@@ -549,10 +551,8 @@ ${siteFooter()}
       heading: 'Every day, every problem',
       deck: 'The record is append-only and cannot be backfilled. Each day links three full answers; each problem collects everything the models have said about it.',
       body: archiveBody,
-      jsonLd: breadcrumbLd([
-        { name: 'The Martech problem index', path: '/' },
-        { name: 'Archive', path: '/archive/' },
-      ]),
+      trail: archiveTrail,
+      jsonLd: breadcrumbLd(archiveTrail),
     }),
   );
   subUrls.push({ loc: `${SITE}/archive/`, changefreq: 'daily', priority: '0.7' });
@@ -565,6 +565,10 @@ ${siteFooter()}
         .map((r) => `<h2 class="board__title">${esc(r.month)}</h2>${recognitionCards(r, { sources: true })}`)
         .join('')
     : '<div class="empty">The first check runs with the next monthly index.</div>';
+  const recognitionTrail = [
+    { name: 'The Martech problem index', path: '/' },
+    { name: 'The recognition log', path: '/recognition/' },
+  ];
   writePage(
     '/recognition/',
     subShell({
@@ -576,10 +580,8 @@ ${siteFooter()}
       heading: 'Do the models know this site exists?',
       deck: 'Getting named by AI answers is one of the unsolved problems this index tracks. So once a month, each model gets the same neutral question, with web search on and no hints: what is bartontech.ai? The answers below are verbatim and append-only. The log records, per model, the date "found nothing" turns into a correct answer.',
       body: recognitionBody,
-      jsonLd: breadcrumbLd([
-        { name: 'The Martech problem index', path: '/' },
-        { name: 'The recognition log', path: '/recognition/' },
-      ]),
+      trail: recognitionTrail,
+      jsonLd: breadcrumbLd(recognitionTrail),
     }),
   );
   subUrls.push({
@@ -612,7 +614,7 @@ ${siteFooter()}
     ...provs.map((p) => ({ provider: p, requests: [{ tier: 'reasoning', grounded: false }, { tier: 'reasoning', grounded: true }] })),
     { provider: 'anthropic', requests: [{ tier: 'reasoning', grounded: false }] },
   ]);
-  const costRec = per(provs.map((p) => ({ provider: p, requests: [{ tier: 'grounded', grounded: true }] })));
+  const costRec = per(provs.map((p) => ({ provider: p, requests: [{ tier: 'reasoning', grounded: true }] })));
   const costExp = per([{ provider: 'anthropic', requests: [{ tier: 'reasoning', grounded: false }] }]);
   const costMonthly =
     (costDaily.total + costThemes.total) * 30 + costBoard.total + costRec.total + costExp.total;
@@ -649,145 +651,198 @@ ${siteFooter()}
   // cannot drift from the robots.txt the build actually writes.
   const crawlerCount = (ROBOTS.match(/^User-agent: (?!\*)/gm) ?? []).length;
 
-  const discoveryHtml = `
-    <h2 class="board__title">SEO, AEO and GEO</h2>
-    <div class="prose">
-      <p>Search engine optimization ranks a page in a results list. Answer engine optimization and generative engine optimization, its search-grounded cousin, decide whether a page is named inside an answer a model writes. This site treats all three as one problem: serve one page, identically, to every requester, and make that page legible to whichever kind of engine reads it.</p>
-    </div>
-    <figure class="diagram">
-      ${discoverySvg({ crawlerCount, faqCount: faq.length })}
-      <figcaption>Three lanes of signal converge on one page. Classic SEO plumbing shapes ranked results; crawler access and structured data shape whether an answer engine can read the page at all; plain-language, self-contained content shapes whether a model can lift an answer out of it. The recognition log, covered above, is the only place any of this is checked against real model answers rather than assumed.</figcaption>
-    </figure>
-    <div class="prose">
-      <p>Nothing here is cloaked or served conditionally: the same server-rendered HTML reaches Googlebot, GPTBot and a browser with JavaScript off, because the page ships none. What differs by signal is which kind of reader it is aimed at.</p>
-    </div>
-    <ul class="meta-list">
-      <li>
-        <div class="meta-list__top"><span class="meta-list__title">robots.txt</span><span class="meta-list__note">AEO / GEO</span></div>
-        <p class="meta-list__body">Names and explicitly allows ${crawlerCount} AI crawlers and answer agents, from GPTBot to Google-Extended to PerplexityBot, rather than leaving them to a wildcard default. A site that measures AI-answer visibility and then blocked the agents that build those answers would be undermining its own subject.</p>
-      </li>
-      <li>
-        <div class="meta-list__top"><span class="meta-list__title">llms.txt</span><span class="meta-list__note">AEO / GEO</span></div>
-        <p class="meta-list__body">A plain-language index built for assistants rather than browsers: what the site is, its current numbers, links to every open data file, and the method in a few bullet points, so a model can ground an answer without crawling the whole site.</p>
-      </li>
-      <li>
-        <div class="meta-list__top"><span class="meta-list__title">The JSON-LD graph</span><span class="meta-list__note">SEO + AEO / GEO</span></div>
-        <p class="meta-list__body">One script tag, the only one on the page, describing the site, the page, its author, the ranked board and the FAQ as linked schema.org entities, plus a WebPage speakable annotation marking the passages written to be read out as an answer. Every field mirrors something visible in the HTML; nothing in the markup claims what a reader cannot also see.</p>
-      </li>
-      <li>
-        <div class="meta-list__top"><span class="meta-list__title">sitemap.xml, canonical links, meta robots</span><span class="meta-list__note">SEO</span></div>
-        <p class="meta-list__body">Standard search-engine plumbing: every page listed once, a canonical URL so an archived rerun never competes with the live version, and a <code>max-snippet:-1, max-image-preview:large</code> directive so a search result can quote the page at full length instead of a truncated snippet.</p>
-      </li>
-      <li>
-        <div class="meta-list__top"><span class="meta-list__title">The FAQ</span><span class="meta-list__note">AEO / GEO</span></div>
-        <p class="meta-list__body">${faq.length} questions, each answer written to stand alone with no pronoun pointing outside itself, because an answer engine lifts a single answer out of its surrounding page. The same source feeds the visible list and the FAQPage schema, so the two cannot drift apart.</p>
-      </li>
-      <li>
-        <div class="meta-list__top"><span class="meta-list__title">Plain-language copy</span><span class="meta-list__note">GEO</span></div>
-        <p class="meta-list__body">Every problem carries a short <code>plain</code> gloss and a <code>plain_summary</code> written near an eighth-grade reading level, measured rather than eyeballed. A model paraphrasing the page for an answer starts from the plainest sentence it can find.</p>
-      </li>
-      <li>
-        <div class="meta-list__top"><span class="meta-list__title">The canonical problem registry</span><span class="meta-list__note">GEO</span></div>
-        <p class="meta-list__body">Reconciles every model's own wording of a problem against one entity with one id and one URL, so "AEO", "GEO" and "LLM visibility" register as the same thing instead of three pages a model has to disambiguate on its own.</p>
-      </li>
-    </ul>
-`;
+  const tocHtml = `
+    <nav class="toc" aria-label="On this page">
+      <p>On this page</p>
+      <ol>
+        <li><a href="#pipeline">The pipeline</a></li>
+        <li><a href="#discovery">SEO, AEO and GEO</a></li>
+        <li><a href="#cost">Cost and guardrails</a></li>
+        <li><a href="#learning-loop">Learning and experiments</a></li>
+        <li><a href="#build">The build</a></li>
+      </ol>
+    </nav>`;
 
-  const howBody = `
-    <figure class="diagram">
-      ${swimlaneSvg()}
-      <figcaption>The four scheduled processes. Follow the numbered steps within each column; the blue boxes are the points where a person decides. Every column ends in the same place: a commit to the append-only record, which redeploys the site.</figcaption>
-    </figure>
-    <h2 class="board__title">The monthly board</h2>
-    <div class="prose">
-      <p>On the first of each month, ChatGPT, Claude and Gemini are each asked the same question twice, once from their own knowledge and once with web search on: what are the hardest unsolved problems in marketing technology? Claude then acts as editor, reconciling every proposal against a canonical registry, because models name the same problem differently and "AEO", "GEO" and "LLM visibility" must stay one entry rather than three.</p>
-      <p>Anything the registry has never seen queues for human review before it counts. A new problem is a claim that the industry's attention moved somewhere new, and that claim gets a person's sign-off. The result is one ranked board per month.</p>
-      <p>The reconciliation also compounds. When a proposal matches an existing problem under a new name, that name queues as a proposed alias for the same review, so each month's editorial decisions sharpen the next month's matching instead of being made twice.</p>
-    </div>
-    <h2 class="board__title">The daily answers</h2>
-    <div class="prose">
-      <p>Every day, the date deterministically picks one problem off the board, and all three models answer the same question about it: how would you attack this? Never "solve this". Everything on the board is there because it is unsolved, and a model asked to solve it invents a confident plan. Each model answers in every format on the list, from a memo to a lullaby. The page opens on one format chosen by a date seed and the reader switches to the rest. Within any panel all three models share the format, so differences between their answers are substance, not style.</p>
-      <p>After the answers land, Claude rereads the whole six-month record and refreshes a small set of cross-cutting themes. That layer is a single-model synthesis, and the page labels it that way.</p>
-    </div>
-    <h2 class="board__title">The recognition check</h2>
-    <div class="prose">
-      <p>Once a month, in the same run as the board, each model gets one neutral question with web search on and no hints: what is bartontech.ai? The verbatim answers go into an append-only <a href="/recognition/">recognition log</a>. Getting named by AI answers is one of the problems the index tracks, so this is the site running that experiment on itself. The log records the date each model's "found nothing" turns into a correct answer, and it drives the <a href="#learning">experiment loop</a> below.</p>
-    </div>
-    ${discoveryHtml}
-    <h2 class="board__title">The model refresh</h2>
-    <div class="prose">
-      <p>Every Monday, the pipeline fetches the live model lists from all three providers and asks Claude whether the configured lineup is still the most applicable, with pricing verified by search. Any change ships as a pull request that a person reviews; a retired model raises an urgent issue instead. Models never change silently, because every stored run is priced and stamped with the exact model ids that produced it.</p>
-    </div>
-    <h2 class="board__title">The guardrails</h2>
-    <div class="prose">
-      <p>Nothing runs before a spend guard projects what the run is about to cost and refuses to start if it exceeds the ceiling. The record is append-only: no stored run is ever edited, and a forced rerun archives the prior version in public rather than replacing it. Every run records its prompt version and exact model ids, and raw responses are kept, so any number on the site can be traced back to what produced it.</p>
-    </div>
-    <h2 class="board__title">The cost model</h2>
-    <div class="prose">
-      <p>Every price the site pays lives in the public config, and the weekly model refresh verifies prices against provider pages before they can change. Before any paid call, the spend guard projects the run's cost from ${measured.size > 0 ? 'measured token averages' : 'configured token estimates'} and refuses to start above ${usd(modelsCfg.budget.max_run_usd)} per run or ${usd(modelsCfg.budget.max_rolling_7d_usd)} over a rolling seven days. The projections below come from the same machinery, at today's configured models and prices; the whole site runs on roughly ${usd(costMonthly)} a month.</p>
-    </div>
-    <div class="table"><div class="table__scroll"><table>
-      <caption class="visually-hidden">Projected cost per scheduled process</caption>
-      <thead><tr><th scope="col">Process</th><th scope="col">Model calls per run</th><th scope="col">Cadence</th><th scope="col">Projected per run</th><th scope="col">Per month, about</th></tr></thead>
-      <tbody>${costRows
-        .map(
-          ([name, calls, cadence, run, month]) =>
-            `<tr><th scope="row">${name}</th><td>${calls}</td><td>${cadence}</td><td>${usd(run)}</td><td>${usd(month)}</td></tr>`,
-        )
-        .join('')}
-      <tr><th scope="row">Everything</th><td></td><td></td><td></td><td>${usd(costMonthly)}</td></tr></tbody>
-    </table></div></div>
-    <h2 class="board__title">Recorded spend</h2>
-    <div class="prose">
-      <p>What the site has actually spent, computed from stored token usage and priced by the exact model that produced each call. Calls whose usage was not stored are counted as unrecorded, never estimated: the runners began persisting usage on 2026-08-20, so the early record is mostly unrecorded, and the share shrinks from here. The retired vendor tracker's calls are priced from its raw responses.</p>
-    </div>
-    ${
-      spendRows.length
-        ? `<div class="table"><div class="table__scroll"><table>
-      <caption class="visually-hidden">Recorded spend by month</caption>
-      <thead><tr><th scope="col">Month</th><th scope="col">Priced calls</th><th scope="col">Unrecorded calls</th><th scope="col">Recorded spend</th></tr></thead>
-      <tbody>${spendRows
-        .map(
-          (r) =>
-            `<tr><th scope="row">${esc(r.month)}</th><td>${r.priced}</td><td>${r.unrecorded}</td><td>${usd(r.usd)}</td></tr>`,
-        )
-        .join('')}</tbody>
-    </table></div></div>`
-        : '<div class="empty">The first recorded calls land with the next run.</div>'
-    }
-    <h2 class="board__title" id="learning">What learns, and what deliberately doesn't</h2>
-    <div class="prose">
-      <p>Four feedback loops run with a human gate on each. The spend projections learn from every recorded call, replacing configured estimates with measured token averages. The registry learns names: when reconciliation matches a proposal to an existing problem under a new name, the name queues as an alias, and one review click makes that month's editorial decision permanent. The model lineup adapts weekly against the live provider lists, by pull request. And the recognition log drives an experiment loop: once a month, Claude judges the previous experiment against the newest recognition results, then proposes at most one falsifiable change to a crawler-facing surface, as a review issue a person applies or declines. The proposal, hypothesis and expected signal are logged below before the result exists, so the loop cannot quietly rewrite its own history.</p>
-      <p>Just as deliberately, the measurements never learn. The daily rotation, the shared formats, and the question wording are held fixed so the record stays comparable across time; prompt changes are versioned and stamped onto every run rather than adapted silently. Nothing learns from visitor behavior: analytics stay outside the repo, and the pages carry no tracking of their own.</p>
-    </div>
-    <h2 class="board__title">The experiment log</h2>
-    <div class="prose">
-      <p>Every monthly proposal, judged in public. Each entry records its hypothesis and expected signal before the outcome exists; the following month's entry judges it as supported, refuted, or inconclusive against the fresh recognition answers.</p>
-    </div>
-    ${experimentsHtml}
-    <h2 class="board__title">The stack</h2>
-    <div class="prose">
-      <p>GitHub Actions runs the schedules; Cloudflare serves the result. The page is fully server-rendered and ships zero JavaScript (the only script tag is structured data), including the format switcher and the site menu, which are CSS and native HTML only. All data is plain JSON, served without authentication, and the harness that produces it is <a href="https://github.com/Barton-Tech/bartontech.ai">open source</a>.</p>
-    </div>
-    <figure class="diagram">
-      ${stackSvg()}
-      <figcaption>The stack, end to end. The model APIs are the only external calls, guarded by a projected-cost check; everything downstream of them is a git commit, a static build and an edge cache.</figcaption>
-    </figure>
-    <h2 class="board__title">The code</h2>
-    <div class="prose">
-      <p>Everything above is one public repository: <a href="https://github.com/Barton-Tech/bartontech.ai">github.com/Barton-Tech/bartontech.ai</a>. The code is held to two widely adopted standards, enforced in CI on every push: the eslint:recommended ruleset with zero tolerated errors, and test coverage thresholds requiring 100 percent line and function coverage of the library code (the provider network shims and the paid entry points are exercised by the scheduled runs themselves, which is the honest place to test code whose job is to spend money). The numbers below are computed from the source tree at build time, and the build refuses to publish them if the suite is red or the linter objects, so they cannot drift from the code they describe.</p>
-    </div>
-    <ul class="metrics">
-      <li class="metric"><span class="metric__value">0</span><span class="metric__label">bytes of JavaScript shipped to the browser</span></li>
-      <li class="metric"><span class="metric__value">${m.testCount}</span><span class="metric__label">unit tests across ${m.testFiles} files, run in CI on every push</span></li>
-      ${m.lineCoverage ? `<li class="metric"><span class="metric__value">${m.lineCoverage}%</span><span class="metric__label">line coverage of the library code, measured at build</span></li>` : ''}
-      ${m.lintErrors === 0 ? `<li class="metric"><span class="metric__value">0</span><span class="metric__label">errors against eslint:recommended, checked at build</span></li>` : ''}
-      <li class="metric"><span class="metric__value">${m.srcLines.toLocaleString('en-US')}</span><span class="metric__label">lines of source in ${m.srcFiles} JavaScript files</span></li>
-      <li class="metric"><span class="metric__value">${m.deps}</span><span class="metric__label">runtime dependencies, one SDK per model provider</span></li>
-      <li class="metric"><span class="metric__value">${m.schemaCount}</span><span class="metric__label">JSON schemas constraining every model response</span></li>
-      <li class="metric"><span class="metric__value">$${m.maxRun}</span><span class="metric__label">spend ceiling per run, enforced before any call</span></li>
-      <li class="metric"><span class="metric__value">${m.workflowCount}</span><span class="metric__label">GitHub Actions workflows, scheduled and reviewed</span></li>
-    </ul>`;
+  const pipelineHtml = `
+    <section class="section" aria-labelledby="pipeline">
+      <div class="section__head">
+        <div class="section__num">01</div>
+        <h2 id="pipeline">The pipeline</h2>
+        <p class="section__note">Four scheduled processes, run by GitHub Actions with a person at two of the gates. Follow the diagram, then each step below in the same order.</p>
+      </div>
+      <figure class="diagram">
+        ${swimlaneSvg()}
+        <figcaption>The four scheduled processes. Follow the numbered steps within each column; the blue boxes are the points where a person decides. Every column ends in the same place: a commit to the append-only record, which redeploys the site.</figcaption>
+      </figure>
+      <h3 class="board__title">The monthly board</h3>
+      <div class="prose">
+        <p>On the first of each month, ChatGPT, Claude and Gemini are each asked the same question twice, once from their own knowledge and once with web search on: what are the hardest unsolved problems in marketing technology? Claude then acts as editor, reconciling every proposal against a canonical registry, because models name the same problem differently and "AEO", "GEO" and "LLM visibility" must stay one entry rather than three.</p>
+        <p>Anything the registry has never seen queues for human review before it counts. A new problem is a claim that the industry's attention moved somewhere new, and that claim gets a person's sign-off. The result is one ranked board per month.</p>
+        <p>The reconciliation also compounds. When a proposal matches an existing problem under a new name, that name queues as a proposed alias for the same review, so each month's editorial decisions sharpen the next month's matching instead of being made twice.</p>
+      </div>
+      <h3 class="board__title">The recognition check</h3>
+      <div class="prose">
+        <p>Once a month, in the same run as the board, each model gets one neutral question with web search on and no hints: what is bartontech.ai? The verbatim answers go into an append-only <a href="/recognition/">recognition log</a>. Getting named by AI answers is one of the problems the index tracks, so this is the site running that experiment on itself. The log records the date each model's "found nothing" turns into a correct answer, and it drives the <a href="#learning">experiment loop</a> further down this page. It also motivates the next section: what actually makes a page legible to an answer engine in the first place.</p>
+      </div>
+      <h3 class="board__title">The daily answers</h3>
+      <div class="prose">
+        <p>Every day, the date deterministically picks one problem off the board, and all three models answer the same question about it: how would you attack this? Never "solve this". Everything on the board is there because it is unsolved, and a model asked to solve it invents a confident plan. Each model answers in every format on the list, from a memo to a lullaby. The page opens on one format chosen by a date seed and the reader switches to the rest. Within any panel all three models share the format, so differences between their answers are substance, not style.</p>
+        <p>After the answers land, Claude rereads the whole six-month record and refreshes a small set of cross-cutting themes. That layer is a single-model synthesis, and the page labels it that way.</p>
+      </div>
+      <h3 class="board__title">The model refresh</h3>
+      <div class="prose">
+        <p>Every Monday, the pipeline fetches the live model lists from all three providers and asks Claude whether the configured lineup is still the most applicable, with pricing verified by search. Any change ships as a pull request that a person reviews; a retired model raises an urgent issue instead. Models never change silently, because every stored run is priced and stamped with the exact model ids that produced it.</p>
+      </div>
+    </section>`;
+
+  const discoveryHtml = `
+    <section class="section" aria-labelledby="discovery">
+      <div class="section__head">
+        <div class="section__num">02</div>
+        <h2 id="discovery">SEO, AEO and GEO</h2>
+        <p class="section__note">Search engine optimization ranks a page in a results list. Answer engine optimization and generative engine optimization, its search-grounded cousin, decide whether a page is named inside an answer a model writes. This site treats all three as one problem: serve one page, identically, to every requester, and make that page legible to whichever kind of engine reads it.</p>
+      </div>
+      <figure class="diagram">
+        ${discoverySvg({ crawlerCount, faqCount: faq.length })}
+        <figcaption>Three lanes of signal converge on one page. Classic SEO plumbing shapes ranked results; crawler access and structured data shape whether an answer engine can read the page at all; plain-language, self-contained content shapes whether a model can lift an answer out of it. The recognition log, covered above, is the only place any of this is checked against real model answers rather than assumed. Underlined labels in the diagram, like robots.txt and llms.txt, link to the live file or page.</figcaption>
+      </figure>
+      <div class="prose">
+        <p>Nothing here is cloaked or served conditionally: the same server-rendered HTML reaches Googlebot, GPTBot and a browser with JavaScript off, because the page ships none. What differs by signal is which kind of reader it is aimed at.</p>
+      </div>
+      <ul class="meta-list">
+        <li>
+          <div class="meta-list__top"><a class="meta-list__title" href="/robots.txt">robots.txt</a><span class="meta-list__note">AEO / GEO</span></div>
+          <p class="meta-list__body">Names and explicitly allows ${crawlerCount} AI crawlers and answer agents, from GPTBot to Google-Extended to PerplexityBot, rather than leaving them to a wildcard default. A site that measures AI-answer visibility and then blocked the agents that build those answers would be undermining its own subject.</p>
+        </li>
+        <li>
+          <div class="meta-list__top"><a class="meta-list__title" href="/llms.txt">llms.txt</a><span class="meta-list__note">AEO / GEO</span></div>
+          <p class="meta-list__body">A plain-language index built for assistants rather than browsers: what the site is, its current numbers, links to every open data file, and the method in a few bullet points, so a model can ground an answer without crawling the whole site.</p>
+        </li>
+        <li>
+          <div class="meta-list__top"><span class="meta-list__title">The JSON-LD graph</span><span class="meta-list__note">SEO + AEO / GEO</span></div>
+          <p class="meta-list__body">One script tag, the only one on the page, describing the site, the page, its author, the ranked board and the FAQ as linked schema.org entities, plus a WebPage speakable annotation marking the passages written to be read out as an answer. Every field mirrors something visible in the HTML; nothing in the markup claims what a reader cannot also see.</p>
+        </li>
+        <li>
+          <div class="meta-list__top"><a class="meta-list__title" href="/sitemap.xml">sitemap.xml, canonical links, meta robots</a><span class="meta-list__note">SEO</span></div>
+          <p class="meta-list__body">Standard search-engine plumbing: every page listed once, a canonical URL so an archived rerun never competes with the live version, and a <code>max-snippet:-1, max-image-preview:large</code> directive so a search result can quote the page at full length instead of a truncated snippet.</p>
+        </li>
+        <li>
+          <div class="meta-list__top"><a class="meta-list__title" href="/#faq">The FAQ</a><span class="meta-list__note">AEO / GEO</span></div>
+          <p class="meta-list__body">${faq.length} questions, each answer written to stand alone with no pronoun pointing outside itself, because an answer engine lifts a single answer out of its surrounding page. The same source feeds the visible list and the FAQPage schema, so the two cannot drift apart.</p>
+        </li>
+        <li>
+          <div class="meta-list__top"><span class="meta-list__title">Plain-language copy</span><span class="meta-list__note">GEO</span></div>
+          <p class="meta-list__body">Every problem carries a short <code>plain</code> gloss and a <code>plain_summary</code> written near an eighth-grade reading level, measured rather than eyeballed. A model paraphrasing the page for an answer starts from the plainest sentence it can find.</p>
+        </li>
+        <li>
+          <div class="meta-list__top"><a class="meta-list__title" href="/data/registry/problems.json">The canonical problem registry</a><span class="meta-list__note">GEO</span></div>
+          <p class="meta-list__body">Reconciles every model's own wording of a problem against one entity with one id and one URL, so "AEO", "GEO" and "LLM visibility" register as the same thing instead of three pages a model has to disambiguate on its own.</p>
+        </li>
+      </ul>
+    </section>`;
+
+  const costHtml = `
+    <section class="section" aria-labelledby="cost">
+      <div class="section__head">
+        <div class="section__num">03</div>
+        <h2 id="cost">Cost and guardrails</h2>
+        <p class="section__note">What the spend guard enforces before any call runs, and what the site has actually spent so far.</p>
+      </div>
+      <h3 class="board__title">The guardrails</h3>
+      <div class="prose">
+        <p>Nothing runs before a spend guard projects what the run is about to cost and refuses to start if it exceeds the ceiling. The record is append-only: no stored run is ever edited, and a forced rerun archives the prior version in public rather than replacing it. Every run records its prompt version and exact model ids, and raw responses are kept, so any number on the site can be traced back to what produced it.</p>
+      </div>
+      <h3 class="board__title">The cost model</h3>
+      <div class="prose">
+        <p>Every price the site pays lives in the public config, and the weekly model refresh verifies prices against provider pages before they can change. Before any paid call, the spend guard projects the run's cost from ${measured.size > 0 ? 'measured token averages' : 'configured token estimates'} and refuses to start above ${usd(modelsCfg.budget.max_run_usd)} per run or ${usd(modelsCfg.budget.max_rolling_7d_usd)} over a rolling seven days. The projections below come from the same machinery, at today's configured models and prices; the whole site runs on roughly ${usd(costMonthly)} a month.</p>
+      </div>
+      <div class="table"><div class="table__scroll"><table>
+        <caption class="visually-hidden">Projected cost per scheduled process</caption>
+        <thead><tr><th scope="col">Process</th><th scope="col">Model calls per run</th><th scope="col">Cadence</th><th scope="col">Projected per run</th><th scope="col">Per month, about</th></tr></thead>
+        <tbody>${costRows
+          .map(
+            ([name, calls, cadence, run, month]) =>
+              `<tr><th scope="row">${name}</th><td>${calls}</td><td>${cadence}</td><td>${usd(run)}</td><td>${usd(month)}</td></tr>`,
+          )
+          .join('')}
+        <tr><th scope="row">Everything</th><td></td><td></td><td></td><td>${usd(costMonthly)}</td></tr></tbody>
+      </table></div></div>
+      <h3 class="board__title">Recorded spend</h3>
+      <div class="prose">
+        <p>What the site has actually spent, computed from stored token usage and priced by the exact model that produced each call. Calls whose usage was not stored are counted as unrecorded, never estimated: the runners began persisting usage on 2026-08-20, so the early record is mostly unrecorded, and the share shrinks from here. The retired vendor tracker's calls are priced from its raw responses.</p>
+      </div>
+      ${
+        spendRows.length
+          ? `<div class="table"><div class="table__scroll"><table>
+        <caption class="visually-hidden">Recorded spend by month</caption>
+        <thead><tr><th scope="col">Month</th><th scope="col">Priced calls</th><th scope="col">Unrecorded calls</th><th scope="col">Recorded spend</th></tr></thead>
+        <tbody>${spendRows
+          .map(
+            (r) =>
+              `<tr><th scope="row">${esc(r.month)}</th><td>${r.priced}</td><td>${r.unrecorded}</td><td>${usd(r.usd)}</td></tr>`,
+          )
+          .join('')}</tbody>
+      </table></div></div>`
+          : '<div class="empty">The first recorded calls land with the next run.</div>'
+      }
+    </section>`;
+
+  const learningHtml = `
+    <section class="section" aria-labelledby="learning-loop">
+      <div class="section__head">
+        <div class="section__num">04</div>
+        <h2 id="learning-loop">Learning and experiments</h2>
+        <p class="section__note">Four feedback loops are allowed to change things, each with a human gate. Everything else is held fixed so the record stays comparable over time.</p>
+      </div>
+      <h3 class="board__title" id="learning">What learns, and what deliberately doesn't</h3>
+      <div class="prose">
+        <p>Four feedback loops run with a human gate on each. The spend projections learn from every recorded call, replacing configured estimates with measured token averages. The registry learns names: when reconciliation matches a proposal to an existing problem under a new name, the name queues as an alias, and one review click makes that month's editorial decision permanent. The model lineup adapts weekly against the live provider lists, by pull request. And the recognition log drives an experiment loop: once a month, Claude judges the previous experiment against the newest recognition results, then proposes at most one falsifiable change to a crawler-facing surface, as a review issue a person applies or declines. The proposal, hypothesis and expected signal are logged below before the result exists, so the loop cannot quietly rewrite its own history.</p>
+        <p>Just as deliberately, the measurements never learn. The daily rotation, the shared formats, and the question wording are held fixed so the record stays comparable across time; prompt changes are versioned and stamped onto every run rather than adapted silently. Nothing learns from visitor behavior: analytics stay outside the repo, and the pages carry no tracking of their own.</p>
+      </div>
+      <h3 class="board__title">The experiment log</h3>
+      <div class="prose">
+        <p>Every monthly proposal, judged in public. Each entry records its hypothesis and expected signal before the outcome exists; the following month's entry judges it as supported, refuted, or inconclusive against the fresh recognition answers.</p>
+      </div>
+      ${experimentsHtml}
+    </section>`;
+
+  const buildHtml = `
+    <section class="section" aria-labelledby="build">
+      <div class="section__head">
+        <div class="section__num">05</div>
+        <h2 id="build">The build</h2>
+        <p class="section__note">From a scheduled run to a served page, and the numbers the repository proves about itself at build time.</p>
+      </div>
+      <h3 class="board__title">The stack</h3>
+      <div class="prose">
+        <p>GitHub Actions runs the schedules; Cloudflare serves the result. The page is fully server-rendered and ships zero JavaScript (the only script tag is structured data), including the format switcher and the site menu, which are CSS and native HTML only. All data is plain JSON, served without authentication, and the harness that produces it is <a href="https://github.com/Barton-Tech/bartontech.ai">open source</a>.</p>
+      </div>
+      <figure class="diagram">
+        ${stackSvg()}
+        <figcaption>The stack, end to end. The model APIs are the only external calls, guarded by a projected-cost check; everything downstream of them is a git commit, a static build and an edge cache.</figcaption>
+      </figure>
+      <h3 class="board__title">The code</h3>
+      <div class="prose">
+        <p>Everything above is one public repository: <a href="https://github.com/Barton-Tech/bartontech.ai">github.com/Barton-Tech/bartontech.ai</a>. The code is held to two widely adopted standards, enforced in CI on every push: the eslint:recommended ruleset with zero tolerated errors, and test coverage thresholds requiring 100 percent line and function coverage of the library code (the provider network shims and the paid entry points are exercised by the scheduled runs themselves, which is the honest place to test code whose job is to spend money). The numbers below are computed from the source tree at build time, and the build refuses to publish them if the suite is red or the linter objects, so they cannot drift from the code they describe.</p>
+      </div>
+      <ul class="metrics">
+        <li class="metric"><span class="metric__value">0</span><span class="metric__label">bytes of JavaScript shipped to the browser</span></li>
+        <li class="metric"><span class="metric__value">${m.testCount}</span><span class="metric__label">unit tests across ${m.testFiles} files, run in CI on every push</span></li>
+        ${m.lineCoverage ? `<li class="metric"><span class="metric__value">${m.lineCoverage}%</span><span class="metric__label">line coverage of the library code, measured at build</span></li>` : ''}
+        ${m.lintErrors === 0 ? `<li class="metric"><span class="metric__value">0</span><span class="metric__label">errors against eslint:recommended, checked at build</span></li>` : ''}
+        <li class="metric"><span class="metric__value">${m.srcLines.toLocaleString('en-US')}</span><span class="metric__label">lines of source in ${m.srcFiles} JavaScript files</span></li>
+        <li class="metric"><span class="metric__value">${m.deps}</span><span class="metric__label">runtime dependencies, one SDK per model provider</span></li>
+        <li class="metric"><span class="metric__value">${m.schemaCount}</span><span class="metric__label">JSON schemas constraining every model response</span></li>
+        <li class="metric"><span class="metric__value">$${m.maxRun}</span><span class="metric__label">spend ceiling per run, enforced before any call</span></li>
+        <li class="metric"><span class="metric__value">${m.workflowCount}</span><span class="metric__label">GitHub Actions workflows, scheduled and reviewed</span></li>
+      </ul>
+    </section>`;
+
+  const howBody = tocHtml + pipelineHtml + discoveryHtml + costHtml + learningHtml + buildHtml;
+  const howTrail = [
+    { name: 'The Martech problem index', path: '/' },
+    { name: 'How this site works', path: '/how-it-works/' },
+  ];
   writePage(
     '/how-it-works/',
     subShell({
@@ -799,10 +854,8 @@ ${siteFooter()}
       heading: 'How this site works',
       deck: 'One page, produced by an unattended pipeline: a three-model panel, one editor model, one human gate, and a record that only grows. Everything below runs on a schedule; nothing is manual except the two review steps.',
       body: howBody,
-      jsonLd: breadcrumbLd([
-        { name: 'The Martech problem index', path: '/' },
-        { name: 'How this site works', path: '/how-it-works/' },
-      ]),
+      trail: howTrail,
+      jsonLd: breadcrumbLd(howTrail),
     }),
   );
   subUrls.push({ loc: `${SITE}/how-it-works/`, changefreq: 'monthly', priority: '0.7' });

@@ -80,14 +80,35 @@ test('renderAnswers multi-format: radios, pills, checked default, linked date', 
   assert.ok(renderAnswers(null).includes('Collecting'));
 });
 
+test('crumbsNav: last crumb is current and unlinked, earlier ones link, empty trail renders nothing', async () => {
+  const { crumbsNav } = await import('../src/lib/render.js');
+  assert.equal(crumbsNav(undefined), '');
+  assert.equal(crumbsNav([]), '');
+  const nav = crumbsNav([
+    { name: 'The Martech problem index', path: '/' },
+    { name: 'Archive', path: '/archive/' },
+    { name: 'A & B', path: '/archive/a-b/' },
+  ]);
+  assert.ok(nav.includes('aria-label="Breadcrumb"'));
+  assert.ok(nav.includes('<a href="/">The Martech problem index</a>'));
+  assert.ok(nav.includes('<a href="/archive/">Archive</a>'));
+  assert.ok(nav.includes('<li aria-current="page">A &amp; B</li>'));
+  assert.ok(!nav.includes('<a href="/archive/a-b/">'), 'the current page is not a link');
+});
+
 test('page shells: head block, subshell, footer and breadcrumbs', async () => {
   const { headBlock, subShell, siteFooter, breadcrumbLd, questionLd, problemLd, PAGE_CSS, FAVICON } = await import('../src/lib/render.js');
   const head = headBlock({ title: 'T', description: 'D', path: '/x/', jsonLd: '{"a":1}' });
   assert.ok(head.includes('<title>T</title>') && head.includes('application/ld+json'));
   assert.ok(!headBlock({ title: 'T', description: 'D', path: '/x/', jsonLd: null }).includes('application/ld+json'));
-  const shell = subShell({ title: 'T', description: 'D', path: '/x/', eyebrow: 'E', heading: 'H', deck: 'DK', body: 'B', jsonLd: null });
+  const shell = subShell({
+    title: 'T', description: 'D', path: '/x/', eyebrow: 'E', heading: 'H', deck: 'DK', body: 'B', jsonLd: null,
+    trail: [{ name: 'Home', path: '/' }, { name: 'H', path: '/x/' }],
+  });
   assert.ok(shell.includes('<p class="subpage__deck">DK</p>') && shell.includes('aria-label="Site"'));
+  assert.ok(shell.includes('class="crumbs"') && shell.includes('<a href="/">Home</a>'));
   assert.ok(!subShell({ title: 'T', description: 'D', path: '/x/', eyebrow: 'E', heading: 'H', body: 'B', jsonLd: null }).includes('<p class="subpage__deck">'));
+  assert.ok(!subShell({ title: 'T', description: 'D', path: '/x/', eyebrow: 'E', heading: 'H', body: 'B', jsonLd: null }).includes('class="crumbs"'));
   assert.ok(siteFooter().includes('Orchestrated by'));
   const ld = JSON.parse(breadcrumbLd([{ name: 'A', path: '/' }, { name: 'B', path: '/b/' }]));
   assert.equal(ld['@graph'][0].itemListElement.length, 2);
