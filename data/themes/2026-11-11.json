@@ -1,0 +1,103 @@
+{
+  "date": "2026-11-11",
+  "generated_at": "2026-11-11T14:41:26.634Z",
+  "provenance": {
+    "prompt_version": "2026-11-02.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-05-11",
+    "to": "2026-11-11",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08",
+      "2026-09",
+      "2026-10",
+      "2026-11"
+    ],
+    "solution_days": 85
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 31572,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1784,
+    "output_tokens_details": {
+      "thinking_tokens": 550
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+  },
+  "themes": [
+    {
+      "name": "No Ground Truth to Measure Against",
+      "plain": "Most of these problems have no answer key. There is no trustworthy record of who is really the same person, what a model would have said anyway, or what a sale would have been without the ad, so the models begin by buying or building a small truth set they can grade themselves against.",
+      "evidence": "On consent-aware identity resolution all three models said accuracy claims are unfalsifiable without a consented panel or a written error budget, echoing the same complaint in answer engine optimization, cross-channel incrementality, and content governance.",
+      "problem_ids": [
+        "identity-resolution-decay",
+        "aeo",
+        "cross-channel-incrementality",
+        "genai-content-governance",
+        "b2b-buying-group-signal-loss"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "Incentives Before Standards",
+      "plain": "Many of these problems stall because whoever holds the answer gains nothing by sharing it, and nobody can force them. So the models try to make honesty pay, or they stop waiting for cooperation and work with what they own.",
+      "evidence": "On identity resolution the models said device platforms profit from keeping identity fragmented and suggested dropping bought identity graphs for places customers actually log in, matching the agent traffic answers that offer a faster lane or a discount to assistants that declare themselves, and the journey orchestration answers about channel owners rewarded for saying yes.",
+      "problem_ids": [
+        "identity-resolution-decay",
+        "agent-traffic-identification",
+        "cross-channel-journey-orchestration",
+        "generative-ad-supply-integrity"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust who is acting or what happens next, they build one door they own and push everything through it. A sent email, a spent dollar, or an exported list cannot be called back, so the only real control happens before the action leaves.",
+      "evidence": "On safe agent execution every model put a proxy or gateway in front of writes with hard spend and audience caps, the consent answers put one checkpoint on every data exit and expire uploaded lists, and the identity answers would write the consent and purpose contract before any identifier is chosen.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "consent-enforcement-downstream",
+        "identity-resolution-decay",
+        "cross-channel-journey-orchestration"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data, a message, or a dollar leaves your own systems, you cannot see inside the partner, ad platform, or trained model that now holds it. You can watch from outside and guess whether the rules were followed, but you cannot prove it.",
+      "evidence": "The consent and deletion answers all said a person cannot be untrained out of a model or confirmed deleted inside a black box partner, and today's identity answers said revocation and provenance depend on independent parties with conflicting incentives.",
+      "problem_ids": [
+        "consent-enforcement-downstream",
+        "identity-resolution-decay",
+        "agent-safe-execution",
+        "cross-channel-incrementality"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Judgment That Won't Compile",
+      "plain": "The hardest calls turn on meaning and context: whether a picture next to a headline implies a promise, whether evidence really backs a claim, whether two teams can both be right about what a word means. No rule set captures that, so the models shrink human judgment into a smaller, safer box instead of removing it.",
+      "evidence": "The content governance answers said approved claims can still combine into a false message and that liability hinges on tone and implication, while the semantic layer answers call conflicting definitions of customer an organizational fight wearing a data costume.",
+      "problem_ids": [
+        "genai-content-governance",
+        "semantic-context-layer",
+        "cross-channel-journey-orchestration"
+      ],
+      "trend": "steady"
+    }
+  ]
+}
