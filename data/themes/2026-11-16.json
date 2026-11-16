@@ -1,0 +1,106 @@
+{
+  "date": "2026-11-16",
+  "generated_at": "2026-11-16T16:20:39.016Z",
+  "provenance": {
+    "prompt_version": "2026-11-02.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-05-16",
+    "to": "2026-11-16",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08",
+      "2026-09",
+      "2026-10",
+      "2026-11"
+    ],
+    "solution_days": 90
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 33280,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1753,
+    "output_tokens_details": {
+      "thinking_tokens": 330
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+  },
+  "themes": [
+    {
+      "name": "No Ground Truth to Measure Against",
+      "plain": "Most of these problems have no answer key, and the thing being measured often moves while you measure it. So the models start small: a fixed panel of buyer questions, a consented panel of real people, or a holdout they leave running forever, just to have something honest to grade against.",
+      "evidence": "On answer engine optimization all three models propose repeating the same real buyer questions daily because answers are non-deterministic and drift between runs; the same reflex appears in cross-channel incrementality with always-on randomized holdouts, in identity resolution with a consented device panel, and in content governance with a test set built from past reviewer rejections.",
+      "problem_ids": [
+        "aeo",
+        "cross-channel-incrementality",
+        "identity-resolution-decay",
+        "genai-content-governance",
+        "b2b-buying-group-signal-loss",
+        "generative-ad-supply-integrity"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data, a message, a dollar, or a piece of content leaves your own systems, you cannot look inside the partner, ad platform, or trained model that now holds it. The best anyone offers is watching from outside: planting fake records, expiring every list you send, or judging results only by outcomes you can see yourself.",
+      "evidence": "On downstream consent and deletion the models fall back to canary profiles, fourteen-day list expiry, and one gate at every exit because trained models cannot unlearn a person; the same opacity drives answer engine optimization (hidden weights and retrieval), incrementality (platforms control both treatment and evidence), and ad supply integrity (judging spend against your own sales records).",
+      "problem_ids": [
+        "consent-enforcement-downstream",
+        "aeo",
+        "cross-channel-incrementality",
+        "generative-ad-supply-integrity",
+        "identity-resolution-decay"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Judgment That Won't Compile",
+      "plain": "The hardest calls are about meaning and worth, not data: whether a headline implies a promise, whether evidence really backs a claim, what the word customer means, what one more message is worth. No formula settles these, because the disagreement has budget attached.",
+      "evidence": "In generative content governance the models agree that implied claims formed by an image next to a headline cannot be checked by any registry; in the semantic context layer they call conflicting definitions of active customer a political settlement wearing a data costume; in journey orchestration they say no objective function for a message is politically neutral.",
+      "problem_ids": [
+        "genai-content-governance",
+        "semantic-context-layer",
+        "cross-channel-journey-orchestration"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust who is acting or what happens next, they build one door they own and push everything through it. A sent email, a spent dollar, or an exported list cannot be called back, so the only real control happens before the action leaves.",
+      "evidence": "On safe agent execution every model builds a proxy or gateway with hard spend, rate, and audience caps because sends and spend cannot be rolled back; the same single-gate move shows up in downstream consent enforcement (cut direct credentials, route all exports through one checkpoint) and in journey orchestration (one shared send log with veto power).",
+      "problem_ids": [
+        "agent-safe-execution",
+        "consent-enforcement-downstream",
+        "cross-channel-journey-orchestration",
+        "semantic-context-layer"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Incentives Before Standards",
+      "plain": "Many of these problems stall because the party holding the answer gains nothing by sharing it, and nobody can force them. So the models either try to make honesty pay better than hiding, or they stop waiting for cooperation and work with only what they already own.",
+      "evidence": "On agentic traffic the models build a fast declared-agent lane with perks rather than a standard, since agents profit by passing as human; channel owners in journey orchestration are described as subverting coordination that cuts their credited numbers, platform gatekeepers in identity resolution profit from fragmentation, and in ad supply integrity the parties measuring fraud often profit from the traffic.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "cross-channel-journey-orchestration",
+        "identity-resolution-decay",
+        "generative-ad-supply-integrity",
+        "cross-channel-incrementality"
+      ],
+      "trend": "steady"
+    }
+  ]
+}
