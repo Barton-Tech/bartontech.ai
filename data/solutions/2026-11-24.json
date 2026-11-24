@@ -1,0 +1,608 @@
+{
+  "date": "2026-11-24",
+  "month": "2026-11",
+  "board_month": "2026-11",
+  "board_rank": 1,
+  "generated_at": "2026-11-24T01:11:44.279Z",
+  "provenance": {
+    "prompt_version": "2026-11-02.1",
+    "samples_per_question": 3,
+    "harness_version": 1
+  },
+  "problem": {
+    "canonical_id": "cross-channel-incrementality",
+    "canonical_name": "Cross-Channel Incrementality and Causal Measurement",
+    "plain": "proving which ads actually worked"
+  },
+  "default_format": "cmo-memo",
+  "formats": [
+    {
+      "format": {
+        "id": "cmo-memo",
+        "label": "A memo to a CMO",
+        "instruction": "Write it as a short internal memo to a chief marketing officer. Plain language, no jargon they would have to look up. Around 120 words."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Memo — Measurement after the black box\n\nI'd stop trying to audit the platforms. We won't win that; the data is withheld on purpose. Instead I'd treat each platform as a dial we test, not a report we read.\n\nThree moves. First, make experiments routine, not special: a standing calendar of geo splits and budget on/off shocks running continuously, so reads accumulate instead of being commissioned. Second, use the model (Meridian or similar) only as bookkeeping between those reads — not as the answer. Third, accept coarser resolution. We can learn what a channel's budget is worth; we probably can't learn which creative or query did it, and chasing that burns the year.\n\nWhat I expect to hit: small channels will stay unmeasurable, and mid-flight optimization changes will keep invalidating older reads. I'd plan to say \"we don't know\" about maybe a third of spend rather than dress up a number.\n\nHonest disagreement: better modeling isn't the fix. Test volume is.",
+          "first_move": "Put a standing calendar of on/off and geo-split tests in place for our biggest channels, starting this quarter.",
+          "hardest_part": "The platforms keep changing how they optimize while we're measuring, so any answer we get describes a system that no longer exists.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 948,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 680,
+            "output_tokens_details": {
+              "thinking_tokens": 244
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "To: CMO\n\nI would not promise a universal attribution model. The missing data and changing platform behavior make that impossible today. I would build a decision system instead: run a small, permanent program of randomized holdouts across customers or markets, rotating channels and budget levels so evidence accumulates over time. Use those tests as anchors, then use marketing-mix models only to estimate between tested points—not as ground truth.\n\nEvery recommendation would show a range, the assumptions behind it, and the spend decision that would change the conclusion. We would detect major platform shifts and temporarily discount older evidence. Models would be judged by whether they predict later holdouts, not by fit or vendor reputation.\n\nThe likely result is fewer precise answers, but more defensible budget decisions. Some channels will remain unmeasurable at normal spend levels.",
+          "first_move": "List the budget decisions we need to make and identify where a clean holdout is actually possible.",
+          "hardest_part": "The hardest part is separating true advertising effects from platform behavior that changes during the measurement period.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 464,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cache_write_tokens_details": {
+                "ttl_12h_tokens": 0,
+                "ttl_30m_tokens": 0
+              },
+              "cached_tokens": 0
+            },
+            "output_tokens": 416,
+            "output_tokens_details": {
+              "reasoning_tokens": 184
+            },
+            "total_tokens": 880
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "We need to stop searching for a magic attribution formula; it does not exist with today's black-box ad platforms. Instead of trying to measure total causation after the fact with modeled dashboards, I would force these systems to reveal their marginal value through coordinated shock tests. We would intentionally starve and surge budgets in rotating waves across channels, measuring the net impact directly on top-line business revenue rather than platform reports. You will likely find that automated campaigns are quietly claiming credit for people who were already going to buy. Our goal is not a tidy measurement dashboard; it is discovering the exact spending threshold where an extra dollar stops producing a real, net-new customer.",
+          "first_move": "Cut ad spend sharply in one representative region for two weeks and watch whether top-line business sales actually decline.",
+          "hardest_part": "The ad networks constantly shift their bidding algorithms in the background, meaning the system changes the moment you start testing it.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 336,
+            "candidatesTokenCount": 213,
+            "totalTokenCount": 1429,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 336
+              }
+            ],
+            "thoughtsTokenCount": 880,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "three-moves",
+        "label": "Three moves",
+        "instruction": "Give exactly three moves, in order. One sentence each, then one sentence on what makes that move hard. Nothing else."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "1. Stop trying to measure channels or placements and instead instrument the only causal lever the platforms left you — the budget/target setting itself — by building an always-on randomized perturbation schedule (geo switchbacks, budget jitter, staggered market rollouts) into the normal buying cadence, so measurement is a standing process rather than a six-week study you have to beg for. Hard part: it requires the org to deliberately spend suboptimally every week forever, and the platforms' learning phases create carryover that contaminates fast switchbacks, so you have to burn calendar time on washout periods you can't easily justify.\n2. Make one server-side, deduped, geo- and timestamp-stamped outcome log the single ground truth, and demote platform-reported conversions to a covariate — an input that predicts your outcome — rather than a number you reconcile against. Hard part: the log's quality is bounded by your own identity resolution and conversion lag, offline and long-lag outcomes are nearly invisible at geo granularity, and killing the \"but the platform says 6x\" conversation is a political fight, not a technical one.\n3. Replace the annual MMM deliverable with a continuously-refit state-space model whose priors are updated from the live experiment stream, and hold it to one standard: it must predict the result of the next scheduled perturbation before that perturbation runs, or you don't act on it. Hard part: non-stationarity makes \"the platform changed its behavior\" and \"the market changed\" formally unidentifiable without more experimental power than most budgets can buy, so the intervals stay wide and you have to renegotiate what the model is for — direction and rough magnitude of the next reallocation, not a ROAS figure.",
+          "first_move": "Start randomizing budget changes across geos on a fixed weekly schedule, as part of normal buying, not as a special test.",
+          "hardest_part": "The platforms keep changing their own optimization behavior mid-flight, which means the thing you are measuring is not a fixed object and any estimate has a short shelf life.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 938,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1580,
+            "output_tokens_details": {
+              "thinking_tokens": 903
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Move 1: Build an advertiser-owned outcome spine, define decision-specific incremental estimands, and run continuous randomized micro-perturbations across eligible geographies, audiences, times, and budget levels rather than occasional channel-wide holdouts. This is hard because auction interference, low signal, platform learning, and ethical or commercial constraints can invalidate nominal randomization. Move 2: Fit a hierarchical dynamic causal model that pools those weak experiments with observational data, treats each platform’s optimization policy as time-varying, and reports partial-identification bounds rather than pretending to produce stable channel-level truth. This is hard because hidden policy changes and cross-channel substitution can leave the effects so weakly identified that the honest bounds are not operationally useful. Move 3: Validate the system prospectively by preregistering forecasts for randomized budget reallocations, scoring calibration and decision regret, and steering spend only where competing models agree or exploration can resolve disagreement. This is hard because there is no accepted benchmark, and proving that a measurement system improves decisions requires costly repetition while the platforms themselves keep changing.",
+          "first_move": "Create independent outcome data and begin small randomized spend perturbations.",
+          "hardest_part": "The hardest issue is identifying causal effects when platforms adapt to the experiment and conceal the mechanisms producing exposure.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 455,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cache_write_tokens_details": {
+                "ttl_12h_tokens": 0,
+                "ttl_30m_tokens": 0
+              },
+              "cached_tokens": 0
+            },
+            "output_tokens": 700,
+            "output_tokens_details": {
+              "reasoning_tokens": 427
+            },
+            "total_tokens": 1155
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. Move: Execute high-amplitude budget pulsing across segregated regions or product lines to manufacture the deliberate spend variance that black-box algorithms normally suppress. Hard part: Forcing massive spend volatility deliberately sabotages the platform machine-learning phase and burns short-term performance to buy statistical power. 2. Move: Restrict all conversion signals fed back to ad networks to strictly new-to-brand, offline-cleared transactions to penalize the algorithms for harvesting existing intent. Hard part: Starving the platforms of high-volume conversion density causes bidding models to lose calibration and drive up customer acquisition costs before any incremental signal is recovered. 3. Move: Repurpose marketing mix modeling strictly as a refutation engine that detects when platform-claimed conversions exceed physical, non-brand organic reality rather than relying on it for forward-looking budget allocation. Hard part: Leadership expects causal measurement to yield exact spend recommendations, but refutation only tells you what is mathematically impossible without proving what will work next.",
+          "first_move": "I would run scheduled, high-amplitude spend cuts on single channels to force measurable drops in total company revenue.",
+          "hardest_part": "Proving causality requires intentionally breaking the algorithm's optimization loop, which burns immediate revenue for diagnostic certainty.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 325,
+            "candidatesTokenCount": 278,
+            "totalTokenCount": 1577,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 325
+              }
+            ],
+            "thoughtsTokenCount": 974,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "pseudocode",
+        "label": "Pseudocode",
+        "instruction": "Express the approach as short annotated pseudocode. The comments should carry the reasoning; the code should carry the structure. Around 15 lines."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "# Position: stop trying to attribute the black box. Treat the platform as an agent you perturb,\n# not a channel you decompose. The obvious answer (geo-calibrated MMM) inverts the hierarchy --\n# it makes the model the truth and experiments the garnish. I'd do the reverse.\n\nESTIMAND = d(profit)/d(spend) at current spend   # marginal, not average ROAS. Average needs the whole\n                                                 # response curve; every real decision only needs the slope.\n                                                 # Slope is ~5-10x cheaper to power. Most teams are\n                                                 # underpowered for a question they didn't need answered.\n\nalways_on_perturbation:                          # not a test calendar -- a permanent +/-10-15% budget oscillation\n  cells = stratify(geos, on=baseline_variance)   # match on outcome variance, not population. Pop-matching is\n                                                 # why so many geo tests come back inconclusive.\n  assign(cells, randomized_phase_switchback)     # staggered, never a clean on/off. Continuous cheap reads beat\n                                                 # quarterly expensive ones and survive mid-flight platform changes.\n\nstate_space_layer:                               # demote MMM from oracle to interpolator between experiments\n  theta_t ~ random_walk(theta_{t-1})             # non-stationarity is the prior, not a violated assumption\n  theta_t |= experiment_posterior                # experiments are the likelihood; the model only fills gaps\n  if CUSUM(residuals) > k: declare_regime_break  # platform changed behavior. Drop pre-break pooling.\n                                                 # Don't average through a discontinuity and call it a trend.\n\nvalidation:                                      # the actually missing piece, and the cheapest to build\n  pre-register a point forecast of each upcoming experiment's lift, from every model and vendor\n  score = log_score(forecast, realized_lift)     # out-of-sample prediction of a future experiment is the only\n  retire(model) if score < naive_90day_prior     # credential that means anything. Fit quality is not evidence.\n\nsteering_layer:                                  # what control actually remains\n  randomize at boundaries you still own: asset_group, feed segment, campaign split, conversion-value signal\n  use offline_conversion_feed as the throttle    # you can't see placements, but you decide what it optimizes toward\n  log every platform-side change as a covariate  # your own change-log is now your only observability\n\nexpected_failure_modes:                          # I expect to hit all three\n  platform reallocates across holdout cells -> SUTVA breaks, lift biased toward zero, no clean fix\n  learning-phase resets give carryover of unknown length -> switchback intervals are guesswork for a while\n  sub-scale advertisers never clear the noise floor -> honest answer is pooled consortium priors, not own data.\n  Shipping them a wide credible interval labeled 'the answer' is worse than telling them to stop measuring.",
+          "first_move": "List the two or three budget decisions we actually make each quarter, and check whether our spend could ever detect the difference between the options.",
+          "hardest_part": "The thing you're perturbing reacts to being perturbed — the platform re-optimizes across your holdout, so the clean control group you think you have quietly stops existing.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 947,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 2991,
+            "output_tokens_details": {
+              "thinking_tokens": 1846
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "objective = \"decision-grade marginal lift\"          # Reject the impossible goal of reconstructing hidden platform attribution.\nledger = build_independent_event_ledger()             # Join spend, eligibility, exposure proxies, conversions, consent, and platform changes.\nquestions = rank_budget_and_policy_decisions()         # Measurement should resolve actions, not assign universal channel credit.\nunits = choose_randomizable_units()                    # Use users, audiences, time blocks, geos, or auctions depending on available controls.\nfor channel in channels:\n    test = design_persistent_micro_holdout(channel)     # Small, repeated tests may pool better than occasional large geo experiments.\n    assign(test, outside_platform_when_possible)        # Platform-owned assignment and reporting cannot independently validate causality.\n    log_assignment_delivery_and_noncompliance(test)     # Intent-to-treat remains identifiable when delivery is opaque or incomplete.\n    vary_budget_or_eligibility(test)                    # Estimate the response curve; a single on/off lift estimate steers poorly.\nmodel = fit_dynamic_hierarchical_model(ledger, tests)   # Partially pool weak tests while allowing effects and platform policy to drift.\nmodel.include_interference_and_carryover()              # Auctions, retargeting, substitution, and delayed conversion violate simple assumptions.\nmodel.anchor_only_to_randomized_evidence()              # MMM and observational signals can interpolate, but should not manufacture truth.\nscore = prospective_prediction_and_test_recovery(model) # Backtests alone reward models that explain history without identifying lift.\nif vendors_disagree(score): expose_disagreement()       # Do not average incompatible answers into false precision.\naction = optimize_under_uncertainty(model)              # Shift budget only where robust downside and opportunity cost justify it.\nrepeat_with_sentinels_and_change_points()               # Platform behavior is part of the treatment and can change without notice.\npublish_methods_failures_and_benchmark_cases()          # The field needs falsifiable standards more than another proprietary attribution score.",
+          "first_move": "I would build an independent assignment and outcome ledger around one budget decision we can actually randomize.",
+          "hardest_part": "The genuinely hard part is creating enough independent treatment variation when platforms control delivery, users cross channels, and the treatment policy changes during measurement.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 458,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cache_write_tokens_details": {
+                "ttl_12h_tokens": 0,
+                "ttl_30m_tokens": 0
+              },
+              "cached_tokens": 0
+            },
+            "output_tokens": 719,
+            "output_tokens_details": {
+              "reasoning_tokens": 237
+            },
+            "total_tokens": 1177
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "# Don't fit static MMM to moving targets; treat black boxes as dynamic feedback loops.\ndef bound_incrementality(platforms, total_revenue, brand_demand_index):\n    # 1. Disagree with attribution: track total revenue against un-ad-supported organic demand proxies.\n    macro_baseline = isolate_unexposed_cohorts(total_revenue, brand_demand_index)\n    \n    for p in platforms:\n        # 2. Geo holdouts take too long; inject brief, coordinated budget step-downs (shocks).\n        # Shock must be short (3-5 days) to observe lift before platform reallocates internal inventory.\n        delta_spend, delta_rev = inject_budget_shock(p, duration_days=4)\n        \n        # 3. Reject point estimates: measure only directional marginal cost per incremental sale.\n        p.marginal_efficiency_bound = delta_rev / delta_spend\n    \n    # 4. Synthesize into partial identification bounds (Manski bounds), not exact channel weights.\n    # If bounds overlap heavily, the signal is lost: admit uncertainty rather than overfit an MMM.\n    return construct_actionable_spend_corridors(macro_baseline, platforms)",
+          "first_move": "Cut budget drastically in a few small, representative markets for four days to see if total revenue actually drops.",
+          "hardest_part": "Platforms are adaptive control loops that immediately reallocate bidding to cannibalize organic demand or other channels the moment you alter any spend variable, erasing the counterfactual.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 329,
+            "candidatesTokenCount": 346,
+            "totalTokenCount": 1692,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 329
+              }
+            ],
+            "thoughtsTokenCount": 1017,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "checklist",
+        "label": "A checklist",
+        "instruction": "Give a checklist someone could actually run next quarter. Each item concrete enough to be marked done or not done. Six items at most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Checklist for next quarter — premise first: you cannot decompose a black box from the outside, so stop trying to recover placement/query/creative causality and move identification to the layers you control (budget, geography, the value signal you send back, and your own randomized creative tests). Where I disagree with the standard advice: (a) don't start with MMM and then \"calibrate it with experiments\" — build the experiment program first and treat MMM as interpolation between tests, not as the measurement system; (b) the bigger near-term win is usually improving the objective you hand the platform, not auditing what it did; (c) a documented \"we cannot measure this at this spend\" is a better deliverable than a wide credible interval.\n\n1. MDE register (2 weeks). For every channel/platform, compute minimum detectable lift given current spend, conversion volume, baseline variance and realistic test length, using your own historical geo data — not a vendor calculator. Publish the list splitting channels into measurable-by-experiment, measurable-only-in-aggregate, and not-measurable-at-this-budget. Done = signed one-pager naming which channels you will stop producing causal numbers for.\n2. Identification by design in the account (4–6 weeks). Restructure so the things you need separated are separated at the campaign/account level: brand vs non-brand, prospecting vs retargeting, each major geo cell its own spend-capped unit. PMax/Advantage+ will not give you decomposition, so buy it structurally. Done = new structure live and a written map of which business question each campaign unit answers.\n3. One always-on geo holdout, spend-controlled (live by week 6, read all quarter). Pick your largest platform, randomized blocked geo split (not matched-market handpicking), 10–15% holdout, and — the part most teams get wrong — hard spend caps or separate accounts so suppressed budget cannot be silently reallocated into treatment cells. Verify spend parity weekly; a drifted budget means you measured reallocation, not absence. Done = 12 weeks of continuous reads plus a documented spend-parity check.\n4. Fix the input, not just the audit (6 weeks). Send back your own margin- or LTV-weighted conversion values, and where you have a defensible lift estimate from item 3, discount the value you report for incrementality (especially retargeting and brand). Done = value-based bidding live on ≥1 major platform with a documented value definition, plus a before/after contribution-margin read.\n5. MMM as a versioned, refutable artifact (ongoing). Lock one spec, one vendor-independent implementation, and attach two acceptance tests: out-of-sample forecast backtest on held-out weeks, and \"did it predict the lift the next experiment found, within interval?\" Maintain a platform change log (optimization/product changes, campaign diffs, major creative shifts) as dated events and allow time-varying coefficients around them. Done = model repo with versioned runs, a backtest score, and at least one documented case where an experiment contradicted the model and the model was revised.\n6. Pre-registered decision rules (2 weeks, then enforced). Before reads land, write what budget action follows which result, including what happens when MMM and experiment disagree (experiment wins within its scope; MMM governs only unmeasurable channels and allocation between them). Done = decision rules agreed by finance and media, and at least one budget move executed under them.\n\nWhat I expect to go wrong: geo spillover and national brand effects will bias holdouts toward understating lift; platforms will change behavior mid-quarter and some reads will be unusable; your credible intervals will still be wide enough that finance will dislike them; and at small budgets items 1 and 6 may be the only honest outputs. That is still a better position than modeled conversions.",
+          "first_move": "Calculate, from our own data, the smallest lift each channel could detect at current spend — and publish the list of channels we therefore cannot measure.",
+          "hardest_part": "When you suppress spend in a holdout, an AI-optimized campaign just moves that budget somewhere else, so you are measuring reallocation rather than the absence of advertising — and the platform won't tell you it happened.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 941,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 3074,
+            "output_tokens_details": {
+              "thinking_tokens": 1691
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "- [ ] **Weeks 1–2: Define three decision-grade estimands.** For each, document the intervention, outcome window, unit, minimum detectable lift, and resulting action—such as “increase/decrease channel budget by 20%.” Explicitly exclude placement- and creative-level causality when the platform exposes no controllable intervention.\n- [ ] **Weeks 1–4: Build an independent measurement spine.** Reconcile server-side outcomes, spend, budgets, bids, consent coverage, promotions, pricing, inventory, and platform-reported conversions daily. Version every data revision and maintain a dated log of platform or campaign-setting changes; flag unexplained discontinuities as regime changes rather than smoothing them away.\n- [ ] **Weeks 3–8: Design a portfolio of small randomized perturbations.** Pre-register power and interference assumptions, then run only tests capable of changing a decision: randomized geo budget pulses, matched-market switchbacks, or randomized audience eligibility where permitted. Record tests that fail the power threshold as “not identifiable,” rather than extending them until they produce significance.\n- [ ] **Weeks 4–10: Create a blinded model-validation harness.** Give MMM and causal-time-series candidates identical frozen inputs without revealing experimental results. Score their out-of-sample predictions against randomized lift on sign, interval coverage, calibration, and decision loss—not fit or ROAS similarity. Include simple baselines and reject any model that cannot beat them consistently.\n- [ ] **Weeks 7–12: Fit regime-aware models and preserve disagreement.** Allow channel effects to vary around documented platform changes, use experiments as uncertain calibration evidence rather than exact truth, and publish the range across defensible specifications. Do not average incompatible models into a falsely precise answer.\n- [ ] **By quarter end: Ship a steering policy, not an attribution product.** For each channel, classify the evidence as increase, decrease, maintain, or unknown; state the next perturbation needed to reduce uncertainty; and set automatic re-testing triggers for major platform changes. The realistic output is better budget decisions with explicit uncertainty—not proof of which hidden placement, query, or creative “worked.”",
+          "first_move": "Write down the exact budget decisions the measurement system must support.",
+          "hardest_part": "The hardest part is that platform optimization changes in response to the intervention, so the causal effect is both partially hidden and unstable over time.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 457,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cache_write_tokens_details": {
+                "ttl_12h_tokens": 0,
+                "ttl_30m_tokens": 0
+              },
+              "cached_tokens": 0
+            },
+            "output_tokens": 823,
+            "output_tokens_details": {
+              "reasoning_tokens": 317
+            },
+            "total_tokens": 1280
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "1. [ ] Exclude branded search queries and existing customer match lists from all automated black-box campaigns (PMax, Advantage+) to block platforms from claiming organic baseline revenue. 2. [ ] Build a daily automated ingestion table of first-party order revenue, total ad spend by platform, and site sessions, completely discarding ad-platform reported conversion pixels. 3. [ ] Execute a hard 50% budget cut on your highest-spend automated platform for 7 days to force an observable step-change shock in top-line revenue. 4. [ ] Fit a simple Bayesian structural time-series model purely to determine whether the revenue drop during the cut exceeded baseline noise, treating the output as broad directional boundaries rather than precise ROAS point estimates. 5. [ ] Run a two-cell geo split testing that single channel's spend on a simple on/off schedule across clustered DMAs to sanity-check the time-series elasticity. 6. [ ] Set an explicit, pre-agreed marginal acquisition cost ceiling with finance, automatically reallocating budget away from any black-box channel whose lower credible bound fails that threshold.",
+          "first_move": "Shut off paid branded search and retargeting audiences for two weeks to measure your genuine baseline conversions.",
+          "hardest_part": "Automated bidding systems actively adapt to target users who are already intending to purchase, meaning the unobserved baseline changes dynamically with every bid adjustment.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 327,
+            "candidatesTokenCount": 317,
+            "totalTokenCount": 2013,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 327
+              }
+            ],
+            "thoughtsTokenCount": 1369,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "fifty-words",
+        "label": "Fifty words",
+        "instruction": "Fifty words or fewer. No preamble, no caveats. The compression is the point: keep only what you would keep if you could keep one thing."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Stop measuring channels; measure the only lever left — spend. Run permanent, always-on randomized geo holdouts as a standing 5% tax, staggered and switchbacked so reads compound instead of restarting. Use MMM only as a prior stitching those experiments together. Expect interference, drifting effects, and politically unacceptable deliberate underspend.",
+          "first_move": "Carve out a permanent randomized holdout set of geos before running any analysis.",
+          "hardest_part": "The platform keeps changing what it does, so every causal estimate decays before it's actionable.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 945,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 336,
+            "output_tokens_details": {
+              "thinking_tokens": 135
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Don’t build another MMM. Create an intervention ledger: randomized budget, timing, and geo perturbations tied to server-side outcomes. Fit time-varying causal models, require placebo tests and forecast validation, expose identification limits, and steer only where experiments repeatedly agree.",
+          "first_move": "Secure persistent randomized controls platform-wide.",
+          "hardest_part": "Platform adaptation contaminates controls and generalization.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 462,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cache_write_tokens_details": {
+                "ttl_12h_tokens": 0,
+                "ttl_30m_tokens": 0
+              },
+              "cached_tokens": 0
+            },
+            "output_tokens": 1446,
+            "output_tokens_details": {
+              "reasoning_tokens": 1352
+            },
+            "total_tokens": 1908
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Stop trying to model black-box causality. Accept non-stationarity and run high-velocity budget-pulsing switchbacks against raw revenue baselines. Treat platforms as uncooperative agents: probe incrementality by starving them abruptly at the margin to observe macro response, abandoning continuous attribution and curve-fitting entirely.",
+          "first_move": "Cut off spend entirely across several isolated small territories to establish true zero-base incrementality.",
+          "hardest_part": "Platforms re-optimize in real time against your test interventions, changing bidding behavior the moment you try to measure them.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 330,
+            "candidatesTokenCount": 123,
+            "totalTokenCount": 1146,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 330
+              }
+            ],
+            "thoughtsTokenCount": 693,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "haiku",
+        "label": "A haiku",
+        "instruction": "Three lines, 5-7-5 syllables. A severe constraint on a serious problem: what survives the compression is what you actually think matters most."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Stop auditing ghosts —\nspend is the switch, always on;\ndecay what we learned.",
+          "first_move": "Turn budget itself into the experiment: run permanent, rotating geo on/off switchbacks on every meaningful channel so a read is always in flight rather than commissioned.",
+          "hardest_part": "The thing we want to measure is an adaptive system that reacts to being measured, so any estimate decays the moment the platform retunes — there is no stable truth to converge on, only a half-life.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 946,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 484,
+            "output_tokens_details": {
+              "thinking_tokens": 305
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Test small budget shocks\nPool weak tests across markets\nNo ground truth appears",
+          "first_move": "I would run small randomized budget shocks.",
+          "hardest_part": "Platform drift and missing audit data make causal estimates impossible to validate conclusively.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 463,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cache_write_tokens_details": {
+                "ttl_12h_tokens": 0,
+                "ttl_30m_tokens": 0
+              },
+              "cached_tokens": 0
+            },
+            "output_tokens": 580,
+            "output_tokens_details": {
+              "reasoning_tokens": 516
+            },
+            "total_tokens": 1043
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Starve the black box spend, / Watch where sales fall to the floor, / Pain reveals the truth.",
+          "first_move": "Cut automated campaign spend to zero in an isolated market and observe total company revenue.",
+          "hardest_part": "Algorithms punish discontinuous spend by resetting their bidding state, so turning campaigns back on degrades future performance.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 332,
+            "candidatesTokenCount": 76,
+            "totalTokenCount": 2078,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 332
+              }
+            ],
+            "thoughtsTokenCount": 1670,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "format": {
+        "id": "lullaby",
+        "label": "A lullaby",
+        "instruction": "Write it as a short lullaby: three or four gentle rhyming couplets someone could actually sing. Soft on the surface, honest underneath. The problem is still unsolved when the song ends, and the song should know it."
+      },
+      "answers": [
+        {
+          "provider": "anthropic",
+          "label": "Claude",
+          "model": "claude-opus-5",
+          "approach": "Hush now, the dashboard is certain and bright,\nit swears that it caused every click of the night.\n\nSo we'll darken small cities and light them again,\na slow, rolling switchback that never quite ends.\n\nThe mix model listens — it won't be the judge,\njust a prior we feed when the small tests won't budge.\n\nAnd the box will relearn while we're learning its shape,\nso we measure our choices, not truths we can't make.\n\nSleep, love. The answer's still out past the hill;\nwe sing what we're sure of — and it isn't much still.",
+          "first_move": "Turn on one always-on, rolling geo holdout before touching a single model.",
+          "hardest_part": "The thing you're measuring rewrites its own behavior in response to being measured, so there's no stable ground truth to converge on — only a moving one you have to keep re-reading.",
+          "confidence": "medium",
+          "usage": {
+            "input_tokens": 970,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 1434,
+            "output_tokens_details": {
+              "thinking_tokens": 1134
+            },
+            "service_tier": "standard",
+            "inference_geo": "global",
+            "speed": "standard"
+          }
+        },
+        {
+          "provider": "openai",
+          "label": "ChatGPT",
+          "model": "gpt-5.6-sol",
+          "approach": "Hush now, choose one spend decision, not one truth for all display;\nName its outcome, clock, and action ere the models have their say.\n\nKeep a neutral event spine, and log each platform shift in time;\nRun small switchbacks, ghosts, or geos only where the power can climb.\n\nPool those trials to grade—not crown—a drifting causal-model choir;\nPublish blind benchmarks and honest bounds, not certainty for hire.\n\nWhen the holdouts whisper faintly, “unknown” may be the truest view;\nThe box keeps changing as we measure, so the song stays unsolved too.",
+          "first_move": "I would first define one spend decision and the outcome that would change it.",
+          "hardest_part": "The hardest part is obtaining independent causal variation while platforms continuously alter both exposure and optimization.",
+          "confidence": "medium",
+          "sources": [],
+          "usage": {
+            "input_tokens": 479,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cache_write_tokens_details": {
+                "ttl_12h_tokens": 0,
+                "ttl_30m_tokens": 0
+              },
+              "cached_tokens": 0
+            },
+            "output_tokens": 1042,
+            "output_tokens_details": {
+              "reasoning_tokens": 854
+            },
+            "total_tokens": 1521
+          }
+        },
+        {
+          "provider": "google",
+          "label": "Gemini",
+          "model": "gemini-3.7-flash",
+          "approach": "Hush now, turn the budget low, and watch where buyers choose to go. The black box hums its private song, claiming credit all along. We fit our curves through shifting sand, and hold a ghost inside our hand. Sleep tonight while models pray; the truth still slips away by day.",
+          "first_move": "Turn off spending completely in a few isolated regions to see what baseline sales look like when the algorithm is blind.",
+          "hardest_part": "The platform is actively hunting for people who were already about to buy, making it impossible to separate genuine persuasion from sheer prediction without breaking the system entirely.",
+          "confidence": "low",
+          "sources": [],
+          "usage": {
+            "promptTokenCount": 347,
+            "candidatesTokenCount": 147,
+            "totalTokenCount": 1609,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 347
+              }
+            ],
+            "thoughtsTokenCount": 1115,
+            "serviceTier": "standard"
+          }
+        }
+      ],
+      "failures": []
+    }
+  ]
+}
