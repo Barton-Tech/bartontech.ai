@@ -1,0 +1,103 @@
+{
+  "date": "2026-11-25",
+  "generated_at": "2026-11-25T17:33:56.055Z",
+  "provenance": {
+    "prompt_version": "2026-11-02.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-05-25",
+    "to": "2026-11-25",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08",
+      "2026-09",
+      "2026-10",
+      "2026-11"
+    ],
+    "solution_days": 99
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 36299,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1940,
+    "output_tokens_details": {
+      "thinking_tokens": 730
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+  },
+  "themes": [
+    {
+      "name": "No Ground Truth to Measure Against",
+      "plain": "Most of these problems have no answer key, and the thing being measured often changes while you measure it. So the models start by building a small set of cases they can actually verify, then grade everything else against that.",
+      "evidence": "On answer engine optimization all three models propose repeated prompt panels or crawler logs while admitting there is no stable baseline, and the same gap appears in cross-channel incrementality, identity resolution, generative content review, and B2B buying-group signal loss.",
+      "problem_ids": [
+        "aeo",
+        "cross-channel-incrementality",
+        "identity-resolution-decay",
+        "genai-content-governance",
+        "b2b-buying-group-signal-loss"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "Judgment That Won't Compile",
+      "plain": "The hardest calls are about meaning and worth, not data: whether an image next to a headline implies a promise, whether evidence really backs a claim, what the word customer means, what a message is worth. No formula settles these, because the disagreement usually has budget attached.",
+      "evidence": "In generative content review the models keep returning to implied claims that no checker sees, in the semantic context layer they call conflicting definitions of customer a political settlement, and in journey orchestration they say nobody can agree what a message is worth.",
+      "problem_ids": [
+        "genai-content-governance",
+        "semantic-context-layer",
+        "cross-channel-journey-orchestration"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust who is acting or what happens next, they build one door they own and push everything through it. A sent email or a spent dollar cannot be called back, so the only real control happens before the action leaves.",
+      "evidence": "Every agent execution answer proposes a proxy, gateway, or broker with hard spend and audience caps, consent enforcement answers route all data exits through a single checkpoint, and journey orchestration answers build one shared contact ledger that every channel must check before sending.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "consent-enforcement-downstream",
+        "cross-channel-journey-orchestration",
+        "semantic-context-layer"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data, a dollar, or a message leaves your own systems, you cannot look inside the partner, ad platform, or trained model that now holds it. The best anyone offers is watching from the outside: lists that expire, planted test records, and judging spend against your own sales data.",
+      "evidence": "Consent and deletion answers describe walled gardens and trained models that cannot be read back or made to unlearn, incrementality answers say platforms control both the treatment and the evidence, and ad supply integrity answers shift judgment to first-party sales records.",
+      "problem_ids": [
+        "consent-enforcement-downstream",
+        "cross-channel-incrementality",
+        "generative-ad-supply-integrity",
+        "aeo"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Incentives Before Standards",
+      "plain": "Many of these problems stall because the party holding the answer gains nothing by handing it over, and no one can force them. So the models either try to make honesty pay better than hiding, or they stop waiting for cooperation and work only with what they already own.",
+      "evidence": "Agentic traffic answers build fast lanes and discounts so declaring beats pretending to be human, identity resolution answers note that platform owners profit from broken cross-device links, and journey orchestration answers warn that channel owners subvert coordination that lowers their credited numbers.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "identity-resolution-decay",
+        "cross-channel-journey-orchestration",
+        "generative-ad-supply-integrity"
+      ],
+      "trend": "steady"
+    }
+  ]
+}
