@@ -1,0 +1,103 @@
+{
+  "date": "2026-11-26",
+  "generated_at": "2026-11-26T17:15:49.127Z",
+  "provenance": {
+    "prompt_version": "2026-11-02.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-05-26",
+    "to": "2026-11-26",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08",
+      "2026-09",
+      "2026-10",
+      "2026-11"
+    ],
+    "solution_days": 100
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 36688,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1518,
+    "output_tokens_details": {
+      "thinking_tokens": 243
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+  },
+  "themes": [
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust who is acting or what will happen next, they build one door they own and force every action through it. A sent email or a spent dollar cannot be called back, so the only real control happens before the action leaves.",
+      "evidence": "Every answer on safe agent execution, from August through today, starts with a proxy, gateway or broker in front of marketing tools and hard caps on spend, send rate and audience size, because vendors offer no rollback; the same instinct shows up as a single egress checkpoint for consent and deletion and a shared pre-send check in journey orchestration.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "consent-enforcement-downstream",
+        "cross-channel-journey-orchestration",
+        "semantic-context-layer"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "No Ground Truth to Measure Against",
+      "plain": "Most of these problems have no answer key, and the thing being measured often changes while you measure it. So the models start by building a small set of cases they can actually verify, then grade everything else against that.",
+      "evidence": "Answer engine work begins with a fixed panel of real buyer questions because answers are personalized and shift with each model update; identity resolution answers recruit logged-in panels since nobody knows who is really the same person; incrementality answers call the ad platform an adaptive system that re-optimizes against your own test.",
+      "problem_ids": [
+        "cross-channel-incrementality",
+        "aeo",
+        "identity-resolution-decay",
+        "b2b-buying-group-signal-loss",
+        "generative-ad-supply-integrity"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Judgment That Won't Compile",
+      "plain": "The hardest calls are about meaning and worth, not data: whether an image next to a headline implies a promise, whether evidence really backs a claim, what the word customer means, what a message is worth. No formula settles these, because the disagreement usually has budget attached.",
+      "evidence": "Content governance answers agree that implied claims and context are exactly what reviewers catch and what checkers miss; semantic layer answers call conflicting definitions of customer a political settlement rather than a modeling gap; journey orchestration answers say no objective function can price a sale against fatigue.",
+      "problem_ids": [
+        "genai-content-governance",
+        "semantic-context-layer",
+        "cross-channel-journey-orchestration"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data, a dollar, or a message leaves your own systems, you cannot look inside the partner, ad platform, or trained model that now holds it. The best anyone offers is watching from the outside.",
+      "evidence": "Consent and deletion answers converge on black-box ad platforms, expiring audience lists, planted canary profiles, and the point that a trained model cannot unlearn one person without a rebuild; ad supply answers judge spend against first-party sales rather than vendor-reported impressions.",
+      "problem_ids": [
+        "consent-enforcement-downstream",
+        "generative-ad-supply-integrity",
+        "identity-resolution-decay",
+        "agent-safe-execution"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Incentives Before Standards",
+      "plain": "Many of these problems stall because the party holding the answer gains nothing by handing it over, and no one can force them. So the models either try to make honesty pay better than hiding, or they stop waiting and work only with what they already own.",
+      "evidence": "Agentic traffic answers all note that agents gain by looking human, and propose a fast declared-agent lane with better prices or data plus labeling your own confirmed agent checkouts; channel owners are said to subvert shared orchestration when it cuts their credited numbers, and platforms are said to profit from keeping identity fragmented.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "cross-channel-journey-orchestration",
+        "identity-resolution-decay",
+        "cross-channel-incrementality"
+      ],
+      "trend": "steady"
+    }
+  ]
+}
