@@ -1,12 +1,16 @@
 {
-  // Assets-only Worker: no script entry point, Cloudflare serves dist/ directly.
-  // `npm run build` regenerates dist/ on every deploy, so the directory is
-  // gitignored and never committed.
+  // Cloudflare serves dist/ directly. `npm run build` regenerates dist/ on
+  // every deploy, so the directory is gitignored and never committed.
+  // The only script is src/mark/worker.js, and it runs only for /mark (an
+  // unlisted, password-protected page); every other path never touches it.
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "bartontech-ai",
   "compatibility_date": "2026-08-18",
+  "main": "src/mark/worker.js",
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "404-page"
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/mark", "/mark/*"]
   }
 }

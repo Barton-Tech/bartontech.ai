@@ -21,4 +21,11 @@ export default [
       'no-console': 'off',
     },
   },
+  {
+    // The /mark Worker and its test use Web platform globals.
+    files: ['src/mark/**/*.js', 'test/mark.test.js'],
+    languageOptions: {
+      globals: { crypto: 'readonly', Response: 'readonly', Request: 'readonly', TextEncoder: 'readonly', TextDecoder: 'readonly', btoa: 'readonly', atob: 'readonly', FormData: 'readonly', URLSearchParams: 'readonly' },
+    },
+  },
 ];
