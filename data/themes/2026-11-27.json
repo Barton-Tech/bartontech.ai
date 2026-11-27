@@ -1,0 +1,104 @@
+{
+  "date": "2026-11-27",
+  "generated_at": "2026-11-27T16:57:25.838Z",
+  "provenance": {
+    "prompt_version": "2026-11-02.1",
+    "samples_per_question": 3,
+    "harness_version": 1,
+    "model": "claude-opus-5"
+  },
+  "window": {
+    "from": "2026-05-27",
+    "to": "2026-11-27",
+    "months": 6
+  },
+  "based_on": {
+    "boards": [
+      "2026-08",
+      "2026-09",
+      "2026-10",
+      "2026-11"
+    ],
+    "solution_days": 101
+  },
+  "model": "claude-opus-5",
+  "usage": {
+    "input_tokens": 37049,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1651,
+    "output_tokens_details": {
+      "thinking_tokens": 288
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+  },
+  "themes": [
+    {
+      "name": "Incentives Before Standards",
+      "plain": "Many of these problems stall because the one party who holds the answer gains nothing by sharing it, and no one can make them. So the models either try to make honesty pay better than hiding, or they stop waiting and work with what they already own.",
+      "evidence": "On governing agentic traffic, all three models say agents are paid to look human and that carrying a user's consent makes an operator liable, so they propose fast lanes, discounts, or signed pilots instead of a shared standard; the same incentive problem appears in measurement, where platforms will not expose how treatment was assigned, in cross-channel journey orchestration, where channel owners are paid for local volume, and in ad supply integrity, where the parties counting the traffic profit from it.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "cross-channel-incrementality",
+        "cross-channel-journey-orchestration",
+        "generative-ad-supply-integrity",
+        "identity-resolution-decay"
+      ],
+      "trend": "rising"
+    },
+    {
+      "name": "No Ground Truth to Measure Against",
+      "plain": "Most of these problems have no answer key, and the thing being measured often changes while you measure it. So the models start by building a small set of cases they can actually verify, then grade everything else against that.",
+      "evidence": "On agentic traffic the models start from confirmed agent orders, raw edge logs, and payment records compared against tag logs; identity resolution leans on logged-in panels as a truth set; answer engine optimization builds a fixed prompt panel because answers drift run to run; incrementality and the loss of B2B buying-group signal both face systems that re-optimize or stay hidden while you test them.",
+      "problem_ids": [
+        "agent-traffic-identification",
+        "identity-resolution-decay",
+        "aeo",
+        "cross-channel-incrementality",
+        "b2b-buying-group-signal-loss"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Chokepoint Before Trust",
+      "plain": "When the models cannot trust who is acting or what will happen next, they build one door they own and force every action through it. A sent email or a spent dollar cannot be called back, so the only real control happens before the action leaves.",
+      "evidence": "Safe agent execution draws proxies, gateways, and blast-radius caps from all three models because sends and spend cannot be rolled back; downstream consent enforcement routes every data exit through a single checkpoint; journey orchestration proposes one shared contact ledger or central switch that can only say no.",
+      "problem_ids": [
+        "agent-safe-execution",
+        "consent-enforcement-downstream",
+        "cross-channel-journey-orchestration",
+        "semantic-context-layer"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Judgment That Won't Compile",
+      "plain": "The hardest calls are about meaning and worth, not data: whether an image next to a headline implies a promise, whether evidence really backs a claim, what the word customer means, what a message is worth. No formula settles these, because the disagreement usually has budget attached.",
+      "evidence": "Generative content governance keeps returning to implied claims that no registry holds and no checker sees; the semantic context layer is described repeatedly as a political fight over definitions rather than a modeling gap; journey orchestration has no agreed way to price a sale today against fatigue tomorrow.",
+      "problem_ids": [
+        "genai-content-governance",
+        "semantic-context-layer",
+        "cross-channel-journey-orchestration"
+      ],
+      "trend": "steady"
+    },
+    {
+      "name": "Nobody Can Verify Downstream",
+      "plain": "Once data, a dollar, or a message leaves your own systems, you cannot look inside the partner, ad platform, or trained model that now holds it. The best anyone offers is watching from the outside.",
+      "evidence": "Downstream consent and deletion answers converge on canaries, expiring audiences, and cut-off syncs because walled gardens and trained models cannot be read back or made to forget; identity resolution hits the same wall with platforms that profit from keeping identity fragmented; agentic traffic ends at a chain of claims no participant is liable for.",
+      "problem_ids": [
+        "consent-enforcement-downstream",
+        "identity-resolution-decay",
+        "agent-traffic-identification",
+        "cross-channel-incrementality"
+      ],
+      "trend": "steady"
+    }
+  ]
+}
